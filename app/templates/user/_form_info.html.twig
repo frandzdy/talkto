@@ -1,0 +1,95 @@
+<div class="mb-5">
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.genre) }}
+                {{ form_label(form.genre) }}
+                {{ form_errors(form.genre) }}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.email) }}
+                {{ form_label(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.lastname) }}
+                {{ form_label(form.lastname) }}
+                {{ form_errors(form.lastname) }}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.firstname) }}
+                {{ form_label(form.firstname) }}
+                {{ form_errors(form.firstname) }}
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.age) }}
+                {{ form_label(form.age) }}
+                {{ form_errors(form.age) }}
+                <small class="form-text text-muted">
+                    N'ayez crainte vous pourrez le cachez si vous le désirez.
+                </small>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.size) }}
+                {{ form_label(form.size) }}
+                {{ form_errors(form.size) }}
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.children) }}
+                {{ form_label(form.children) }}
+                {{ form_errors(form.children) }}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating"
+                 style="display: {{ user.lat is same as (null) ? 'block' : 'none' }}">
+                {{ form_widget(form.city) }}
+                {{ form_label(form.city) }}
+                {{ form_errors(form.city) }}
+                <small class="form-text text-muted">
+                    Si vous n'acceptez pas la géolocalisation nous utilisons cette information.
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.smoker) }}
+                {{ form_label(form.smoker) }}
+                {{ form_errors(form.smoker) }}
+                <small class="form-text text-muted">
+                    Pour votre santé 😉 nous avons mis par défaut que vous étiez non-fumeur 🚬.
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-outline mb-4 form-floating">
+        {{ form_widget(form.description) }}
+        {{ form_label(form.description) }}
+        {{ form_errors(form.description) }}
+        {#        {{ form_widget(form._token) }} #}
+    </div>
+    <div class="form-outline mb-4" style="text-align: center">
+        <button class="btn btn-blue" formnovalidate>{{ app.user ? 'Modifier' : 'Créer' }}</button>
+    </div>
+</div>

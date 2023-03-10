@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Contactez-nous - formulaire de contact | SPAMI
+{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Contacter Spami. Vous avez besoin d'aide', nous vous invitons à compléter notre formulaire de contact.">
+    <meta name="title" content="Contactez-nous – Spami">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Contactez-nous': ''
+    }
+%}
+
+{% block content %}
+    <section id="features" class="profile " {{ stimulus_controller('contact') }}>
+        <div class="container px-5 my-3">
+            <div class="row bg-white shadow">
+                {{ include('partials/_breadcrumbs.html.twig') }}
+                <div class="my-3">
+                    <span class="text-center">
+                        <h1>Contact</h1>
+                    </span>
+                </div>
+                <div class="col-lg-12 mb-lg-0">
+                    {% for flash_message in app.session.flashBag.get('success') %}
+                        <div class="text-center alert alert-success" role="alert" data-alert-target="alertSuccess">
+                            <p>{{ flash_message }}</p>
+                        </div>
+                    {% endfor %}
+                    {{ include('contact/_form.html.twig', {'form': form}) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+		var googleRecaptchPkey = '{{ googleRecaptchPkey }}';
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ googleRecaptchPkey }}"></script>
+{% endblock %}

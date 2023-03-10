@@ -1,0 +1,55 @@
+{% block subject %}SPAMI – {{ contact.subject }}{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Nouveau contact : {{ contact.subject }}{% endblock %}
+        {% block accroche %}Nouveau contact : {{ contact.subject }}{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>Bonjour,</p>
+                    <p>
+                        Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :<br/>
+                        <ul>
+                            <li><strong>Nom :</strong> {{ contact.lastname }}</li>
+                            <li><strong>Prénom :</strong> {{ contact.firstname }}</li>
+                            <li><strong>E-mail :</strong> {{ contact.email }}</li>
+                            <li><strong>Message :</strong> {{ contact.message }}</li>
+                        </ul>
+                    </p>
+                    <p>Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque
+                        ces informations ne vous seront plus nécessaires, afin de respecter la règlementation générale
+                        sur
+                        la protection des données personnelles des personnes.</p>
+                    <p>
+                        Cordialement,<br/ >
+                        L'équipe Spami<br/>
+                        <a title="Site Spami"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :\n
+    \n
+    •    Nom : {{ contact.lastname }}\n
+    •    Prénom : {{ contact.firstname }}\n
+    •    E-mail : {{ contact.email }}\n
+    •    Message : {{ contact.message }}\n
+    \n
+    Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque\n
+    ces informations ne vous seront plus nécessaires, afin de respecter la règlementation générale sur\n
+    la protection des données personnelles des personnes.\n
+    \n
+    Cordialement,\n
+    L'équipe Spami\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

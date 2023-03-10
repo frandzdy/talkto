@@ -1,0 +1,34 @@
+.match-show {
+    .three-dots-vertical {
+        position: relative;
+        top: 55px;
+        right: 3px;
+        z-index: 1000;
+        cursor: pointer;
+        :hover {
+
+        }
+    }
+
+    .x-octagon {
+        position: relative;
+        top: -58px;
+        left: 15px;
+        z-index: 1000;
+        cursor: pointer;
+        :hover {
+
+        }
+    }
+
+    .heart {
+        position: relative;
+        top: -55px;
+        right: 15px;
+        z-index: 1000;
+        cursor: pointer;
+        :hover {
+
+        }
+    }
+}

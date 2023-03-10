@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Confirmation de paiement annulé |  {{ parent() }}{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Annulation de paiement et d'inscription à Spami !">
+{% endblock %}
+
+{% block content %}
+    <!-- App features section-->
+    <section id="features" class="background-circle" style="height: 100%">
+        <div class="container">
+            <div class="row d-flex my-5 justify-content-center">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <div class="card shadow text-center">
+                        <div class="card-header">
+                            <h5 class="card-title text-center fs-1 text-danger"><i class="bi bi-x-circle"></i> Paiement annulé</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ user.firstname|capitalize }}, Si vous souhaitez vous s'inscrire par la suite vous pourrez toujours le faire depuis
+                                <a href="{{ path('user_edit') }}">votre compte</a>.<br>
+                                <br>
+                                Un e-mail contenant votre lien de connexion vous a été envoyé.<br>
+                                <br>
+                                Pour toutes questions, vous pouvez contacter notre <a href="mailto:contact@spami.fr" title="E-mail de contact Spami">service client</a>.
+                            </p>
+                            <div class="text-center mb-2">
+                                <small class="form-text text-muted">
+                                    Share Passion and Love. C'est tout que l'on vous souhaite 👨‍👨‍👦‍👦.
+                                </small>
+                            </div>
+                            <div class="text-center">
+                                {% if app.user %}
+                                    <a class="btn btn-blue" title="Retourner sur l'espace client" href="{{ path('user_edit') }}">Retourner sur espace client</a>
+                                {% else %}
+                                    <a class="btn btn-blue" title="Retourner à l'accueil" href="{{ path('home') }}">Retourner à l'accueil</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

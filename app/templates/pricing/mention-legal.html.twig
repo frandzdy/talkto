@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Mention Légale | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+
+{% endblock %}
+
+{% block content %}
+<aside class="bg-white mt-lg-4">
+    <div class="px-lg-5 bg-body rounded ">
+        <div class="row gx-5 justify-content-center align-items-center">
+            <div class="col-lg-3 mb-lg-0">
+                {{ include('rights/_nav_list.html.twig') }}
+            </div>
+            <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                <div>
+                    <h1>Mentions Légales</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+{% endblock %}

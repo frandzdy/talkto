@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /compte/creation
+Disallow: /compte/nouveau
+
+Sitemap: https://interest.app/sitemap.xml

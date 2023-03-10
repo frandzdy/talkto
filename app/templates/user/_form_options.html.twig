@@ -1,0 +1,66 @@
+<div class="mb-5">
+    <div class="form-outline mb-4 custom-control custom-switch">
+        {% if user.stripeStatus is same as("active") %}
+            <i class="bi bi-shield-fill-check text-success fs-3"></i>
+            Si vous souhaitez garder un peu plus de confidentialité.
+        {% else %}
+            Options de notifications
+        {% endif %}
+    </div>
+    {% if user.stripeStatus is same as("active") %}
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-outline mb-4 custom-control custom-switch">
+                    {{ form_widget(form.hideAge) }}
+                    {{ form_label(form.hideAge) }}
+                    {{ form_errors(form.hideAge) }}
+                    <small class="form-text text-muted">
+                        Vous souhaitez préserver une part de mystère 😝
+                    </small>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-outline mb-4 custom-control custom-switch">
+                    {{ form_widget(form.hideDistance) }}
+                    {{ form_label(form.hideDistance) }}
+                    {{ form_errors(form.hideDistance) }}
+                    <small class="form-text text-muted">
+                        Vous avez la possiblité de cachez la distance ici 😉
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-outline mb-4 custom-control custom-switch">
+                    {{ form_widget(form.hideAccount) }}
+                    {{ form_label(form.hideAccount) }}
+                    {{ form_errors(form.hideAccount) }}
+                    <small class="form-text text-muted">
+                        Vous pouvez cacher votre compte le temps que vous le souhaitez.<br>
+                        Celui-ci ne ressortira plus lors des résultats de recherche. 👻
+                    </small>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-outline mb-4 custom-control custom-switch">
+                    {{ form_widget(form.hideAccount24) }}
+                    {{ form_label(form.hideAccount24) }}
+                    {{ form_errors(form.hideAccount24) }}
+                    <small class="form-text text-muted">
+                        Vous pouvez cacher votre compte uniquement pendant 24 heures.
+                    </small>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    Notification par E-mail :<br/><br/>
+    <div class="form-outline mb-4 custom-control custom-switch">
+        {{ form_widget(form.hasNotificationMatch) }}
+        {{ form_label(form.hasNotificationMatch) }}
+        {{ form_errors(form.hasNotificationMatch) }}
+    </div>
+    <div class="form-outline mb-4" style="text-align: center">
+        <button class="btn btn-blue" formnovalidate>{{ app.user ? 'Modifier' : 'Créer' }}</button>
+    </div>
+</div>

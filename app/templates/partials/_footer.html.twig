@@ -1,0 +1,38 @@
+{#<!-- Footer-->#}
+<footer class="py-4 flex-shrink-0 footer">
+    <div class="container">
+        <div class="d-flex flex-lg-row gy-4 gx-5">
+            <div class="col-lg-4 col-md-4 text-center">
+                    <a href="{{ path('home') }}" title="Page d'accueil SPAMI">
+                        <img src="{{ absolute_url(asset('build/images/img/logo-footer2.png')) }}" alt="logo pied de page SPAMI"
+                         class="footer-image mb-3">
+                    </a>
+                <p class="small text-muted">Share Passion Activity Meet Interest.<br>Live & Share different</p>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <h4 class="mb-3 bloc-title">Utilisateurs</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('home') }}" title="Page d'accueil SPAMI">Accueil</a></li>
+                    <li><a href="{{ path('user_new', {'type': 'free'}) }}" title="Page d'inscription SPAMI">S'inscrire</a></li>
+                    <li><a href="{{ path('app_right_trust_chart') }}" title="La charte de confiance SPAMI">Charte de confiance</a></li>
+                    <li><a href="{{ path('app_right_cookies') }}" title="La charte d’utilisation des cookies SPAMI">Cookies</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <h4 class="mb-3 bloc-title">Entreprise</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('app_about_us') }}" title="À propos de SPAMI">À propos</a></li>
+                    <li><a href="{{ path('app_contact') }}" title="Page Contactez-nous SPAMI">Contactez-nous</a></li>
+                    <li><a href="{{ path('app_right_cgu') }}" title="Page conditions générales d'utilisation SPAMI">Conditions générales d'utilisation</a></li>
+                    <li><a href="{{ path('app_right_policy') }}" title="Page politiques de confidentialités SPAMI">Politiques de confidentialités</a></li>
+                    <li><a href="{{ path('app_right_legal_mention') }}" title="Page Mentions légales SPAMI">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="d-flex flex-lg-row gy-4 gx-5">
+            <div class="col-lg-12 col-md-12 text-center">
+                <p class="small text-muted mb-0">&copy; Copyrights. All rights reserved Alsi WebTech.</p>
+            </div>
+        </div>
+    </div>
+</footer>

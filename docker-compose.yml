@@ -1,0 +1,71 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb:10.8
+    container_name: db
+    hostname: db
+    restart: unless-stopped
+    volumes:
+      - ./infra/volumes/database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toto44
+    networks:
+      - nw.talkto
+    ports:
+      - "3306:3306"
+
+  php:
+    build:
+      context: ./infra/images/php
+    container_name: php
+    hostname: php
+    volumes:
+      - ./infra/volumes/composer:/root/.composer
+      - ./infra/config/php/project.ini:/usr/local/etc/php/conf.d/project.ini:ro
+      - ./app:/var/www/app
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: mysql://root:toto44@db:3306/thotem?serverVersion=mariadb-10.7.3&charset=utf8
+      MAILER_DSN: smtp://mailcatcher:25
+    networks:
+      - nw.talkto
+    depends_on:
+      - db
+      - redis
+      - mailcatcher
+    tty: true
+
+  nginx:
+    image: nginx:1.21
+    container_name: nginx
+    hostname: nginx
+    volumes:
+      - ./infra/volumes/logs/nginx:/var/log/nginx
+      - ./infra/config/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./app:/var/www/app
+    networks:
+      - nw.talkto
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+    tty: true
+
+  redis:
+    image: redis:6
+    container_name: redis
+    hostname: redis
+    networks:
+      - nw.talkto
+
+  mailcatcher:
+    image: tophfr/mailcatcher
+    container_name: mailcatcher
+    hostname: mailcatcher
+    networks:
+      - nw.talkto
+    ports:
+      - "1080:80"
+
+networks:
+  nw.talkto:

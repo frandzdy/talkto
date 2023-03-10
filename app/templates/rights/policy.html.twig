@@ -1,0 +1,1000 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Mention Légale | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="La politique des confidentialité Spami.">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Politique des confidentialité': ''
+    } %}
+
+{% block content %}
+    <section id="features">
+        <div class="container px-5 my-3 bg-white shadow">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row">
+                <div class="col-lg-3 mb-lg-0 text-right">
+                    {{ include('rights/_nav_list.html.twig') }}
+                </div>
+                <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                    <div class="mb-5">
+                        <div class="text-center">
+                            <h1>Politique des confidentialité</h1>
+                        </div>
+                    </div>
+                    <div class="cms__content"><p>Mise à jour&nbsp;: le 11/02/2022</p>
+                        <p>&nbsp;</p>
+                        <p>Cette politique de confidentialité a vocation à vous informer de l’utilisation de vos données
+                            à caractère personnel par SPAMI. Nous vous invitons à la lire attentivement.
+                            &nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>1. Définitions</h2>
+                        <p>&nbsp;</p>
+{#                        <p dir="ltr"><strong>Application&nbsp;:</strong> l’application SPAMI, disponible sur l’App Store#}
+{#                            d’Apple et le Play Store de Google ainsi que sur la Webapp SPAMI : <a#}
+{#                                    href="https://app.spami.com">https://app.spami.com</a></p>#}
+{#                        <p dir="ltr"><strong>Appel&nbsp; Vidéo : </strong>fonctionnalité proposée aux seuls Membres qui#}
+{#                            ont eu un Crush, qui leur permet d’appeler et de communiquer avec chacun de leur Crush de#}
+{#                            façon spontanée, pour une durée limitée dans le temps. Cette fonctionnalité est accessible#}
+{#                            depuis la page “Messages”, en cliquant sur l’icône dédié pour lancer l’Appel Vidéo. Lors de#}
+{#                            l’Appel Vidéo, les options dont disposent les Membres sont les suivantes :</p>#}
+{#                        <ul dir="ltr">#}
+{#                            <li>Décrocher</li>#}
+{#                            <li>Couper le son</li>#}
+{#                            <li>Couper la vidéo</li>#}
+{#                            <li>Retourner la caméra de leur smart téléphone en mode autoportrait&nbsp;&nbsp;</li>#}
+{#                            <li>Raccrocher</li>#}
+{#                        </ul>#}
+{#                        <p dir="ltr"><strong>Boost </strong>: fonctionnalité permettant aux Membres d’augmenter la#}
+{#                            visibilité de leur profil pendant la durée de l’activation de cette option.</p>#}
+                        <p dir="ltr"><strong>Caractéristiques du Membre : </strong>Informations renseignées par le
+                            Membre et décrivant son profil en lien avec son style de vie et ses caractéristiques. Le
+                            Membre peut sélectionner les informations qu’il souhaite faire figurer sur son profil et
+                            filtrer les autres Membres apparaissant sur l’Application en fonction de ces informations.
+                        </p>
+{#                        <p><strong>Certification de profil</strong> : fonctionnalité qui permet d’authentifier la photo#}
+{#                            de profil du Membre et d’obtenir le badge « Profil certifié », qui permet d’attester auprès#}
+{#                            des autres Membres que sa photo de visage mis en ligne sur son profil correspond à sa vraie#}
+{#                            identité visuelle en mouvement (via la vidéo).</p>#}
+                        <p><strong>Compte&nbsp;:</strong> espace personnel dédié au Membre sur l’Application, auquel il
+                            accède en s’inscrivant et en se connectant sur l’Application. Il permet au Membre d’accéder
+                            aux Services. Un Membre ne peut posséder qu’un seul Compte.</p>
+                        <p><strong>Match</strong> : événement entre deux profils, déclenché par un Like réalisé par
+                            chacun des profils. Il témoigne d’un intérêt mutuel et déclenche une notification (« Vous
+                            avez un Match ») qui permet d’ouvrir une discussion.</p>
+{#                        <p><strong>Facebook Connect </strong>: fonctionnalité qui permet aux Membres d’utiliser leur#}
+{#                            compte Facebook pour s’identifier sur l’Application afin de simplifier la procédure#}
+{#                            d’inscription.</p>#}
+{#                        <p dir="ltr"><strong>FlashNote (fonctionnalité éligible dans certains pays uniquement)</strong>#}
+{#                            : action qui déclenche l’envoi d’une notification au Membre auquel vous l'adressez, et qui#}
+{#                            vous donne également la possibilité de lui adresser un message privé personnalisable pour#}
+{#                            initier une conversation privée.</p>#}
+                        <p dir="ltr"><strong>SPAMI&nbsp;:</strong> SPAMI, Société par action simplifiée, enregistrée au
+                            RCS Paris sous le matricule 535 217 723, et propriétaire et seule exploitante de
+                            l’Application et de la marque SPAMI.</p>
+{#                        <p dir="ltr"><strong>Hello (Demande de chat)</strong> : action non secrète suggérée avant et/ou#}
+{#                            après le Like qui déclenche l’envoi d’une notification au Membre auquel vous l’adressez et#}
+{#                            constitue une invitation à converser avec cette personne.</p>#}
+                        <p><strong>Like</strong> : action symbolisée par un cœur ayant pour but d’exprimer son intérêt.
+                            Les Membres Premium ont accès à la liste des Likes. Excepté pour le premier Like, cette
+                            action reste secrète pour les non-Membres jusqu’à l’obtention d’un Like réciproque.</p>
+{#                        <p><strong>Map (Cartographie)&nbsp;: </strong>carte qui permet de retrouver les Membres croisés.#}
+{#                        </p>#}
+                        <p dir="ltr"><strong>Membre&nbsp;</strong>: personne inscrite sur le site web.&nbsp;</p>
+                        <p dir="ltr"><strong>Membre Premium&nbsp;:</strong> membre ayant souscrit un abonnement à SPAMI
+                            Premium.</p>
+                        <p><strong>Messages : </strong>seuls les Membres qui ont eu un
+                            Match peuvent engager l’action « Discuter » dans
+                            l’Application, et s’envoyer des Messages. Les Messages sont visibles dans la messagerie
+                            accessible dans l’Application.</p>
+                        <p><strong>Photos de profil </strong>: photos de profil permettant aisément la reconnaissance du
+                            Membre : à cet égard, le Membre accepte a minima d’éditer en première position une photo de
+                            son visage où il est clairement reconnaissable, ces deux critères cumulatifs constituant une
+                            condition essentielle de l’utilisation des Services.</p>
+                        <p>Si la photo du visage du Membre n’est pas éditée en première position, celle-ci sera
+                            restaurée de façon automatisée en première position par défaut. Dans l’hypothèse où le
+                            Membre édite plusieurs photos de son visage ce dernier pourra choisir librement leur ordre
+                            d’édition.</p>
+{#                        <p><strong>Point de croisement&nbsp;:</strong> votre Position géographique enregistrée au moment#}
+{#                            où vous avez croisé un autre Membre, lorsque l’option de géolocalisation est activée.&nbsp;#}
+{#                        </p>#}
+                        <p dir="ltr"><strong>Position géographique&nbsp;: </strong>votre localisation enregistrée par
+                            SPAMI et régulièrement mise à jour lorsque cette option est activée.&nbsp;&nbsp;</p>
+                        <p dir="ltr"><strong>Services&nbsp;: </strong>ensemble des services, payants ou non, offerts par
+                            SPAMI pour favoriser la rencontre virtuelle ou réelle entre les Membres qui se sont croisés
+                            et se portent un intérêt mutuel, selon les critères de recherche sélectionnés.</p>
+{#                        <p><strong>Shortlist</strong> : Fonctionnalité gratuite permettant aux Membres d’accéder#}
+{#                            quotidiennement à une sélection de trois profils recommandés par Spami. La Shortlist est#}
+{#                            disponible à compter du 3è jour d’activité des Membres sur leurs profils.</p>#}
+{#                        <ul dir="ltr"></ul>#}
+                        <p>&nbsp;</p>
+                        <h2>2. Responsable de traitement</h2>
+                        <p>&nbsp;</p>
+                        <p>Les données collectées<b> sont traitées par la société SPAMI </b>Micro entrepreneur
+                            enregistré sous le numéro 893 371 344 000 19, dont le siège social est situé au 8 rue du
+                            Sentier 75002 Paris, France et représentée par son Président, Monsieur Frandzdy Sanon.&nbsp;
+                        </p>
+                        <p>&nbsp;</p>
+                        <p>SPAMI accorde une grande importance à la protection de vos données personnelles et au respect
+                            de votre vie privée. La présente politique de confidentialité (ainsi que notre <a
+                                    href="{{ path('app_right_cookies') }}">Charte sur les Cookies</a> et nos <a
+                                    href="{{ path('app_right_cgu') }}">Conditions générales d’utilisation</a> et tout
+                            document auquel il y est fait référence) vise à vous informer de la manière dont nous
+                            traitons les données personnelles que vous nous fournissez et que nous recueillons dans le
+                            cadre de votre utilisation de l’Application et des Services. Nous vous invitons à lire
+                            attentivement le présent document pour comprendre nos pratiques quant au traitement de vos
+                            données personnelles et connaître vos droits en la matière.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>La présente <b>Politique de confidentialité s’applique à tous les Services édités par
+                                SPAMI</b> que vous utilisez (à l’exclusion des services fournis et exploités par des
+                            tiers, auquel cas, c’est la politique de confidentialité de ces tiers qui s’applique et non
+                            les présentes dispositions).&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>3. Informations que nous recueillons</h2>
+                        <p>&nbsp;</p>
+                        <p>SPAMI collecte et traite des données personnelles à votre sujet lorsque vous utilisez
+                            le site web SPAMI ou lorsque vous communiquez avec SPAMI. Il s’agit d’informations que
+                            vous <b>nous transmettez directement</b> ou de <b>données que nous recueillons
+                                automatiquement.&nbsp;</b></p>
+                        <p>&nbsp;</p>
+                        <p>Afin d’assurer la lisibilité de notre politique de confidentialité, voici d’abord une vue
+                            d’ensemble des données personnelles vous concernant, collectées et traitées par SPAMI. Vous
+                            trouverez en dessous de cette vue d’ensemble des détails à propos de chaque donnée
+                            collectée.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Données obligatoires :</b>
+                                <ul>
+                                    <li>Données d’identification</li>
+                                    <li>Adresse email</li>
+                                    <li>Données relatives à votre activité sur le site web</li>
+{#                                    <li>Données techniques du mobile&nbsp;ou de l’appareil</li>#}
+{#                                    <li>Si vous refusez la géolocalisation : votre ville</li>#}
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Données nécessaires à certaines finalités</b>
+                                <ul>
+                                    <li>Données relatives aux témoignages et
+                                        à votre satisfaction
+                                    </li>
+                                    <li>Position géographique ou à défaut votre ville</li>
+                                    <li>Points de croisement avec les autres Membres</li>
+                                    <li>Préférences de recherche – personnes que vous souhaitez croiser (âge, genre, intérêt)&nbsp;</li>
+                                    <li>Messages textes envoyés et reçus</li>
+{#                                    <li>Données relatives aux Appels vidéo (le contenu des Appels n’est pas conservé)#}
+{#                                    </li>#}
+                                    <li>Données relatives aux signalements et aux demandes adressées au service client
+                                        de SPAMI
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Données facultatives</b>
+                                <ul>
+{#                                    <li>Parcours professionnel et études</li>#}
+                                    <li>Centres d’intérêt et style de vie, caractéristiques du Membre</li>
+                                    <li>Description</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><b>3.1 Données que vous nous transmettez directement&nbsp;</b></p>
+                        <p>&nbsp;</p>
+                        <p>En utilisant nos Services, <b>vous nous transmettez des informations</b>, dont certaines sont
+                            de nature à vous identifier. Lorsque vous communiquez ces informations, <b>certaines de ces
+                                données sont visibles pas les autres Membres</b> de l’Application et sont donc rendues
+                            publiques sur l’Application. Pour vous permettre de les identifier aisément, ces
+                            informations vous sont signalées ci-dessous comme «&nbsp;Public&nbsp;». La responsabilité de
+                            SPAMI ne saurait être recherchée pour les données divulguées et rendues publiques par un
+                            Membre sur SPAMI. En revanche, <b>les autres informations ne sont pas visibles par les
+                                autres Membres</b> et ne sont donc pas accessibles par ces derniers, ces informations
+                            vous sont signalées ci-dessous comme «&nbsp;Privé&nbsp;». &nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>SPAMI collecte et traite des données relatives à votre inscription et des données relatives à
+                            vos interactions avec SPAMI.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><b>3.1.1. Données relatives à l’inscription</b>&nbsp;<strong>et au profil du Membre</strong>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><em>Les informations nécessaires à l’inscription</em></p>
+                        <p>&nbsp;</p>
+                        <p>Ce sont les données de base <b>nécessaires à l’inscription</b> pour accéder aux Services.&nbsp;
+                        </p>
+                        <p>Ces données seront <b>transmises à SPAMI directement par vous</b>.&nbsp;</p>
+                        <p>Ces données sont relatives à votre identité.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr">Selon votre mode d’inscription, certaines informations sont <strong>obligatoires en
+                                vue de la fourniture des Services.</strong> À défaut de les communiquer, SPAMI ne sera
+                            pas en mesure de vous fournir les Services proposés par le site web et vous ne pourrez pas
+                            créer de Compte. Dans tous les cas, votre prénom (public), votre âge (public), votre genre et au moins une Photo de profil (publique) sont obligatoires
+                            pour vous inscrire sur l’Application. Vous avez ensuite la possibilité d’ajouter ou retirer
+                            des Photos à tout moment,&nbsp;tant que vous avez ajouté au moins une Photo de profil</p>
+                        <p dir="ltr">&nbsp;</p>
+{#                        <p dir="ltr">Lorsque vous vous inscrivez via votre numéro de téléphone, votre numéro de#}
+{#                            téléphone est obligatoire pour l’inscription.</p>#}
+{#                        <p dir="ltr">Lorsque vous vous inscrivez via Facebook, nous récupérons obligatoirement votre#}
+{#                            prénom et votre âge. Vous pouvez aussi autoriser Facebook à transmettre votre nom de#}
+{#                            famille, votre date de naissance, votre genre, votre adresse email à Spami et ajouter des#}
+{#                            Photos de profil depuis votre compte Facebook.&nbsp;</p>#}
+{#                        <p dir="ltr">Lorsque vous vous inscrivez via Apple ou Google, nous récupérons obligatoirement#}
+{#                            votre prénom et votre adresse email. Ils peuvent également transmettre votre nom de famille#}
+{#                            à SPAMI.</p>#}
+                        <p>&nbsp;</p>
+                        <p>Par ailleurs, si vous refusez la géolocalisation lors de votre inscription et donc la
+                            collecte par spami de vos données de position afin de vous proposer les profils de Membres
+                            que vous avez croisés, vous devez renseigner votre ville. Cette information permettra alors
+                            à SPAMI de vous proposer des profils de Membres autour de vous.</p>
+                        <p>&nbsp;</p>
+                        <p><em>Les informations facultatives pour compléter votre profil</em></p>
+                        <p>&nbsp;</p>
+                        <p>Vous pouvez renseigner d’autres informations complémentaires pour compléter votre profil. Ces
+                            informations sont facultatives et communiquées à votre seule discrétion et sous votre seule
+                            responsabilité. Vous pouvez compléter votre profil soit directement sur l’Application et/ou
+                            soit via Facebook Connect en synchronisant votre Compte avec Facebook. Ces données sont les
+                            suivantes :&nbsp;</p>
+                        <p>&nbsp;</p>
+{#                        <ul>#}
+{#                            <li><b>parcours professionnel et études (public)&nbsp;</b>: profession ou études&nbsp;;</li>#}
+{#                        </ul>#}
+{#                        <p>&nbsp;</p>#}
+                        <ul>
+                            <li><strong>centres d’intérêt et habitudes (public)&nbsp;</strong>: préférences
+                                personnelles, loisirs, préférences musicales, style de vie, Caractéristiques du Membre&nbsp;;
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>taille (public)&nbsp;;</b></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>description de profil (public)&nbsp;</b>: si vous le souhaitez, vous pouvez partager
+                                des renseignements complémentaires vous concernant dans le champ de saisie libre prévu à
+                                cet effet et qui sont visibles par les Membres de SPAMI. Par ailleurs si vous le
+                                souhaitez, vous pouvez également répondre aux questions qui vous sont posées sur votre
+                                style de vie (traits de personnalité, sport, voyage, type de rencontre recherché, etc.).
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Votre description est une zone de texte libre, <b>SPAMI n’encourage pas le Membre à
+                                communiquer des données qui peuvent être qualifiées de sensibles aux autres Membres ou à
+                                SPAMI via l’Application.</b> On entend par données sensibles les données qualifiées
+                            juridiquement de « sensibles » en vertu du Règlement général pour la protection des données
+                            («&nbsp;RGPD&nbsp;»). Il s’agit notamment, des données relatives à l’origine raciale ou
+                            ethnique, aux opinions politiques, aux convictions religieuses ou philosophiques ou à
+                            l’appartenance syndicale, ainsi qu’à la santé, à la vie sexuelle ou l’orientation sexuelle
+                            («&nbsp;Données sensibles&nbsp;»). Si malgré tout, <b>le Membre tient à communiquer de
+                                telles données sur son profil, cette communication est réputée avoir été «&nbsp;manifestement
+                                rendue publique&nbsp;»</b> par le Membre concerné, au sens du RGPD.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><b>3.1.2. Données relatives aux interactions avec SPAMI&nbsp;</b>:&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Lorsque vous contactez le service et support client, signalez un problème relatif à nos
+                            Services, signalez un autre utilisateur, demandez de l’assistance, exercez vos droits sur
+                            vos données personnelles ou encore lorsque vous participez à des promotions, jeux et
+                            concours, à des sondages, livrez votre expérience de nos Services, des témoignages et
+                            répondez à nos questionnaires, SPAMI collectera, selon le cas, les données personnelles
+                            suivantes à votre sujet&nbsp;:&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b id="docs-internal-guid-933adab9-7fff-69e4-5a45-d58054e47b49">Données relatives aux
+                                    signalements et aux demandes adressées au service client de SPAMI (privé)&nbsp;:</b>
+                                date et heure du signalement ou de la demande, nature et motif du signalement ou de la
+                                demande, données relatives à l’utilisateur signalé. Par ailleurs, une preuve de votre
+                                identité peut être demandée dans le cadre de l’exercice de vos droits sur vos données
+                                personnelles pour des raisons de sécurité et de confidentialité.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Ces données sont collectées par SPAMI lorsque vous adressez une demande d’assistance auprès
+                            de notre service client, exercez vos droits sur vos données personnelles, signalez un
+                            problème ou un autre utilisateur. Ces informations sont nécessaires au traitement d’un
+                            signalement ou pour répondre à vos demandes. Ces informations sont également traitées
+                            lorsqu’un signalement est fait à votre sujet.&nbsp;En effet, SPAMI a l’obligation légale de
+                            recueillir les signalements de ses Membres portant à sa connaissance des contenus ou
+                            comportements susceptibles de violer nos Conditions générales d’utilisation.</p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Données relatives aux participations à des jeux et concours, aux témoignages et à
+                                    votre satisfaction (privé)&nbsp;</b>: participation, réponses, niveau de
+                                satisfaction, suggestions, témoignages.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Ces données sont collectées par SPAMI lorsque vous participez à nos jeux et concours,
+                            répondez à nos sondages et questionnaires de satisfaction, livrez vos témoignages. Les
+                            données <b>sont obligatoires si vous souhaitez participer aux jeux et concours organisés par
+                                SPAMI</b>. Sans ces données, SPAMI ne pourra pas vous inscrire aux jeux ou concours. En
+                            revanche, les données relatives à vos témoignages et à votre satisfaction sont facultatives.
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>3.2&nbsp;Données que nous recueillons automatiquement</b></p>
+                        <p>&nbsp;</p>
+                        <p>Lorsque vous utilisez nos services et nos fonctionnalités, nous recueillons des informations
+                            concernant votre activité sur l’Application :&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b id="docs-internal-guid-da3cb4ef-7fff-b90c-e31e-f0203ce81ace">Données relatives à
+                                    votre activité </b>(date d’inscription, dates des connexions, votre statut en ligne
+                                ou hors-ligne, interactions avec les Membres et comptes tiers, nombre de transactions,
+                                notifications reçues, préférences de notifications, etc.)
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Lorsque vous accédez aux Services et que vous utilisez l’Application et ses fonctionnalités,
+                            des informations sont collectées et traitées concernant la manière dont vous les utilisez.
+                            <b id="docs-internal-guid-f271c88d-7fff-3985-0dfa-b6f23f078aa5">La plupart de ces
+                                informations collectées par SPAMI est nécessaire à la fourniture des Services.&nbsp;</b>Sans
+                            ces données SPAMI ne pourra pas fournir les Services liés à l’application SPAMI.&nbsp;</p>
+                        <p dir="ltr">Il s’agit notamment de la date d’inscription, des dates de vos connexions, de votre
+                            statut en ligne ou hors ligne, du type et du nombre d’interactions avec les autres Membres
+                            (tels que FlashNotes, Hellos, Likes, croisements et Crushs), avec vos comptes tiers
+                            connectés à votre Compte (tels que Spotify, Instagram) ou encore le nombre de transactions
+                            effectuées (achats de Hellos, FlashNotes ou souscription d’abonnement(s)), les notifications
+                            que vous avez reçues et vos préférences en matière de notification).&nbsp;</p>
+                        <p>&nbsp;</p>
+{#                        <ul>#}
+{#                            <li dir="ltr"><p dir="ltr"><strong>Positions géographiques et Points de croisement avec les#}
+{#                                        autres Membres (privé)</strong></p></li>#}
+{#                        </ul>#}
+                        <p>&nbsp;</p>
+                        <p dir="ltr">L’Application a pour principal intérêt et vocation de vous permettre de retrouver
+                            d’autres Membres que vous avez croisés ou que vous pourriez croiser. Votre Position
+                            géographique est collectée avec <strong>votre consentement expresse</strong>. En effet, une
+                            autorisation vous est demandée pour collecter et traiter les données relatives à votre
+                            géolocalisation de manière à permettre à SPAMI d’identifier vos Points de croisements avec
+                            d’autres Membres ayant accepté d’être géolocalisés.&nbsp;</p>
+                        <p dir="ltr">Sauf si vous avez fait des choix de paramétrage de votre terminal plus stricts,
+                            votre Position géographique est collectée par Spami régulièrement.&nbsp;&nbsp;</p>
+                        <p dir="ltr">Lorsque les Positions géographiques de deux Membres se situent dans un même rayon,
+                            un croisement est établi par SPAMI.&nbsp;</p>
+                        <p dir="ltr">Vos Points de croisement sont affichés dans votre profil mais, <strong>en aucun
+                                cas, les Membres que vous croisez ne peuvent connaître votre position exacte.</strong>
+                            En effet, chaque Membre voit sur son Application sa propre position au moment du croisement
+                            dans un rayon défini par SPAMI et non la position de l’autre Membre.</p>
+                        <p>Si lors de votre inscription, vous ne donnez pas votre consentement à la géolocalisation,
+                            vous devez renseigner votre ville. Cette information permettra alors à SPAMI de vous
+                            proposer des profils de Membres autour de vous.</p>
+                        <p>&nbsp;</p>
+{#                        <p dir="ltr">Ces points de croisement peuvent être affichés soit sous forme d’un fil d’actualité#}
+{#                            soit sur la Map (Cartographie).</p>#}
+                        <p><br>
+                            Vous pouvez retirer votre consentement à tout moment en désactivant l’option de
+                            géolocalisation sur votre smartphone. Dans ce cas, votre fil d’actualité ne sera plus mis à
+                            jour et vous ne pourrez plus voir quels sont les autres Membres que vous avez croisés
+                            postérieurement à la désactivation de l’option de géolocalisation.&nbsp;Lorsque vous n’aurez
+                            plus de profil dans votre fil d’actualité, nous vous demanderons votre ville afin de vous
+                            proposer des nouveaux profils de Membres autour de vous.</p>
+                        <p>&nbsp;</p>
+{#                        <p>Vous pouvez également demander à ce que votre profil, et donc vos points de croisement, ne#}
+{#                            soient plus affichés sur la Map (Cartographie). Dans ce cas, vous apparaitrez seulement dans#}
+{#                            le fil d’actualité des autres Membres. De même, vous ne pourrez plus voir les profils des#}
+{#                            Membres croisés sur la Map (Cartographie), mais seulement sur votre fil d’actualité. Pour#}
+{#                            cela, vous devez vous rendre sur l’application et cliquer sur «&nbsp;Mes préférences&nbsp;»#}
+{#                            puis aller en bas de votre écran et désactiver l’option «&nbsp;Partager mes lieux de#}
+{#                            croisement&nbsp;».</p>#}
+{#                        <p>&nbsp;</p>#}
+                        <ul>
+                            <li><b>Messages texte et messages vocaux envoyés et reçus (privé)</b></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Les Messages sont envoyés et stockés sur les serveurs de SPAMI pour assurer le Service de
+                            transmission des échanges entre les Membres qui ont eu un Match.
+                            <b>Les Messages texte et messages vocaux sont strictement privés</b>
+                            et n’engagent que les Membres intéressés. Les responsables habilités de SPAMI
+                            n’exercent aucun droit de regard sur ces conversations. Ces Messages ne sont pas transmis ni
+                            communiqués à des tiers, sauf sur requête judiciaire et/ou conformément aux dispositions
+                            législatives ou règlementaires applicables. Par ailleurs, les Messages sont strictement
+                            privés et ne seront accessibles ni aux autres Membres non concernés par l’échange ni à des
+                            tiers quelconques.&nbsp;</p>
+                        <p>&nbsp;</p>
+{#                        <ul>#}
+{#                            <li dir="ltr"><p dir="ltr"><strong>Informations liées aux Appels vidéo </strong>(date et#}
+{#                                    heure de début et de fin des Appels…) <strong>(privé)</strong></p></li>#}
+{#                        </ul>#}
+                        <p>&nbsp;</p>
+{#                        <p dir="ltr">Lorsque vous souhaitez passer un Appel vidéo sur l’application SPAMI, des données#}
+{#                            techniques de votre téléphone sont nécessaires pour établir la communication entre les deux#}
+{#                            Membres. Les dates et heures de début et de fin des appels seront stockées par SPAMI mais#}
+{#                            SPAMI ne stocke pas le contenu des Appels vidéo. Ces Appels vidéo sont instantanés.</p>#}
+{#                        <p dir="ltr">&nbsp;</p>#}
+                        <ul>
+                            <li><b>Préférences de recherche – personnes que vous souhaitez croiser (âge, genre)
+                                    (privé)</b></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>L’Application vous permet de paramétrer la recherche de Membres sur l’âge, le genre et les
+                            Caractéristiques du Membre qu’ils ont complétées. Vous pouvez modifier ces paramètres et
+                            renseigner dans l’Application la tranche d’âge, les Caractéristiques du Membre et, après
+                            avoir préalablement consenti à la collecte et au traitement de cette donnée par SPAMI, le
+                            genre des personnes recherchées afin de vous afficher exclusivement les profils croisés qui
+                            répondent à vos critères. Vous ne verrez alors apparaitre sur votre fil d’actualité que les
+                            Membres croisés partageant vos préférences de recherches.&nbsp;</p>
+                        <p>&nbsp;</p>
+{#                        <ul>#}
+{#                            <li><b>Données techniques du mobile</b>&nbsp;<strong>ou de l'appareil</strong>&nbsp;(adresse#}
+{#                                IP, mobile ID, version de l’application, version et modèle du téléphone, identifiant de#}
+{#                                publicité…) <b>(privé)</b></li>#}
+{#                        </ul>#}
+                        <p>&nbsp;</p>
+                        <p>Nous recueillons des informations depuis et sur les appareils et équipements que vous
+                            utilisez pour accéder à nos Services tels que des journaux serveurs qui peuvent inclure
+                            notamment des informations telles que les adresses IP, version de l’application, version et
+                            modèle de l’appareil, identifiant du mobile ou de l’appareil, la langue utilisée, le système
+                            d’exploitation, les pannes d’application, les identifiants de publicité. Ces données peuvent
+                            être recueillies à l’aide de cookies ou autres traceurs : pour de plus amples informations,
+                            nous vous invitons à vous rendre sur la <a href="https://www.spami.com/cookies">Charte
+                                d’utilisation des cookies</a>.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><b>Données relatives aux transactions :&nbsp;SPAMI ne collecte ni ne traite aucune donnée
+                                bancaire.</b> Ces données sont exclusivement collectées et traitées par Stripe.</p>
+                        <p>&nbsp;</p>
+                        <h2>4. Comment utilisons-nous vos données&nbsp;?</h2>
+                        <p>&nbsp;</p>
+                        <p><b>4.1 Fourniture des services et fonctionnalités conformément à nos conditions
+                                d’utilisation</b></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Création et gestion de votre Compte</b> <b>en tant que Membre&nbsp;:</b>
+                                <ul>
+                                    <li>Création de votre profil.</li>
+                                    <li>Inscription, désinscription, désactivation du profil du Membre.</li>
+                                    <li>Gestion de vos paramétrages et préférences.</li>
+                                    <li>Gestion des souscriptions.</li>
+                                    <li>Gestion des accès aux Services proposés par SPAMI.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Gestion et stockage des communications échangées</b> <b>entre Membres</b> (Messages, Match, Likes).
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+{#                        <ul>#}
+{#                            <li><strong>Gestion des Appels vidéo entre les Membres </strong></li>#}
+{#                        </ul>#}
+{#                        <p>&nbsp;</p>#}
+                        <ul>
+                            <li><strong>Gestion des abonnements et des Services payants souscrits </strong>(Spamiz etc.)
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Envoi de messages d’information</b> relatifs aux Services ou à vos interactions avec
+                                les autres Membres (notifications).
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Exécution du contrat</b></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Les données collectées par SPAMI sont nécessaires au bon fonctionnement de l’Application et à la fourniture des Services qui sont proposés aux Membres en vertu du contrat de service qui nous lie (Conditions générales d’utilisation).</span>
+                        </p>
+                        <p dir="ltr">&nbsp;</p>
+                        <p><b>4.2&nbsp;</b><strong>Proposer les profils que vous avez croisés ou que vous pourriez
+                                croiser</strong></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li dir="ltr"><p dir="ltr"><strong>Géolocalisation</strong> aux fins de vous proposer les
+                                    profils des Membres que vous avez croisés ou que vous pourriez croiser.&nbsp;</p>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Consentement</b>&nbsp;</span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Lorsque vous avez donné votre consentement, vous pouvez le retirer à tout moment en désactivant l’option de géolocalisation sur votre smartphone. Le retrait de votre consentement ne remet pas en cause les traitements réalisés antérieurement à ce retrait.</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>Plus d’infos&nbsp;?&nbsp;</b></p>
+                        <p>L’Application a pour vocation de vous permettre de retrouver d’autres Membres que vous avez
+                            croisés ou que vous pourriez croiser. En effet, elle permet d’identifier les points de
+                            croisements avec d’autres Membres ayant accepté d’être géolocalisés. Ces points de
+                            croisement permettent à SPAMI de vous présenter les profils de Membres que vous avez croisés
+                            ou que vous pourriez croiser et qui correspondent à vos critères de recherche.&nbsp;</p>
+                        <p dir="ltr">&nbsp;</p>
+                        <ul dir="ltr">
+                            <li>En fonction de votre activité sur l’Application, de votre localisation et des
+                                informations fournies sur votre profil, ce dernier peut être <strong>mis en avant auprès
+                                    d’autres Membres.&nbsp;</strong><b>Nous pouvons également vous recommander, via
+                                    votre Shortlist, d’autres Membres susceptibles de vous intéresser et que vous avez
+                                    croisés ou que vous pourriez croiser et, inversement, recommander votre profil à
+                                    d'autres Membres.&nbsp;</b>Votre profil est également mis en avant lorsque vous
+                                utilisez la fonctionnalité Boost définie dans le paragraphe 1.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);"><strong>Base légale&nbsp;: Exécution du contrat</strong></span>
+                        </p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">&nbsp;Ce traitement permet de vous fournir les Services, et in fine, maximiser vos chances de rencontrer des Membres qui vous correspondent.&nbsp;&nbsp;</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><p><strong>Recommander votre profil par email à d’autres Membres</strong> que vous avez
+                                    croisés ou que vous pourriez croiser</p></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><strong>Base légale : Intérêt légitime</strong></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Ce traitement est fondé sur l’intérêt légitime de SPAMI à proposer aux Membres des profils pertinents dans le cadre de ses Services. Vous pouvez vous opposer à tout moment à cette utilisation en nous contactant (voir section 11. Contact).</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>4.3&nbsp;Proposer des offres et contenus pertinents (marketing et publicité)</b></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Envoi de messages ou de contenus marketing ou publicitaires&nbsp;:</b>
+                                <p>&nbsp;</p>
+                                <ul>
+                                    <li>Envoi de la<b> newsletter éditoriale SPAMI</b> par email.&nbsp;L’envoi de la
+                                        newsletter cesse lorsque celle-ci n’a pas été ouverte par les Membres pendant
+                                        plus d’un an.
+                                    </li>
+                                    <li><p><strong>Envoi d'une newsletter proposant des recommandations de
+                                                profils </strong>qui pourront être consultés dans l’application (ex:
+                                            votre Shortlist).</p></li>
+                                    <li>Diffusion de <b>contenus marketing et publicitaires sur les offres et services
+                                            de SPAMI</b> sur l’application et par emails.
+                                    </li>
+                                    <li>Proposer aux Membres des offres et/ou promotions sur les services de SPAMI.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p dir="ltr">&nbsp;</p>
+                        <p dir="ltr"><span
+                                    style="color: rgb(41, 128, 185);"><strong>Base légale&nbsp;: Intérêt légitime</strong></span>
+                        </p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">Ces traitements sont basés sur l’intérêt légitime de SPAMI à vous faire part de ses offres. Concernant la newsletter, vous pouvez vous opposer à tout moment à recevoir des emails de la part de SPAMI en cliquant sur le lien « se désinscrire » prévu à cet effet dans les emails que vous recevez.</span>
+                        </p>
+                        <p dir="ltr">&nbsp;</p>
+                        <ul>
+                            <li><strong>Réaliser des opérations marketing et publicitaires hors de
+                                    l’application&nbsp;: </strong>nous réalisons des opérations marketing et
+                                publicitaires hors de l’application SPAMI sur des sites tiers, réseaux sociaux&nbsp;et
+                                applications tierces. Lorsque vous êtes déjà Membres de l’Application SPAMI, nous sommes
+                                susceptibles de partager votre adresse email et votre numéro de téléphone avec ces
+                                réseaux afin de vous exclure de nos campagnes Marketing. Ces informations sont
+                                transmises avec une fonction de «&nbsp;hachage&nbsp;». Ce partage peut également
+                                permettre à SPAMI de diffuser des campagnes auprès de profils similaires au vôtre et qui
+                                pourraient être intéressés par nos Services. L’existence de votre profil ne sera jamais
+                                divulguée à ces profils similaires. Les réseaux sociaux qui peuvent recevoir vos données
+                                dans le cadre de cette finalité sont indiqués sur la liste de nos prestataires
+                                disponibles via le<a
+                                        href="https://www.spami.com/fr/liste-des-destinataires-de-vos-donnees/"> lien
+                                    suivant.&nbsp;</a></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Intérêt légitime</b></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI à vous exclure de ses contenus promotionnels sur les réseaux sociaux et à faire connaître son service sur des sites tiers auprès de non-Membres. Vous pouvez vous opposer au partage de données avec ces réseaux sociaux en nous contactant (voir section 11. Contact) ou directement dans l’application en vous rendant dans «&nbsp;Mes données&nbsp;» puis «&nbsp;Gérer mes choix. En vous opposant à ce partage nous ne pourrons plus vous exclure de nos publicités sur ces réseaux.</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li>A<strong>ffichage sur l'application SPAMI de publicités personnalisées concernant les
+                                    produits et les services de tiers</strong> afin que celles-ci soient pertinentes
+                                pour le Membre. Ces publicités sont personnalisées uniquement selon votre tranche d'âge,
+                                votre genre et votre pays ou votre ville. Vos préférences personnelles ne seront pas
+                                analysées pour vous fournir ces publicités. La personnalisation publicitaire inclut
+                                également le plafonnement de l'affichage de publicités identiques. Ainsi, lorsque le
+                                Membre y consent, l'apparition de publicités redondantes est limitée et il verra alors
+                                des publicités plus diversifiées.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><span style="color: rgb(41, 128, 185);"><strong>Base légale : Consentement</strong></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">La publicité affichée sur l'application SPAMI est personnalisée si vous avez donné votre consentement. Vous pouvez retirer votre consentement à tout moment à la personnalisation de la publicité en fonction de votre tranche d'âge et votre genre en vous rendant dans « Mes données » puis « Gérer mes choix». Les Membres Premium n'ont pas de publicité sur l'application spami.</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Diffusion sur l’application SPAMI de publicités non personnalisées (uniquement en
+                                    fonction de votre pays) concernant les produits et les services de partenaires et&nbsp;de
+                                    publicités concernant les produits et services de SPAMI.&nbsp;</b></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;</b><strong>: </strong></span><strong><span
+                                        style="color: rgb(41, 128, 185);">Intérêt légitime</span></strong></p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI à afficher des publicités non personnalisées sur son application lorsqu’un Membre n’est pas Premium.&nbsp;</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>4.4&nbsp;Améliorer et optimiser nos services et notre connaissance sur l’utilisation que
+                                vous en faites</b></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Amélioration et optimisation des services de SPAMI, de la connaissance de ses Membres
+                                    et de la manière dont les Services sont utilisés&nbsp;:</b>
+                                <ul>
+                                    <li>Études statistiques.</li>
+                                    <li>Enquête de satisfaction.</li>
+                                    <li>Analyses de l’utilisation de l’Application et des Services par les Membres.</li>
+                                    <li>Comprendre comment notre Application et les fonctionnalités sont utilisées</li>
+                                    <li>Améliorer l’Application, nos offres et les fonctionnalités</li>
+                                    <li>Comprendre vos besoins</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p dir="ltr">&nbsp;</p>
+                        <p dir="ltr"><strong><span style="color: rgb(41, 128, 185);">Base légale&nbsp;: Intérêt légitime&nbsp;</span></strong>
+                        </p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI d’améliorer et d’optimiser ses services, de connaître ses utilisateurs et la manière dont ses services sont utilisés.</span>
+                        </p>
+                        <p dir="ltr">&nbsp;</p>
+                        <ul>
+                            <li dir="ltr"><p dir="ltr"><strong>Fournir des conseils aux Membres concernant les
+                                        photographies qu’ils publient&nbsp;en analysant les profils de tous les Membres
+                                        afin qu’ils puissent optimiser s’ils le souhaitent leur présentation de profil&nbsp;</strong>
+                                </p></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);"><strong>Base légale&nbsp;: Intérêt légitime&nbsp;</strong></span>
+                        </p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI à améliorer la présentation des profils sur son Application. Vous pouvez vous opposer à tout moment à cette utilisation en nous contactant (voir section 11. Contact).&nbsp;</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>4.5&nbsp;Assurer la sécurité de vos données personnelles</b></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Déceler ou prévenir des atteintes à la sécurité</b> des Services en identifiant et
+                                analysant des comportements frauduleux.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Intérêt légitime&nbsp;</b></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI à garantir la sécurité de son application et des données qu’il traite. Vous pouvez vous opposer à tout moment à cette utilisation en nous contactant (voir section 11. Contact). Toutefois, SPAMI pourra continuer à mettre en œuvre le traitement s’il justifie de motifs légitimes et impérieux.</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p><b>4.6&nbsp;Prévenir et lutter contre les activités illégales ou non autorisées (violation
+                                des conditions d’utilisation), assurer la confiance des Membres et se conformer aux
+                                exigences légales</b></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Analyse et traitement des signalements</b> de comportements frauduleux/ indésirables.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Gestion des comportements indésirables</b> et avertissement, suspension, blocage ou
+                                suppression du Compte du Membre.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><b>Gestion des demandes d’exercice de droits</b> des Membres sur leurs données.</li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Obligation légale</b></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Ces traitements sont basés sur l’obligation légale de SPAMI, en tant qu’hébergeur de données, de retirer les contenus illicites dès qu’il en a connaissance (article 6 de la loi du 21 juin 2004 pour la confiance dans l’économie numérique) et sur son obligation de répondre aux demandes d’exercice de droits des Membres sur leurs données personnelles (article 12 à 22 du RGPD).&nbsp;</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li><strong>Déceler ou prévenir des activités frauduleuses&nbsp;ou contraires à nos
+                                    Conditions générales d’utilisation :</strong>
+                                <p>&nbsp;</p>
+                                <ul>
+                                    <li dir="ltr"><p dir="ltr"><strong>Analyse automatisée des données du profil et de
+                                                l’activité sur l’application</strong> afin de déceler les faux profils,
+                                            les comportements frauduleux ou qui contreviennent aux Conditions générales
+                                            d’utilisation.</p></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li dir="ltr"><p dir="ltr"><strong>Assurer la qualité des profils&nbsp;;</strong></p>
+                                <p dir="ltr">&nbsp;</p>
+                                <ul>
+                                    <li dir="ltr"><p dir="ltr"><strong>Analyse automatisée des photos des Membres afin
+                                                de détecter un visage dans le but, tant que possible, d’exclure les faux
+                                                profils de l’Application, de lutter contre les comportements frauduleux
+                                                et d’assurer l’identification des Membres.</strong> Il vous sera
+                                            impossible de créer un compte si un visage n’est pas détecté sur l’une de
+                                            vos photos lors de votre inscription. Dans l’hypothèse où votre inscription
+                                            ne serait pas acceptée alors qu’une de vos photos contient bien un visage,
+                                            vous pouvez nous contacter à tout moment.</p></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>
+                            <span style="color: rgb(41, 128, 185);"><b>Base légale</b><b>&nbsp;: Intérêt légitime</b></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Ces traitements sont basés sur l’intérêt légitime de SPAMI d’empêcher et de stopper les activités frauduleuses qui pourraient être effectuées sur ses Services ou qui contreviennent à ses Conditions générales d’utilisation et assurer la sécurité des utilisateurs en permettant l’identification des profils. Vous pouvez vous opposer à tout moment à cette utilisation en nous contactant (voir section 11. Contact). Toutefois, SPAMI pourra continuer à mettre en œuvre le traitement s’il justifie de motifs légitimes et impérieux.</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li dir="ltr"><p><strong>&nbsp;Certification de profil </strong>(définie au paragraphe 1) :
+                                    pour pouvoir certifier le profil d’un Membre SPAMI doit, sur la base de son
+                                    consentement, recueillir les données biométriques du Membre à partir d’une vidéo de
+                                    son visage et les comparer à ses Photos de profil. Si les visages correspondent, un
+                                    badge « Profil certifié » sera attribué. Les données biométriques sont immédiatement
+                                    supprimées après la comparaison. La vidéo sera en revanche conservée afin de
+                                    pouvoir, si besoin, vérifier à nouveau le profil du Membre en fonction des photos
+                                    qu’il ajoutera/supprimera. Auquel cas, les données biométriques seront à nouveau
+                                    collectées à partir de cette même vidéo, puis supprimées après comparaison avec les
+                                    nouvelles photos du Membre.</p></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><span style="color: rgb(41, 128, 185);"><strong>Base légale : Consentement</strong></span>
+                        </p>
+                        <p><span style="color: rgb(41, 128, 185);">Votre consentement pour l’utilisation de vos données biométriques à des fins de certification de profil vous ai demandé lorsque vous commencez la démarche de certification. Vous pouvez le retirer à tout moment en vous rendant dans « Mes données » puis « Gérer mes choix ». Si vous retirez votre consentement, votre vidéo sera supprimée et vos données biométriques ne pourront plus être recueillies. En cas d’ajout de nouvelles Photos de profil ou de suppression de vos Photos de profil actuelles, la comparaison de votre visage étant impossible, il est possible que vous perdiez votre badge « Profil certifié ».</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><strong>4.7. Apporter aide et support technique aux Membres.</strong></p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li dir="ltr"><p dir="ltr">&nbsp;Répondre aux demandes d’assistance formulées par les
+                                    Membres dans le cadre de l’utilisation de l’Application</p></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><span
+                                    style="color: rgb(41, 128, 185);"><strong>Base légale&nbsp;: Intérêt légitime</strong></span>
+                        </p>
+                        <p dir="ltr"><span style="color: rgb(41, 128, 185);">Ce traitement est basé sur l’intérêt légitime de SPAMI de permettre à ses Membres d’utiliser dans de bonnes conditions techniques et opérationnelles, l’Application.&nbsp;</span>
+                        </p>
+                        <p>&nbsp;</p>
+                        <h2>5. Cookies et traceurs</h2>
+                        <p>&nbsp;</p>
+                        <p>Des cookies peuvent être utilisé sur notre site Internet vitrine à des fins techniques, à des
+                            fins publicitaires et à des fins de mesures d’audiences. Sur l’Application, des cookies et
+                            traceurs peuvent être utilisés à des fins techniques et de mesure d’audiences.</p>
+                        <p>Pour en savoir plus, consultez notre <a href="https://www.spami.com/cookies">Charte sur les
+                                Cookies</a>.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>6. Comment sont partagées vos données&nbsp;?</h2>
+                        <p>&nbsp;</p>
+                        <p>Seuls <b>certains salariés du Service client et responsables habilités de SPAMI traitent les
+                                données personnelles</b> des Membres pour les finalités décrites ci-dessus. Ces salariés
+                            et responsables habilités n’ont accès qu’aux seules données qui leur sont nécessaires dans
+                            le cadre de leurs fonctions.</p>
+                        <p>&nbsp;</p>
+                        <p>Des <b>prestataires de services et partenaires authentifiés et fiables</b> peuvent également
+                            accéder et/ou traiter les données personnelles des Membres pour le compte de SPAMI dans le
+                            respect de la Politique de confidentialité et qui garantissent la sécurité et la
+                            confidentialité des données personnelles des Membres. Ces prestataires nous aident à
+                            exploiter et à améliorer nos Services, notamment concernant&nbsp;:</p>
+                        <ul>
+                            <li dir="ltr"><p dir="ltr">nos sous-traitants pour notre infrastructure et l’hébergement des
+                                    données&nbsp;;</p></li>
+                            <li dir="ltr"><p dir="ltr">nos fournisseurs de logiciels d’analyses ;</p></li>
+                            <li dir="ltr"><p dir="ltr">nos prestataires techniques pour l’utilisation de l’Application
+                                    et/ou le bon fonctionnement de l’Application&nbsp;;</p></li>
+                            <li dir="ltr"><p dir="ltr">notre service client pour la fourniture de l’assistance
+                                    nécessaire aux Membres&nbsp;et la gestion des signalements&nbsp;;&nbsp;</p></li>
+                            <li dir="ltr"><p dir="ltr">nos partenaires Marketing afin d‘adresser des offres, messages et
+                                    contenus pertinents aux Membres de SPAMI et non-Membres de SPAMI.&nbsp;&nbsp;</p></li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p dir="ltr">Dans le cadre des opérations marketing et publicitaires hors de l’application
+                            destinées à des non-Membres, vos données seront susceptibles d’être transmises à des réseaux
+                            sociaux partenaires pour vous exclure de nos campagnes, sauf opposition de votre part.</p>
+                        <p dir="ltr">Pour plus de détail, veuillez consulter la <a
+                                    href="https://www.spami.com/fr/liste-des-destinataires-de-vos-donnees/">liste de nos
+                                prestataires et partenaires.</a></p>
+                        <p>&nbsp;</p>
+                        <p>Par ailleurs, à la demande des <b>organismes étatiques, notamment les autorités
+                                judiciaires,</b>&nbsp;et pour se conformer à toute demande judiciaire ou légale SPAMI
+                            pourra transmettre les données personnelles de ses Membres.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Enfin, nous pouvons être amenés à transmettre vos données <b>dans le cadre d’opérations
+                                d’entreprise </b>telles que notamment sans que cette liste ne soit exhaustive,
+                            restructuration, changement de contrôle, fusion, acquisition, cession, dissolution.</p>
+                        <p>&nbsp;</p>
+                        <h2>7. Transfert de données hors UE</h2>
+                        <p>&nbsp;</p>
+                        <p>Les données personnelles des Membres traitées dans le cadre de l’utilisation de l’Application
+                            sont hébergées dans l’Union européenne.</p>
+                        <p>&nbsp;</p>
+                        <p>Toutefois, les données personnelles des Membres <b>sont transmises à des prestataires
+                                sous-traitants de SPAMI situés hors Union européenne</b>, pour le support aux Membres,
+                            la gestion des signalements, la publicité et le marketing.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Les transferts de données hors Union européenne peuvent<b>&nbsp;être effectués vers des pays
+                                pour lesquels il n’existe pas de décision d’adéquation</b> rendue par la Commission
+                            européenne en matière de protection des données personnelles. SPAMI garantit que ces
+                            transferts sont effectués dans des conditions permettant d’assurer la confidentialité et la
+                            sécurité des données et un niveau de protection adéquat dans le respect de la réglementation
+                            en vigueur. En effet, <b>ces transferts sont encadrés par des clauses contractuelles types
+                                de la Commission européenne</b>.&nbsp;Pour obtenir copie de ces dernières vous pouvez
+                            vous adresser à notre Délégué à la protection des données à l’adresse suivante&nbsp;: <a
+                                    href="mailto:dpo@spami.fr">dpo@spami.fr</a>.</p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr">Pour connaître la localisation exacte de nos destinataires, veuillez consulter la
+                            <a href="https://www.spami.com/fr/liste-des-destinataires-de-vos-donnees/">liste de nos
+                                prestataires et partenaires.</a></p>
+                        <p>&nbsp;</p>
+                        <h2>8. Comment exercer vos droits sur vos données&nbsp;?</h2>
+                        <p>&nbsp;</p>
+                        <h3>Vos droits</h3>
+                        <p>Conformément à la loi n° 78-17 du 6 janvier 1978, dite loi Informatique et
+                            Libertés<b>&nbsp;</b>et au RGPD, chaque Membre dispose d’un droit d’<b>accès,</b> de <b>rectification</b>
+                            et, le cas échéant d’un droit à la <b>portabilité</b> et à l’<b>effacement</b> sur ses
+                            données personnelles, ainsi que d’<b>opposition</b> au traitement ou à sa <b>limitation</b>
+                            et du droit de <b>définir des directives relatives au sort de ses données personnelles après
+                                son décès</b>. Soucieux des préoccupations de ses Membres, SPAMI s’engage à respecter la
+                            protection des données personnelles et à traiter ces demandes dans les meilleurs délais.&nbsp;
+                        </p>
+                        <p>&nbsp;</p>
+                        <h3>Comment les exercer&nbsp;?</h3>
+                        <p>Le Membre peut exercer ses droits, sous réserve de prouver son identité, en envoyant un email
+                            à&nbsp;<a href="mailto:support@spami.fr">support@spami.fr</a>, en exerçant ses droits
+                            directement depuis l’Application, ou en envoyant un courrier à l’adresse postale suivante :
+                            à l’attention du Délégué à la protection des données, SPAMI - 8 rue du Sentier 75002 Paris –
+                            France.&nbsp;Pour des raisons de confidentialité, en cas de doute sur l’identité du
+                            demandeur, une preuve d’identité peut être demandée.</p>
+                        <p>&nbsp;</p>
+                        <p>Pour toute autre réclamation, le Membre peut formuler une demande auprès de l’autorité de
+                            contrôle nationale compétente en matière de protection des données.</p>
+                        <p>&nbsp;</p>
+                        <h3>Détails des droits</h3>
+                        <ul>
+                            <li><p>Le <b>droit d’accès</b> autorise le Membre à interroger SPAMI en vue d’obtenir la
+                                    communication des données le concernant sous une forme accessible dans les termes et
+                                    conditions de l’article 15 du RGPD.&nbsp;Votre droit d’accès ne doit pas porter
+                                    atteinte à la vie privée des tiers, c’est pourquoi vous n’aurez accès qu’à vos
+                                    données personnelles et non pas à celles de tiers (par exemple, vous ne pourrez
+                                    avoir communication que des messages que vous avez envoyés et non pas de ceux que
+                                    vous avez reçus).</p></li>
+                            <li>Le <b>droit de rectification</b> confère au Membre le droit d’exiger de SPAMI que soient
+                                rectifiées, complétées, mises à jour ou effacées les données à caractère personnel le
+                                concernant, qui sont inexactes, incomplètes, équivoques, périmées ou dont l’utilisation,
+                                la communication ou la conservation est interdite dans les termes et conditions de
+                                l’article 16 du RGPD. <b>Vous pouvez modifier ou rectifier certaines données directement
+                                    depuis l’Application.</b> Il vous suffit de vous rendre sur votre profil et modifier
+                                directement les sections « Mes Photos&nbsp;», « Emploi et Études (Poste, Employeur,
+                                École) » et « À propos de moi ». Lorsque vous vous êtes inscrit via Facebook Connect,
+                                pour modifier votre prénom, votre âge ou votre genre, rendez-vous sur votre page
+                                Facebook et mettez à jour la rubrique « À propos – Informations générales et coordonnées
+                                » de votre profil. Lorsque vous vous êtes inscrit via un numéro de téléphone mobile,
+                                vous devez envoyer un courrier ou contacter le support client aux adresses indiquées
+                                ci-dessus, pour modifier votre prénom, votre âge ou votre genre.&nbsp;En cas d’erreur,
+                                l’âge peut être rectifié une fois directement depuis l’Application.
+                            </li>
+                            <li>Le <b>droit à la portabilité</b> confère au Membre le droit de recevoir les données à
+                                caractère personnel qu’il a fournies à SPAMI, dans un format structuré, couramment
+                                utilisé et lisible par machine et de les transmettre à un autre responsable de
+                                traitement, sur le fondement de l’article 20 du RGPD.&nbsp;
+                            </li>
+                            <li>Le <b>droit d’opposition</b> confère au Membre le droit de s’opposer sans frais et de
+                                manière discrétionnaire, à ce que ses données soient utilisées par SPAMI à des fins de
+                                prospection, notamment commerciale et aux traitements fondés sur l’intérêt légitime
+                                de SPAMI, sur le fondement de l’article 38 de la loi Informatique et Libertés et de
+                                l’article 21 du RGPD.&nbsp;Pour les traitements fondés sur l’intérêt légitime, SPAMI
+                                conserve la possibilité de justifier de motifs légitimes et impérieux pour continuer le
+                                traitement.&nbsp;
+                            </li>
+                            <li>Le <b>droit à l’effacement</b> confère au Membre le droit d’exiger l’effacement sans
+                                frais de manière discrétionnaire des données communiquées à SPAMI, dans la limite des
+                                droits fondés sur l’article 17 du RGPD. <strong>Par ailleurs, vous pouvez supprimer
+                                    votre Compte en utilisant la fonctionnalité correspondante directement sur
+                                    l’Application.</strong> Nous vous informons que l’ensemble de vos données seront
+                                supprimées de l’application SPAMI. Cependant, SPAMI, en tant qu’hébergeur, a
+                                l’obligation légale de conserver vos données personnelles pendant un an au titre de
+                                l’article 6-II) de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l’économie
+                                numérique. Vos données seront conservées dans une base d’archives séparée de nos bases
+                                de production et seulement aux fins de répondre à une réquisition judiciaire. Elles
+                                seront définitivement supprimées à l’expiration du délai d’un an.
+                            </li>
+                            <li>Le <strong>droit à la limitation</strong> confère au Membre le droit de geler
+                                temporairement l’utilisation de certaines données par SPAMI dans les conditions de
+                                l’article 18 du RGPD.
+                            </li>
+                            <li>Le droit pour le Membre de <b>définir ses directives relatives à la conservation, à
+                                    l’effacement et à la communication de ses données à caractère personnel après son
+                                    décès </b>conformément à l’article 85 de la loi Informatique et Libertés.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Ces droits ne pourront être exercés que dans la limite des moyens de SPAMI dans le cadre de
+                            l’utilisation de Facebook, Google ou Apple pour se connecter à l’Application. Une partie des
+                            données a été communiquée à SPAMI via Facebook, Google ou Apple et ne pourra dès lors être
+                            rectifiée sans la coopération&nbsp;de Facebook, Google ou Apple.</p>
+                        <p>&nbsp;&nbsp;</p>
+                        <h2>9. Pendant combien de temps conservons-nous vos données&nbsp;?</h2>
+                        <p>&nbsp;</p>
+                        <p>SPAMI a mis en place un processus de suppression automatique de votre compte et de vos
+                            données personnelles dans le respect des durées de conservation définies ci-dessous. Lorsque
+                            certaines données doivent être gardées à des fins statistiques au-delà de ces durées, ces
+                            données sont anonymisées de manière irréversible de sorte qu’il ne soit plus possible de
+                            vous identifier.</p>
+                        <p>&nbsp;</p>
+                        <p>SPAMI conserve les données du Membre pendant toute la durée nécessaire à l’utilisation du
+                            Compte du Membre c’est-à-dire&nbsp;:&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <ul>
+                            <li>Pour <b>la durée d’inscription du Membre augmentée d’une année</b>. Après un an
+                                d’inactivité sur un Compte, celui-ci sera supprimé et les données du Membre seront
+                                encore conservées pendant une année, avant d’être définitivement détruites ou
+                                anonymisées de manière irréversible. Un compte est considéré inactif lorsque
+                                l’Application du Membre n’a pas établi de contact avec les serveurs de SPAMI (notamment
+                                du fait de la désactivation de l’option de géolocalisation) ; et le Membre n’a pas
+                                utilisé l’Application. En tout état de cause, un Membre Premium n’est pas considéré
+                                comme inactif. Il convient de rappeler que SPAMI, conformément à son statut d’hébergeur,
+                                est tenu d’une obligation légale de conserver certaines données à caractère personnel
+                                des Membres pendant une durée d’un an sur le fondement de l’article 6, II de la loi pour
+                                la confiance dans l’économie numérique du 21 juin 2004.
+                            </li>
+                            <li>Lorsqu’un <strong>Membre est banni, son compte deviendra inactif.</strong> Les
+                                informations du compte banni sont conservées pendant une année en base de données active
+                                afin de les comparer avec les informations fournies lors de nouvelles inscriptions sur
+                                l’Application et, d’empêcher, tant que possible, toute réinscription d’un utilisateur
+                                exclu. Au terme de cette durée,&nbsp;les données personnelles sont&nbsp;archivées et
+                                conservées pendant un an supplémentaire avant d’être définitivement supprimées ou
+                                anonymisées de manière irréversible.
+                            </li>
+                            <li>Lorsque <b>le Membre supprime son Compte ou en demande la suppression</b> au service
+                                client, celui-ci est supprimé de l’Application. Cependant, les données du Membre seront
+                                conservées dans une base d’archives séparée pendant une année avant d’être
+                                définitivement détruites ou anonymisées de manière irréversible, afin de permettre à
+                                SPAMI de respecter son obligation de conservation en tant qu’hébergeur.
+                            </li>
+                            <li>Certaines données du Membre, comme l’adresse email et le numéro de téléphone, seront
+                                conservées <strong>à des fins de prospection </strong>ou de Marketing (voir article
+                                4.3.) ou à des fins d’analyse pour l’amélioration et l’optimisation du service (voir
+                                article 4.4) pendant 1 an après 1 an d’inactivité du Compte. En cas de suppression de
+                                son Compte par le Membre, les données ne seront pas utilisées à des fins de prospection
+                                ou de Marketing.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Concernant vos Positions géographiques et Points de croisement, des périodes de conservation
+                            plus courtes s’appliquent :</p>
+                        <ul>
+                            <li>Vos Positions géographiques sont conservées pendant un mois à compter de leur collecte
+                                afin de déterminer vos Points de croisement avec d'autres Membres ;
+                            </li>
+                            <li>Vos Points de croisement sont conservés pendant six mois à compter de leur collecte afin
+                                d’afficher sur l’Application les profils de Membres que vous avez croisé.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>SPAMI s’engage à fournir les meilleurs efforts et tous les moyens en sa possession pour
+                            garantir la sécurité optimale des données conservées. Il appartient tout de même au Membre
+                            de prendre les mesures appropriées pour protéger ses données.</p>
+                        <p>&nbsp;</p>
+                        <h2>10. Données personnelles d’enfants mineurs</h2>
+                        <p>&nbsp;</p>
+                        <p><b>SPAMI refuse de collecter les données d’enfants mineurs. </b>En cas de mensonge d’un
+                            Membre concernant sa date de naissance et plus particulièrement en cas d’attestation
+                            frauduleuse sur sa majorité, les parents de l’enfant mineur sont invités à avertir SPAMI en
+                            envoyant un courriel l’un des contacts indiqués à l’article 11 «&nbsp;Contact&nbsp;», afin
+                            de demander l’effacement des données. SPAMI s’engage à supprimer l’ensemble des données
+                            personnelles concernant l’enfant mineur dans les plus brefs délais.</p>
+                        <p>&nbsp;&nbsp;</p>
+                        <h2>11. Contact&nbsp;</h2>
+                        <p>&nbsp;</p>
+                        <p>Pour toute question relative à la présente politique de confidentialité ou pour toute demande
+                            relative à vos données personnelles, vous pouvez nous contacter&nbsp;:</p>
+                        <ul>
+                            <li>En adressant un mail à notre contact à l’adresse mail de contact&nbsp;<a
+                                        href="mailto:support@spami.fr">support@spami.fr</a>.
+                            </li>
+                            <li>En adressant un mail au Délégué à la protection des données <a
+                                        href="mailto:dpo@spami.fr">dpo@spami.fr</a>.&nbsp;
+                            </li>
+                            <li>Par courrier à l’adresse postale suivante&nbsp;: à l’attention du Délégué à la
+                                protection des données, SPAMI - 24 allée du cerf 95800 COURDIMANCHE – France.&nbsp;
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

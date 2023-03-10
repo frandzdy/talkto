@@ -1,0 +1,42 @@
+###> symfony/framework-bundle ###
+/config/secrets/
+/public/bundles/
+/src/.preload.php
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/webpack-encore-bundle ###
+/public/build/
+/public/uploads/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> IDE ###
+.idea
+.yarn
+###< ###
+
+###> frontend modules
+/node_modules/
+###< frontend modules
+
+####> Génération des routes pour le bundle FosJsRouting
+/public/js/*
+####<
+
+/.env.local
+/.env.local.php
+/.env.*.local
+/var/
+/vendor/
+/shared/
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

@@ -1,0 +1,29 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="white"/>
+<g style="mix-blend-mode:multiply">
+<rect x="39.9224" y="35" width="38" height="46" rx="2" fill="#BEECFF"/>
+</g>
+<rect x="72.0342" y="25" width="22" height="56" rx="2" fill="#BEECFF"/>
+<g style="mix-blend-mode:multiply">
+<rect x="5" y="35" width="26" height="46" rx="2" fill="#BEECFF"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M54 15C52.8954 15 52 15.8954 52 17V85C52 86.1046 52.8954 87 54 87H80C81.1046 87 82 86.1046 82 85V17C82 15.8954 81.1046 15 80 15H54ZM74.8931 43H70V47.8931H74.8931V43ZM70 64H74.8931V68.8931H70V64ZM62.8931 30.8622H58V35.7553H62.8931V30.8622ZM69.9999 20H74.893V24.8931H69.9999V20ZM62.8931 73H58V77.8931H62.8931V73ZM19 47C19 45.8954 19.8954 45 21 45H47C48.1046 45 49 45.8954 49 47V85C49 86.1046 48.1046 87 47 87H21C19.8954 87 19 86.1046 19 85V47ZM29.9127 52.0526H25.0196V56.9457H29.9127V52.0526ZM38.0006 52.0527H42.8937V56.9458H38.0006V52.0527ZM29.9127 73H25.0196V77.8931H29.9127V73Z" fill="#5ECAFF"/>
+</g>
+<rect x="70" y="30.8623" width="4.8931" height="4.8931" fill="#EB6854"/>
+<rect x="58" y="52" width="4.8931" height="4.8931" fill="#EB6854"/>
+<rect x="38" y="64" width="4.8931" height="4.8931" fill="#EB6854"/>
+<line x1="66.5" y1="20.5" x2="66.5" y2="86.5" stroke="#BEECFF" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="34.5" y1="52.5" x2="34.5" y2="86.5" stroke="#BEECFF" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="35.25" y="52.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="35.25" y="64.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="32.25" y="52.25" width="2.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="32.25" y="73.25" width="2.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="64.25" y="31.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="64.25" y="52.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="64.25" y="73.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="67.25" y="31.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="67.25" y="64.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="67.25" y="43.25" width="1.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+<rect x="66.25" y="20.25" width="2.5" height="0.5" fill="#BEECFF" stroke="#BEECFF" stroke-width="0.5"/>
+</svg>

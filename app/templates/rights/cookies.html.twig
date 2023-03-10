@@ -1,0 +1,669 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Mention Légale | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Les mentions légales Spami.">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Charte d’utilisation des cookies et traceurs': ''
+    }
+%}
+
+{% block content %}
+    <section id="features">
+        <div class="container px-5 my-3 bg-white shadow">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row">
+                <div class="col-lg-3 mb-lg-0 text-right">
+                    {{ include('rights/_nav_list.html.twig') }}
+                </div>
+                <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                    <div class="mb-5">
+                        <div class="text-center">
+                            <h1>Charte d’utilisation des cookies</h1>
+                        </div>
+                    </div>
+                    <div class=""><p>Mise à jour&nbsp;: le 12/02/2021</p>
+                        <p>&nbsp;</p>
+                        <p style="text-align: justify;">&nbsp;</p>
+                        <p style="text-align: justify;">SPAMI accorde une grande importance au respect de votre vie
+                            privée et vous invite à lire la présente Charte d’utilisation des cookies pour comprendre
+                            comment SPAMI utilise les cookies et autres traceurs sur son site Internet et ses
+                            applications (ci-après "Charte").</p>
+                        <p>&nbsp;</p>
+                        <p>La présente Charte a pour vocation de compléter la <a href="{{ path('app_right_policy') }}"
+                                                                                 title="Politique de confidentialité">Politique
+                                de confidentialité</a> et les <a href="{{ path('app_right_cgu') }}" title="Conditions générales
+                                d’utilisation">Conditions générales d’utilisation</a> du site SPAMI.</p>
+                        <p>&nbsp;</p>
+                        <p>Les termes commençant par une majuscule et qui ne sont pas définis dans la présente Charte
+                            ont la signification des termes définis dans les <a href="{{ path('app_right_cgu') }}" title="Conditions générales
+                                d’utilisation">Conditions générales d’utilisation</a>.</p>
+                        <p>&nbsp;</p>
+                        <h2>1. Champ d'application de la Charte</h2>
+                        <p>&nbsp;</p>
+                        <p>La présente Charte a pour vocation de s’appliquer aux supports suivants :&nbsp;</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>Le site Internet SPAMI disponible à l’adresse suivante : <a
+                                        href="{{ app.request.schemeAndHttpHost }}" title="Site Spami">{{ app.request.schemeAndHttpHost }}</a> (ci-après «&nbsp;Site&nbsp;»&nbsp;;
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <h2>2. Que sont les cookies ?&nbsp;</h2>
+                        <h3>&nbsp;</h3>
+                        <h3>2.1. Les cookies</h3>
+                        <p>&nbsp;</p>
+                        <p>Un cookie est un petit fichier texte déposé par le navigateur sur le disque dur du terminal
+                            (ordinateur, smartphone, etc.) de l’utilisateur lorsqu’il visite un site Internet.&nbsp;</p>
+                        <p>Il a été conçu pour contenir une petite quantité de données rattachées à votre terminal, et
+                            peut uniquement être lu par le serveur du site Internet qui l’a déposé.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Un cookie peut être classé selon sa durée de vie et/ou selon le domaine auquel il
+                            appartient.</p>
+                        <p>&nbsp;</p>
+                        <p>Par durée de vie, on distingue&nbsp;:</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>Un cookie de session qui est effacé quand l’utilisateur ferme son navigateur</li>
+                            <li>Un cookie persistant qui reste stocké sur le disque dur du terminal de l’utilisateur
+                                pour une durée prédéfinie.&nbsp;
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p>Par domaine, on distingue&nbsp;:&nbsp;</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>Les cookies propriétaires qui sont déposés par le serveur du site visité ou qui partage
+                                le même domaine
+                            </li>
+                            <li>Les cookies tiers qui sont déposés par un domaine différent de celui du site Internet
+                                visité. Par exemple, ces cookies peuvent être déposés lorsqu’un site Internet référence
+                                un fichier ou contenu, comme un JavaScript, situé à l’extérieur de son domaine
+                                (c’est-à-dire, disponible sur un autre site).
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <h2>3. Pourquoi Spami utilise des cookies ?&nbsp;</h2>
+                        <p>&nbsp;</p>
+                        <p>SPAMI utilise des cookies sur son Site pour
+                            les finalités listées ci-après.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Pour ces finalités, SPAMI est susceptible de permettre à des partenaires tiers de déposer des
+                            cookies ou accéder à des Identifiants et à des cookies sur le disque dur de votre terminal
+                            lorsque vous visitez notre site Internet ou utilisez notre Application ou Webapp.<br>
+                            &nbsp;</p>
+                        <p>Votre accord est une priorité pour spami, ainsi nous vous demandons votre consentement avant
+                            tout dépôt de cookies sauf pour ceux répondant à des besoins techniques, ceux-ci étant
+                            strictement nécessaires à la navigation sur le Site.</p>
+                        <p>&nbsp;</p>
+                        <h3 id="partners"><a id="cookies_banner"></a>3.1. Sur le Site</h3>
+                        <p>&nbsp;</p>
+                        <p>Les cookies déposés permettent au Site de vous fournir une page adaptée, de reconnaître vos
+                            précédents réglages et de faciliter votre navigation.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Lorsque vous visitez notre Site, des cookies sont déposés sur le disque dur de votre
+                            terminal. Certains sont nécessaires au (i) fonctionnement et à la sécurité de notre Site et
+                            d’autres sont utilisés, lorsque vous y consentez, à (ii) des fins statistiques.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><strong>Besoins techniques&nbsp;:&nbsp;</strong></p>
+                        <p>&nbsp;</p>
+                        <p>Lorsque vous consultez le Site des <strong>cookies sécurité&nbsp;</strong>sont déposés. Ils
+                            peuvent être utilisés à des fins d’authentification ou de sécurité. Ils sont obligatoires
+                            pour permettre certaines fonctionnalités du Site et afin d’en assurer la sécurité.<br>
+                            Des<strong> cookies fonctionnels</strong> sont également déposés&nbsp;et permettent
+                            d’améliorer et d’optimiser votre expérience sur le Site, par exemple afin de se rappeler de
+                            votre langue préférée pour y naviguer.&nbsp;&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p><strong>Les cookies sécurité et fonctionnels sont strictement nécessaires à la navigation sur
+                                le Site, ainsi vous ne pouvez pas refuser le dépôt de ces cookies.</strong></p>
+                        <p>&nbsp;</p>
+                        <div dir="ltr" align="left" class="table-responsive">
+                            <table style="border: 0.75pt solid rgb(0, 0, 0); border-collapse: collapse;" class="table">
+                                <colgroup>
+                                    <col width="243">
+                                    <col width="149">
+                                    <col width="102">
+                                    <col width="205">
+                                </colgroup>
+                                <tbody>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Nom du cookie</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Entreprise</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Domaine</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Finalité</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">tarteaucitron</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">SPAMI</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span><span><span
+                                                                                    style="vertical-align: baseline;"><span
+                                                                                        style="white-space: pre-wrap;">FONCTIONNEL</span></span></span></span></span></span><br> <br> <span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span><span><span
+                                                                                    style="vertical-align: baseline;"><span
+                                                                                        style="white-space: pre-wrap;">Conserve le consentement aux cookies analytiques de l’utilisateur.</span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">csrftoken</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">SPAMI</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">SÉCURITÉ</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p>
+                                        <p dir="ltr"
+                                           style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 11pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Aide à protéger spami contre un type particulier d'attaque logicielle sur les formulaires Web.</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h2>&nbsp;</h2>
+                        <p dir="ltr">*SPAMI utilise le service re-captcha, le logiciel Anti Robot de Google Inc. sur
+                            certaines pages du Site pour protéger les entrées des formulaires et distinguer les entrées
+                            faites par un être humain des abus automatisés.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr">En utilisant le formulaire de contact certains
+                            cookies Google, listés ci-dessus, seront déposés.&nbsp;</p>
+                        <p dir="ltr">Le refus du dépôt de ces cookies via votre navigateur par exemple pourra entraîner
+                            l’impossibilité d’accéder à certaines parties du Site sécurisées par re-captcha.</p>
+                        <p dir="ltr">Pour plus d’informations concernant la politique de confidentialité de Google,
+                            rendez-vous sur la page : <a href="https://www.google.com/intl/de/policies/privacy/">https://www.google.com/intl/de/policies/privacy/</a>
+                        </p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><strong>Besoins analytiques&nbsp;:</strong></p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr">SPAMI utilise des <strong>Cookies de mesure d’audience</strong> qui sont utilisés
+                            pour obtenir des informations sur le parcours des utilisateurs, pour analyser le trafic sur
+                            notre Site Internet et à des fins de mesures d’audience (par exemple, les cookies collectent
+                            des informations relatives aux pages visitées : nombres de visites, etc.). Les informations
+                            collectées sont anonymes et agrégées. Cela nous permet d’améliorer notre Site selon les
+                            demandes et besoins des utilisateurs.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p dir="ltr"><strong>Votre consentement est demandé pour le dépôt de cookies à des fins
+                                analytiques.</strong></p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <div dir="ltr" align="left" class="table-responsive">
+                            <table style="border: 1pt solid rgb(0, 0, 0); border-collapse: collapse;" class="table">
+                                <colgroup>
+                                    <col width="138">
+                                    <col width="176">
+                                    <col width="143">
+                                    <col width="225">
+                                </colgroup>
+                                <tbody>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Nom du cookie</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Entreprise</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Domaine</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span
+                                                                                style="font-weight: 700;"><span><span><span
+                                                                                            style="vertical-align: baseline;"><span
+                                                                                                style="white-space: pre-wrap;">Finalité</span></span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">_ga</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Google Analytics*</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Mesure les audiences sur le Site.</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">_gat_UA-150385430-1</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Google Analytics*</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Mesure les audiences sur le Site.</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">_gat_gtag_UA_150385430_1</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Google Tag Manager*</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt; border-style: solid; border-color: rgb(0, 0, 0);"><p
+                                                dir="ltr"
+                                                style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Mesure les audiences sur le Site.</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                <tr style="height: 0pt;">
+                                    <td style="border-width: 1pt 1pt 0.75pt; border-style: solid; border-color: rgb(0, 0, 0);">
+                                        <p dir="ltr"
+                                           style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">_gid</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt 1pt 0.75pt; border-style: solid; border-color: rgb(0, 0, 0);">
+                                        <p dir="ltr"
+                                           style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Google Analytics*</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                    <td style="border-width: 1pt 1pt 0.75pt; border-style: solid; border-color: rgb(0, 0, 0);">
+                                        <p dir="ltr"
+                                           style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">spami.com</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p> <br style="vertical-align: top; padding: 5pt; overflow: hidden;">
+                                        &nbsp;
+                                    </td>
+                                    <td style="border-width: 1pt 1pt 0.75pt; border-style: solid; border-color: rgb(0, 0, 0);">
+                                        <p dir="ltr"
+                                           style="text-align: justify; margin-top: 0pt; margin-bottom: 0pt; padding: 5pt;">
+                                            <span style="line-height: 1.2;"><span style="vertical-align: top;"><span
+                                                            style="overflow: hidden;"><span><span
+                                                                    style="font-size: 12pt;"><span
+                                                                        style="font-family: Roboto, sans-serif;"><span
+                                                                            style="color: rgb(35, 35, 40);"><span><span><span
+                                                                                        style="vertical-align: baseline;"><span
+                                                                                            style="white-space: pre-wrap;">Mesure les audiences sur le Site.</span></span></span></span></span></span></span></span></span></span></span>
+                                        </p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>&nbsp;</p>
+                        <p>*Si vous souhaitez refuser les cookies Google Analytics, vous pouvez :&nbsp;</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>télécharger et installer&nbsp;le <a
+                                        href="https://tools.google.com/dlpage/gaoptout?hl=en">module d’opt-out de Google
+                                    Analytics</a></li>
+                            <li>refuser le dépôt des cookies analytiques sur notre bandeau cookies (voir infra).</li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <h2>4. Comment gérer vos cookies et l'utilisation de vos Identifiants ?</h2>
+                        <p>&nbsp;</p>
+                        <h3>4.1. Sur le site</h3>
+                        <p>&nbsp;</p>
+                        <p>Quand vous arrivez pour la première fois sur le site Internet de SPAMI, un bandeau cookie vous
+                            propose d’accepter ou de refuser les Cookies Web qui ne sont pas essentiels au
+                            fonctionnement stable du site.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>A défaut de retrait de votre consentement, celui-ci est valable pour une durée de six (6)
+                            mois. Pendant cette période, le bandeau cookie ne vous sera plus présenté lors de vos
+                            visites sur le Site. Lorsque le délai est écoulé, le bandeau cookie sera affiché de nouveau
+                            et vous proposera d’accepter ou de refuser le dépôt de cookies.</p>
+                        <p>&nbsp;</p>
+                        <p>Attention, spami n’est pas en mesure de supprimer les cookies tiers ayant été déposés
+                            préalablement au retrait de votre consentement.&nbsp;</p>
+                        <p>Le retrait de votre consentement entraînera l’impossibilité pour spami de lire et d’exploiter
+                            les informations contenues dans les cookies déjà déposés sur votre navigateur.&nbsp;</p>
+                        <p>Cependant, il vous est également possible de supprimer directement ces cookies via votre
+                            navigateur.&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Par ailleurs, vous pouvez refuser la plupart des cookies de publicités comportementales
+                            depuis les liens suivants&nbsp;:&nbsp;</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>Si vous êtes en Europe&nbsp;: <a href="http://www.youronlinechoices.com">www.youronlinechoices.com</a>&nbsp;
+                            </li>
+                            <li>Si vous êtes aux États-Unis&nbsp;: <a
+                                        href="http://optout.aboutads.info/?c=2&amp;lang=EN">http://optout.aboutads.info/?c=2&amp;lang=EN</a>
+                                et
+                                <a href="http://optout.networkadvertising.org/">http://optout.networkadvertising.org/</a>&nbsp;
+                            </li>
+                            <li>Si vous êtes au Canada&nbsp;: <a href="https://youradchoices.ca/">https://youradchoices.ca/</a>.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><b>Pour les cookies tiers</b>, vous pouvez configurer vos paramètres de navigateur afin de
+                            refuser tous les cookies tiers.&nbsp;</p>
+                        <ul style="overflow-wrap: break-word;">
+                            <li>Pour Google Chrome&nbsp;: <a
+                                        href="https://support.google.com/chrome/answer/95647?hlrm=en">https://support.google.com/chrome/answer/95647?hlrm=en</a>
+                            </li>
+                            <li>Pour Mozilla Firefox&nbsp;: <a
+                                        href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer">https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer</a>
+                            </li>
+                            <li>Pour Microsoft Edge&nbsp;: <a
+                                        href="https://support.microsoft.com/en-gb/help/4468242/microsoft-edge-browsing-data-and-privacy-microsoft-privacy">https://support.microsoft.com/en-gb/help/4468242/microsoft-edge-browsing-data-and-privacy-microsoft-privacy</a>
+                            </li>
+                            <li>Pour Opera&nbsp;: <a
+                                        href="https://help.opera.com/en/latest/security-and-privacy/#tracking">https://help.opera.com/en/latest/security-and-privacy/#tracking</a>
+                            </li>
+                            <li>Pour Internet Explorer&nbsp;: <a
+                                        href="https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies">https://support.microsoft.com/en-gb/help/17442/windows-Internet-explorer-delete-manage-cookies#</a>
+                            </li>
+                            <li>Pour Apple Safari&nbsp;: <a
+                                        href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac">https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac</a>.
+                            </li>
+                        </ul>
+                        <p>&nbsp;</p>
+                        <p><b>NOUS NE VOUS RECOMMANDONS PAS DE BLOQUER ET DÉSACTIVER TOUS LES COOKIES DANS LES
+                                PARAMÈTRES DE VOTRE NAVIGATEUR. En effet, si vous bloquez tous les cookies, notre site
+                                pourrait ne pas fonctionner correctement et il est possible que vous ne puissiez pas
+                                utiliser certaines de ses fonctionnalités.</b></p>
+                        <p>&nbsp;</p>
+                        <h2>5. Contact&nbsp;</h2>
+                        <p>&nbsp;</p>
+                        <p>Si vous avez des questions concernant la présente Charte ou une réclamation à propos des
+                            cookies et Outils de traçage, vous pouvez nous contacter&nbsp;:&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <ol>
+                            <li>En envoyant un e-mail à notre adresse email de contact&nbsp;: <a
+                                        href="mailto:support@spami.fr">support@spami.fr</a> ;
+                            </li>
+                            <li>En envoyant un e-mail à notre Délégué à la protection des données&nbsp;: <a
+                                        href="mailto:dpo@spami.fr">dpo@spami.fr</a> ;
+                            </li>
+                            <li>En envoyant un courrier à l’adresse postale suivante&nbsp;:&nbsp;</li>
+                        </ol>
+                        <p>À l’attention du Délégué à la protection des données</p>
+                        <p style="text-align: center;">spami</p>
+                        <p style="text-align: center;">24 allé du cerf 95800, Courdimanche</p>
+                        <p style="text-align: center;">France</p>
+                        <p style="text-align: center;">&nbsp;</p>
+                        <p>Pour rappel, vous trouverez ci-dessous les informations concernant la société chargée
+                            d’appliquer cette Charte :</p>
+                        <p>&nbsp;</p>
+                        <p>Alsi WebTech, Micro entrepreneur enregistré sous le numéro 893 371 344 000 19, dont le siège social
+                            est situé au 24 allé du cerf 95800 Courdimanche, France et représentée par son président, Monsieur
+                            Frandzdy Sanon.</p>
+                        <p>&nbsp;</p>
+                        <p>Enfin, n’oubliez pas de consulter notre <a href="{{ path('app_right_policy') }}" title="Politique de
+                                confidentialité">Politique de
+                                confidentialité</a>.&nbsp;</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

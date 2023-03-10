@@ -1,0 +1,11 @@
+{{ form_start(form, {attr: {'class': 'p-4 p-md-5 border rounded-3 bg-light', 'autocomplete': 'off'}}) }}
+<div class="form-floating mb-3">
+    {{ form_widget(form.email) }}
+    {{ form_label(form.email) }}
+    {{ form_errors(form.email) }}
+</div>
+<button class="w-100 btn btn-blue" formnovalidate>S'inscrire</button>
+<hr class="my-4">
+<small class="text-muted">En cliquant sur <b>S'inscrire</b>,
+    vous acceptez les <a title="Conditon générales d'utilisation" href="{{ path('app_right_cgu') }}">conditions générales d'utilisation</a>.</small>
+{{ form_end(form) }}

@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Accueil, inscription et souscription à un abonnement, Découvrez et partager vos passions,
+    centre d'intérêts ou activités favorites - {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description" content="Découvrez les gens que vous avez croisez lors de vos activités favorites,
+    trouvez les gens qui on les centre d'intérêts en commun avec vous!">
+    <meta name="description" content="Discover the people you’ve crossed paths during your favorite activity,
+    find people which have a activity in commun with you!">
+{% endblock %}
+
+{% block content %}
+    {% include 'partials/_header.html.twig' %}
+    {% include 'partials/_presentation.html.twig' %}
+    {% include 'partials/_quote.html.twig' %}
+    {% include 'partials/_pricing.html.twig' %}
+    {% include 'partials/_basic.html.twig' %}
+    {% include 'partials/_count.html.twig' %}
+{% endblock %}

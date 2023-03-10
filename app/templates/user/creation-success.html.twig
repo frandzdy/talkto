@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Affichage du profil correspondant au match - Liker et chatter avec votre matchs | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Affiche le profil d'un match correspondant à vos centres d'intérêts, liker et chatter avec vos matchs!">
+{% endblock %}
+
+{% block content %}
+    {% set listImage = [] %}
+    <!-- App features section-->
+    <section id="features" class="background-circle" style="height: 100%">
+        <div class="container">
+            <div class="row d-flex my-5 justify-content-center">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h5 class="card-title text-center fs-1 text-success"><i class="bi bi-check-circle"></i> Compte créer</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-center">
+                                Nous tenions à vous remercier d'avoir souscrit à un de nos abonnements.<br>
+                                <br>
+                                Un e-mail vous a été envoyé, il contient votre lien de connexion.<br>
+                                <br>
+                                Nous vous souhaitons une bonne expérience sur Spami.<br>
+                                <br>
+                                Pour toutes questions, vous pouvez contacter notre
+                                <a href="mailto:contact@spami.fr" title="e-mail service client">service client</a>.
+                            </p>
+                            <div class="text-center mb-2">
+                                <small class="form-text text-muted">
+                                    Share Passion and Love. C'est tout que l'on vous souhaite 👨‍👨‍👦‍👦.
+                                </small>
+                            </div>
+                            <div class="text-center">
+                                <a class="btn btn-blue" title="Retourne à l'accueil" href="{{ path('home') }}">Retourner à l'accueil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

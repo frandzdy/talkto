@@ -1,0 +1,76 @@
+{# Si la route est "annonces_edit on affiche les images #}
+<style>
+    /* clearfix */
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 4px;
+    }
+
+    /* Create four equal columns that sits next to each other */
+    .col {
+        flex: 25%;
+        max-width: 25%;
+        padding: 0 4px;
+    }
+
+    .col img {
+        margin-top: 8px;
+        vertical-align: middle;
+    }
+
+    /* Responsive layout - makes a two column-layout instead of four columns */
+    @media (max-width: 800px) {
+        .col {
+            flex: 50%;
+            max-width: 50%;
+        }
+    }
+
+    /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+    @media (max-width: 600px) {
+        .col {
+            flex: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+<div class="form-outline mb-4">
+    {{ form_widget(form.pictures) }}
+    {{ form_label(form.pictures) }}
+    {{ form_errors(form.pictures) }}
+</div>
+<div class="grid row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for picture in user.pictures %}
+        <div class="col">
+            <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top img-thumbnail"
+                     src="{{ asset('/uploads/profile_picture/' ~ picture.name) }}"
+                     alt="{{ picture.name }}" style="width: 100%">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a title="Définir en tant que photo de profil" type="button"
+                               class="btn btn-sm {{ app.user.principalPicture == picture.name ? "btn-outline-primary" : "btn-outline-secondary" }}">Profile
+                            </a>
+                            <a type="button" class="btn btn-sm btn-outline-danger">Supprimer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="form-outline mb-4" style="text-align: center">
+    <button class="btn btn-blue rounded-pill btn-lg" formnovalidate>{{ app.user ? 'Modifier' : 'Créer' }}</button>
+    {% if app.user %}
+        <a class="btn btn-secondary rounded-pill btn-lg" href="{{ path('home') }}" title="Annuler">Annuler</a>
+    {% endif %}
+</div>

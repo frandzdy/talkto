@@ -1,0 +1,101 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Mention Légale | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Les mentions légales Spami.">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Charte de confiance': ''
+    } %}
+
+{% block content %}
+    <section id="features">
+        <div class="container px-5 my-3 bg-white shadow">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row">
+                <div class="col-lg-3 mb-lg-0 text-right">
+                    {{ include('rights/_nav_list.html.twig') }}
+                </div>
+                <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                    <div class="mb-5">
+                        <div class="text-center">
+                            <h1>Charte de confiance</h1>
+                        </div>
+                    </div>
+                    <div class="cms__content"><p>spami est une application géolocalisée et en temps réel, qui a été
+                            entièrement conçue pour proposer une expérience de qualité, agréable et sécurisée. Pour que
+                            cette expérience soit à la hauteur de vos attentes, spami vous présente sa charte de
+                            confiance, en 5 engagements.</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>Engagement 1 : Retrouvez qui vous croisez…en toute confidentialité !</h2>
+                        <p>&nbsp;</p>
+                        <p>Votre localisation demeure systématiquement invisible : vous pouvez voir où vous vous êtes
+                            croisés…mais jamais où se trouve un membre ! Par ailleurs, la localisation du croisement ne
+                            sera jamais indiquée de façon précise.</p>
+                        <p><br>
+                            Par ailleurs, en accord avec la loi et les règlements en vigueur sur la protection de la vie
+                            privée et conformément au Règlement Général sur la Protection des Données (RGPD) du 27 avril
+                            2016 et à la Loi n°78-17 du 6 janvier 1978, dite Loi Informatique et Liberté, vous disposez
+                            d’un droit d’accès, de rectification, de suppression et de portabilité de vos données et
+                            d’un droit d’opposition et de limitation du traitement. Les coordonnées de spami sont
+                            disponibles à l’article 11 de la <a href="{{ path('app_right_policy') }}">Politique de confidentialité</a>. spami
+                            s'engage à ne jamais transmettre aux autres membres les données de contact vous concernant.
+                            Votre adresse email, votre numéro de téléphone et votre identité réelle sont des données
+                            strictement confidentielles qui ne peuvent en aucun cas être divulguées par spami à d’autres
+                            membres.<br> <br>
+                            &nbsp;</p>
+                        <h2>Engagement 2 : C’est toujours vous qui décidez</h2>
+                        <p>&nbsp;</p>
+                        <p>Le principe de réciprocité permanent assure une expérience sans spam, mais comme on n’est
+                            jamais trop prudent, spami s’engage à donner à ses membres les moyens techniques leur
+                            permettant de ne pas, ou de ne plus être contacté par un membre.<br> <br>
+                            Lorsque vous croisez un membre, vous pouvez appuyer sur la Croix : vous ne le recroiserez
+                            plus jamais sur spami, et il ne vous recroisera plus jamais sur spami.<br> <br>
+                            De plus, avec la fonction « Bloquer », vous pouvez empêcher n’importe quelle personne de
+                            vous voir sur spami, ou de vous envoyer un message dans le cas où vous avez déjà ouvert une
+                            conversation.</p>
+                        <p>&nbsp;</p>
+                        <h2>&nbsp;</h2>
+                        <h2>Engagement 3 : Aucun faux compte</h2>
+                        <p>&nbsp;</p>
+                        <p>spami s'engage à ne jamais créer de faux profils dans quelque but que ce soit, à l’exception
+                            des profils de test créés par les équipes techniques de spami. spami s'engage aussi à ne pas
+                            employer d'hôtesses ou de service d'animation destinés à accroître le nombre de profils et
+                            de discussions sur l’application.</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>Engagement 4 : Vérifier, valider, encadrer</h2>
+                        <p>&nbsp;</p>
+                        <p>Pour devenir membre de spami, il est indispensable d’être âgé de 18 ans minimum. L’inscription
+                            est interdite à toute personne mineure.<br> <br>
+                            Nos modérateurs interviennent dès qu’un problème de comportement nous est signalé. En effet,
+                            vous pouvez à tout moment nous signaler des problèmes de comportement d'un membre en
+                            cliquant sur le les trois points en haut à droite du profil ou de la conversation.<br> <br>
+                            Nous tenons compte de toutes vos remontées, et n’hésitons pas, le cas échéant, à envoyer un
+                            message d’avertissement ou à bannir un membre peu scrupuleux.</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <h2>Engagement 5 : Votre avis compte pour nous</h2>
+                        <p>&nbsp;</p>
+                        <p>Le service qualité de spami s’engage à lire chacun de vos messages. Il est essentiel pour nous
+                            de comprendre vos attentes, et de tout faire pour y répondre. Nous avons au sein de notre
+                            équipe des personnes dédiées qui relèvent toutes vos remarques. Merci, car ces remarques
+                            nous servent à améliorer l’application jour après jour.</p>
+                        <div>
+                            <div>
+                                <div id="_com_1">&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,8 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DNS)%'
+        envelope:
+            sender: 'snakeater95@gmail.com'
+            #            recipients: ['snakeater95@gmail.com']
+        headers:
+            from: 'SPAMI <contact@spami.fr>'

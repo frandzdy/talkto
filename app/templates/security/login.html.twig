@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Connexion à votre compte Spami | {{ parent() }}{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Connectez vous à votre compte Spami gratuit ou avec un abonnement !">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Se connecter': ''
+    }
+%}
+
+{% block content %}
+    <section id="features" class="bg-light">
+        <div class="container px-5 mt-3">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row gx-5 align-items-center">
+                    <div class="col-lg-7 text-center text-lg-start">
+                        <h1 class="display-1 lh-1 mb-3">Trouvez l'âme soeur </h1>
+                        <p class="col-lg-10 lead fw-normal mb-5">
+                            Lors de l'une de nos activités, on a tous échangé un regard avec une personne qui
+                            nous a plu,
+                            sans oser l’aborder. Grâce à Spami, retrouvez les personnes que vous avez
+                            croisées lors de vos acticités !
+                        </p>
+                    </div>
+                    <div class="col-md-10 mx-auto col-lg-5 " id="formLogin">
+                        {{ include('security/_form.html.twig') }}
+                    </div>
+            </div>
+        </div>
+    </section>
+    {{ include('partials/_quote_login.html.twig') }}
+    {{ include('partials/_pricing.html.twig') }}
+    {{ include('partials/_quote_pricing.html.twig') }}
+{% endblock %}

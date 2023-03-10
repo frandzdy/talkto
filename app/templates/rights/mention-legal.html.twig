@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Mention Légale | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Les mentions légales Spami.">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Mentions Légales': ''
+    }
+%}
+
+{% block content %}
+    <section id="features">
+        <div class="container px-5 my-3 bg-white shadow">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row">
+                <div class="col-lg-3 mb-lg-0 text-right">
+                    {{ include('rights/_nav_list.html.twig') }}
+                </div>
+                <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                    <div class="mb-5">
+                        <div class="text-center">
+                            <h1>Mentions Légales</h1>
+                        </div>
+                    </div>
+                    <p class="">
+                        Le présent site qu’il désigne est exploité par la société Alsi WebTech,
+                        Micro entrepreneur enregistré sous le numéro 893 371 344 000 19,
+                        dont le siège social est situé 24 allée du cerf 95800 Courdimanche
+                        et représentée par son Président Monsieur Sanon Frandzdy (n° TVA FR 67 89 33 713 44).
+                    </p>
+                    <p>
+                        Le Directeur de Publication du site est Monsieur Sanon Frandzdy.
+                    </p>
+                    <p>
+                        E-mail à l’adresse : <a title="E-mail de contact"
+                                               href="mailto:contact@spami.fr">contact@spami.fr</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,19 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_5_layout.html.twig'
+        - 'form/_form_layout.html.twig'
+    globals:
+        googleGtm: '%google_gtm%'
+        googleTagUa: '%google_ua%'
+        googleRecaptchPkey: '%google_recaptcha_pkey%'
+        uploadsDirectoryImg: '%base_path_twig%'
+    paths:
+        # point this wherever your images live
+        '%kernel.project_dir%/assets/images': images
+        '%kernel.project_dir%/assets/styles': styles
+
+when@test:
+    twig:
+        strict_variables: true

@@ -1,0 +1,46 @@
+{% block subject %}Interest – Lien magique de connexion{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Lien magique de connexion{% endblock %}
+        {% block accroche %}Lien magique de connexion{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>
+                        <h1>Bonjour, {{ user.lastname ~ ' ' ~ user.firstname }}</h1>
+                    </p>
+                    <p style="border: 1px solid red; text-align: center" align="center"> Nous avons reçu une demande de lien, si vous en êtes pas à l'origine.<br>
+                        Nous vous invitons à mettre en place une authentification
+                        à 2 facteurs sur votre messagerie.
+                    </p>
+                    <p>
+                        Vous trouverez un lien de connexion ci-dessous afin de vous connecter à notre application.<br>
+                    </p>
+                    <p class="text-center">Vous avez {{ expiresAt|date('i') }} minutes avant son expiration.</p>
+                    <p class="text-center"><a title="Lien de connexion" href="{{ link }}">Votre lien magique de connexion</a></p>
+
+                    <p>Merci de votre confiance et à bientôt sur <a title="Site Qualifelec pros" href="{{ app.request.schemeAndHttpHost }}">SPAMI</a> !</p>
+                    <p>L'équipe SPAMI</p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.lastname ~ ' ' ~ user.firstname }}\n
+    \n
+    Nous avons reçu une demande de lien, si vous en êtes pas à l'origine.\n
+    Nous vous invitons à mettre en place une authentification
+    à 2 facteurs sur votre messagerie.\n
+    \n
+    Vous trouverez un lien de connexion ci-dessous afin de vous connecter à notre application interest.app :\n
+    \n
+    Vous avez {{ expiresAt|date('i') }} minutes avant son expiration.\n
+    \n
+    Votre lien magique de connexion : {{ link }}\n
+{% endblock %}

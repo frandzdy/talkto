@@ -1,0 +1,182 @@
+<style>
+    .border-top {
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .box-shadow {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
+    /*.offer {*/
+
+    /*}*/
+
+    /*@media (max-width: 1250px) {*/
+    /*    .offer {*/
+    /*        flex-direction: column;*/
+    /*        text-align: center;*/
+    /*    }*/
+    /*}*/
+</style>
+<section id="offres" class="background-circle mt-4">
+    <div class="px-5">
+        <div class="row gx-5 align-items-center">
+            <div class="pricing-header pb-md-4 mx-auto text-center">
+                <h2 class="display-4 text-white">Spami Prémium</h2>
+                <p class="lead text-white">Même si notre application reste gratuite et sans publicité, nous proposons
+                    des
+                    abonnements qui vous
+                    permettrons d'enrichir votre expérience. De nouvelle fonctionnalité arriveront au fur et à mesure du
+                    temps.
+                </p>
+            </div>
+            <div class="row row-cols-md-2 align-items-center">
+                {% set column = 'col-lg-4' %}
+                {% if app.user is same as(null) %}
+                    <div class="col-lg-3">
+                        {% set column = 'col-lg-3' %}
+                        <div class="card-deck mb-3 text-center">
+                            <div class="card mb-4 box-shadow">
+                                <div class="card-header">
+                                    <h4 class="my-0 font-weight-normal card-title pricing-card-title">
+                                        Gratuit
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li><i class="bi bi-slash-circle-fill text-danger"></i> Illimité Spamis par
+                                            jours
+                                        </li>
+                                        <li><i class="bi bi-slash-circle-fill text-danger"></i> Géolocalisation plus
+                                            précise.
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-slash-circle-fill text-danger"></i> Visualisation des matchs
+                                            reçus.
+                                        </li>
+                                        <li><i class="bi bi-slash-circle-fill text-danger"></i> Recherche avancée.</li>
+                                    </ul>
+                                    <a href="{{ path('user_new', {'type':'free'}) }}" type="button"
+                                       class="btn btn-outline-success">
+                                        S'incrire gratuitement
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="{{ column }}">
+                    <div class="card-deck mb-3 text-center">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal card-title pricing-card-title">
+                                    <i class="bi bi-currency-euro"></i> 14,99 <i class="bi bi-currency-euro"></i>
+                                    <small class="text-muted">
+                                        /mois <br>
+                                    </small>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Illimité Spamis par jours
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Géolocalisation plus
+                                        précise.
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-check-circle-fill text-success"></i> Visualisation des matchs
+                                        reçus.
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Recherche avancée.
+                                    </li>
+                                </ul>
+                                {% if app.user %}
+                                    <a href="{{ path('app_stripe_checkout_session', {'type':'abo1'}) }}" type="button"
+                                       class="btn btn-success">S'inscrire</a>
+                                {% else %}
+                                    <a href="{{ path('user_new', {'type':'abo1'}) }}" type="button"
+                                       class="btn btn-success">S'abonner</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="{{ column }}">
+                    <div class="card-deck mb-3 text-center">
+                        <div class="card mb-4 box-shadow ">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal card-title pricing-card-title">
+                                    <i class="bi bi-heart-fill fs-5 text-danger"></i> 59,99 <i class="bi bi-currency-euro"></i>
+                                    <small class="text-muted"> / 6 mois <br>
+                                    </small>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Illimité Spamis par jours
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Géolocalisation plus
+                                        précise.
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-check-circle-fill text-success"></i> Visualisation des matchs
+                                        reçus.
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Recherche avancée.</li>
+                                </ul>
+                                {% if app.user %}
+                                    <a href="{{ path('app_stripe_checkout_session', {'type':'abo2'}) }}" type="button"
+                                       class="btn btn-success">S'inscrire</a>
+                                {% else %}
+                                    <a href="{{ path('user_new', {'type':'abo2'}) }}" type="button"
+                                       class="btn btn-success">S'abonner</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ column }}">
+                    <div class="card-deck mb-3 text-center ">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal card-title pricing-card-title">
+                                    <i class="bi bi-piggy-bank fs-3 text-warning"></i> 99,99 <i class="bi bi-currency-euro"></i>
+                                    <small class="text-muted"> / An <br>
+                                    </small>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Illimité Spamis par jours
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Géolocalisation plus
+                                        précise.
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-check-circle-fill text-success"></i> Visualisation des matchs
+                                        reçus.
+                                    </li>
+                                    <li><i class="bi bi-check-circle-fill text-success"></i> Recherche avancée.</li>
+                                </ul>
+                                {% if app.user %}
+                                    <a href="{{ path('app_stripe_checkout_session', {'type':'abo3'}) }}" type="button"
+                                       class="btn btn-success">S'inscrire</a>
+                                {% else %}
+                                    <a href="{{ path('user_new', {'type':'abo3'}) }}" type="button"
+                                       class="btn btn-success">S'abonner</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

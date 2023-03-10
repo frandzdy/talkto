@@ -1,0 +1,1058 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Conditions générales d'utilisation | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Les conditions générales d'utilisation Spami.">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Conditions générales d’utilisation': ''
+    }
+%}
+
+{% block content %}
+    <section id="features">
+        <div class="container px-5 my-3 bg-white shadow">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            <div class="row">
+                <div class="col-lg-3 mb-lg-0 text-right">
+                    {{ include('rights/_nav_list.html.twig') }}
+                </div>
+                <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                    <div class="mb-5">
+                        <div class="text-center">
+                            <h1>Conditions générales d’utilisation</h1>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <div><p>Mise à jour&nbsp;: le 11/02/2022</p>
+                            <p>&nbsp;</p>
+                            <h2>Définitions des termes</h2>
+                            <h2>&nbsp;</h2>
+                            <p>Au sein des présentes Conditions générales d’utilisation, les termes suivants sont
+                                entendus tels que définis ci-dessous&nbsp;:&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>Site Web</b>&nbsp;: le site SPAMI :&nbsp;<a
+                                        href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a></p>
+                            <p><b>ALSI WEBTECH</b>&nbsp;: ALSI WEBTECH, Micro entrepreneur enregistré sous le numéro 893 371 344 000 19,
+                                et seule exploitante du site web et de la marque SPAMI.</p>
+                            <p><b>CGU</b>&nbsp;: les présentes Conditions générales d’utilisation.</p>
+                            <p><b>Membre</b>&nbsp;: personne inscrite sur le site web.&nbsp;</p>
+                            <p><b>Membres Elle</b>&nbsp;: membre de sexe féminin au regard de son état civil
+                                inscrit sur le site web.</p>
+                            <p><b>Membres Il&nbsp;</b>: membre de sexe masculin au regard de son état civil
+                                inscrit sur le site web.</p>
+                            <p><b>Membres Iel&nbsp;</b>: membre de sexe masculin ou féminin non au regard de son état
+                                civil
+                                inscrit sur le site web.</p>
+                            <p><strong>Caractéristiques du Membre</strong> : Informations renseignées par le Membre
+                                et décrivant son profil en lien avec son style de vie et ses caractéristiques. Le
+                                Membre peut sélectionner les informations qu’il souhaite faire figurer sur son
+                                profil et filtrer les autres Membres apparaissant sur le site web en fonction de
+                                ces informations.</p>
+                            {#                            <p><b>Map (Cartographie)&nbsp;</b>: carte qui permet de retrouver les Membres croisés. #}
+                            {#                            </p> #}
+                            <p><b>Passe</b>&nbsp;<b>(symbolisé par une croix)</b>&nbsp;: action symbolisée par une
+                                croix pour exprimer son manque d’intérêt. Cette action est secrète et ne fait
+                                l’objet d’aucune notification. Les profils « Passés » n’apparaitront plus sur le fil
+                                d’actualité du Membre pour l’avenir, mais pourront toutefois être retrouvés sur la
+                                Map.</p>
+                            <p><b>Spamer</b>&nbsp;: action symbolisée par un cœur ayant pour but d’exprimer son
+                                intérêt. Les Membres Premium ont accès à la liste des Likes. Excepté pour le premier
+                                Like, cette action reste secrète pour les non-Membres jusqu'à l'obtention d'un Like
+                                réciproque.</p>
+{#                            <p><b>Hello (Demande de chat)</b>&nbsp;: action non secrète suggérée avant et/ou après#}
+{#                                le Like qui déclenche l’envoi d’une notification au Membre auquel vous l’adressez&nbsp;et#}
+{#                                constitue une invitation à converser avec cette personne.</p>#}
+                            {#                            <p style="text-align: justify;"><strong>FlashNote</strong> (fonctionnalité éligible dans #}
+                            {#                                certains pays uniquement)&nbsp;: action qui déclenche l’envoi d’une notification au #}
+                            {#                                Membre auquel vous l'adressez, et qui vous donne également la possibilité de lui #}
+                            {#                                adresser un message privé personnalisable pour initier une conversation privée.<br> #}
+                            {#                                <strong>Certification de profil</strong>&nbsp;: fonctionnalité qui permet #}
+                            {#                                d’authentifier la photo de profil du Membre et d’obtenir le badge « Profil certifié #}
+                            {#                                », qui permet d’attester auprès des autres Membres que sa photo de visage mis en #}
+                            {#                                ligne sur son profil correspond à sa vraie identité visuelle en mouvement (via la #}
+                            {#                                vidéo).&nbsp;</p> #}
+                            <p style="text-align: justify;"><b>Match</b>&nbsp;: événement entre deux profils,
+                                déclenché par un Like réalisé par chacun des profils. Il témoigne d’un intérêt
+                                mutuel et déclenche une notification («&nbsp;Vous avez un Match&nbsp;») qui permet
+                                d’ouvrir une discussion.</p>
+                            {#                            <p><strong>Boost&nbsp;</strong>: fonctionnalité permettant aux Membres d’augmenter la #}
+                            {#                                visibilité de leur profil pendant la durée de l’activation de cette option.</p> #}
+                            <p><b>Messages</b>&nbsp;: seuls les Membres qui ont eu un Crush
+                                {# (ou une FlashNote si éligible) #} peuvent engager l’action<br>
+                                « Discuter » dans le site web, et s’envoyer des Messages. Les Messages sont
+                                visibles dans la messagerie accessible à partir de l’icône en haut à droite sur la
+                                home page.</p>
+                            {#                            <p><b>Packs</b>&nbsp;: achat&nbsp;comptant&nbsp;de fonctionnalités payantes par les #}
+                            {#                                Membres</p> #}
+                            <p><strong>Photos de profil</strong>&nbsp;: photos de profil permettant aisément la
+                                reconnaissance du Membre : à cet égard, le Membre accepte a minima d’éditer en
+                                première position une photo de son visage où il est clairement reconnaissable, ces
+                                deux critères cumulatifs constituant une condition essentielle de l’utilisation des
+                                Services.&nbsp;</p>
+                            <p>Si la photo du visage du Membre n’est pas éditée en première position, celle-ci sera
+                                restaurée de façon automatisée en première position par défaut. Dans l’hypothèse où
+                                le Membre édite plusieurs photos de son visage ce dernier pourra choisir librement
+                                sa photo de présentation.</p>
+                            <p><b>Services</b>&nbsp;: ensemble des services, payants ou non, offerts par SPAMI pour
+                                favoriser la rencontre virtuelle ou réelle entre les Membres qui se sont croisés et
+                                se portent un intérêt mutuel, selon les critères de recherche sélectionnés.</p>
+                            {#                            <p style="text-align: justify;"><strong>Shortlist </strong>: fonctionnalité gratuite #}
+                            {#                                permettant aux Membres d’accéder quotidiennement à une sélection de trois profils #}
+                            {#                                recommandés par Spami. La Shortlist est disponible à compter du 3è jour d’activité #}
+                            {#                                des Membres sur leurs profils.</p> #}
+                            <p><b>SPAMI Premium</b>&nbsp;: ensemble de Services payants proposés par SPAMI sous
+                                forme d’abonnement dont le Membre peut choisir la durée.&nbsp;</p>
+                            <p><b>Membre Premium</b>&nbsp;: membre ayant souscrit un abonnement à SPAMI Premium.</p>
+                            <p><b>Compte</b>&nbsp;: espace personnel dédié au Membre sur le site web, auquel il
+                                accède en s’inscrivant et en se connectant sur le site web. Il permet au Membre
+                                d’accéder aux Services. Un Membre ne peut posséder qu’un seul Compte.</p>
+                            {#                            <p><b>Facebook Connect</b>&nbsp;: fonctionnalité qui permet aux Membres d’utiliser leur #}
+                            {#                                compte Facebook pour s’identifier sur le site web afin de simplifier la procédure #}
+                            {#                                d’inscription.</p> #}
+                            {#                            <p><b>CrushTime</b>&nbsp;: jeu facultatif proposé par SPAMI via une notification au #}
+                            {#                                Membre, consistant pour chaque partie, à deviner parmi une grille de 4 profils #}
+                            {#                                proposés, quelle personne l’a Liké(e) en lui envoyant un Like en retour.</p> #}
+                            {#                            <p style="text-align: justify;"><span #}
+                            {#                                        style="font-size: medium;"><span><b>Appel Vidéo</b> : fonctionnalité proposée aux seuls Membres qui ont eu un Crush, qui leur permet d’appeler et de communiquer avec chacun de leur Crush de façon spontanée, pour une durée limitée dans le temps. Cette fonctionnalité est accessible depuis la page “Messages”, en cliquant sur l’icône en haut à droite pour lancer l’Appel Vidéo. Lors de l’Appel Vidéo, les options dont disposent les Membres sont les suivantes :</span></span> #}
+                            {#                            </p> #}
+                            {#                            <ul> #}
+                            {#                                <li style="text-align: justify;">Décrocher</li> #}
+                            {#                                <li style="text-align: justify;">Couper le son</li> #}
+                            {#                                <li style="text-align: justify;">Couper la vidéo</li> #}
+                            {#                                <li style="text-align: justify;">Retourner la caméra de leur téléphone en mode #}
+                            {#                                    autoportrait #}
+                            {#                                </li> #}
+                            {#                                <li style="text-align: justify;">Raccrocher</li> #}
+                            {#                            </ul> #}
+                            <p>&nbsp;</p>
+                            <h2>Article 1 : Champ d’application&nbsp;</h2>
+                            <p>&nbsp;</p>
+                            <p>Les CGU définissent les droits et obligations des parties dans le cadre de
+                                l’utilisation de le site web. Elles sont le support d’une relation contractuelle
+                                entre le Membre et SPAMI.</p>
+                            <p>&nbsp;</p>
+                            <p><b>1.1 Conflit de normes</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les présentes conditions générales d’utilisation (CGU) définissent les principales
+                                règles d’utilisation de le site web. Elles sont complétées par des politiques
+                                additionnelles&nbsp;
+                                – la <a href="{{ path('app_right_policy') }}">Politique de confidentialité</a>,
+                                la <a title="La Charte d’utilisation des cookies" href="http://www.spami.com/cookies">
+                                    Charte d’utilisation des cookies</a>
+                                et la <a title="La charte de confiance" href="{{ path('app_right_trust_chart') }}">
+                                    Charte de confiance</a>
+                                – afin de guider plus précisément le Membre dans la
+                                manipulation de le site web. Dans l’hypothèse d’un conflit entre les différentes
+                                politiques ayant pour conséquence un manque d’accessibilité, d’intelligibilité et/ou
+                                de prévisibilité des règles, les présentes CGU priment&nbsp;sur la Politique de
+                                confidentialité, la Charte d’utilisation des Cookies et la Charte de confiance.&nbsp;
+                            </p>
+                            <p>&nbsp;</p>
+                            <p><b>1.2 Autonomie des stipulations</b></p>
+                            <p>&nbsp;</p>
+                            <p>Dans l’hypothèse où l’une des stipulations des présentes CGU serait déclarée nulle ou
+                                inapplicable par l’effet d’une loi, d’un règlement ou d’une décision émanant d’une
+                                juridiction compétente, seule cette stipulation sera écartée tandis que les autres
+                                stipulations conserveront leur validité et leur force, sauf à imaginer que les
+                                présentes CGU soient dénaturées ou que cela entraine un déséquilibre significatif
+                                des obligations à la charge des parties.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 2 : Modification des CGU</h2>
+                            <p>&nbsp;</p>
+                            <p><b>2.1 Mise à jour</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI se réserve le droit, à tout moment et de manière unilatérale, de compléter ou
+                                de modifier les présentes CGU de la façon qu’elle juge nécessaire, ou de mettre fin
+                                aux Services.&nbsp;</p>
+                            <p>Le Membre sera informé de la mise à jour des CGU via le site web et/ou par l’envoi
+                                d’un e-mail à l’adresse communiquée par le Membre. Il appartient au Membre de
+                                s’assurer de la validité de cette adresse e-mail.</p>
+                            <p>Il incombe au Membre de lire attentivement les CGU lors de leur mise à jour et de
+                                prendre pleinement connaissance des modifications engendrées par cette dernière.</p>
+                            <p>Le fait que le Membre continue à utiliser les Services de le site web après la mise
+                                à jour des CGU vaut acceptation sans réserve de sa part des modifications apportées
+                                aux CGU.</p>
+                            <p>En cas de désaccord avec les modifications des CGU, le Membre a la faculté de mettre
+                                fin aux Services et de supprimer son Compte conformément à l’article 13.3.</p>
+                            <p>&nbsp;</p>
+                            <p><b>2.2 Application immédiate</b></p>
+                            <p>&nbsp;</p>
+                            <p>Toute nouvelle version des CGU sera immédiatement applicable aux Membres.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 3&nbsp;: Loi applicable et règlement des litiges</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>3.1 Loi applicable</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les présentes CGU sont soumises au droit matériel français, à l’exclusion de toutes
+                                règles de conflits de lois. &nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>3.2 Règlement des litiges</b></p>
+                            <p>&nbsp;</p>
+                            <p>En cas de différend, le Membre s’engage préalablement à toute autre démarche
+                                judiciaire ou extra-judiciaire, à contacter directement SPAMI par écrit (par e-mail
+                                ou par courrier, à l’adresse e-mail ou postale communiquée à l’article 14 des CGU)
+                                afin de tenter de résoudre ce litige amiablement.</p>
+                            <p>En cas d’échec, le Membre est informé qu’il peut choisir d’avoir recours gratuitement
+                                à la médiation et peut présenter ses réclamations éventuelles sur la plateforme de
+                                résolution des litiges mise en ligne par la Commission européenne à l’adresse
+                                suivante :&nbsp;<a href="http://ec.europa.eu/consumers/odr/">http://ec.europa.eu/consumers/odr/</a>.
+                            </p>
+                            <p>Toute contestation ou litige relatif à la formation, l’interprétation, l’exécution ou
+                                la fin des présentes ou en relation avec les présentes CGU qui n’aurait pu être
+                                résolu amiablement sera soumis aux juridictions compétentes de Paris (France).</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 4 : Inscription</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>4.1 Modalités de téléchargement de le site web</b></p>
+                            <p>&nbsp;</p>
+                            <p>le site web est accessible gratuitement à cette adresse&nbsp;:&nbsp;<a
+                                        href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>.</p>
+                            <p>&nbsp;</p>
+                            <p><b>4.2 Droit du Membre à l’inscription</b></p>
+                            <p>&nbsp;</p>
+                            <p>Lorsque les conditions nécessaires au statut de Membre sont remplies, SPAMI attribue
+                                au Membre, à titre personnel, un Compte contenant :</p>
+                            <p>• &nbsp; &nbsp;Une fiche profil</p>
+                            <p>• &nbsp; &nbsp;Une boite de messagerie</p>
+                            <p>• &nbsp; &nbsp;Une option « notifications »</p>
+                            <p>Un Membre ne peut posséder qu’un seul Compte.</p>
+                            <p>&nbsp;</p>
+                            <p><b>4.3 Obligations du Membre à l’inscription</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre doit impérativement être âgé a minima de 18 ans et garantit que toutes les
+                                informations qu’il communique lors de son inscription sont exactes et à
+                                jour.&nbsp;</p>
+                            <p>L’inscription s’effectue via ces moyens alternatifs&nbsp;:</p>
+{#                            <p>- Via Facebook Connect : le réseau social permet à SPAMI d’utiliser la photo de#}
+{#                                profil, le prénom, l’âge déduit de la date de naissance&nbsp;pour lui constituer une#}
+{#                                fiche « profil ». En conséquence, le Membre doit procéder à la vérification de#}
+{#                                l’authenticité de ses informations sur Facebook préalablement à son inscription aux#}
+{#                                Services.</p>#}
+                            <p>- Via une adresse e-mail&nbsp;: dans ce cas, aucune information sur le
+                                Membre ne peut être automatiquement récupérée et il lui appartient de fournir les
+                                informations le concernant, telles que le prénom,&nbsp;le genre, son âge
+                                ainsi que d’autres informations complémentaires s’il le souhaite et doit
+                                fournir une ou plusieurs photo(s) de lui-même lors de son inscription.&nbsp;</p>
+{#                            <p>- Via Apple ou Google sign in : il appartient au Membre de fournir les informations#}
+{#                                le concernant, telles que le prénom, le nom, le genre, la date de naissance ainsi#}
+{#                                que d’autres informations complémentaires s’il le souhaite et doit fournir une ou#}
+{#                                plusieurs photo(s) de lui-même lors de son inscription.</p>#}
+{#                            <p>- Via la Webapp SPAMI via Facebook Connect ou Google Sign in.</p>#}
+                            <p>&nbsp;</p>
+                            <p>Lors de l’inscription, le Membre consent aux présentes CGU et à la Politique de
+                                confidentialité et s’engage à respecter les obligations à sa charge, notamment
+                                celles mentionnées dans le Code de conduite du Membre définies à l’article 8 des
+                                présentes CGU.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 5 : Services et fonctionnalités</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>5.1 Objet des Services</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI est un site de rencontre en ligne permettant au Membre de retrouver au
+                                sein due site web les personnes croisées autour de lui, ainsi que celles qui sont susceptibles de l’intéresser en fonction
+                                de ses préférences de recherche,&nbsp;de son activité de profil ou de ses&nbsp;Caractéristiques.
+                                L’usage du site web est strictement limité à des fins personnelles et de loisirs.</p>
+                            <p>&nbsp;</p>
+                            <p>Chaque Membre est libre de discuter et nouer des relations avec d’autres Membres dans
+                                le respect des présentes CGU et de la loi.</p>
+                            <p>&nbsp;</p>
+                            <p>En aucun cas les Services proposés par SPAMI ne peuvent être assimilés à des
+                                activités de conseil ou de courtage matrimonial. Ils visent uniquement à faciliter
+                                la rencontre par le biais de le site web selon la localisation et les préférences
+                                des Membres, de manière virtuelle ou réelle, entre les Membres qui se portent un
+                                intérêt mutuel.</p>
+                            <p>&nbsp;</p>
+                            <p><b>5.2 Services aux Membres</b></p>
+                            <p>&nbsp;</p>
+                            <p>Certains Services SPAMI sont disponibles depuis le site web à titre gratuit (hors
+                                coûts de connexion et frais de télécommunication) pour le Membre qui s’engage au
+                                respect des présentes CGU, à savoir notamment :</p>
+                            <p>• Envoyer un nombre limité de&nbsp;Likes.</p>
+                            <p>• Envoyer des Messages en cas de Match.</p>
+{#                            <p style="text-align: justify;">• Appeler une seule et unique fois chaque Crush pour une#}
+{#                                durée limitée, via la fonctionnalité Appel Vidéo.</p>#}
+                            <p>• Visualiser les profils d’autres Membres.</p>
+                            <p>• Passer un nombre de profils.</p>
+{#                            <p>• Jouer à CrushTime.</p>#}
+                            <p>• Bloquer de manière confidentielle tous les Membres dont le comportement justifie ce
+                                choix.</p>
+                            <p>• Signaler de manière confidentielle tous les Membres dont le comportement est
+                                contraire aux CGU ou à la loi applicable.&nbsp;</p>
+{#                            <p>• Retrouver les points de croisement des Membres.</p>#}
+                            <p>• Accéder à la liste des Membres croisés pendant toute la période d’utilisation de
+                                le site web.</p>
+{#                            <p>• Accéder à des profils suggérés.</p>#}
+{#                            <p>• Profiter de l’intégration de plateforme de streaming musical.</p>#}
+                            <p>• Configurer ses préférences de recherche.</p>
+                            <p>• Recevoir des notifications.</p>
+                            <p>• Consulter les FAQ et le Tutoriel.</p>
+                            <p>• Connaître son nombre de Match,
+                                sans que ces chiffres ne soient visibles par les autres Membres.</p>
+                            <p>• Compléter son profil, dans le respect des présentes CGU.</p>
+{#                            <p>• Effacer ses Messages et messages vocaux.</p>#}
+                            <p>Les Services payants mis à disposition via le site web sont accessibles aux Membres
+                                après l’achat d’un abonnement à SPAMI Premium, selon les modalités
+                                détaillées à l’article 9.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 6 : Protection des données personnelles</h2>
+                            <h2>&nbsp;</h2>
+                            <p>SPAMI accorde une grande importance à la protection de vos données personnelles et au
+                                respect de votre vie privée. Nous vous invitons à consulter notre Politique de
+                                confidentialité et notre Charte de confiance pour savoir comment nous traitons vos
+                                données personnelles, disponibles en cliquant sur les liens suivants&nbsp;:</p>
+                            <p>• <a href="{{ path('app_right_policy') }}">Politique de confidentialité</a></p>
+                            <p>• <a href="{{ path('app_right_trust_chart') }}">Charte de confiance</a></p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 7&nbsp;: Obligations et responsabilité de SPAMI</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>7.1 Moyens techniques et sécurité</b></p>
+                            <p>&nbsp;</p>
+                            <p>Toutes les mesures sont prises pour minimiser le risque d’accès frauduleux
+                                dans le système de SPAMI. À cet égard, SPAMI se sert notamment de pare-feux et
+                                d’équipements situés entre le réseau Internet et le réseau privé d’une entreprise
+                                pour accroître la sécurité de ce dernier en filtrant le trafic en provenance ou à
+                                destination d’Internet. Néanmoins il est impossible de garantir de manière absolue
+                                la sécurité d’un réseau.&nbsp;</p>
+                            <p>SPAMI n’est pas responsable des pannes, interruptions ou du mauvais fonctionnement
+                                des Services du fournisseur d’accès à internet du Membre, de même que de toute cause
+                                extérieure à SPAMI qui pourrait interrompre ou endommager l’accès aux Services
+                                SPAMI.</p>
+                            <p>Le Membre doit s’assurer de disposer d’une adresse de messagerie sécurisée. En dépit
+                                ou suite à l’omission de ces précautions, et bien que cette probabilité soit faible,
+                                le Compte du Membre est susceptible d’être victime de fraude.&nbsp;</p>
+                            <p>SPAMI attire également l’attention du Membre sur tout risque exceptionnel de
+                                réception de Messages indésirables ou de Messages émanant prétendument de SPAMI. Le
+                                Membre doit être attentif et vigilant afin de ne pas être victime d’escroquerie et
+                                en avertit SPAMI, le cas échéant, en envoyant un courrier ou un e-mail à l’adresse
+                                communiquée à l’article 14 des présentes.</p>
+                            <p>&nbsp;</p>
+                            <p><b>7.2 Comportements illégaux &nbsp;</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI ne pourra en aucun cas être tenus responsables, à quelque
+                                titre que ce soit, d’actions illégales passibles de sanctions civiles ou pénales,
+                                commises par ses Membres, parmi lesquelles et de manière non exhaustive :</p>
+                            <p>• Tous types d’escroquerie&nbsp;</p>
+                            <p>• Toutes activités commerciales ou à caractère professionnel</p>
+                            <p>• La prostitution</p>
+                            <p>• L’usurpation d’identité</p>
+                            <p>• L’atteinte à tous droits de propriété intellectuelle d’un tiers,</p>
+                            <p>• L’atteinte aux droits de la personnalité, tels que le droit à l’image et le droit
+                                au respect de la vie privée.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>7.3 Système de signalement et de modération communautaire</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI, en tant qu’hébergeur, n’est tenue à aucune obligation légale de surveillance
+                                du contenu transmis ou stocké via le site web en vertu de l’article 6.I-7° de la
+                                Loi pour la confiance dans l’économie numérique du 21 juin 2004.</p>
+                            <p>Cependant, l’article 6.I-3° de cette même loi impose à SPAMI, au titre de son statut
+                                d’hébergeur, de prévoir un système de notification afin de signaler les contenus
+                                illicites, abusifs et préjudiciables.</p>
+                            <p>Dans ce cas, après vérification par le Service Client, SPAMI s’engage à retirer
+                                promptement ledit contenu.</p>
+                            <p>Au titre de l’article 6.I-5 de la LCEN&nbsp;: la connaissance d’un contenu litigieux
+                                est présumée acquise lorsque sont notifiés à l’hébergeur&nbsp;:</p>
+                            <p>• La date de la notification</p>
+                            <p>• L’identité de l’émetteur de ce contenu</p>
+                            <p>• La description des faits litigieux {#(avec possibilité de joindre des captures
+                                d’écran des contenus litigieux)#}</p>
+                            <p>• Ainsi que les motifs pour lesquels le contenu doit être retiré.</p>
+                            <p>SPAMI a donc doté le site web d’un système de modération communautaire permettant
+                                aux Membres de signaler les contenus visés à l’article 6.I-7 de la LCEN s’ils
+                                constituent notamment l’apologie des crimes contre l’humanité, une provocation à la
+                                commission d’actes de terrorisme et leur apologie, l’incitation à la haine raciale,
+                                à la haine à l’égard de personnes à raison de leur sexe, de leur orientation ou
+                                identité sexuelle ou de leur handicap ainsi que notamment la pornographie infantile,
+                                l’incitation à la violence, l’incitation aux violences faites aux femmes, ainsi que
+                                les atteintes à la dignité humaine.</p>
+                            <p>&nbsp;</p>
+                            <p>Guidées par une éthique professionnelle particulièrement rigoureuse à cet égard et
+                                refusant d’être associées tant à des Membres violents ou insultants qu’à des propos
+                                ou contenus illicites, abusifs et préjudiciables, les équipes de SPAMI accordent une
+                                importance primordiale à cette procédure de signalement, laquelle peut également
+                                être mise en œuvre en cas de propos contraires à la bienséance.</p>
+                            <p>C’est pourquoi, lorsque le contenu publié par un Membre fait l’objet d’un tel
+                                signalement, y compris dans le cadre de la fonctionnalité Appel Vidéo, le Membre à
+                                l’origine de la publication de ce contenu est susceptible de voir son Compte
+                                suspendu voire résilié, dans les conditions prévues à l’article 13.2 des présentes,
+                                sur la base des éléments de preuve fournis par l’émetteur du signalement et ce, afin
+                                d’assurer le retrait du contenu litigieux conformément aux obligations légales de
+                                SPAMI.</p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre dont les contenus publiés font l’objet d’un signalement ne sera en aucun
+                                cas informé de l’identité du Membre auteur du signalement.</p>
+                            <p>&nbsp;</p>
+                            <p>En dehors du cadre de cette procédure de signalement,&nbsp;les Membres ont la faculté
+                                de bloquer un autre Membre dont le comportement ne correspondrait pas aux règles de
+                                bienséance afin d’empêcher toute communication avec lui (impossibilité mutuelle
+                                d’accéder aux Likes, Spamiz (si éligible),&nbsp;Messages ou d’en envoyer à l’avenir ; ou d’être averti de la présence
+                                du Membre qui l’a bloqué notamment s’ils estiment que ce Membre les dérange d’une
+                                manière ou d’une autre). Cette action est confidentielle et&nbsp;offre aux Membres
+                                une possibilité de contrôle des Membres avec lesquels ils souhaitent maintenir ou
+                                non le contact. Ces systèmes de signalement sont accessibles et opérationnels
+                                :&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>• En haut à droite de la photo de profil du Membre et en haut à droite de la
+                                conversation avec le Membre concerné.</p>
+{#                            <p>• En haut à droite de la photo de profil du Membre et en haut à droite de la#}
+{#                                conversation avec le Membre concerné sur Smartphone Android.</p>#}
+                            <p>En cas de publication de contenu ayant fait l’objet d’une procédure de signalement et
+                                susceptible d’être qualifiée d’infraction au regard des dispositions législatives et
+                                réglementaires en vigueur, le Membre victime de ce contenu est également invité à
+                                saisir les autorités compétentes.</p>
+                            <p>En effet, la procédure de signalement mise en place par SPAMI ne remplace en rien une
+                                éventuelle plainte et procédure judiciaire à l’encontre du Membre à l’origine du
+                                contenu litigieux signalé.&nbsp;</p>
+                            <p>Tout abus du système de signalement (signalement infondé et effectué de mauvaise foi)
+                                sera également considéré comme une violation des présentes CGU et pourra entrainer
+                                la suspension / résiliation du Compte du Membre ayant commis un tel abus,
+                                conformément à l’article 13.2 des CGU, outre le site web de sanctions pénales
+                                conformément à l’article 6.I-4 de la LCEN et des poursuites judiciaires donnant lieu
+                                à l’indemnisation des victimes au titre de dommages et intérêts.</p>
+                            <p>&nbsp;</p>
+                            <p><b>7.4 Règles de prudence</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre est seul responsable de la vérification de l’identité des personnes avec
+                                qui il pourrait organiser une rencontre « réelle ». SPAMI ne saurait en aucun cas
+                                être tenue responsable en cas de survenance d’un incident de quelque nature que ce
+                                soit lors d’une rencontre « réelle ».</p>
+{#                            <p>De même, le Membre est également seul responsable de vérifier l’identité du Crush#}
+{#                                avec lequel il pourrait choisir de communiquer par Appel Vidéo et organiser une#}
+{#                                rencontre « virtuelle ». SPAMI ne saurait en aucun cas être tenue responsable en cas#}
+{#                                de survenance d’un incident de quelque nature que ce soit lors d’une rencontre «#}
+{#                                virtuelle ».</p>#}
+                            <p>&nbsp;</p>
+                            <p><b>7.5 Manifestation collective</b></p>
+                            <p>&nbsp;</p>
+                            <p>Toute utilisation des Services SPAMI dans le but d’organiser une réunion collective
+                                de ses Membres constitue un détournement du Service. C’est pourquoi il est
+                                formellement interdit de planifier ou organiser une manifestation sur la voie
+                                publique au moyen de le site web. Si une telle réunion avait lieu, la
+                                responsabilité de SPAMI ne saurait être recherchée dans le cas d’un trouble à
+                                l’ordre public ou de la survenance d’un quelconque dommage consécutif à de telles
+                                réunions.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 8&nbsp;: Code de conduite du Membre&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>8.1 L’obligation de loyauté et d’honnêteté lors de l’inscription</b></p>
+                            <p>&nbsp;</p>
+                            <p>Afin d’acquérir le statut de Membre, il est nécessaire de réunir toutes les
+                                conditions suivantes :</p>
+                            <p>• Remplir les conditions de majorité telles que prévues par la loi française (avoir
+                                18 ans révolus).</p>
+                            <p>• Avoir rempli les informations de manière sincère et véridique sur le site web SPAMI. Le
+                                Membre doit avoir communiqué le prénom, le sexe et son âge qui lui sont
+                                attribués sur ses actes d’état civil. À défaut, le Membre s’engage à corriger les
+                                erreurs sur son Compte. Le Membre s’engage par la même occasion à fournir
+                                une adresse e-mail valide.</p>
+                            <p>• S’engager à tenir régulièrement à jour les informations communiquées en accédant à
+                                son Compte depuis le site web.</p>
+                            <p>• Avoir pris connaissance des présentes CGU et les accepter en validant son
+                                inscription.</p>
+                            <p>SPAMI n’a ni l’obligation légale ni les moyens techniques de vérifier l’identité et
+                                l’âge des Membres. Cependant en cas de doute, de présence d’éléments suspects ou sur
+                                dénonciation d’un tiers via la fonctionnalité « signalement » laissant présumer une
+                                usurpation d’identité ou la mention d’informations fictives ou erronées, SPAMI
+                                procédera à une enquête dans les plus brefs délais et pourra rectifier, le cas
+                                échéant, les informations communiquées sans dénaturer le profil du Membre.&nbsp;</p>
+                            <p>Pendant toute la durée de l’enquête, SPAMI se réserve le droit de suspendre le Compte
+                                du Membre suspect et son accès à le site web et d’effectuer les vérifications
+                                nécessaires, en particulier en lui demandant la copie d’une pièce d’identité
+                                officielle.&nbsp;</p>
+                            <p>Dans le cas où le Membre ne serait pas en mesure de communiquer ledit justificatif,
+                                ou en cas de violation avérée des présentes CGU, SPAMI pourra résilier le Compte du
+                                Membre mis en cause conformément aux conditions décrites à l’article 13.2 des
+                                présentes.&nbsp;</p>
+                            <p>Le Membre s’engage à ne détenir qu’un seul et unique compte. À défaut, SPAMI pourra
+                                résilier les comptes ultérieurs, dans les conditions décrites à l’article 13.2 des
+                                présentes.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.2 L’obligation d’honnêteté et de loyauté pendant l’utilisation</b></p>
+                            <p>&nbsp;</p>
+                            <p>Afin de demeurer Membre, il convient de respecter toutes les conditions suivantes
+                                :&nbsp;</p>
+                            <p>• Être honnête et sincère dans ses déclarations.</p>
+                            <p>• Ne mettre en ligne que des photos et/ou des informations de profil permettant
+                                aisément la reconnaissance du Membre, et a minima en première position une Photo de
+                                Profil telle que définie ci-avant, c'est à dire&nbsp;où votre visage est clairement
+                                reconnaissable, ceci constituant deux critères fondamentaux à l'utilisation des
+                                Services, et à l’exclusion de photos et/ou informations faisant apparaître des tiers
+                                ou des éléments n’ayant aucun lien avec la personne du Membre, de sorte que SPAMI se
+                                réserve le droit de supprimer à sa discrétion toute photo et/ou profil ne répondant
+                                pas à ces conditions.</p>
+                            <p>• Ne mettre en ligne aucune information confidentielle sur autrui telle que des
+                                données financières.</p>
+                            <p>• Ne pas publier sur le site web des contenus et photos pornographiques ou portant
+                                atteinte à la pudeur et à la dignité humaine.</p>
+                            <p>• Respecter le caractère privé des contenus et des Messages et messages vocaux
+                                échangés avec d’autres Membres au sein de le site web et par conséquent de ne pas
+                                divulguer le contenu de ces Messages à des tiers.&nbsp;</p>
+                            <p>• Ne pas enfreindre les règlementations relatives à la propriété intellectuelle et
+                                aux droits de la personnalité.</p>
+                            <p>• Ne pas troubler l’ordre public.</p>
+                            <p>• Ne pas commettre de délit de diffamation et plus largement à ne pas tenir de propos
+                                injurieux, en particulier à caractère racial ou discriminatoire.</p>
+                            <p>• Respecter les lois et règlements en vigueur.</p>
+                            <p>• Ne pas proférer d’incitation à la violence ou à la haine raciale ou faire
+                                l’apologie du terrorisme, de crimes de guerre ou de crimes contre l’humanité.</p>
+                            <p>• Ne pas enfreindre les règles de bienséance et demeurer correct vis-à-vis des autres
+                                Membres.</p>
+                            <p>• Ne porter atteinte, d’aucune manière que ce soit, au déroulement normal des
+                                Services ainsi qu’aux infrastructures de le site web.</p>
+                            <p>• Ne pas modifier, copier, assembler, décompiler, ou tenter d’utiliser les codes
+                                source, algorithmes et logiciels de le site web, ainsi que ceux des partenaires de
+                                SPAMI à d’autres fins que celles prévues dans les présentes conditions générales, et
+                                notamment à des fins d’ingénierie inverse.</p>
+                            <p style="text-align: justify;">• Ne pas utiliser de robots ou d’outils autres que ceux
+                                mis à disposition par SPAMI au sein de le site web lors de la prise de contact
+                                avec d’autres.</p>
+                            <p>• Ne pas utiliser le site web pour organiser des services professionnels (d’escort
+                                ou services similaires).</p>
+                            <p>• Ne pas démarcher d’autres Membres dans le but de promouvoir des produits ou
+                                services payants.</p>
+                            <p>• Ne pas divulguer à d’autres Membres ses informations de connexion, en particulier
+                                le mot de passe et l’identifiant de son Compte.</p>
+                            <p>• Ne pas faire de publicité ou d’incitation de quelque ordre que ce soit à utiliser
+                                tout autre service, concurrent ou non et à ne pas commettre de faits de concurrence
+                                déloyale.</p>
+                            <p>• Ne pas utiliser le site web dans le but d’organiser des rassemblements ou des
+                                manifestations.</p>
+                            <p>Le Membre s’interdit en outre d’effectuer toute copie et/ou diffusion, et/ou
+                                transfert de données techniques qu’il intercepterait sur le réseau en lien avec
+                                le site web SPAMI.</p>
+{#                            <p style="text-align: justify;">&nbsp;</p>#}
+{#                            <p>Particulièrement dans le cadre de l’utilisation de la fonctionnalité Appel Vidéo, et#}
+{#                                en complément des règles listées ci-dessus, les Membres s’engagent également à#}
+{#                                respecter les conditions d’utilisation suivantes :</p>#}
+{#                            <p>• Ne pas transmettre ni échanger de contenus fixes et/ou animés offensants,#}
+{#                                sexuellement explicites, illégaux, dangereux, violents, harcelants, irrespectueux,#}
+{#                                diffamatoires ou menaçants ;</p>#}
+{#                            <p>• Ne pas utiliser la fonctionnalité Appel Vidéo :</p>#}
+{#                            <p>(i) à des fins de jeux d’argent, de hasard, de loteries, ou de jeux concours ;</p>#}
+{#                            <p>(ii) à des fins de promotion de jeux d’argent, de hasard, de loteries, ou de jeux#}
+{#                                concours ;</p>#}
+{#                            <p>(ii) pour promouvoir, encourager ou faciliter toute activité illégale, ou violant des#}
+{#                                droits de tiers (y compris sans que cela ne soit limitatif, les droits de propriété#}
+{#                                intellectuelle et industrielle, le droit au respect de la vie privée, et les droits#}
+{#                                de la personnalités) ;</p>#}
+{#                            <p>(iv) en tentant de contourner les mesures de sécurité de la fonctionnalité ou en#}
+{#                                tentant d’utiliser la fonctionnalité à d’autres fins que celle à laquelle elle est#}
+{#                                destinée, à savoir, appeler et communiquer de façon spontanée avec son Crush par#}
+{#                                appel vidéo pour une durée limitée.</p>#}
+{#                            <p>• Ne pas utiliser la fonctionnalité autrement que de manière interactive et#}
+{#                                instantanée, en excluant tout enregistrement fixe et/ou animé de l’Appel Vidéo#}
+{#                                depuis quel que support que ce soit.</p>#}
+                            <p>&nbsp;</p>
+                            <p><b>8.3 Utilisation personnelle</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre s’engage à utiliser le site web uniquement à des fins personnelles. Le
+                                réseau SPAMI ne doit être exploité ni à des fins commerciales, ni promotionnelles ni
+                                électorales, ni de recrutement. L’envoi de Messages à but marketing et/ou commercial
+                                et/ou de newsletters via la messagerie de le site web qui incluraient, notamment,
+                                mais de manière non exhaustive, des contenus, indications ou liens hypertextes
+                                renvoyant à des sites ou supports de sociétés tierces, et notamment concurrentes de
+                                SPAMI, est formellement prohibé.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.4 Responsabilité du Membre</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre est seul responsable de ses actions et des données qu’il publie via
+                                le site web.</p>
+                            <p>Si la responsabilité de SPAMI venait à être recherchée dans le cadre du non-respect
+                                par le Membre de ses obligations, le Membre garantit SPAMI contre toute condamnation
+                                prononcée à son encontre, trouvant son origine dans la transgression de la loi ou
+                                des présentes CGU par le Membre.</p>
+                            <p>Le Membre pourra rapporter les contenus illicites, portant atteinte aux lois et
+                                règlementations ou aux présentes CGU au moyen des outils de signalement fournis par
+                                le site web conformément à l’article 7.3 des présentes CGU.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.5 Photos</b></p>
+                            <p>&nbsp;</p>
+                            <p>Toutes les photos à caractère pornographique, exhibitionniste ou portant atteinte à
+                                la pudeur et de manière générale contraires à la morale sont formellement prohibées.
+                                La publication de telles photos constitue une faute grave, pouvant donner lieu à la
+                                suspension et/ou à la résiliation du Compte du Membre, sans préjudice d’autres
+                                sanctions pouvant être judiciairement prononcées.</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.6 Rencontres réelles</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI met en garde les Membres qui désirent effectuer des rencontres « réelles ». Il
+                                appartient entièrement aux Membres de vérifier l’identité des personnes avec qui ils
+                                organisent ces rencontres. Le déroulement de ces rencontres « réelles » est organisé
+                                indépendamment de SPAMI, sous la seule responsabilité des Membres. La responsabilité
+                                de SPAMI ne saurait être recherchée pour les actes et incidents, quelle qu’en soit
+                                la nature, commis ou provoqués par les Membres et/ou anciens Membres lors des
+                                évènements se déroulant suite à l’utilisation de le site web. À cet égard, la
+                                messagerie SPAMI présente volontairement l’avantage, à nouveau dans le but de
+                                préserver la tranquillité et la sécurité de ses Membres, de leur permettre de
+                                décider des personnes qui seront autorisées à voir leur profil et à discuter avec
+                                eux.&nbsp;</p>
+                            <p>Concernant les personnes avec qui le Membre a accepté d’échanger des Messages, il est
+                                fortement recommandé de ne pas dévoiler d’informations personnelles qui
+                                n’apparaissent pas sur le profil de le site web telles que le numéro de téléphone,
+                                l’adresse ou le nom de famille. SPAMI conseille très vivement, par mesure de
+                                sécurité, d’organiser les rencontres réelles uniquement dans des lieux publics
+                                fortement fréquentés ou de prévenir un proche et de ne dévoiler ses coordonnées
+                                qu’après un délai raisonnable.</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.7 Tenue du Compte</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre doit consulter régulièrement sa messagerie et ses notifications par
+                                lesquelles SPAMI le tiendra informé, entre autres, des informations relatives à ses
+                                Services et des modifications et mises à jour éventuellement apportées. Ces
+                                informations pourront également être envoyées par courriel à l’adresse électronique
+                                du Membre obtenue lors de l’inscription sur le site web SPAMI.</p>
+                            <p>Le Membre peut accéder aux Services de son Compte en se connectant au site web au
+                                moyen d’un identifiant unique. Le Membre est seul
+                                responsable de ses informations de connexion et doit veiller à ce qu’aucun tiers ne
+                                puisse y accéder. En particulier, le Membre garantit SPAMI de toute communication ou
+                                utilisation ou déclaration faite par l’intermédiaire de son Compte.</p>
+                            <p>&nbsp;</p>
+                            <p><b>8.8 Équipements</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les équipements (matériels ou logiciels) nécessaires à l’accès aux Services ainsi que
+                                tous les autres frais afférents, y compris les frais de télécommunication sont à la
+                                charge exclusive du Membre. Le Membre est seul responsable du matériel utilisé dans
+                                le cadre du Service.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 9 : Services payants&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>9.1 Achat d’abonnements à SPAMI Premium</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les Spamiz ne peuvent pas être achetés à l’unité.</p>
+{#                            <p>Un Pack de Hellos est offert au Membre lors de l’inscription sur le site web.</p>#}
+                            <p>Chaque Membre peut également souscrire à tout moment un abonnement à SPAMI Premium.</p>
+                            <p>Les Membres Premium ont accès, outre aux services gratuits, à des services
+                                additionnels réservés aux abonnés.&nbsp;</p>
+                            <p>Les offres d’abonnement permettent d’accéder à SPAMI Premium pour une durée
+                                correspondante à celle de votre abonnement.&nbsp;</p>
+{#                            <p>&nbsp;</p>#}
+{#                            <p><strong>9.2 Achat de Packs d'Appel Vidéo</strong></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Pour les membres ayant eu un Crush, le premier Appel Vidéo leur est offert, et ce#}
+{#                                pour une durée limitée dans le temps.</p>#}
+{#                            <p>Une fois ce premier et unique Appel Vidéo gratuit consommé, chaque Membre pourra#}
+{#                                acheter des Appels Vidéos disponibles sous forme de Packs de plusieurs Appels Vidéo#}
+{#                                (crédits à consommer), et selon les conditions tarifaires indiquées dans l’App Store#}
+{#                                de Apple et le Play Store de Google.</p>#}
+{#                            <p>Un appel manqué ne consomme pas l’Appel Vidéo en revanche, un Appel Vidéo est#}
+{#                                consommé à partir du moment où les deux Membres entrent en communication.</p>#}
+{#                            <p>Il est précisé qu’un Appel Vidéo est limité dans le temps : dès que les deux Membres#}
+{#                                entrent en communication, la durée de l’Appel Vidéo est décomptée.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><strong>9.3 Achat de Packs de FlashNotes (si éligible)&nbsp;</strong></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Les FlashNotes ne peuvent pas être achetées à l’unité. Elles&nbsp;sont disponibles#}
+{#                                sous forme de Packs de plusieurs FlashNotes et selon les conditions tarifaires#}
+{#                                indiquées dans l’App Store d’Apple et le Play Store de Google.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><strong>9.4 Achat de Boosts&nbsp;</strong></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Les Boosts sont disponibles à l’achat sous forme de Packs de plusieurs Boosts ou à#}
+{#                                l’unité, selon les conditions tarifaires indiquées dans l’App Store d’Apple et le#}
+{#                                Play Store de Google.</p>#}
+                            <p>&nbsp;</p>
+                            <p><b>9.2</b>&nbsp;<b>Modalités de</b> <b>Paiement</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le paiement est dû dès la conclusion du contrat pour l’intégralité de la période
+                                d’abonnement à SPAMI Premium.</p>
+                            <p>Le paiement est traité et géré par Stripe.</p>
+                            <p><b>SPAMI ne dispose d’aucun contrôle sur le paiement, le changement de devise ou le
+                                    transfert de fonds lui-même, de même que sur les éventuels frais inhérents à ces
+                                    opérations. Par conséquent, Stripe est
+                                    seul responsable des conditions et opérations de paiement.</b></p>
+                            <p><b>SPAMI dispose de faculté de remboursement de votre achat.
+                                    Toute demande relative au paiement doit être adressée à notre adresse de <a href="mailto:abonnement@spami.fr">abonnement@spami.fr</a>.</b></p>
+                            <p>SPAMI ne collecte aucune donnée bancaire. Vos coordonnées bancaires sont collectées
+                                et traitées directement par Stripe et restent hors du contrôle de SPAMI.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>9.3</b>&nbsp;<b>Durée du contrat et renouvellement de l’abonnement à SPAMI
+                                    Premium</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le contrat d’accès à SPAMI Premium a force obligatoire entre les parties à compter de
+                                sa conclusion et pendant toute la période d’abonnement choisie.</p>
+                            <p>Les abonnements sont par défaut renouvelés automatiquement sauf résiliation de la
+                                part du Membre auprès de Stripe qui
+                                disposent d’une fonctionnalité permettant de résilier tout abonnement réalisé auprès
+                                des fournisseurs d’applications, 24 heures avant l’échéance du précédent abonnement.
+                                À réception du paiement réalisé automatiquement auprès de Stripe, SPAMI valide
+                                votre achat et actualise votre compte en vous donnant accès à SPAMI Premium pour une
+                                durée correspondant au montant encaissé.</p>
+{#                            <p>Si vous ne souhaitez pas disposer de l’option «&nbsp;abonnement renouvelable par#}
+{#                                défaut&nbsp;», il vous suffit de&nbsp; désactiver cette option en suivant les#}
+{#                                instructions indiquées sur le lien&nbsp;suivant&nbsp;: <a#}
+{#                                        href="https://www.spami.com/fr/faq/articles/115005694469">https://www.spami.com/fr/faq/articles/115005694469</a>#}
+                            </p>
+                            <p>Si vous souhaitez faire échec à ce renouvellement automatique à
+                                l’issue de la période d’abonnement mise en place par Stripe, annuler votre abonnement via
+                                votre Compte Membre "Gestion de mon abonnement".</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>9.4</b>&nbsp;<b>Droit de rétractation</b></p>
+                            <p>&nbsp;</p>
+                            <p>Tel que précisé à l’article 9.5. des présentes CGU, les paiements sont intégralement
+                                traités et gérés par Stripe, de sorte que
+                                le droit de rétractation si applicable doit être exercé directement auprès de notre service <a href="mailto:abonnement@spami.fr">abonnement@spami.fr</a>.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Par conséquent, lorsqu’un Membre décide d’exercer son droit de rétractation, il doit
+                                le notifier à <a href="mailto:abonnement@spami.fr">abonnement@spami.fr</a>&nbsp;:</p>
+{#                            <p>Pour le Play Store&nbsp;: il vous suffit de suivre les indications figurant dans le#}
+{#                                lien suivant pour accéder aux conditions et modalités d’exercice du droit de#}
+{#                                rétractation auprès de Google Play et au modèle de formulaire de rétractation&nbsp;:&nbsp;</p>#}
+{#                            <p>#}
+{#                                <a href="https://support.google.com/googleplay/answer/7205930?ctx=7659581&amp;visit_id=636923806604702476-265013927&amp;rd=1&amp;co=GENIE.Platform%253DDesktop&amp;oco=1">https://support.google.com/googleplay/answer/7205930?ctx=7659581&amp;visit_id=636923806604702476-265013927&amp;rd=1&amp;co=GENIE.Platform%3DDesktop&amp;oco=1</a>#}
+{#                            </p>#}
+{#                            <p>Pour davantage de précisions, vous pouvez contacter l’assistance du Play Store de#}
+{#                                Google, dont vous trouverez les coordonnées téléphoniques en cliquant sur le lien#}
+{#                                suivant&nbsp;:&nbsp; <a href="https://support.google.com/store/answer/6178715">https://support.google.com/store/answer/6178715</a>#}
+{#                            </p>#}
+{#                            <p>Pour l’App Store&nbsp;: Vous devez notifier l’exercice de votre droit de rétractation#}
+{#                                fourni par Apple Distribution International à l’adresse suivante&nbsp;: Apple#}
+{#                                Distribution International, iTunes Store Customer Support, Hollyhill Industrial#}
+{#                                Estate, Hollyhill, Cork, République d’Irlande. Le modèle de formulaire ainsi que les#}
+{#                                modalités et conditions d’exercice du droit de rétractation auprès de l’App Store#}
+{#                                sont accessibles en cliquant sur le lien suivant&nbsp;:</p>#}
+{#                            <p><a href="https://www.apple.com/legal/internet-services/itunes/fr/terms.html">https://www.apple.com/legal/internet-services/itunes/fr/terms.html</a>#}
+                            </p>
+                            <p>&nbsp;</p>
+                            <p><b>9.5</b>&nbsp;<b>Rupture anticipée du contrat par le Membre ou par SPAMI&nbsp;</b>
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>En cas de violation des CGU ou d’une disposition légale par le Membre, SPAMI est en
+                                droit de résilier le contrat, immédiatement et sans préjudice. SPAMI n’est pas tenue
+                                de justifier de sa décision de résiliation auprès du Membre.</p>
+                            <p>Dans tous les cas, il ne sera procédé à aucun remboursement si le Membre bénéficie de
+                                SPAMI Premium {#ou a acheté des Packs (de Hello, et/ou FlashNotes#} (si éligible)&nbsp;{#et/ou
+                                Appel Vidéo et/ou Boosts)#}.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 10 : Portée de l’offre&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+                            <p><b>10.1 Durée de validité des Spamiz</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les Spamiz&nbsp;achetés et/ou offerts par SPAMI
+                                sont valables pendant toute la durée pendant laquelle le Compte est actif,
+                                conformément aux présentes CGU. En cas de résiliation anticipée du Compte en
+                                application des articles 13.3, 13.2 ou 13.3 des présentes CGU, la suppression du
+                                Compte du Membre entrainera la suppression définitive des Spamiz,&nbsp;inscrits au Compte du Membre au jour de la résiliation ou
+                                de la suppression du Compte, sans indemnisation d’aucune sorte.</p>
+                            <p>Une réinscription ultérieure du Membre ne lui permettra pas de récupérer les Spamiz&nbsp;perdus.</p>
+                            <p>SPAMI peut décider d’offrir des Spamiz&nbsp;aux Membres dans
+                                le cadre de son programme de fidélité ou pour une occasion particulière.&nbsp;</p>
+                            <p>&nbsp;</p>
+{#                            <p><strong>10.2&nbsp;Durée de validité des FlashNotes (si éligible)</strong></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Les FlashNotes achetées ou offertes par SPAMI sont valables pendant toute la durée#}
+{#                                pendant laquelle le Compte est actif, conformément aux présentes CGU. En cas de#}
+{#                                résiliation anticipée du Compte en application des articles 15.3, 15.2 ou 15.3 des#}
+{#                                présentes CGU, la suppression du Compte du Membre entrainera la suppression#}
+{#                                définitive des FlashNotes, inscrites au Compte du Membre au jour de la résiliation#}
+{#                                ou de la suppression du Compte, sans indemnisation d’aucune sorte.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Une réinscription ultérieure du Membre ne lui permettra pas de récupérer les#}
+{#                                FlashNotes&nbsp;perdues.</p>#}
+{#                            <p>SPAMI peut décider d’offrir des&nbsp;FlashNotes aux Membres dans le cadre de son#}
+{#                                programme de fidélité ou pour une occasion particulière.&nbsp;</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><strong>10.3&nbsp;Cumul des offres</strong></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Les Packs de Hellos&nbsp;(ou FlashNotes si éligible),&nbsp;les Packs d’Appels Vidéo&nbsp;et#}
+{#                                les Boosts&nbsp;sont cumulables. Le nombre de&nbsp;Hellos (ou FlashNotes si#}
+{#                                éligible),&nbsp;d’Appels Vidéo&nbsp;et Boosts&nbsp;s’ajoute aux&nbsp;Hellos (ou#}
+{#                                FlashNotes si éligible),&nbsp;Appels Vidéo&nbsp;ou Boosts,&nbsp;préalablement#}
+{#                                inscrits au Compte du Membre.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Les Packs de Hellos (ou FlashNotes si éligible),&nbsp;ou les Packs d’Appels Vidéo#}
+{#                                sont également cumulables avec les abonnements en ce qu’ils permettent de bénéficier#}
+{#                                de plus de&nbsp;Hellos (ou FlashNotes si éligible),&nbsp;ou d’Appels Vidéo que ceux#}
+{#                                dont bénéficient les Membres Premium.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <h2>Article 11 : Communication avec le Membre&nbsp;</h2>#}
+{#                            <h2>&nbsp;</h2>#}
+{#                            <p><b>11.1 Notifications Push</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Le Membre pourra recevoir des notifications Push via le site web afin d’être averti#}
+{#                                d’évènements importants parmi lesquels, et de manière non exhaustive:&nbsp;</p>#}
+{#                            <p>• Un Hello reçu de la part d’un autre Membre</p>#}
+{#                            <p style="text-align: justify;">• Une FlashNote (si éligible) reçue de la part d’un#}
+{#                                autre Membre</p>#}
+{#                            <p>• Un Message ou message vocal reçu de la part d’un autre Membre</p>#}
+{#                            <p>• Un Message de SPAMI relatif au Compte du Membre&nbsp;et/ou aux Services.</p>#}
+{#                            <p>Le Membre pourra, depuis son Compte, régler ses préférences en matière de#}
+{#                                notifications Push.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><b>11.2 Newsletter</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Lorsqu’il s’inscrit sur le site web, le Membre reçoit une newsletter de la part de#}
+{#                                SPAMI. Le Membre peut se désabonner à tout moment en cliquant sur le lien «&nbsp;se#}
+{#                                désinscrire&nbsp;» prévu à cet effet dans la newsletter et/ou en exerçant son droit#}
+{#                                d’opposition par l’envoi d’un e-mail à l’adresse communiquée à l’article 14 des CGU.&nbsp;</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><b>11.3 Messages publicitaires et promotionnels</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>SPAMI est libre d’afficher, dans le cadre de l’exécution du contrat et par#}
+{#                                l’intermédiaire de le site web, des messages publicitaires et/ou promotionnels en#}
+{#                                provenance d’annonceurs et autres partenaires.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <h2>Article 12 : Parrainage&nbsp;</h2>#}
+{#                            <h2>&nbsp;</h2>#}
+{#                            <p><b>12.1 Inviter des amis</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>SPAMI permet à ses Membres d’inviter des amis à rejoindre le site web afin#}
+{#                                d’élargir le réseau et d’augmenter leurs chances de provoquer le destin. En#}
+{#                                contrepartie, le Membre qui parraine un nouvel utilisateur reçoit en cadeau des#}
+{#                                Hellos. Le parrainage par un Membre est limité à un cercle restreint (proches, amis)#}
+{#                                de la connaissance effective et physique du Membre parrainant. En conséquence, le#}
+{#                                recrutement massif de filleuls en dehors de ce cadre est strictement prohibé.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><b>12.2 Avantages</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>SPAMI rappelle que cette fonctionnalité, facultative, offre de simples avantages#}
+{#                                utiles exclusivement dans le cadre de l’utilisation de le site web. SPAMI ne#}
+{#                                promet d’aucune manière aux Membres le droit à une contrepartie se traduisant par#}
+{#                                l’obtention directe de gains financiers.</p>#}
+{#                            <p>&nbsp;</p>#}
+                            <h2>Article 11 : Propriété intellectuelle</h2>
+{#                            <p>&nbsp;</p>#}
+{#                            <p><b>11.1 Prérogatives au titre du droit des marques</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>La marque SPAMI est la propriété exclusive de SPAMI. SPAMI est titulaire de#}
+{#                                l’intégralité des droits y afférents. Le signe SPAMI a fait l’objet de divers dépôts#}
+{#                                et enregistrements auprès d’offices nationaux ou internationaux, notamment d’un#}
+{#                                dépôt auprès de l’Organisation Mondiale de la Propriété Intellectuelle et a été#}
+{#                                enregistrée par l’Institut national de la propriété industrielle sous le numéro#}
+{#                                4109777 ainsi que par l’Office de l’Union européenne pour la propriété#}
+{#                                intellectuelle sous le numéro 012787974.</p>#}
+{#                            <p>Toute reproduction et/ou usage et/ou apposition partielle ou totale et/ou#}
+{#                                modification et/ou suppression de la marque et des droits y afférents tels que, pour#}
+{#                                illustration et de manière non exhaustive, le slogan et le logo proposés par#}
+{#                                le site web, par quelque procédé que ce soit, sous quelque forme que ce soit, sur#}
+{#                                quelque support que ce soit et par quelque média que ce soit, est strictement#}
+{#                                interdite sans l’autorisation préalable expresse et écrite de SPAMI et est passible#}
+{#                                de poursuites judiciaires.&nbsp;</p>#}
+{#                            <p>La marque est notamment protégée par les articles L.711-1 et suivants du Code de la#}
+{#                                propriété intellectuelle actuellement en vigueur en France et ce, pour le monde#}
+{#                                entier.</p>#}
+{#                            <p>&nbsp;</p>#}
+                            <p><b>11.1 Prérogatives au titre du droit d’auteur</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les œuvres originales proposées par SPAMI sont la propriété exclusive de SPAMI. SPAMI
+                                est titulaire de l’intégralité des droits y afférents.</p>
+                            <p>Toute représentation et/ou reproduction et/ou diffusion et/ou exploitation partielle
+                                ou totale des contenus et Services proposés par le site web tels que les
+                                logiciels, les animations, les textes, les photos, les vidéos, le graphisme et plus
+                                largement la structure générale, par quelque procédé que ce soit, sous quelque forme
+                                que ce soit, sur quelque support que ce soit et par quelque média que ce soit, est
+                                strictement interdite sans l’autorisation préalable expresse et écrite de SPAMI et
+                                est passible de poursuites judiciaires.</p>
+                            <p>Ces œuvres originales sont protégées par les articles L.335-3 et suivants du Code de
+                                la propriété intellectuelle actuellement en vigueur en France et ce, pour le monde
+                                entier.</p>
+                            <p>&nbsp;</p>
+                            <p><b>11.2 Licence</b></p>
+                            <p>&nbsp;</p>
+                            <p>Les droits d’utilisation concédés par SPAMI au Membre sont réservés à un usage privé
+                                et personnel. Toute autre utilisation par le Membre est interdite sans
+                                l’autorisation expresse, écrite et préalable de SPAMI.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre concède à SPAMI et ses partenaires une licence gratuite, non exclusive,
+                                pour le monde entier et perpétuelle d’utilisation, reproduction, représentation,
+                                modification, traduction de tout élément siège de propriété intellectuelle et des
+                                droits de la personnalité (incluant son droit à l'image, son droit au nom et à la
+                                voix) (textes, photos, vidéos etc.) qu’il sera amené à fournir à SPAMI via
+                                le site web dans le but non exclusif de soutenir ses efforts de communication
+                                auprès des autres Membres. Cette licence sera exploitée par SPAMI dans la limite du
+                                respect du droit à l’image, des attributs de la personnalité, du droit au respect de
+                                la vie privée, de la protection des données personnelles de l’utilisateur et ce,
+                                sans dénaturer l’authenticité du profil du Membre et en demeurant conforme à son
+                                profil. Cette licence autorise SPAMI à rendre ces éléments compatibles avec ses
+                                performances techniques ou les formats des supports concernés. Ces droits sont
+                                concédés pour le monde entier pour toute la durée d’exécution des présentes CGU
+                                entre le Membre et SPAMI.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre demeure propriétaire du contenu et des données personnelles qu’il
+                                fournit.</p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre garantit SPAMI contre toute action en justice, recours ou condamnation
+                                prononcée à son encontre trouvant son origine dans la violation par le Membre de
+                                tous droits de propriété intellectuelle ou droits de la personnalité de tiers. Le
+                                Membre garantit SPAMI de toutes réclamations ou dommages tels que, de manière non
+                                exhaustive, des demandes d’indemnisation qui pourraient en résulter.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Dans le cadre du service de recommandation de Profils, le Membre concède à Spami les
+                                mêmes droits d’utilisation et garanties tels que décrits dans la licence susvisée,
+                                afin de permettre l’envoi de la sélection indicative des trois profils aux autres
+                                Membres via le site web et via une newsletter éditoriale ou thématique envoyée par
+                                courriel - étant précisé que cette liste de recommandation pourrait différer de
+                                celle que le Membre pourra retrouver effectivement dans son profil sur le site web
+                                spami, car les profils sont affinés continuellement en fonction de leur pertinence
+                                et de leur statut.</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 12 : Contrefaçon, concurrence déloyale&nbsp;et parasitisme</h2>
+                            <h2>&nbsp;</h2>
+                            <p>Il est formellement prohibé de concevoir un produit similaire au site web ou d’en
+                                créer une dérive, et plus largement de se rendre coupable de parasitisme, d’actes
+                                d’imitation, de dénigrement ou tout autre acte constitutif de concurrence déloyale
+                                ou d’actes de contrefaçon. Le cas échéant, SPAMI se réserve le droit d’assigner le
+                                Membre en vue d’obtenir réparation intégrale du préjudice que lui a causé le
+                                Membre.</p>
+                            <p>Le Membre s’expose en outre à de lourdes sanctions juridiques s’il réussit ou tente
+                                d’accorder des licences ou sous-licences, vendre, revendre, transférer, céder,
+                                distribuer ou exploiter commercialement d’une autre manière ou mettre à la
+                                disposition de tiers les Services ou le site web d’une quelconque façon.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 13 : Fin du contrat&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+{#                            <p><b>13.1 Désactivation du Compte par le Membre</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Le Membre peut, à tout moment, désactiver son Compte sans préavis via le site web#}
+{#                                s’il ne souhaite plus y être visible.</p>#}
+{#                            <p>Lors de la désactivation du profil :</p>#}
+{#                            <p>• Le profil du Membre sera rendu invisible aux autres Membres pour le passé et#}
+{#                                l’avenir.</p>#}
+{#                            <p>• Il n’existe aucune incidence sur l’obligation légale de conservation des#}
+{#                                données, elles seront supprimé.</p>#}
+{#                            <p>• En cas de réactivation du Compte dans le délai de 1 an à compter de la clôture du#}
+{#                                Compte, le Membre retrouvera l’intégralité de ses données conservées et le profil#}
+{#                                redeviendra visible.</p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p><b>13.2 Désinstallation de le site web par le Membre</b></p>#}
+{#                            <p>&nbsp;</p>#}
+{#                            <p>Le Membre peut désinstaller le site web de son mobile à tout moment sans préavis.#}
+{#                                Par conséquent, le Membre ne pourra plus avoir accès à le site web à moins de la#}
+{#                                télécharger à nouveau.</p>#}
+{#                            <p>• La désinstallation de le site web ne supprime pas le compte du Membre. Il est#}
+{#                                donc recommandé de supprimer son compte de le site web avant de la#}
+{#                                désinstaller.</p>#}
+{#                            <p>• La désinstallation de l'Application n'emporte aucune incidence sur l’obligation#}
+{#                                légale de conservation des données.</p>#}
+{#                            <p>• En cas de re-téléchargement de l'Application&nbsp;dans le délai de 1 an à compter#}
+{#                                de la désinstallation du Compte, les données conservées seront réaffectées à son#}
+{#                                profil et le profil redeviendra actif.</p>#}
+{#                            <p>&nbsp;</p>#}
+                            <p>&nbsp;</p>
+                            <p><b>13.1 Suppression du Compte par le Membre</b></p>
+                            <p>&nbsp;</p>
+                            <p>Le Membre peut décider de supprimer définitivement son Compte à tout moment et sans
+                                préavis, au moyen de l’une des alternatives suivantes&nbsp;:</p>
+                            <ul>
+                                <li>En le supprimant lui-même depuis le site web en se rendant dans mon compte &gt; Supprimer mon compte.
+                                </li>
+                                <li>En envoyant un e-mail ou un courrier à SPAMI dont l’adresse postale et l’adresse
+                                    électronique apparaissent à l’article 14 des présentes.&nbsp;
+                                </li>
+                            </ul>
+                            <p>Par conséquent le profil du Membre sera définitivement supprimé y inclus toutes les
+                                données,&nbsp;inscrits sur son Compte.</p>
+                            <p>&nbsp;</p>
+                            <p>Par ailleurs, le Membre Premium qui décide de supprimer son Compte peut mettre fin à
+                                son accès à SPAMI Premium en contactant <a href="mailto:abonnement@spami.fr">abonnement@spami.fr</a>.
+                            </p>
+                            <p>lorsque le Membre désire recommencer à utiliser le site web suite à une suppression
+                                de son Compte, il est dans l’obligation de s’inscrire dans les mêmes conditions que
+                                pour une première inscription.</p>
+                            <p>Lors de la suppression du Compte :</p>
+                            <p>• Le profil du Membre sera complètement supprimer ainsi que toutes les données lui étant propre.</p>
+{#                            <p>• Les données du Membre seront conservées pendant le délai de 1 an à compter de cette#}
+{#                                date au regard notamment des obligations légales qui pèsent sur SPAMI selon les#}
+{#                                modalités développées à l’article 9 de la Politique de confidentialité, puis#}
+{#                                supprimées définitivement à l’issue de ce délai.</p>#}
+{#                            <p>• Les Hellos, Appels Vidéo, Boosts ou FlashNotes (si éligible) inscrits sur le Compte#}
+{#                                du Membre au jour de la suppression de son compte seront définitivement perdus, sans#}
+{#                                possibilité de remboursement.</p>#}
+                            <p>Le Membre ne pourra pas réactiver son ancien Compte.&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><b>13.2 Suspension / Résiliation du Compte par SPAMI en cas de manquement d’un Membre
+                                    aux CGU</b></p>
+                            <p>&nbsp;</p>
+                            <p>En cas de manquement d’un Membre aux CGU, son Compte peut à tout moment être suspendu
+                                à titre conservatoire puis résilié de plein droit par SPAMI.</p>
+                            <p>SPAMI pourra suspendre le Compte du Membre pendant la durée nécessaire aux
+                                vérifications menées par le service client de SPAMI à la suite d’un signalement
+                                conformément à l’article 7.3 des présentes ou en cas de manquement présumé aux CGU
+                                susceptible d’être réparé.</p>
+                            <p>Le Membre est invité à prendre contact avec le service client de SPAMI par e-mail afin
+                                d’obtenir de plus amples informations sur les motifs de la suspension de son compte,
+                                faire valoir ses observations éventuelles et/ou apporter la preuve que le manquement
+                                a été réparé.</p>
+                            <p>&nbsp;</p>
+                            <p>Si dans les 30 jours de la notification de suspension du Compte, le Membre n’a pas
+                                contacté le service client de SPAMI ou si les éléments fournis par le Membre au
+                                service client n’ont pas permis de réparer le manquement, SPAMI pourra notifier au
+                                Membre la résiliation de son Compte via le site web et/ou par e-mail et informer
+                                le Membre de la durée pendant laquelle il ne pourra se réinscrire à le site web. À
+                                défaut de précision, cette durée est fixée à 1&nbsp;an&nbsp;à compter de la
+                                notification de la résiliation du Compte.</p>
+                            <p>Lors de la résiliation du Compte :</p>
+                            <p>• Le profil du Membre sera complètement supprimer ainsi que toutes les données lui étant propre.</p>
+                            <p>• Les Spamiz (si éligible),&nbsp;inscrits sur le
+                                Compte du Membre au jour de la résiliation seront définitivement supprimés, sans
+                                possibilité de remboursement.</p>
+                            <p>Le Membre ne pourra pas rouvrir de Compte pendant une durée maximale de 1&nbsp;an&nbsp;à
+                                compter de la notification de la résiliation du Compte.</p>
+                            <p>&nbsp;</p>
+                            <p><b>13.3 Résiliation des Comptes inactifs par SPAMI</b></p>
+                            <p>&nbsp;</p>
+                            <p>SPAMI procède à la suppression des Comptes inactifs, tels que définis ci-après.</p>
+                            <p>Un Compte est considéré comme inactif si, pendant une période continue de 1 an, les
+                                deux critères cumulatifs suivants sont réunis :</p>
+                            <p>• le site web du Membre n’a pas établi de contact avec les serveurs de SPAMI
+                                (notamment du fait de la désactivation de l’option de géolocalisation)&nbsp;et ;</p>
+                            <p>• Le Membre n’a pas utilisé le site web. En tout état de cause, le Compte d’un
+                                Membre Premium n’est pas considéré comme inactif.</p>
+                            <p>Le Membre sera informé par e-mail, à l’adresse qu’il a renseignée dans le site web,
+                                de la suppression de son Compte moyennant un préavis de 8 jours.</p>
+                            <p>Le Membre peut, à tout moment pendant la durée du préavis, réactiver son Compte, ce
+                                qui aura pour effet de suspendre la procédure de résiliation. La totalité du contenu
+                                du profil sera alors conservée par le Membre.</p>
+                            <p>À l’issue de ce préavis, et à défaut de manifestation de la part du Membre, le compte
+                                sera automatiquement supprimé par SPAMI.</p>
+                            <p>Lors de la suppression du Compte&nbsp;:</p>
+                            <p>• Le profil du Membre sera complètement supprimer ainsi que toutes les données lui étant propre.</p>
+                            <p>• Les données du Membre seront conservées pendant 1 an à compter de cette date au
+                                regard notamment des obligations légales qui pèsent sur SPAMI selon les modalités
+                                développées à l’article 9 de la Politique de confidentialité, puis supprimées
+                                définitivement à l’issue de ce délai.</p>
+                            <p>• Les Spamiz (si éligible)&nbsp;inscrits sur le
+                                Compte du Membre au jour de la résiliation seront définitivement supprimés, sans
+                                possibilité de remboursement.</p>
+                            <p>Le Membre ne pourra pas réactiver ni solliciter la réactivation de son ancien
+                                Compte.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 14 : Contact&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+                            <p>SPAMI peut être contacté par courrier au 8 rue du Sentier, 75002, Paris.&nbsp;</p>
+                            <p>Le Membre peut aussi contacter SPAMI par courrier électronique à l’adresse suivante :<br>
+                                <a href="mailto:support@spami.fr">support@spami.fr</a></p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <h2>Article 15 : Clause de confidentialité&nbsp;</h2>
+                            <h2>&nbsp;</h2>
+                            <p>Ni SPAMI ni le Membre ne sont autorisés à divulguer des informations sur le contrat
+                                les liant en cas de litige et chacune des parties s’engage à respecter une clause de
+                                confidentialité qui l’oblige à préférer une négociation confidentielle en cas de
+                                différend.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

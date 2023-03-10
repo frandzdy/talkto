@@ -1,0 +1,64 @@
+<div class="mb-5">
+    <small class="form-text text-muted">
+        Dites-nous vos préférences de recherche et on s'occupe du reste 🚀.
+    </small>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.interestGenre) }}
+                {{ form_label(form.interestGenre) }}
+                {{ form_errors(form.interestGenre) }}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.interestAge) }}
+                {{ form_label(form.interestAge) }}
+                <span class="text-center" data-profil-target="restAge"></span> Age(s)
+                {{ form_errors(form.interestAge) }}<br>
+                <small class="form-text text-muted">
+                    Vous pourrez aussi le cachez si vous le désirez.
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-outline mb-4 form-floating">
+                {{ form_widget(form.interestDistance) }}
+                {{ form_label(form.interestDistance) }}
+                <span class="text-center" data-profil-target="restDistance"></span> Km(s)
+                {{ form_errors(form.interestDistance) }}<br>
+                <small class="form-text text-muted">
+                    Vous pourrez aussi le cachez si vous le désirez.
+                </small>
+            </div>
+        </div>
+        {% if user.stripeStatus is same as("active") %}
+            <div class="col-md">
+                <div class="form-outline mb-4 form-floating">
+                    {{ form_widget(form.interestSmoker) }}
+                    {{ form_label(form.interestSmoker) }}
+                    {{ form_errors(form.interestSmoker) }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if user.stripeStatus is same as("active") %}
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-outline mb-4 form-floating">
+                    {{ form_widget(form.interestChildren) }}
+                    {{ form_label(form.interestChildren) }}
+                    {{ form_errors(form.interestChildren) }}
+                    <small class="form-text text-muted">
+                        C'est tout que l'on vous souhaite 👨‍👨‍👦‍👦.
+                    </small>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="form-outline mb-4" style="text-align: center">
+        <button class="btn btn-blue" formnovalidate>{{ app.user ? 'Modifier' : 'Créer' }}</button>
+    </div>
+</div>

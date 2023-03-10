@@ -1,0 +1,63 @@
+{% block subject %}SPAMI – Bienvenue sur SPAMI{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Bienvenue sur SPAMI{% endblock %}
+        {% block accroche %}Bienvenue sur SPAMI{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>
+                        <h1>Bonjour,</h1>
+                    </p>
+                    <p>
+                        {{ user.lastname ~ ' ' ~ user.firstname }}
+                    </p>
+                    <p>
+                        Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Spami.
+                    </p>
+                    <p>
+                        Vous trouverez un lien de connexion ci-dessous afin de vous connecter.
+                    </p>
+                    <p>
+                        Dans votre espace, vous pourrez configurer votre compte, y ajoute un abonnement ouvrant droit à des novelles
+                        fonctionnalités de recherche et de futur nouvelle options qui viendront enrichir votre expérience.
+                        Vous pouvez souscrire à un abonnement, le modifier ou le résilier quand vous le souhaitez.
+                    </p>
+                    <p class="text-center">Vous avez {{ expiresAt|date('i') }} minutes avant son expiration.</p>
+                    <p class="text-center"><a title="Lien de connexion" href="{{ link }}">Votre lien magique de connexion</a></p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe SPAMI<br/>
+                        <a title="Site Spami" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.lastname ~ ' ' ~ user.firstname }}\n
+    \n
+    Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur notre Spami.\n
+    \n
+    Vous trouverez un lien de connexion ci-dessous afin de vous connecter.\n
+    \n
+    Dans votre espace, vous pourrez configurer votre compte, y ajoute un abonnement ouvrant droit à des novelles
+    fonctionnalités de recherche et de futur nouvelle options qui viendront enrichir votre expérience.\n
+    Vous pouvez souscrire à un abonnement, le modifier ou le résiler quand vous le souhaitez.\n
+    \n
+    Vous avez {{ expiresAt|date('i') }} minutes avant son expiration.\n
+    \n
+    Votre lien magique de connexion : {{ link }}\n
+    \n
+    Cordialement,\n
+    L'équipe SPAMI\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

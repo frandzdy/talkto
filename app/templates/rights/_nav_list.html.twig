@@ -1,0 +1,32 @@
+<ul class="list-group list-group-flush text-muted">
+    <li class="list-group-item {{ app.request.get('_route') == "app_right_cgu" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "app_right_cgu" ? 'text-white' : '' }}"
+           href="{{ path('app_right_cgu') }}">
+            Conditions générales d'utilisation
+        </a>
+    </li>
+    <li class="list-group-item {{ app.request.get('_route') == "app_right_policy" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "app_right_policy" ? 'text-white' : '' }}"
+           href="{{ path('app_right_policy') }}">
+            Politique des confidentialité
+        </a>
+    </li>
+    <li class="list-group-item {{ app.request.get('_route') == "app_right_legal_mention" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "app_right_legal_mention" ? 'text-white' : '' }}"
+           href="{{ path('app_right_legal_mention') }}">
+            Mentions légales
+        </a>
+    </li>
+    <li class="list-group-item {{ app.request.get('_route') == "app_right_trust_chart" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "app_right_trust_chart" ? 'text-white' : '' }}"
+           href="{{ path('app_right_trust_chart') }}">
+            Charte de confiance
+        </a>
+    </li>
+    <li class="list-group-item {{ app.request.get('_route') == "app_right_cookies" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "app_right_cookies" ? 'text-white' : '' }}"
+           href="{{ path('app_right_cookies') }}">
+            Gestion des cookies
+        </a>
+    </li>
+</ul>

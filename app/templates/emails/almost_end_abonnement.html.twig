@@ -1,0 +1,63 @@
+{% block subject %}SPAMI – Votre abonnement arrive bientôt à sa fin{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Votre abonnement arrive bientôt à sa fin{% endblock %}
+        {% block accroche %}Votre abonnement arrive bientôt à sa fin{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>
+                        <h1>Bonjour,</h1>
+                    </p>
+                    <p>
+                        {{ user.lastname ~ ' ' ~ user.firstname }}
+                    </p>
+                    <p>
+                        Nous souhaitons vous prévenir que l'abonnement suivant touche à sa fin :<br>
+                        {% if user.stripePlan == "Spami" %}
+                        {{ include('emails/_abonnement_spami.html.twig') }}
+                        {% elseif user.stripePlan == "Spammeur" %}
+                        {{ include('emails/_abonnement_spammeur.html.twig') }}
+                        {% elseif user.stripePlan == "Spamlover" %}
+                        {{ include('emails/_abonnement_spam_lover.html.twig') }}
+                        {% endid %}
+                    </p>
+                    <p>
+                        Pour rappel, vous pouvez gérer votre abonnement directement depuis le site SPAMI.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe SPAMI<br/>
+                        <a title="Site Spami" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.lastname ~ ' ' ~ user.firstname }}\n
+    \n
+    Nous souhaitons vous prévenir que votre abonnement suivant touche à sa fin :\n
+    \n
+    {% if user.stripePlan == "Spami" %}
+        {{ include('emails/_abonnement_spami.txt.twig') }}
+    {% elseif user.stripePlan == "Spammeur" %}
+        {{ include('emails/_abonnement_spammeur.txt.twig') }}
+    {% elseif user.stripePlan == "Spamlover" %}
+        {{ include('emails/_abonnement_spam_lover.txt.twig') }}
+    {% endid %}
+    \n
+    Pour rappel, vous pouvez gérer votre abonnement directement depuis le site SPAMI.\n
+    \n
+    Cordialement,\n
+    L'équipe SPAMI\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

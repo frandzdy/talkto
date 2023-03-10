@@ -1,0 +1,12 @@
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        {% for label, url in breadcrumbItems|default({}) %}
+            {% if url %}
+                <li class="breadcrumb-item"><a href="{{ url }}" title="{{ label }}">{{ label }}</a></li>
+            {% else %}
+                <li class="breadcrumb-item">{{ label }}</li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>

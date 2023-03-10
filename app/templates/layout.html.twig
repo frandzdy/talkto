@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div data-commun-target="container">
+        {% include 'partials/_nav.html.twig' %}
+        {% block content %}{% endblock %}
+        {% include 'partials/_modal.html.twig' %}
+        {% include 'partials/_footer.html.twig' %}
+    </div>
+{% endblock %}

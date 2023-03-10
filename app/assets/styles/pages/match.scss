@@ -1,0 +1,501 @@
+.match-show {
+    .open-front-modal {
+        text-decoration: none;
+    }
+    #dropdownMenuLink {
+        color: $main-blue;
+        font-size: 24px;
+        &:hover {
+            color: $main-blue-hover
+        }
+    }
+    .three-dots-vertical {
+        position: relative;
+        right: 16px;
+        z-index: 1000;
+        cursor: pointer;
+        &:hover {
+            color: $main-blue-hover
+        }
+    }
+
+    .x-octagon {
+        position: absolute;
+        top: 64%;
+        left: 14px;
+        z-index: 1000;
+        cursor: pointer;
+        :hover {
+
+        }
+    }
+
+    .heart {
+        position: relative;
+        top: -22px;
+        right: 22px;
+        z-index: 1000;
+        cursor: pointer;
+        :hover {
+
+        }
+    }
+
+    .heartbox {
+        position: absolute;
+        top: 45%;
+        right: -5%;
+    }
+
+    svg {
+        cursor: pointer;
+        overflow: visible;
+        width: 60px;
+        margin: 20px
+    }
+
+    svg #heart {
+        transform-origin: center;
+        animation: animateHeartOut .3s linear forwards
+    }
+
+    svg #main-circ {
+        transform-origin: 29.5px 29.5px
+    }
+
+    .checkbox {
+        display: none
+    }
+
+    .checkbox:checked+label svg #heart {
+        transform: scale(0.2);
+        fill: #E2264D;
+        animation: animateHeart .3s linear forwards .25s
+    }
+
+    .checkbox:checked+label svg #main-circ {
+        transition: all 2s;
+        animation: animateCircle .3s linear forwards;
+        opacity: 1
+    }
+
+    .checkbox:checked+label svg #heartgroup1 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup1 #heart1 {
+        transform: scale(0) translate(0, -30px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup1 #heart2 {
+        transform: scale(0) translate(10px, -50px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup2 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup2 #heart1 {
+        transform: scale(0) translate(30px, -15px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup2 #heart2 {
+        transform: scale(0) translate(60px, -15px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup3 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup3 #heart1 {
+        transform: scale(0) translate(30px, 0px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup3 #heart2 {
+        transform: scale(0) translate(60px, 10px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup4 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup4 #heart1 {
+        transform: scale(0) translate(30px, 15px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup4 #heart2 {
+        transform: scale(0) translate(40px, 50px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup5 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup5 #heart1 {
+        transform: scale(0) translate(-10px, 20px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup5 #heart2 {
+        transform: scale(0) translate(-60px, 30px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup6 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup6 #heart1 {
+        transform: scale(0) translate(-30px, 0px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup6 #heart2 {
+        transform: scale(0) translate(-60px, -5px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup7 {
+        opacity: 1;
+        transition: .1s all .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup7 #heart1 {
+        transform: scale(0) translate(-30px, -15px);
+        transform-origin: 0 0 0;
+        transition: .5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup7 #heart2 {
+        transform: scale(0) translate(-55px, -30px);
+        transform-origin: 0 0 0;
+        transition: 1.5s transform .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup2 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup3 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup4 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup5 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup6 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    .checkbox:checked+label svg #heartgroup7 {
+        opacity: 1;
+        transition: .1s opacity .3s
+    }
+
+    @keyframes animateCircle {
+        40% {
+            transform: scale(10);
+            opacity: 1;
+            fill: #DD4688
+        }
+
+        55% {
+            transform: scale(11);
+            opacity: 1;
+            fill: #D46ABF
+        }
+
+        65% {
+            transform: scale(12);
+            opacity: 1;
+            fill: #CC8EF5
+        }
+
+        75% {
+            transform: scale(13);
+            opacity: 1;
+            fill: transparent;
+            stroke: #CC8EF5;
+            stroke-width: .5
+        }
+
+        85% {
+            transform: scale(17);
+            opacity: 1;
+            fill: transparent;
+            stroke: #CC8EF5;
+            stroke-width: .2
+        }
+
+        95% {
+            transform: scale(18);
+            opacity: 1;
+            fill: transparent;
+            stroke: #CC8EF5;
+            stroke-width: .1
+        }
+
+        100% {
+            transform: scale(19);
+            opacity: 1;
+            fill: transparent;
+            stroke: #CC8EF5;
+            stroke-width: 0
+        }
+    }
+
+    @keyframes animateHeart {
+        0% {
+            transform: scale(0.2)
+        }
+
+        40% {
+            transform: scale(1.2)
+        }
+
+        100% {
+            transform: scale(1)
+        }
+    }
+
+    @keyframes animateHeartOut {
+        0% {
+            transform: scale(1.4)
+        }
+
+        100% {
+            transform: scale(1)
+        }
+    }
+
+    .card .card-image img {
+        width: 100%;
+        //max-height: 340px;
+        object-fit: cover
+    }
+
+    .card .card-content {
+        position: absolute;
+        bottom: 0px;
+        color: black;
+        min-height: 140px;
+        width: 100%;
+    }
+
+    .card:hover .card-content {
+        /*bottom: 0px*/
+    }
+
+    .card:hover .card-content h4,
+    .card:hover .card-content h5 {
+        /*transform: translateY(10px);*/
+        /*opacity: 1*/
+    }
+
+    .card .card-content h4,
+    .card .card-content h5 {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        text-align: center;
+        /*transition: 0.8s;*/
+        font-weight: 500;
+        opacity: 1;
+        /*transform: translateY(-40px);*/
+        /*transition-delay: 0.2s*/
+    }
+
+    .card .card-content h5 {
+        /*transition: 0.5s;*/
+        font-weight: 200;
+        font-size: 0.8rem;
+        letter-spacing: 2px
+    }
+
+    .card .card-content .social-icons {
+        list-style: none;
+        padding: 0
+    }
+
+    .card .card-content .social-icons li {
+        margin: 10px;
+        /*transition: 0.5s;*/
+        /*transition-delay: calc(0.15s * var(--i));*/
+        /*transform: translateY(50px)*/
+    }
+
+    .card:hover .card-content .social-icons li {
+        /*transform: translateY(20px)*/
+    }
+
+    .card .card-content .social-icons li a {
+        color: $main-blue
+    }
+
+    .card .card-content .social-icons li a span {
+        font-size: 1.3rem
+    }
+}
+
+.match-list {
+
+    .profile-button {
+        background: $main-blue;
+        box-shadow: none;
+        border: none;
+    }
+
+    .profile-button:hover {
+        background: $main-blue;
+    }
+
+    .profile-button:focus {
+        background: $main-blue;
+        box-shadow: none;
+    }
+
+    .profile-button:active {
+        background: $main-blue;
+        box-shadow: none;
+    }
+
+    .back:hover {
+        color: $main-blue;
+        cursor: pointer;
+    }
+
+    .labels {
+        font-size: 11px;
+    }
+
+    .border-right {
+        border-right: 1px solid lightgray;
+    }
+
+    .card {
+        position: relative;
+        padding: 0;
+        margin: 0 !important;
+        border-radius: 5px;
+        overflow: hidden;
+        max-width: 448px;
+        //max-height: 522px;
+        /*cursor: pointer;*/
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2)
+    }
+
+    //.card .card-image {
+    //  width: 100%;
+    //  max-height: 340px
+    //}
+
+    .card .card-image img {
+        width: 100%;
+        //max-height: 340px;
+        object-fit: cover
+    }
+
+    .card .card-content {
+        position: absolute;
+        bottom: 0px;
+        color: black;
+        background: rgba(255, 255, 255, 0.2);
+        /*backdrop-filter: blur(15px);*/
+        min-height: 140px;
+        width: 100%;
+        /*transition: bottom .4s ease-in;*/
+        box-shadow: 0 -10px 10px rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2)
+    }
+
+    .card:hover .card-content {
+        /*bottom: 0px*/
+    }
+
+    .card:hover .card-content h4,
+    .card:hover .card-content h5 {
+        /*transform: translateY(10px);*/
+        /*opacity: 1*/
+    }
+
+    .card .card-content h4,
+    .card .card-content h5 {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        text-align: center;
+        /*transition: 0.8s;*/
+        font-weight: 500;
+        opacity: 1;
+        /*transform: translateY(-40px);*/
+        /*transition-delay: 0.2s*/
+    }
+
+    .card .card-content h5 {
+        /*transition: 0.5s;*/
+        font-weight: 200;
+        font-size: 0.8rem;
+        letter-spacing: 2px
+    }
+
+    .card .card-content .social-icons {
+        list-style: none;
+        padding: 0
+    }
+
+    .card .card-content .social-icons li {
+        margin: 10px;
+        /*transition: 0.5s;*/
+        /*transition-delay: calc(0.15s * var(--i));*/
+        /*transform: translateY(50px)*/
+    }
+
+    .card:hover .card-content .social-icons li {
+        /*transform: translateY(20px)*/
+    }
+
+    .card .card-content .social-icons li a {
+        color: $main-blue
+    }
+
+    .card .card-content .social-icons li a span {
+        font-size: 1.3rem
+    }
+}

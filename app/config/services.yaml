@@ -1,0 +1,59 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    google_ua: '%env(GOOGLE_UA)%'
+    google_gtm: '%env(GOOGLE_GTM)%'
+
+    google_recaptcha_pkey: '%env(resolve:GG_RECAPTCHA_PKEY)%'
+    google_recaptcha_skey: '%env(resolve:GG_RECAPTCHA_SKEY)%'
+
+    stripe_config:
+        public_key: '%env(STRIPE_PUBLIC_KEY)%'
+        secret_key: '%env(STRIPE_SECRET_KEY)%'
+        wh_secret_key: '%env(STRIPE_WEBHOOK_SECRET_KEY)%'
+        prices:
+            price_abo1: '%env(STRIPE_PRICE_1)%'
+            price_abo2: '%env(STRIPE_PRICE_2)%'
+            price_abo3: '%env(STRIPE_PRICE_3)%'
+
+    base_path_twig: '/uploads/profile_picture/'
+    api_gouv_config:
+        url: 'https://api-adresse.data.gouv.fr/search/?'
+    file_uploader_config:
+        base_path: "%kernel.project_dir%/public/uploads/"
+        base_path_liip: "%kernel.project_dir%/public/media/cache/"
+        base_path_twig: '/uploads/profile_picture/'
+        directories:
+            profile_picture: "profile_picture/"
+            medias: "medias/"
+            ck_editor: "ck_editor/"
+            homepage: "homepage/"
+            testimonial: "testimonial/"
+            default: "default/"
+    email_contact: "%env(EMAIL_CONTACT)%"
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $fileUploadParameters: "%file_uploader_config%"
+            $stripeParameters: "%stripe_config%"
+            $googleRecaptchaSkey: "%google_recaptcha_skey%"
+            $emailContact: "%email_contact%"
+            $apiGouvConfig: "%api_gouv_config%"
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

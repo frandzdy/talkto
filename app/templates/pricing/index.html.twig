@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Spami Prémium - Inscriptions et compte gratuit - chattez, partagez et rencontrez des passionnés comme vous | {{ parent() }}{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Nos différents offres d'abonnements, souscriptions gratuite, chattez, partagez et rencontrez des passionnés comme vous!">
+{% endblock %}
+
+{% block content %}
+    {% include 'partials/_pricing.html.twig' %}
+    {% include 'partials/_quote_pricing.html.twig' %}
+{% endblock %}

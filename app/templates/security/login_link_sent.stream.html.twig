@@ -1,0 +1,14 @@
+<turbo-stream action="replace" target="formLogin">
+    <template>
+        <div class="p-4 p-md-5 border rounded-3 bg-white col-md-10 mx-auto col-lg-5 text-center" id="formLogin">
+            <div class="alert alert-success text-center" role="alert" data-alert-target="alertSuccess">
+                Un lien de connexion vous a été envoyé.
+            </div>
+            <div>
+                <a class="btn btn-blue" href="{{ path('login') }}" title="Se connecter avec un autre compte">Se connecter avec un autre compte</a><br>
+                Ou<br>
+                <a class="btn btn-blue" href="{{ path('home') }}" title="Retourner à la page d'accueil">Retourner à la page d'accueil</a>
+            </div>
+        </div>
+    </template>
+</turbo-stream>

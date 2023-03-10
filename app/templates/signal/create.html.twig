@@ -1,0 +1,23 @@
+{{ form_start(form, {attr:{'autocomplete':'off'}}) }}
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.nom) }}
+    {{ form_label(form.nom) }}
+    {{ form_errors(form.nom) }}
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.prenom) }}
+    {{ form_label(form.prenom) }}
+    {{ form_errors(form.prenom) }}
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.email) }}
+    {{ form_label(form.email) }}
+    {{ form_errors(form.email) }}
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.description) }}
+    {{ form_label(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+<button class="w-100 btn btn-blue btn-lg btn-primary" type="submit" formnovalidate>Envoyer</button>
+{{ form_end(form) }}

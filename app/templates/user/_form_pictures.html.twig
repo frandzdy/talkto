@@ -1,0 +1,58 @@
+{# Si la route est "annonces_edit on affiche les images #}
+<div class="form-outline mb-4" id="file">
+</div>
+<div class="form-outline mb-4">
+    {{ form_widget(form.pictures, {'attr': {'data-commun-target':'profileFile', 'data-action':'commun#previewProfileFile'}}) }}
+    {{ form_label(form.pictures) }}
+    {{ form_errors(form.pictures) }}
+    <small class="form-text text-muted">
+        Vous pouvez ajouter une ou plusieurs photo(s).
+    </small>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5">
+    {% for picture in user.pictures %}
+        <div class="col">
+            <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top img-thumbnail"
+                     src="{{ asset('/uploads/profile_picture/' ~ picture.name)|imagine_filter('profil_collection') }}"
+                     alt="{{ picture.name }}" style="width: 100%">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a type="button"
+                               class="btn btn-sm {{ app.user.principalPicture == picture.name ? "btn-outline-success" : "post-confirm btn-outline-secondary" }}"
+                               {% if app.user.principalPicture != picture.name %}
+                                   href="{{ path('user_add_picture_to_principal', {'token': picture.token}) }}"
+                                   data-type="blue"
+                                   data-btn-class="btn-blue"
+                                   data-button-text="Définir"
+                                   data-title="Définir comme photo de profil"
+                                   title="Définir en tant que photo de profil"
+                                   data-confirm-message="Souhaitez-vous ajouter cette photo comme photo de profil ?"
+                               {% endif %}
+                               id="link-delete-user"
+                            >
+                                <i class="bi bi-person-bounding-box"></i>
+                            </a>
+                            <a type="button" class="btn post-confirm btn-sm btn-outline-danger"
+                               href="{{ path('user_remove_picture', {'token': picture.token}) }}"
+                               data-button-text="Supprimer"
+                               data-title="Supprimer"
+                               title="Supprimer"
+                               data-confirm-message="Souhaitez-vous supprimer cette photo ?"
+                               id="link-delete-user"
+                            >
+                                <i class="bi bi-x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="mb-5">
+    <div class="form-outline mb-4" style="text-align: center">
+        <button class="btn btn-blue" formnovalidate>{{ app.user ? 'Modifier' : 'Créer' }}</button>
+    </div>
+</div>

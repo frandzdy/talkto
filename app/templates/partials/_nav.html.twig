@@ -1,0 +1,92 @@
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+    <div class="container px-5">
+        <a class="navbar-brand fw-bold" href="{{ path('home') }}" title="InTerest">
+            <img src="{{ asset('build/images/img/logo.png') }}" alt="Logo SPAMI">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                {% if app.user %}
+                    <li class="nav-item" id="match">
+                        <a class="nav-link fs-2" href="{{ path('app_match_list') }}" title="Match">
+                            <i class="bi bi-yin-yang"
+                               style="{{ app.request.get('_route') == "app_match_list" ? 'color: #3AB0EB' : 'color: #A7BFCF' }}"></i>
+                        </a>
+                    </li>
+                    {% if app.user.stripeStatus is same as('active')%}
+                        <li class="nav-item" id="match-secret">
+                            <a class="nav-link fs-2" href="{{ path('app_match_me') }}" title="Match secret">
+                                <i class="bi bi-heart-fill {{ hasAMatch(app.user)|length > 0 ? 'text-danger' : '' }}"
+                                   style="{{ app.request.get('_route') == "app_match_me" ? 'color: #3AB0EB  !important' : 'color: #A7BFCF' }}"></i>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item" id="match-secret">
+                            <a class="nav-link fs-2" href="{{ path('app_pricing') }}" title="Match secret">
+                                <i class="bi bi-heart-fill {{ hasAMatch(app.user)|length > 0 ? 'text-danger' : '' }}"
+                                   style="{{ app.request.get('_route') == "app_match_me" ? 'color: #3AB0EB  !important' : 'color: #A7BFCF' }}"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item" id="chat">
+                        <a class="nav-link fs-2" data-turbo="false" href="{{ path('chat_show') }}"
+                           title="Chat de discussion">
+                            <i class="bi bi-envelope-exclamation"
+                               style="{{ app.request.get('_route') == "chat_show" ? 'color: #3AB0EB"' : 'color: #A7BFCF' }}"></i>
+                            <span id="badgeNotif" class="badge bg-danger fs-6 d-none">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="compte">
+                        <a class="nav-link fs-2" href="{{ path('user_edit') }}" title="Affiche le compte">
+                            <i class="bi bi-person"
+                               style="{{ app.request.get('_route') == "user_edit" ? 'color: #3AB0EB"' : 'color: #A7BFCF' }}"></i>
+                        </a>
+                    </li>
+                    {% if app.user.stripeStatus is not same as('active') %}
+                        <li class="nav-item" id="compte">
+                            <a class="nav-link fs-2" href="{{ path('app_pricing') }}" title="Affiche les offres">
+                                <i class="bi bi-link-45deg"
+                                   style="{{ app.request.get('_route') == "app_pricing" ? 'color: #3AB0EB"' : 'color: #A7BFCF' }}"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link me-lg-3" data-turbo="false" onclick="event.stopImmediatePropagation()"
+                           href="/#offres" title="Fonctionnalités">Spami Prémium</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-lg-3" data-turbo="false" onclick="event.stopImmediatePropagation()"
+                           href="/#download" title="Statistique">Statistique</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-lg-3" href="{{ path('app_about_us') }}"
+                           title="Statistique">À propos</a>
+                    </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path('logout') }}"
+                           class="nav-link ms-lg-3 fs-2 text-danger post-confirm"
+                           data-button-text="Se déconnecter"
+                           data-title="Se déconnecter"
+                           data-confirm-message="Souhaitez-vous déconnecter ?"
+                           title="Se déconnecter">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-blue me-lg-3" href="{{ path('login') }}" title="Se connecter"><i
+                                    class="bi bi-magic"></i> Se connecter</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

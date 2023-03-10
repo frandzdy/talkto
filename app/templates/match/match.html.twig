@@ -1,0 +1,327 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Affichage du profil de {{ userMatch.firstName|capitalize }} correspondant à vos préférences - Liker et chatter avec votre matchs | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Affiche le profil de {{ userMatch.firstName|capitalize }} correspondant à vos préférences, vos centres d'intérêts, vos activités sportives culturel et autres en commun, liker, chatter avec vos matchs et trouvez l'âme soeur! - SPAMI">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Liste des matchs': path('app_match_list'),
+        ('Profil de ' ~ userMatch.firstName|capitalize): ''
+    } %}
+
+
+{% set checked = isAMatch(user, userMatch) ? 'checked="checked"' : '' %}
+
+{% block content %}
+    {% set listImage = [] %}
+    <section id="features" class="mt-4 match-show">
+        <div class="container px-5" data-controller="match-liste">
+            {% include('partials/_breadcrumbs.html.twig') %}
+            <div class="row d-flex my-5 justify-content-center">
+                <div class="text-center mb-3">
+                    <h1>
+                        {{ userMatch.firstname|capitalize }}
+                    </h1>
+                </div>
+
+                {% if userMatch.principalPicture %}
+                    {% set listImage = listImage|merge([userMatch.principalPicture]) %}
+                {% endif %}
+                <div class="col-lg-6 mb-5  d-flex justify-content-center">
+                    <div class="card shadow p-0">
+                        <div class="card-image">
+                            <div class="float-end three-dots-vertical">
+                                <div class="dropdown">
+                                    <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                        <li>
+                                            <i class="bi bi-person-x-fill fs-4"></i>
+                                            <a class="open-front-modal"
+                                               href="{{ path('app_signal', {'token': userMatch.token}) }}"
+                                               title="Signaler"
+                                               data-modal-title="Signaler le compte">
+                                                Signaler
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <img src="{{ userMatch.principalPicture is not empty ? asset('/uploads/profile_picture/' ~ userMatch.principalPicture)|imagine_filter('match') : 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' }}"
+                                 class="img-fluid"
+                                 alt="photo de profile">
+                        </div>
+                        <div class="card-content d-flex flex-column align-items-center">
+                            <ul class="social-icons d-flex justify-content-center">
+                                <li style="--i:1">
+                                    <div class="float-start x-octagon text-danger">
+                                        <a class="text-danger post-confirm"
+                                           data-button-text="Supprimer"
+                                           data-title="Supprimer"
+                                           data-confirm-message="Souhaitez-vous supprimer ce match ?"
+                                           href="{{ path('app_remove_match', {'token' : userMatch.token}) }}">
+                                            <i class="bi bi-x-octagon fs-3"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li style="--i:2">
+                                    <div class="heartbox" data-action="click->match-liste#saveMatch"
+                                         data-url="{{ path('app_add_match', {token: userMatch.token}) }}"
+                                         data-redirect="{{ path('app_match_list') }}"/>
+                                    <input type="checkbox" class="checkbox" id="checkbox" {{ checked }}/>
+                                    <label for="checkbox">
+                                        <svg id="heart-svg" viewBox="467 392 58 57"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <g id="Group" fill="none" fill-rule="evenodd"
+                                               transform="translate(467 392)">
+                                                <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
+                                                      id="heart" fill="#AAB8C2"/>
+                                                <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5"
+                                                        cy="29.5"
+                                                        r="1.5"/>
+                                                <g id="heartgroup7" opacity="0" transform="translate(7 6)">
+                                                    <circle id="heart1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                                                    <circle id="heart2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup6" opacity="0" transform="translate(0 28)">
+                                                    <circle id="heart1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                                                    <circle id="heart2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup3" opacity="0" transform="translate(52 28)">
+                                                    <circle id="heart2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                                                    <circle id="heart1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup2" opacity="0" transform="translate(44 6)">
+                                                    <circle id="heart2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                                                    <circle id="heart1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup5" opacity="0" transform="translate(14 50)">
+                                                    <circle id="heart1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                                                    <circle id="heart2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup4" opacity="0" transform="translate(35 50)">
+                                                    <circle id="heart1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                                                    <circle id="heart2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                                                </g>
+                                                <g id="heartgroup1" opacity="0" transform="translate(24)">
+                                                    <circle id="heart1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                                                    <circle id="heart2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </label>
+                        </div>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-5 d-flex justify-content-center" style="height:50%;min-width: 40%">
+                <div class="card shadow" style="height:50%;min-width: 70%">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Vos points communs en quelques mots</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <ul class="list-group list-group-flush">
+                                <b>Passe temps :</b>
+                                {{ getCommunInterest(user, userMatch, 'Hobbies')|raw }}
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                                <b>Sport :</b>
+                                {{ getCommunInterest(user, userMatch, 'Sports')|raw }}
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                                <b>Sorties :</b>
+                                {{ getCommunInterest(user, userMatch, 'Exists')|raw }}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% set show = true %}
+            {% for index, picture in userMatch.pictures %}
+                {% if picture.name != userMatch.principalPicture and picture.name not in listImage %}
+                    <div class="col-lg-6 my-5 d-flex justify-content-center">
+                        <div class="card shadow p-0">
+                            <div class="card-image">
+                                <div class="float-end three-dots-vertical">
+                                    <div class="dropdown">
+                                        <a class="" href="#" role="button" id="dropdownMenuLink"
+                                           data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu text-center"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <li>
+                                                <i class="bi bi-person-x-fill fs-4"></i>
+                                                <a class="open-front-modal"
+                                                   href="{{ path('app_signal', {'token': userMatch.token}) }}"
+                                                   title="Signaler"
+                                                   data-modal-title="Signaler le compte">
+                                                    Signaler
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <img src="{{ picture.name is not empty ? asset('/uploads/profile_picture/' ~ picture.name) : 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' }}"
+                                     class="img-fluid"
+                                     alt="photo de profile">
+                            </div>
+
+                            <div class="card-content d-flex flex-column align-items-center">
+                                <ul class="social-icons d-flex justify-content-center">
+                                    <li style="--i:1">
+                                        <div class="float-start x-octagon text-danger">
+                                            <a class="text-danger post-confirm"
+                                               data-button-text="Supprimer"
+                                               data-title="Supprimer"
+                                               data-confirm-message="Souhaitez-vous supprimer ce match ?"
+                                               href="{{ path('app_remove_match', {'token' : userMatch.token}) }}">
+                                                <i class="bi bi-x-octagon fs-3"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li style="--i:2">
+                                        <div class="heartbox" data-action="click->match-liste#saveMatch"
+                                             data-url="{{ path('app_add_match', {token: userMatch.token}) }}"
+                                             data-redirect="{{ path('app_match_list') }}">
+                                            <input type="checkbox" class="checkbox" id="checkbox" {{ checked }}/>
+                                            <label for="checkbox">
+                                                <svg id="heart-svg" viewBox="467 392 58 57"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <g id="Group" fill="none" fill-rule="evenodd"
+                                                       transform="translate(467 392)">
+                                                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
+                                                              id="heart" fill="#AAB8C2"/>
+                                                        <circle id="main-circ" fill="#E2264D" opacity="0"
+                                                                cx="29.5"
+                                                                cy="29.5"
+                                                                r="1.5"/>
+                                                        <g id="heartgroup7" opacity="0"
+                                                           transform="translate(7 6)">
+                                                            <circle id="heart1" fill="#9CD8C3" cx="2" cy="6"
+                                                                    r="2"/>
+                                                            <circle id="heart2" fill="#8CE8C3" cx="5" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup6" opacity="0"
+                                                           transform="translate(0 28)">
+                                                            <circle id="heart1" fill="#CC8EF5" cx="2" cy="7"
+                                                                    r="2"/>
+                                                            <circle id="heart2" fill="#91D2FA" cx="3" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup3" opacity="0"
+                                                           transform="translate(52 28)">
+                                                            <circle id="heart2" fill="#9CD8C3" cx="2" cy="7"
+                                                                    r="2"/>
+                                                            <circle id="heart1" fill="#8CE8C3" cx="4" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup2" opacity="0"
+                                                           transform="translate(44 6)">
+                                                            <circle id="heart2" fill="#CC8EF5" cx="5" cy="6"
+                                                                    r="2"/>
+                                                            <circle id="heart1" fill="#CC8EF5" cx="2" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup5" opacity="0"
+                                                           transform="translate(14 50)">
+                                                            <circle id="heart1" fill="#91D2FA" cx="6" cy="5"
+                                                                    r="2"/>
+                                                            <circle id="heart2" fill="#91D2FA" cx="2" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup4" opacity="0"
+                                                           transform="translate(35 50)">
+                                                            <circle id="heart1" fill="#F48EA7" cx="6" cy="5"
+                                                                    r="2"/>
+                                                            <circle id="heart2" fill="#F48EA7" cx="2" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                        <g id="heartgroup1" opacity="0"
+                                                           transform="translate(24)">
+                                                            <circle id="heart1" fill="#9FC7FA" cx="2.5" cy="3"
+                                                                    r="2"/>
+                                                            <circle id="heart2" fill="#9FC7FA" cx="7.5" cy="2"
+                                                                    r="2"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% if index > 0 %}
+                        {% set show = false %}
+                        <div class="col-lg-6  my-5 d-flex justify-content-center" style="height:50%;min-width: 40%">
+                            <div class="card shadow" style="height:50%;min-width: 70%">
+                                <div class="card-header">
+                                    <h5 class="card-title text-center">🅐 🅟🅡🅞🅟🅞🅢</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        {% if userMatch.hideAge is same as(false) %}
+                                            <b>Age</b> : {{ userMatch.age|default('-') }} ans<br>
+                                        {% endif %}
+                                        {% if userMatch.hideDistance is same as(false) %}
+                                            <b>Distance entre vous
+                                                : </b>{{ getDistance(user, userMatch)  <= 1 ? 'moins d\'1 km' : getDistance(user, userMatch) ~ ' km' }} approx.
+                                            <br>
+                                        {% endif %}
+                                        <b>Taille : </b>{{ userMatch.size|default('-') }} cm<br>
+                                        <b>À propos de {{ userMatch.firstname|capitalize }} :</b><br/>
+                                    <p class="justify-content-center">
+                                        {{ userMatch.description|nl2br|default('Aucune description') }}
+                                    </p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if show %}
+                <div class="col-lg-6  my-5 d-flex justify-content-center" style="height:50%;min-width: 40%">
+                    <div class="card shadow" style="height:50%;min-width: 70%">
+                        <div class="card-header">
+                            <h5 class="card-title text-center">🅐 🅟🅡🅞🅟🅞🅢</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {% if userMatch.hideAge is same as(false) %}
+                                    <b>Age</b> : {{ userMatch.age|default('-') }} ans<br>
+                                {% endif %}
+                                {% if userMatch.hideDistance is same as(false) %}
+                                    <b>Distance entre vous
+                                        : </b>{{ getDistance(user, userMatch)  <= 1 ? 'moins d\'1 km' : getDistance(user, userMatch) ~ ' km' }} approx.
+                                    <br>
+                                {% endif %}
+                                <b>Taille : </b>{{ userMatch.size|default('-') }} cm<br>
+                                <b>À propos de {{ userMatch.firstname|capitalize }} :</b><br/>
+                            <p class="justify-content-center">
+                                {{ userMatch.description|nl2br|default('Aucune description') }}
+                            </p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

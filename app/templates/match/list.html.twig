@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Liste des matchs ayant des points en commun avec vous | {{ parent() }}
+{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Parcourez la liste des gens qui vous croisez lors de vos activités préférées !">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        'Liste des matchs': ''
+    } %}
+
+{% block content %}
+    {% set listImage = [] %}
+    <section id="features" class="mt-4 match-list" data-controller="match-liste">
+        <div class="container px-5 match-pagination" style="">
+            {{ include('partials/_breadcrumbs.html.twig') }}
+            {{ include('match/_include_match.html.twig') }}
+        </div>
+    </section>
+{% endblock %}

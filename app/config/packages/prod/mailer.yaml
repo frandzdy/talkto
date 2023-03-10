@@ -1,0 +1,7 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DNS)%'
+        envelope:
+            sender: 'contact@spami.fr'
+        headers:
+            from: 'Interest <contact@spami.fr>'

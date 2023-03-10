@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Confirmation de paiement accepté |  {{ parent() }}{% endblock %}
+
+{% block metas %}
+    <meta name="description"
+          content="Confirmation de paiement et d'inscription à Spami !">
+{% endblock %}
+
+{% block content %}
+    <!-- App features section-->
+    <section id="features" class="background-circle" style="height: 100%">
+        <div class="container">
+            <div class="row d-flex my-5 justify-content-center">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <div class="card shadow text-center">
+                        <div class="card-header">
+                            <h5 class="card-title text-center fs-1 text-success"><i class="bi bi-check-circle"></i> Paiement accepté</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ user.firstname|capitalize }}, nous tenions à vous remercier d'avoir souscrit à un de nos abonnements.<br>
+                                <br>
+                                {% if app.user %}
+                                    Un e-mail vous a été envoyé il contient un récapitulatif de votre abonnement.<br>
+                                {% else %}
+                                    Un e-mail vous a été envoyé il contient un récapitulatif de votre abonnement et votre lien de connexion.<br>
+                                {% endif %}
+                                <br>
+                                Vous bénéficiez d'un espace afin de gérer votre abonnement afin de le faire évoluer, renouveler ou l'arrêter.<br>
+                                <br>
+                                Nous vous souhaitons une bonne expérience sur Spami.<br>
+                                <br>
+                                Pour toutes questions, vous pouvez contacter notre <a href="mailto:contact@spami.fr" title="E-mail de contact Spami">service client</a>.
+                            </p>
+                            <div class="text-center mb-2">
+                                <small class="form-text text-muted">
+                                    Share Passion and Love. C'est tout que l'on vous souhaite 👨‍👨‍👦‍👦.
+                                </small>
+                            </div>
+                            <div class="text-center">
+                                {% if app.user %}
+                                    <a class="btn btn-blue" title="Retourner sur l'espace client" href="{{ path('user_edit') }}">Retourner sur espace client</a>
+                                {% else %}
+                                    <a class="btn btn-blue" title="Retourner à l'accueil" href="{{ path('home') }}">Retourner à l'accueil</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

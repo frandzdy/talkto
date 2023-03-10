@@ -1,0 +1,52 @@
+{% block subject %}SPAMI – Nouveau match{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Nouveau match{% endblock %}
+        {% block accroche %}Nouveau match{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>Bonjour,</p>
+                    <p>
+                        <h1>{{ user.lastname ~ ' ' ~  user.firstname}}</h1>
+                    </p>
+                    <p>
+                        Vous avez un nouveau match :<br/>
+                        <ul>
+                            <li><strong>Prénom :</strong> {{ match.firstname }}</li>
+                        </ul>
+                    </p>
+                    <p>
+                        Vous pouvez retrouver votre match dans le menu "Match" ou en cliquant <a href="{{ absolute_url(path('app_match', {'token': match.token})) }}">ici</a>
+                    </p>
+                    <p>
+                        Cordialement,<br/ >
+                        L'équipe Spami<br/>
+                        <a title="Site Spami"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.lastname ~ ' ' ~  user.firstname}}\n
+    \n
+    Vous avez un nouveau match :\n
+    \n
+    •    Prénom : {{ match.firstname }}\n
+    \n
+    Vous pouvez retrouver votre match dans le menu "Match" ou en cliquant
+    sur le lien suivant : {{ absolute_url(path('app_match', {'token': match.token})) }}.\n
+    \n
+    Cordialement,\n
+    L'équipe Spami\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

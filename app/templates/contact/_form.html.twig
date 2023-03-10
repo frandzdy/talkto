@@ -1,0 +1,36 @@
+{{ form_start(form, {attr:{'id': 'contact-form', 'autocomplete': 'off', 'data-contact-target': 'contactForm', 'data-action' : 'contact#checkRecaptcha'}}) }}
+<div class="row g-2 mb-4">
+    <div class="col-md">
+        <div class="form-floating">
+            {{ form_widget(form.lastname) }}
+            {{ form_label(form.lastname) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            {{ form_widget(form.firstname) }}
+            {{ form_label(form.firstname) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+    </div>
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.email) }}
+    {{ form_label(form.email) }}
+    {{ form_errors(form.email) }}
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.subject) }}
+    {{ form_label(form.subject) }}
+    {{ form_errors(form.subject) }}
+</div>
+<div class="form-outline mb-4 form-floating">
+    {{ form_widget(form.message) }}
+    {{ form_label(form.message) }}
+    {{ form_errors(form.message) }}
+</div>
+<div class="text-center mb-4">
+    <button class="btn btn-blue" id="contact-submit-btn" data-loading-img="{{ asset('build/images/design/pulse.gif') }}" formnovalidate>Envoyer</button>
+</div>
+{{ form_end(form) }}

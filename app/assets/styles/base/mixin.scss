@@ -1,0 +1,152 @@
+@mixin carte() {
+    background-color: white;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    // padding: 20px;
+    // height: 265px;
+    // width: 265px;
+    // margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    img {
+        width: 100px;
+        height: 100px;
+    }
+    .title {
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1.2;
+        text-align: center;
+    }
+    @media (max-width: 768px) {
+        .title {
+            font-weight: 600;
+            font-size: 20px;
+        }
+    }
+}
+
+@mixin band($text-color) {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h2, .note {
+        color: $text-color;
+    }
+    .note {
+        width: 473px;
+        text-align: center;
+        font-size: 18px;
+        margin: 13px auto 31px auto;
+    }
+    @media (max-width: 768px) {
+        .note {
+            width: 80vw;
+            margin: 20px auto 35px auto;
+        }
+        .btn-blue {
+            margin-bottom: 120px;
+            font-size: 15px;
+        }
+        height: auto;
+        h2 {
+            font-weight: 500;
+            font-size: 32px;
+        }
+        .note {
+            width: 80vw;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+@mixin main-btn($bgd-color, $text-color) {
+    background: $bgd-color;
+    border-radius: 8px;
+    color: $text-color;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    padding: 16px 39px;
+}
+
+@mixin primary-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin grid-4 {
+    display: grid;
+    display: -ms-grid;
+    grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: 1fr 1fr;
+    .block-1 {
+        grid-column: 1;
+        -ms-grid-column: 1;
+    }
+    .block-2 {
+        grid-column: 2;
+        -ms-grid-column: 2;
+    }
+    .block-3 {
+        grid-column: 1;
+        grid-row: 2;
+        -ms-grid-column: 1;
+        -ms-grid-row: 2;
+    }
+    .block-4 {
+        grid-column: 2;
+        grid-row: 2;
+        -ms-grid-column: 2;
+        -ms-grid-row: 2;
+    }
+}
+@mixin btn-blue {
+    background: #3AB0EB;
+    border-radius: 8px;
+    color: white;
+    font-size: 18px;
+    line-height: 22px;
+    border: none;
+    padding: 16px 36px;
+    font-weight: 600;
+}
+@mixin encadre {
+    margin: 0 calc(560px - 50vw);
+    padding: 60px calc(50vw - 560px);
+    h4 {
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 120%;
+        margin-bottom: 20px;
+    }
+    .note {
+        font-size: 16px;
+        line-height: 150%;
+    }
+    @media (max-width: 768px) {
+        margin: 0 -10vw;
+        padding: 40px 10vw 60px 10vw;
+        h4 {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 34px;
+        }
+        .note {
+            font-size: 18px;
+            line-height: 140%;
+        }
+     }
+     @media (max-width: 1200px) and (min-width: 769px) {
+        margin: 0 -6vw;
+        padding: 60px 6vw;
+     }
+}
