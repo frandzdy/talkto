@@ -18,23 +18,23 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(Request $request, RequestStack $requestStack, UserRepository $userRepository): Response
     {
-        if ($this->getUser()) {
-            
-            return $this->redirectToRoute('user_edit');
-        }
-        $data = null;
-        $form = $this->createForm(LoginType::class, $data, ['method' => 'POST']);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $requestStack->getSession()->set('email', $data['email']);
-         
-            return $this->redirectToRoute('user_new', ['type' => 'free'],Response::HTTP_SEE_OTHER);
-        }
+//        if ($this->getUser()) {
+//
+//            return $this->redirectToRoute('user_edit');
+//        }
+//        $data = null;
+//        $form = $this->createForm(LoginType::class, $data, ['method' => 'POST']);
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $data = $form->getData();
+//            $requestStack->getSession()->set('email', $data['email']);
+//
+//            return $this->redirectToRoute('user_new', ['type' => 'free'],Response::HTTP_SEE_OTHER);
+//        }
         
-        return $this->renderForm('home/index.html.twig', [
-            'form' => $form,
-            'countUser' => \count($userRepository->findAll())
+        return $this->render('home/index.html.twig', [
+            //'form' => $form,
+            //'countUser' => \count($userRepository->findAll())
         ]);
     }
     

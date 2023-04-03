@@ -5,3 +5,47 @@
 ###> ide ###
 /.idea
 ###< ide ###
+
+###> symfony/framework-bundle ###
+/app/config/secrets/
+/app/public/bundles/
+/app/src/.preload.php
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+/app/.phpunit
+/app/.phpunit.result.cache
+/app/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/webpack-encore-bundle ###
+/app/public/build/
+/app/public/uploads/
+/app/npm-debug.log
+/app/yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> IDE ###
+.idea
+/app/.yarn
+###< ###
+
+###> frontend modules
+/app/node_modules/
+###< frontend modules
+
+####> Génération des routes pour le bundle FosJsRouting
+/app/public/js/*
+####<
+
+/app/.env.local
+/app/.env.local.php
+/app/.env.*.local
+/app/var/
+/app/vendor/
+/app/shared/
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+

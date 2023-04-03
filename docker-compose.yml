@@ -2,7 +2,7 @@ version: "3.8"
 services:
   db:
     image: mariadb:10.8
-    container_name: db
+    container_name: talkto_db
     hostname: db
     restart: unless-stopped
     volumes:
@@ -17,7 +17,7 @@ services:
   php:
     build:
       context: ./infra/images/php
-    container_name: php
+    container_name: talkto_php
     hostname: php
     volumes:
       - ./infra/volumes/composer:/root/.composer
@@ -25,7 +25,7 @@ services:
       - ./app:/var/www/app
     environment:
       APP_ENV: dev
-      DATABASE_URL: mysql://root:toto44@db:3306/thotem?serverVersion=mariadb-10.7.3&charset=utf8
+      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=mariadb-10.7.3&charset=utf8
       MAILER_DSN: smtp://mailcatcher:25
     networks:
       - nw.talkto
@@ -37,7 +37,7 @@ services:
 
   nginx:
     image: nginx:1.21
-    container_name: nginx
+    container_name: talkto_nginx
     hostname: nginx
     volumes:
       - ./infra/volumes/logs/nginx:/var/log/nginx
@@ -53,14 +53,14 @@ services:
 
   redis:
     image: redis:6
-    container_name: redis
+    container_name: talkto_redis
     hostname: redis
     networks:
       - nw.talkto
 
   mailcatcher:
     image: tophfr/mailcatcher
-    container_name: mailcatcher
+    container_name: talkto_mailcatcher
     hostname: mailcatcher
     networks:
       - nw.talkto

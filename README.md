@@ -1,4 +1,4 @@
-# Qualifelec Thotem
+# Secret
 
 -------------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@
 
 ### Import
 
-Clone the project https://gitlab.webnet.fr/webnet/qualifelec-thotem
+Clone the project https://github.com/frandzdy/loue
 
 ### Project Configuration and Dependency Installation
 
