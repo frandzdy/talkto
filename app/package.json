@@ -15,7 +15,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server --public http://tennis-meetup.fr:80 --host 0.0.0.0",
+        "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
