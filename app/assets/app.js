@@ -6,12 +6,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import 'toastr/build/toastr.min.css';
-import 'startbootstrap-new-age/dist/css/styles.css';
 import './styles/app.scss';
-import 'intro.js/introjs.css';
-import 'jquery-confirm/dist/jquery-confirm.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // start the Stimulus application
 import './bootstrap';
@@ -23,10 +18,6 @@ global.$ = global.jQuery = $;
 import 'jquery-ui-bundle';
 
 import * as Turbo from '@hotwired/turbo';
-
-import toastr from 'toastr';
-
-window.toastr = toastr;
 
 import 'jquery-confirm';
 
@@ -40,9 +31,21 @@ window.Routing = Routing;
 
 require('./js/pages/common')
 require('./js/services/cookie')
-import introJS from 'intro.js';
 
-window.introJS = introJS;
+require('./js/services/vendor/modernizr-3.5.0.min.js')
+require('./js/services/vendor/jquery-3.6.0.min.js')
+require('./js/services/vendor/waypoints.min.js')
+require('./js/services/bootstrap.bundle.min.js')
+require('./js/services/metisMenu.min.js')
+require('./js/services/slick.min.js')
+require('./js/services/jquery.fancybox.min.js')
+require('./js/services/isotope.pkgd.min.js')
+require('./js/services/owl.carousel.min.js')
+require('./js/services/jquery-ui-slider-range.js')
+require('./js/services/ajax-form.js')
+require('./js/services/wow.min.js')
+require('./js/services/imagesloaded.pkgd.min.js')
+require('./js/services/main.js')
 
 $(function (){
 
