@@ -30,10 +30,6 @@ class UserManager
     public function createUser(): user
     {
         $user = (new User())
-            ->setCreatedAt(new \DateTime())
-            ->setIntroMenu(0)
-            ->setStripeCustomerId(null)
-            ->setPicture(null)
             ->setToken(hash('sha256', random_bytes(32)));
 
         return $user;
@@ -53,9 +49,7 @@ class UserManager
             $user->setPicture($pic);
         }
 
-        if ($update) {
-            $user->setUpdatedAt(new \DateTime());
-        } else {
+        if (!$update) {
             $this->entityManager->persist($user);
         }
 

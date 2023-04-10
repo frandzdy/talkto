@@ -39,6 +39,41 @@ class UserType extends AbstractType
                             'placeholder' => 'Civilité *',
                         ],
                 ]
+            )
+            ->add(
+                'phone',
+                TextType::class,
+                [
+                    'label' => false,
+                    'attr' =>
+                        [
+                            'placeholder' => 'Téléphone *',
+                            'maxlength' => 20
+                        ]
+                ]
+            )
+            ->add(
+                'address',
+                TextType::class,
+                [
+                    'label' => false,
+                    'attr' =>
+                        [
+                            'placeholder' => 'Adresse *',
+                            'maxlength' => 255
+                        ]
+                ]
+            )->add(
+                'zipCode',
+                TextType::class,
+                [
+                    'label' => false,
+                    'attr' =>
+                        [
+                            'placeholder' => 'Code postal *',
+                            'maxlength' => 5
+                        ]
+                ]
             )->add(
                 'city',
                 TextType::class,
@@ -48,10 +83,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Ville *',
                             'maxlength' => 255
-                        ],
-                    'constraints' =>
-                        [
-                            new NotBlank(['message' => 'Information requise.'])
                         ]
                 ]
             )->add(
@@ -125,7 +156,7 @@ class UserType extends AbstractType
                         ],
                     'second_options' =>
                         [
-                            'label' => 'Confirmez votre mot de passe'
+                            'label' => 'Confirmez votre mot de passe',
                         ],
                     'mapped' => false,
                 ]

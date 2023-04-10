@@ -35,9 +35,9 @@ security:
             lazy: true
             provider: app_user_provider
             logout:
-                path: back_logout
-                target: back_login
-            custom_authenticator: App\Security\FAuthenticator
+                path: front_logout
+                target: front_login
+            custom_authenticator: App\Security\FrontAuthenticator
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000

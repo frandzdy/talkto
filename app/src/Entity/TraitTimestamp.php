@@ -44,14 +44,24 @@
         {
             return $this->updatedAt;
         }
-    
+
         /**
-         * @param \DateTime $updateAt
+         * @param \DateTime|null $updatedAt
+         * @return User|Message|Notification|TraitTimestamp
          */
         public function setUpdatedAt(?\DateTime $updatedAt): self
         {
             $this->updatedAt = $updatedAt;
     
             return $this;
+        }
+
+        #[ORM\PrePersist]
+        #[ORM\PreUpdate]
+        public function updateDate() {
+            if (!$this->getCreatedAt()) {
+                $this->setCreatedAt(new \DateTime('now'));
+            }
+            $this->setUpdatedAt(new \DateTime('now'));
         }
     }

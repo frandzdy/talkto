@@ -48,7 +48,11 @@ class AuthController extends AbstractController
             ]
         );
     }
+    #[Route("deconnexion", name: "logout")]
+    public function logout()
+    {
 
+    }
 //
 //    /**
 //     * Permet de réinitialiser le mot de passe du front
