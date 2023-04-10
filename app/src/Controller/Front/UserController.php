@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use App\Service\AdresseApi;
 use App\Service\MailerManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,17 +28,12 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    #[Route('/mon-compte/nouveau/{type}', name: 'user_new', methods: [
-        'GET',
-        'POST'
-    ], requirements: ['type' => 'free|abo1|abo2|abo3'])]
+    #[Route('/mon-compte/nouveau', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(
         Request                   $request,
         UserManager               $userManager,
-        LoginLinkHandlerInterface $loginLinkHandler,
         MailerManager             $mailer,
-        RequestStack              $requestStack,
-        string                    $type
+        RequestStack              $requestStack
     ): Response
     {
         if (!is_null($this->getUser())) {
@@ -48,10 +42,6 @@ class UserController extends AbstractController
         }
         $user = $userManager->createUser();
 
-        if ($emailPreCreation = $requestStack->getSession()->get('email')) {
-            $user->setEmail($emailPreCreation);
-        }
-
         $form = $this->createForm(UserType::class, $user, ['user' => $user]);
         $form->handleRequest($request);
 
@@ -59,37 +49,24 @@ class UserController extends AbstractController
             $pictureFileDatas = $form->get('pictures')->getData();
 
             $userManager->saveOrEditUser($form->getData(), $pictureFileDatas, false);
-            $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
-            if ($type === 'free') {
-                // changer vers une route de success de création
-                $route = 'user_success_creation';
-                $param = [];
-                $mailer->sendMailNotification(
-                    $user->getEmail(),
-                    'emails/create_account_free_login_link.html.twig',
-                    [
-                        'link' => $loginLinkDetails->getUrl(),
-                        'user' => $user,
-                        'expiresAt' => $loginLinkDetails->getExpiresAt()
-                    ]
-                );
-                $user->setNumberSpam(20);
-                $userManager->saveUser();
-            } else {
-                // on envoi un email dans le webhook checkout.sessioon.completed
-                $route = 'app_stripe_checkout_session';
-                $param = [
-                    'type' => $type,
-                    'token' => $user->getToken()
-                ];
-            }
+            // changer vers une route de success de création
+            $route = 'front_user_success_creation';
+            $param = [];
+            $mailer->sendMailNotification(
+                $user->getEmail(),
+                'emails/create_account_free_login_link.html.twig',
+                [
+                    'user' => $user,
+                ]
+            );
+            $userManager->saveUser();
 
             return $this->redirectToRoute($route, $param, Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->render('front/user/edit.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
