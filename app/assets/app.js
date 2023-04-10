@@ -20,6 +20,8 @@ import 'jquery-ui-bundle';
 
 //import * as Turbo from '@hotwired/turbo';
 
+import bsCustomFileInput from "bs-custom-file-input";
+window.bsCustomFileInput = bsCustomFileInput;
 
 import toastr from 'toastr';
 window.toastr = toastr;

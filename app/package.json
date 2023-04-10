@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@webcreate/infinite-ajax-scroll": "^3.0.0",
+        "bs-custom-file-input": "^1.3.4",
         "express": "^4.17.1",
         "intro.js": "^4.3.0",
         "jquery": "^3.6.0",

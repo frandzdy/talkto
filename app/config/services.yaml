@@ -24,7 +24,7 @@ parameters:
         url: 'https://api-adresse.data.gouv.fr/search/?'
     file_uploader_config:
         base_path: "%kernel.project_dir%/public/uploads/"
-        base_path_liip: "%kernel.project_dir%/public/media/cache/"
+        base_path_liip: "%kernel.project_dir%/public/uploads/media/cache/"
         base_path_twig: '/uploads/profile_picture/'
         directories:
             profile_picture: "profile_picture/"

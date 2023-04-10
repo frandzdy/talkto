@@ -17,9 +17,8 @@ final class Genre
     public static function getAvailableGenres(): array
     {
         return [
-            self::CIVILITY_MEN => "Il",
-            self::CIVILITY_WOMEN => "Elle",
-            self::CIVILITY_IEL => "Iel"
+            self::CIVILITY_MEN => "Monsieur",
+            self::CIVILITY_WOMEN => "Madame"
         ];
     }
 }

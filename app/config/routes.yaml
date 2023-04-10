@@ -1,3 +1,13 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+back_logout:
+    path: /admin/logout
+
+front_logout:
+    path: /deconnexion
+
+# app/config/routing.yml
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

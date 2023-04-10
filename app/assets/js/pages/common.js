@@ -1,9 +1,20 @@
-// const container = $(document).find('#page-top');
+const container = $(document).find('#page-top');
 // const modal = $(document).find('#front-modal');
+/**
+ * Permet de custom les input file bootstrap
+ */
+window.handleBsCustomFileInput = function () {
+    if (container) {
+        bsCustomFileInput.init();
+    }
+}
+
+handleBsCustomFileInput($('[type=file]'))
 //
 // /**
 //  * Permet de simuler un POST sur une URL
 //  */
+
 // global.postUrl = function (url) {
 // 	$('<form></form>')
 // 		.attr('action', url)

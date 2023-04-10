@@ -19,16 +19,14 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
 class UserController extends AbstractController
 {
-    #[Route('/profile/{tokenId}', name: 'user_show_friend', methods: ['GET'])]
+    #[Route('/mon-compte', name: 'user_account', methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function profile($tokenId, UserRepository $userRepository): Response
+    public function account(): Response
     {
-        // on check quand même que le token fait parti des tokens autorisés
-        $user = $userRepository->findOneBy(['token' => $tokenId]);
-        return $this->render('user/show.html.twig', ['user' => $user]);
+        return $this->render('front/user/account.html.twig',['user' => $this->getUser()]);
     }
 
-    #[Route('/mon-compte/nouveau', name: 'user_new', methods: ['GET', 'POST'])]
+    #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(
         Request                   $request,
         UserManager               $userManager,
@@ -38,17 +36,17 @@ class UserController extends AbstractController
     {
         if (!is_null($this->getUser())) {
 
-            return $this->redirectToRoute('user_edit');
+            return $this->redirectToRoute('front_user_edit');
         }
         $user = $userManager->createUser();
 
-        $form = $this->createForm(UserType::class, $user, ['user' => $user]);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pictureFileDatas = $form->get('pictures')->getData();
+            $pictureFileData = $form->get('picture')->getData();
 
-            $userManager->saveOrEditUser($form->getData(), $pictureFileDatas, false);
+            $userManager->saveOrEditUser($form->getData(), $pictureFileData, false);
             // changer vers une route de success de création
             $route = 'front_user_success_creation';
             $param = [];
@@ -70,7 +68,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/mon-compte', name: 'user_edit', methods: ['GET', 'POST'])]
+    #[Route('/edition-compte', name: 'user_edit', methods: ['GET', 'POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function edit(
         Request     $request,
@@ -78,24 +76,24 @@ class UserController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserType::class, $user, ['user' => $user]);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pictureFileDatas = $form->get('pictures')->getData();
-            $userManager->saveOrEditUser($form->getData(), $pictureFileDatas, true);
+            $pictureFileData = $form->get('picture')->getData();
+            $userManager->saveOrEditUser($form->getData(), $pictureFileData, true);
             $this->addFlash('success', 'Enregistrement effectué.');
 
             return $this->redirectToRoute(
-                'user_edit',
+                'front_user_edit',
                 [
                 ],
                 Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->render('front/user/edit.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
