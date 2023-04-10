@@ -15,26 +15,16 @@
     <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
 {% endblock %}
 
+{% set breadcrumbTitle = 'Connexion' %}
 {% set breadcrumbItems =
     {
-        'Login': ''
+        breadcrumbTitle : ''
     } %}
 
 {% block content %}
     {{ include('partials/_breadcrumbs.html.twig') }}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
     {{ include('front/auth/_form.html.twig') }}
-{% endblock %}
-
-{% block javascript %}
-{{ parent() }}
-
-{% if error %}
-<script defer>
-    $(document).ready(
-        function () {
-            toastr.error('re');
-        }
-    )
-</script>
-{% endif %}
 {% endblock %}

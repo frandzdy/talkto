@@ -6,6 +6,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+import 'toastr/build/toastr.min.css';
 import './styles/app.scss';
 
 // start the Stimulus application
@@ -18,6 +19,10 @@ global.$ = global.jQuery = $;
 import 'jquery-ui-bundle';
 
 //import * as Turbo from '@hotwired/turbo';
+
+
+import toastr from 'toastr';
+window.toastr = toastr;
 
 import 'jquery-confirm';
 
@@ -43,7 +48,11 @@ require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
 require('./js/services/jquery-ui-slider-range.js')
 require('./js/services/ajax-form.js')
-require('./js/services/wow.min.js')
+//require('./js/services/wow.min.js')
+
+import WOW from 'wow.js';
+window.WOW = WOW
+
 require('./js/services/imagesloaded.pkgd.min.js')
 require('./js/services/main.js')
 
