@@ -85,6 +85,18 @@ class UserType extends AbstractType
                             'maxlength' => 255
                         ]
                 ]
+            )
+            ->add(
+                'country',
+                TextType::class,
+                [
+                    'label' => false,
+                    'attr' =>
+                        [
+                            'placeholder' => 'Pays *',
+                            'maxlength' => 255
+                        ]
+                ]
             )->add(
                 'lastname',
                 TextType::class,

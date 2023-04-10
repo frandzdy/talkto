@@ -53,14 +53,14 @@ class UserManager
             $this->entityManager->persist($user);
         }
 
-        $this->entityManager->flush();
         // si on n'a pas de compte stripe
         if (!$user->getStripeCustomerId()) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
-            $this->entityManager->flush();
         }
 
+        $this->entityManager->flush();
+        
         return true;
     }
 
