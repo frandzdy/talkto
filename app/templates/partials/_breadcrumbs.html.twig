@@ -17,19 +17,18 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="page__title-inner text-center">
-                    <h1>Login</h1>
+                    <h1>{{ breadcrumbTitle }}</h1>
                     <div class="page__title-breadcrumb">
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center">
                                 <li class="breadcrumb-item"><a href="{{ path('front_home') }}">Accueil</a></li>
                                 {% for label, url in breadcrumbItems|default({}) %}
                                     {% if url %}
-                                        <li class="breadcrumb-item"><a href="{{ url }}"
+                                        <li class="breadcrumb-item active"><a href="{{ url }}"
                                                                        title="{{ label }}">{{ label }}</a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page"> Login</li>
                                     {% else %}
-                                        <li class="breadcrumb-item">{{ label }}</li>
+                                        <li class="breadcrumb-item active">{{ label }}</li>
                                     {% endif %}
                                 {% endfor %}
                             </ol>
