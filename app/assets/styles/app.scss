@@ -81,3 +81,7 @@ button[id$="Allowed"]:hover {
 button[id$="Denied"] {
   background-color: #9c1a1a !important;
 }
+
+.custom-file-input ~ .custom-file-label:lang(fr)::after {
+  content: "Votre photo...";
+}

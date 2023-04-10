@@ -10,6 +10,13 @@ window.handleBsCustomFileInput = function () {
 }
 
 handleBsCustomFileInput($('[type=file]'))
+
+$("input[type=file]").change(function () {
+    var fieldVal = $(this).val();
+    if (fieldVal != undefined || fieldVal != "") {
+        $(this).next(".custom-file-label").text(fieldVal);
+    }
+});
 //
 // /**
 //  * Permet de simuler un POST sur une URL
