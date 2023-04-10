@@ -9,7 +9,7 @@
 import './styles/app.scss';
 
 // start the Stimulus application
-import './bootstrap';
+//import './bootstrap';
 
 // ajout des fichiers js
 // import Jquery
@@ -17,11 +17,11 @@ import $ from 'jquery';
 global.$ = global.jQuery = $;
 import 'jquery-ui-bundle';
 
-import * as Turbo from '@hotwired/turbo';
+//import * as Turbo from '@hotwired/turbo';
 
 import 'jquery-confirm';
 
-require('bootstrap/dist/js/bootstrap.bundle.min');
+//require('bootstrap/dist/js/bootstrap.bundle.min');
 
 const routes = require('../public/js/fos_js_routes.json');
 import Routing from '../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';

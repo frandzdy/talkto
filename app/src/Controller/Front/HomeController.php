@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Form\LoginType;
 use App\Repository\UserRepository;
@@ -32,7 +32,7 @@ class HomeController extends AbstractController
 //            return $this->redirectToRoute('user_new', ['type' => 'free'],Response::HTTP_SEE_OTHER);
 //        }
         
-        return $this->render('home/index.html.twig', [
+        return $this->render('front/home/index.html.twig', [
             //'form' => $form,
             //'countUser' => \count($userRepository->findAll())
         ]);

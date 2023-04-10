@@ -1,37 +1,58 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Connexion à votre compte Spami | {{ parent() }}{% endblock %}
+{% block title %}
+    Conditions générales d'utilisation | {{ parent() }}
+{% endblock %}
 
 {% block metas %}
-    {{ parent() }}
     <meta name="description"
-          content="Connectez vous à votre compte Spami gratuit ou avec un abonnement !">
+          content="Les conditions générales d'utilisation Spami.">
 {% endblock %}
 
 {% set breadcrumbItems =
     {
-        'Se connecter': ''
+        'Conditions générales d’utilisation': ''
     }
 %}
 
 {% block content %}
-{#    <section id="features" class="bg-light">#}
-{#        <div class="container px-5 mt-3">#}
-{#            {{ include('partials/_breadcrumbs.html.twig') }}#}
-{#            <div class="row gx-5 align-items-center">#}
-{#                    <div class="col-lg-7 text-center text-lg-start">#}
-{#                        <h1 class="display-1 lh-1 mb-3">Trouvez l'âme soeur </h1>#}
-{#                        <p class="col-lg-10 lead fw-normal mb-5">#}
-{#                            Lors de l'une de nos activités, on a tous échangé un regard avec une personne qui#}
-{#                            nous a plu,#}
-{#                            sans oser l’aborder. Grâce à Spami, retrouvez les personnes que vous avez#}
-{#                            croisées lors de vos acticités !#}
-{#                        </p>#}
-{#                    </div>#}
-{#                    <div class="col-md-10 mx-auto col-lg-5 " id="formLogin">#}
-{#                        {{ include('security/_form.html.twig') }}#}
-{#                    </div>#}
-{#            </div>#}
+{#<form method="post">#}
+{#    {% if error %}#}
+{#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+{#    {% endif %}#}
+
+{#    {% if app.user %}#}
+{#        <div class="mb-3">#}
+{#            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>#}
 {#        </div>#}
-{#    </section>#}
+{#    {% endif %}#}
+
+{#    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
+{#    <label for="inputEmail">Email</label>#}
+{#    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>#}
+{#    <label for="inputPassword">Password</label>#}
+{#    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>#}
+
+{#    <input type="hidden" name="_csrf_token"#}
+{#           value="{{ csrf_token('authenticate') }}"#}
+{#    >#}
+
+{#    #}{##}
+{#        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
+{#        See https://symfony.com/doc/current/security/remember_me.html#}
+
+{#        <div class="checkbox mb-3">#}
+{#            <label>#}
+{#                <input type="checkbox" name="_remember_me"> Remember me#}
+{#            </label>#}
+{#        </div>#}
+{#    #}
+
+{#    <button class="btn btn-lg btn-primary" type="submit">#}
+{#        Sign in#}
+{#    </button>#}
+{#</form>#}
+
+{{ include('front/security/_form.html.twig') }}
+
 {% endblock %}

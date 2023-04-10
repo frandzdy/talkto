@@ -22,10 +22,8 @@
         use TraitTimestamp, TraitToken, TraitIntro;
 
         const ROLE_USER = 'ROLE_USER';
-        const ROLE_ADMIN = 'ROLE_ADMIN';
-        const ROLE_ABO_1 = 'ROLE_SPAM';
-        const ROLE_ABO_2 = 'ROLE_SPAMMEUR';
-        const ROLE_ABO_3 = 'ROLE_LOVER';
+        const ROLE_SELLER = 'ROLE_SELLER';
+
         /**
          * @ORM\Id
          * @ORM\GeneratedValue

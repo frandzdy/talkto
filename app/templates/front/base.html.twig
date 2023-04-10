@@ -36,7 +36,7 @@
 {#	            var googleTagUa = '{{ googleTagUa }}';#}
 {#		        var dataLayer = [];#}
 {#				var isLogged = false;#}
-{#				var policyUrl = '{{ absolute_url(path('app_right_policy')) }}';#}
+{#				var policyUrl = '{{ absolute_url(path('front_policy')) }}';#}
 {#                {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
 {#                    var userId = '{{ app.user.token }}';#}
 {#                    var lastname = '{{ app.user.lastname }}';#}
@@ -115,7 +115,7 @@
             var googleTagUa = '{{ googleTagUa }}';
             var dataLayer = [];
             var isLogged = false;
-            var policyUrl = '{{ absolute_url(path('app_right_policy')) }}';
+            var policyUrl = '{{ absolute_url(path('front_policy')) }}';
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             var userId = '{{ app.user.token }}';
             var lastname = '{{ app.user.lastname }}';
@@ -135,12 +135,6 @@
         <script src="{{ asset(file) }}"></script>
         {% endfor %}
         <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
-
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% for file in encore_entry_js_files('app_client') %}
-        <script src="{{ asset(file) }}"></script>
-        {% endfor %}
-        {% endif %}
     {% endblock %}
 </head>
 <body id="page-top" {% if app.user %}{{ stimulus_controller('commun') }}{% endif %} data-turbo-cache="false" {{ stimulus_controller('alert') }}>
