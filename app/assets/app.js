@@ -10,7 +10,7 @@ import 'toastr/build/toastr.min.css';
 import './styles/app.scss';
 
 // start the Stimulus application
-//import './bootstrap';
+import './bootstrap';
 
 // ajout des fichiers js
 // import Jquery

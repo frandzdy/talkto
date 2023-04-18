@@ -1,5 +1,9 @@
 {
     "devDependencies": {
+        "@hotwired/stimulus": "^3.2.1",
+        "@hotwired/turbo": "^7.0.1",
+        "@symfony/stimulus-bridge": "^3.2.2",
+        "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "@symfony/webpack-encore": "^1.7.0",
         "core-js": "^3.0.0",
         "file-loader": "6.0.0",
@@ -17,7 +21,7 @@
         "build": "encore production --progress"
     },
     "engines": {
-        "node": "18.x",
+        "node": "20.x",
         "yarn": "1.x"
     },
     "dependencies": {

@@ -92,7 +92,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#2d89ef">
-
+    <meta name="turbo-cache-control" content="no-cache">
     {% block metas %}
         <meta name="keywords" content="">
     {% endblock %}
@@ -100,11 +100,6 @@
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
-</head>
-<body id="page-top">
-{% block body %}{% endblock %}
-
-{% block javascripts %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
         var googleGtm = '{{ googleGtm }}';
@@ -131,7 +126,11 @@
     {% for file in encore_entry_js_files('app') %}
         <script src="{{ asset(file) }}"></script>
     {% endfor %}
+</head>
+<body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
+{% block body %}{% endblock %}
 
+{% block javascripts %}
     {% for flash_message in app.session.flashBag.get('error') %}
         <script>toastr.error("{{ flash_message }}")</script>
     {% endfor %}
