@@ -29,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * L'e-mail de l'utilisateur
@@ -125,14 +125,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $description;
 
     /**
-     * A propos de l'utilisateur
+     *  Mot de passe
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private ?string $password;
 
     /**
-     * A propos de l'utilisateur
+     * Mot de passe en clair de l'utilisateur
      */
     private ?string $plainPassword;
 
@@ -153,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $stripeCustomerId;
+    private ?string $stripeCustomerId = null;
 
     public function getFullname(): ?string
     {

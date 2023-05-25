@@ -18,6 +18,6 @@
         ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "start_url": "https://hidden-bastion-42971.herokuapp.com",
+    "start_url": "http://localhost",
     "display": "standalone"
 }

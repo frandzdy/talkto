@@ -43,17 +43,17 @@
          */
         public function uploadFile(string $directory, UploadedFile $file): string
         {
-            try {
+            //try {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
                 $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
                 $file->move($this->getDirectoryPath($directory), $fileName);
                 
                 return $fileName;
-            } catch (\Exception $e) {
-                $this->logger->error('Erreur upload fichier : ', ['message' => $e->getMessage()]);
-                return '';
-            }
+//            } catch (\Exception $e) {
+//                $this->logger->error('Erreur upload fichier : ', ['message' => $e->getMessage()]);
+//                return '';
+//            }
         }
         
         /**

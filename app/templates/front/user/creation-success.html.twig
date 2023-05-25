@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
 {% block title %}
     Affichage du profil correspondant au match - Liker et chatter avec votre matchs | {{ parent() }}
@@ -38,7 +38,7 @@
                                 </small>
                             </div>
                             <div class="text-center">
-                                <a class="btn btn-blue" title="Retourne à l'accueil" href="{{ path('home') }}">Retourner à l'accueil</a>
+                                <a class="btn btn-blue" title="Retourne à l'accueil" href="{{ path('front_home') }}">Retourner à l'accueil</a>
                             </div>
                         </div>
                     </div>

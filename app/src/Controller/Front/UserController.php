@@ -4,18 +4,16 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use App\Service\MailerManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
@@ -64,7 +62,7 @@ class UserController extends AbstractController
 
         return $this->render('front/user/edit.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'form' => $form
         ]);
     }
 
@@ -81,6 +79,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureFileData = $form->get('picture')->getData();
+
             $userManager->saveOrEditUser($form->getData(), $pictureFileData, true);
             $this->addFlash('success', 'Enregistrement effectué.');
 
@@ -183,7 +182,7 @@ class UserController extends AbstractController
     public function userSuccessCreation(): Response
     {
 
-        return $this->render('user/creation-success.html.twig');
+        return $this->render('front/user/creation-success.html.twig');
     }
 
     /**

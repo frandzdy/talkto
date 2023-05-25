@@ -171,6 +171,7 @@ class UserType extends AbstractType
                             'label' => 'Confirmez votre mot de passe',
                         ],
                     'mapped' => false,
+                    'invalid_message' => 'Vos mot de pas se sont pas identique.',
                 ]
             );
     }
