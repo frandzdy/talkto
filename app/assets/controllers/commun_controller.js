@@ -17,7 +17,7 @@ export default class extends Controller {
 
     connect() {
         this.handleBsCustomFileInput($('[type=file]'))
-
+        this.initPLugins();
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
                 event.preventDefault();
@@ -61,7 +61,7 @@ export default class extends Controller {
                     }
                 });
             });
-        this.initPLugins();
+
     }
 
     containerTargetConnected() {
