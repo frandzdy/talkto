@@ -2,26 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\Children;
-use App\Entity\Genre;
-use App\Entity\InterestExit;
-use App\Entity\InterestHobbies;
-use App\Entity\InterestSports;
-use App\Entity\Smoker;
 use App\Entity\User;
+use App\Enum\Civility;
 use \Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RangeType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use \Symfony\Component\Form\Extension\Core\Type\EnumType;
+use \Symfony\Component\Form\Extension\Core\Type\FileType;
+use \Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use \Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use \Symfony\Component\Form\Extension\Core\Type\TelType;
 use \Symfony\Component\Form\Extension\Core\Type\TextType;
-use \Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use \Symfony\Component\Form\Extension\Core\Type\EmailType;
 use \Symfony\Component\Form\FormBuilderInterface;
 use \Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -30,10 +22,12 @@ class UserType extends AbstractType
         $builder
             ->add(
                 'genre',
-                ChoiceType::class,
+                EnumType::class,
                 [
-                    'choices' => array_flip(Genre::getAvailableGenres()),
-                    'label' => false,
+                    'class' => Civility::class,
+                    'choice_label' => 'label',
+                    'label' => 'Information personnelle',
+                    'label_attr' => ['class'=>'form-text text-muted'],
                     'attr' =>
                         [
                             'placeholder' => 'Civilité *',
@@ -42,7 +36,7 @@ class UserType extends AbstractType
             )
             ->add(
                 'phone',
-                TextType::class,
+                TelType::class,
                 [
                     'label' => false,
                     'attr' =>
@@ -56,7 +50,8 @@ class UserType extends AbstractType
                 'address',
                 TextType::class,
                 [
-                    'label' => false,
+                    'label' => 'Adresse',
+                    'label_attr' => ['class'=>'form-text text-muted'],
                     'attr' =>
                         [
                             'placeholder' => 'Adresse *',
@@ -145,18 +140,6 @@ class UserType extends AbstractType
                         ]
                 ]
             )->add(
-                'description',
-                TextareaType::class,
-                [
-                    'label' => false,
-                    'attr' =>
-                        [
-                            'placeholder' => 'À propos',
-                            'style' => 'height: 200px',
-                            'maxlength' => 255
-                        ]
-                ]
-            )->add(
                 'plainPassword',
                 RepeatedType::class,
                 [
@@ -164,6 +147,7 @@ class UserType extends AbstractType
                     'first_options' =>
                         [
                             'label' => 'Mot de passe',
+                            'label_attr' => ['class'=>'form-text text-muted'],
                             'hash_property_path' => 'password'
                         ],
                     'second_options' =>

@@ -1,0 +1,35 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block title %} {{ 'Nouveau compte | ' ~ parent() }} {% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Création de compte gratuit ou avec abonnements, choissisez vos centres d'intérêts, trouvez des matchs près de chez vous">
+    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+{% endblock %}
+
+{% set breadcrumbTitle = app.user ? 'Mon compte' : 'Nouveau compte' %}
+{% set breadcrumbItems =
+    {
+        breadcrumbTitle: ''
+    }
+%}
+
+{% block content %}
+    {{ include('partials/_breadcrumbs.html.twig') }}
+    <!-- login Area Strat-->
+    <section class="login-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="basic-login">
+                        <h3 class="text-center mb-60">{{ app.user ? 'Mes informations' : 'S\'inscrire' }} </h3>
+                        {{ include('front/user/byer/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- login Area End-->
+{% endblock %}

@@ -1,6 +1,8 @@
 import {Controller} from '@hotwired/stimulus';
 import 'toastr'
 import $ from "jquery";
+import bsCustomFileInput from "bs-custom-file-input";
+
 /*
  * This is an example Stimulus controller!
  *
@@ -11,9 +13,11 @@ import $ from "jquery";
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
-    static targets = ['container', 'modal', 'alertSuccess'];
+    static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
 
     connect() {
+        this.handleBsCustomFileInput($('[type=file]'))
+
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
                 event.preventDefault();
@@ -24,7 +28,17 @@ export default class extends Controller {
 
                 this.openModal(title, href, size);
             })
+            .on('click', 'a.open-product-modal', (event) => {
+                event.preventDefault();
+                const item = $(event.currentTarget);
+                const href = item.attr('href');
+                const title = item.data('modal-title');
+                const size = item.data('lg-size');
+
+                this.openProductModal(title, href, size);
+            })
             .on('click', 'a.post-confirm', (event) => {
+                alert("re")
                 // Liens d'actions avec confirmation
                 event.preventDefault();
                 const item = $(event.currentTarget);
@@ -47,6 +61,254 @@ export default class extends Controller {
                     }
                 });
             });
+        this.initPLugins();
+    }
+
+    containerTargetConnected() {
+
+    }
+
+    /**
+     * Permet de simuler un POST sur une URL
+     */
+    postUrl(url) {
+        $('<form></form>')
+            .attr('action', url)
+            .attr('id', 'form-confirm')
+            .attr('method', 'POST')
+            .appendTo('body');
+
+        $('#form-confirm').submit();
+    }
+
+    /**
+     * Gestion des fomulaires ajax
+     */
+    handleAjaxForm(target, data, action) {
+        try {
+            $.ajax({
+                type: "POST",
+                url: action,
+                enctype: 'multipart/form-data',
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: (response) => {
+                    if (response.template) {
+                        $(target).html($(response.template));
+                    }
+
+                    if (response.error) {
+                        toastr.error(response.error);
+
+                        return false;
+                    }
+
+                    if (!response.success) {
+                        if ($(target).hasClass('modal')) {
+                            $(target).find('.wrapper').html($(response));
+                            this.handleModalForm(target);
+                            this.handleBsCustomFileInput($(target).find('.custom-file-input[type="file"]'));
+                        } else if (!response.template) {
+                            $(target).html($(response));
+                        }
+
+                        return false;
+                    }
+
+                    if (response.success && response.redirectUrl) {
+                        document.location = response.redirectUrl;
+                        document.location.reload();
+                        return false;
+                    }
+
+                    if (response.success && response.callback) {
+                        if (response.callbackData) {
+                            window[response.callback](response.callbackData)
+                        } else {
+                            window[response.callback]();
+                        }
+                        $(this.modalTarget).modal('hide');
+                    }
+
+                    if (response.message) {
+                        toastr.success(response.message);
+                    }
+                },
+                error: function (response) {
+                    console.error(response.responseText);
+                    if (response.status === 422) {
+                        if ($(target).hasClass('modal')) {
+                            $(target).find('.wrapper').html(response.responseText);
+                            this.handleModalForm(target);
+                        } else if (!response.template) {
+                            $(target).html($(response));
+                        }
+                    } else {
+                        toastr.error("Une erreur est survenue.");
+                    }
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            //$(target).html();
+        }
+    }
+
+    openModal(title, href, size) {
+        $.get(href).done((response) => {
+            if (title) {
+                $(this.modalTarget).find('.modal-title').html(title);
+            }
+            if (size == true) {
+                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
+            }
+            $(this.modalTarget).find('.wrapper').html(response);
+            this.handleModalForm(this.modalTarget);
+            this.handleBsCustomFileInput($(this.modalTarget).find('.custom-file-input[type="file"]'));
+            $(this.modalTarget).modal('show');
+
+        }).fail((error) => {
+            toastr.error("Une erreur est survenue.");
+        });
+    }
+    openProductModal(title, href, size) {
+        $.get(href).done((response) => {
+            if (title) {
+                $(this.modalTarget).find('.modal-title').html(title);
+            }
+            if (size == true) {
+                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
+            }
+            $(this.modalTarget).find('.wrapper').html(response);
+            this.handleModalForm(this.modalTarget);
+            this.handleBsCustomFileInput($(this.modalTarget).find('.custom-file-input[type="file"]'));
+            $(this.modalTarget).modal('show');
+
+        }).fail((error) => {
+            toastr.error("Une erreur est survenue.");
+        });
+    }
+
+    hidePageLoader() {
+        return $('[id=page-loader]').addClass('d-none');
+    };
+
+    /**
+     * Traitement des formulaires en modale
+     * @param target
+     */
+    handleModalForm(target) {
+        $(target).find('form').on('submit', (event) => {
+            event.preventDefault();
+
+            const data = new FormData($(event.currentTarget)[0]);
+            const action = $(event.currentTarget).attr('action');
+
+            this.handleAjaxForm(target, data, action);
+        });
+    };
+
+    /**
+     * Permet de custom les input file bootstrap
+     */
+
+    imagesPreview(input, placeToInsertImagePreview) {
+        if (input.files) {
+            const filesAmount = input.files.length;
+            const filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+            for (let i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const image = new Image();
+
+                    image.onload = function () {
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
+                        const max_size = 198;
+                        let width = image.width;
+                        let height = image.height;
+                        if (width > max_size) {
+                            height *= max_size / width;
+                            width = max_size;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        context.drawImage(image,
+                            0,
+                            0,
+                            image.width,
+                            image.height,
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                        );
+                        $($.parseHTML('<div>')).attr('id', 'imgPrev' + i).attr('style', 'width:' + canvas.width + 'height:' + canvas.height)
+                            .css({'margin-right': '4px'})
+                            .appendTo(placeToInsertImagePreview);
+                        $($.parseHTML('<img>')).attr('src', canvas.toDataURL())
+                            .addClass('img-fluid img-thumbnail float-end')
+                            .appendTo('div#imgPrev' + i);
+                    }
+                    image.src = event.target.result;
+                }
+                if (!filterType.test(input.files[i].type)) {
+                    alert("Please select a valid image.");
+                    return;
+                }
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+    };
+
+    previewProfileFile() {
+        var input = this.profileFileTarget;
+        $('div#previewFile').fadeOut('slow');
+        $('#previewFile').remove();
+        var el = $('<div id="previewFile" class="previewFile"></div>');
+        $('#file').append(el);
+        this.imagesPreview(input, 'div#previewFile');
+        $('div#previewFile').fadeIn('slow');
+    }
+
+    previewChatFile() {
+        var input = this.chatFileTarget;
+        $('div#previewFile').fadeOut();
+        $('#previewFile').remove();
+        var el = $('<div id="previewFile" class="previewFile"></div>');
+        $('#receiver').append(el);
+        this.imagesPreview(input, 'div#previewFile');
+        $('div#previewFile').fadeIn('slow');
+    }
+
+    /**
+     * Callback button target alertSuccess
+     */
+    alertSuccessTargetConnected() {
+        setTimeout(() => {
+            if ($(this.alertSuccessTarget).css('display') == "block") {
+                $(this.alertSuccessTarget).hide('slideUp');
+            }
+        }, 5000);
+    }
+
+    handleBsCustomFileInput(container)
+    {
+        if ($(container)) {
+            bsCustomFileInput.init();
+            $(container).change(function () {
+                var fieldVal = $(this).val();
+                if (fieldVal != undefined || fieldVal != "") {
+                    $(this).next(".custom-file-label").text(fieldVal);
+                }
+            });
+        }
+    }
+
+    initPLugins() {
         ////////////////////////////////////////////////////
         // 01. PreLoader Js
         $("#loading").fadeOut(2000);
@@ -123,19 +385,20 @@ export default class extends Controller {
                 }
             });
         }
+
         smoothSctollTop();
 
         // Show or hide the sticky footer button
-        $(window).on('scroll', function(event) {
-            if($(this).scrollTop() > 600){
+        $(window).on('scroll', function (event) {
+            if ($(this).scrollTop() > 600) {
                 $('#scroll').fadeIn(200)
-            } else{
+            } else {
                 $('#scroll').fadeOut(200)
             }
         });
 
         //Animate the scroll to yop
-        $('#scroll').on('click', function(event) {
+        $('#scroll').on('click', function (event) {
             event.preventDefault();
 
             $('html, body').animate({
@@ -188,6 +451,7 @@ export default class extends Controller {
                 });
             }
         }
+
         mainSlider();
 
         ////////////////////////////////////////////////////
@@ -235,6 +499,7 @@ export default class extends Controller {
                 });
             }
         }
+
         mainSlider2();
 
 
@@ -274,69 +539,68 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 10. Product Slider Js
         $('.product__slider ').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:4
+                1200: {
+                    items: 4
                 },
-                1600:{
-                    items:4
+                1600: {
+                    items: 4
                 }
             }
         });
 
 
-
         ////////////////////////////////////////////////////
         // 11. Product Slider 2 Js ( home page 2 )
         $('.product__slider-2 ').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:2
+                992: {
+                    items: 2
                 },
-                1200:{
-                    items:2
+                1200: {
+                    items: 2
                 },
-                1600:{
-                    items:3
+                1600: {
+                    items: 3
                 }
             }
         });
@@ -345,33 +609,33 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 12. Product Slider 3 Js ( home page 2 )
         $('.product__slider-3').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:2
+                992: {
+                    items: 2
                 },
-                1200:{
-                    items:2
+                1200: {
+                    items: 2
                 },
-                1600:{
-                    items:2
+                1600: {
+                    items: 2
                 }
             }
         });
@@ -380,33 +644,33 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 13. Product Slider 4 Js ( home page 4 )
         $('.product__slider-4').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:4
+                1200: {
+                    items: 4
                 },
-                1600:{
-                    items:5
+                1600: {
+                    items: 5
                 }
             }
         });
@@ -415,33 +679,33 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 14. Sale Slider Js
         $('.sale__area-slider ').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:5
+                1200: {
+                    items: 5
                 },
-                1600:{
-                    items:5
+                1600: {
+                    items: 5
                 }
             }
         });
@@ -450,69 +714,68 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 15. Sale Slider 2 Js  ( home page 2 )
         $('.sale__area-slider-2 ').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:5
+                1200: {
+                    items: 5
                 },
-                1600:{
-                    items:6
+                1600: {
+                    items: 6
                 }
             }
         });
 
 
-
         ////////////////////////////////////////////////////
         // 16. Client Slider Js
         $('.client__slider').owlCarousel({
-            loop:true,
-            margin:0,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fa fa-angle-left"></i>PREV</button>','<button>NEXT<i class="fa fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 0,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                576:{
-                    items:2
+                576: {
+                    items: 2
                 },
-                767:{
-                    items:3
+                767: {
+                    items: 3
                 },
-                992:{
-                    items:4
+                992: {
+                    items: 4
                 },
-                1200:{
-                    items:5
+                1200: {
+                    items: 5
                 },
-                1600:{
-                    items:5
+                1600: {
+                    items: 5
                 }
             }
         });
@@ -521,30 +784,30 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 17. Blog Slider Js
         $('.blog__slider').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:false,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:3
+                1200: {
+                    items: 3
                 },
-                1600:{
-                    items:3
+                1600: {
+                    items: 3
                 }
             }
         });
@@ -552,30 +815,30 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 18. Product Offer SLider Js ( home 2 )
         $('.product__offer-slider').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:true,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:1
+                767: {
+                    items: 1
                 },
-                992:{
-                    items:1
+                992: {
+                    items: 1
                 },
-                1200:{
-                    items:1
+                1200: {
+                    items: 1
                 },
-                1600:{
-                    items:1
+                1600: {
+                    items: 1
                 }
             }
         });
@@ -583,7 +846,7 @@ export default class extends Controller {
 
         ////////////////////////////////////////////////////
         // 19. Masonary Js
-        $('.grid').imagesLoaded( function() {
+        $('.grid').imagesLoaded(function () {
             // init Isotope
             var $grid = $('.grid').isotope({
                 itemSelector: '.grid-item',
@@ -596,13 +859,13 @@ export default class extends Controller {
 
 
             // filter items on button click
-            $('.masonary-menu').on( 'click', 'button', function() {
+            $('.masonary-menu').on('click', 'button', function () {
                 var filterValue = $(this).attr('data-filter');
-                $grid.isotope({ filter: filterValue });
+                $grid.isotope({filter: filterValue});
             });
 
             //for menu active class
-            $('.masonary-menu button').on('click', function(event) {
+            $('.masonary-menu button').on('click', function (event) {
                 $(this).siblings('.active').removeClass('active');
                 $(this).addClass('active');
                 event.preventDefault();
@@ -678,30 +941,30 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 27. product__slider-active Js ( home 7 )
         $('.product__slider-active').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:true,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:2
+                767: {
+                    items: 2
                 },
-                992:{
-                    items:3
+                992: {
+                    items: 3
                 },
-                1200:{
-                    items:4
+                1200: {
+                    items: 4
                 },
-                1600:{
-                    items:4
+                1600: {
+                    items: 4
                 }
             }
         });
@@ -709,30 +972,30 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. testimonial__slider-active Js ( home 7 )
         $('.testimonial__slider-active').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:false,
-            dots:true,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: false,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:1
+                767: {
+                    items: 1
                 },
-                992:{
-                    items:1
+                992: {
+                    items: 1
                 },
-                1200:{
-                    items:1
+                1200: {
+                    items: 1
                 },
-                1600:{
-                    items:1
+                1600: {
+                    items: 1
                 }
             }
         });
@@ -740,30 +1003,30 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. blog__slider-active Js ( home 7 )
         $('.blog__slider-active').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:true,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:1
+                767: {
+                    items: 1
                 },
-                992:{
-                    items:2
+                992: {
+                    items: 2
                 },
-                1200:{
-                    items:2
+                1200: {
+                    items: 2
                 },
-                1600:{
-                    items:2
+                1600: {
+                    items: 2
                 }
             }
         });
@@ -771,226 +1034,32 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. brand__slider-active Js ( home 7 )
         $('.brand__slider-active').owlCarousel({
-            loop:true,
-            margin:30,
-            autoplay:false,
-            autoplayTimeout:3000,
-            smartSpeed:500,
-            items:6,
-            navText:['<button><i class="fal fa-angle-left"></i></button>','<button><i class="fal fa-angle-right"></i></button>'],
-            nav:true,
-            dots:false,
-            responsive:{
-                0:{
-                    items:1
+            loop: true,
+            margin: 30,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 500,
+            items: 6,
+            navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                767:{
-                    items:3
+                767: {
+                    items: 3
                 },
-                992:{
-                    items:4
+                992: {
+                    items: 4
                 },
-                1200:{
-                    items:5
+                1200: {
+                    items: 5
                 },
-                1600:{
-                    items:5
+                1600: {
+                    items: 5
                 }
             }
         });
-    }
-
-    containerTargetConnected() {
-
-    }
-
-    /**
-     * Permet de simuler un POST sur une URL
-     */
-    postUrl(url) {
-        $('<form></form>')
-            .attr('action', url)
-            .attr('id', 'form-confirm')
-            .attr('method', 'POST')
-            .appendTo('body');
-
-        $('#form-confirm').submit();
-    }
-
-    /**
-     * Gestion des fomulaires ajax
-     */
-    handleAjaxForm(target, data, action) {
-        $.ajax({
-            type: "POST",
-            url: action,
-            enctype: 'multipart/form-data',
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: (response) => {
-                if (response.template) {
-                    $(target).html($(response.template));
-                }
-
-                if (response.error) {
-                    toastr.error(response.error);
-
-                    return false;
-                }
-
-                if (!response.success) {
-                    if ($(target).hasClass('modal')) {
-                        $(target).find('.wrapper').html($(response));
-                        this.handleModalForm(target);
-                    } else if (!response.template) {
-                        $(target).html($(response));
-                    }
-
-                    return false;
-                }
-
-                if (response.success && response.redirectUrl) {
-                    document.location = response.redirectUrl;
-                    document.location.reload();
-                    return false;
-                }
-
-                if (response.success && response.callback) {
-                    if (response.callbackData) {
-                        window[response.callback](response.callbackData)
-                    } else {
-                        window[response.callback]();
-                    }
-                    $(this.modalTarget).modal('hide');
-                }
-
-                if (response.message) {
-                    toastr.success(response.message);
-                }
-            },
-            error: function (response) {
-                console.error(response);
-                toastr.error("Une erreur est survenue.");
-            }
-        });
-    }
-
-    openModal(title, href, size) {
-        $.get(href).done((response) => {
-            if (title) {
-                $(this.modalTarget).find('.modal-title').html(title);
-            }
-            if (size == true) {
-                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
-            }
-            $(this.modalTarget).find('.wrapper').html(response);
-            this.handleModalForm(this.modalTarget);
-            $(this.modalTarget).modal('show');
-
-        }).fail((error) => {
-            toastr.error("Une erreur est survenue.");
-        });
-    }
-
-    hidePageLoader() {
-        return $('[id=page-loader]').addClass('d-none');
-    };
-
-    /**
-     * Traitement des formulaires en modale
-     * @param target
-     */
-    handleModalForm(target) {
-        $(target).find('form').on('submit', (event) => {
-            event.preventDefault();
-
-            const data = new FormData($(event.currentTarget)[0]);
-            const action = $(event.currentTarget).attr('action');
-
-            this.handleAjaxForm(target, data, action);
-        });
-    };
-
-    imagesPreview(input, placeToInsertImagePreview) {
-        if (input.files) {
-            const filesAmount = input.files.length;
-            const filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
-            for (let i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
-
-                reader.onload = (event) => {
-                    const image = new Image();
-
-                    image.onload = function () {
-                        const canvas = document.createElement("canvas");
-                        const context = canvas.getContext("2d");
-                        const max_size = 198;
-                        let width = image.width;
-                        let height = image.height;
-                        if (width > max_size) {
-                            height *= max_size / width;
-                            width = max_size;
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        context.drawImage(image,
-                            0,
-                            0,
-                            image.width,
-                            image.height,
-                            0,
-                            0,
-                            canvas.width,
-                            canvas.height
-                        );
-                        $($.parseHTML('<div>')).attr('id', 'imgPrev'+i).attr('style', 'width:' + canvas.width + 'height:' + canvas.height)
-                            .css({'margin-right':'4px'})
-                            .appendTo(placeToInsertImagePreview);
-                        $($.parseHTML('<img>')).attr('src', canvas.toDataURL())
-                            .addClass('img-fluid img-thumbnail float-end')
-                            .appendTo('div#imgPrev'+i);
-                    }
-                    image.src = event.target.result;
-                }
-                if (!filterType.test(input.files[i].type)) {
-                    alert("Please select a valid image.");
-                    return;
-                }
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
-    };
-
-    previewProfileFile() {
-        var input = this.profileFileTarget;
-        $('div#previewFile').fadeOut('slow');
-        $('#previewFile').remove();
-        var el = $('<div id="previewFile" class="previewFile"></div>');
-        $('#file').append(el);
-        this.imagesPreview(input, 'div#previewFile');
-        $('div#previewFile').fadeIn('slow');
-    }
-
-    previewChatFile() {
-        var input = this.chatFileTarget;
-        $('div#previewFile').fadeOut();
-        $('#previewFile').remove();
-        var el = $('<div id="previewFile" class="previewFile"></div>');
-        $('#receiver').append(el);
-        this.imagesPreview(input, 'div#previewFile');
-        $('div#previewFile').fadeIn('slow');
-    }
-
-    /**
-     * Callback button target alertSuccess
-     */
-    alertSuccessTargetConnected() {
-        setTimeout(() => {
-            if ($(this.alertSuccessTarget).css('display') == "block") {
-                $(this.alertSuccessTarget).hide('slideUp');
-            }
-        }, 5000);
     }
 }

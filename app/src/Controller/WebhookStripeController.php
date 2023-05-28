@@ -81,7 +81,7 @@
                         $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
                         $mailer->sendMailNotification(
                             $user->getEmail(),
-                            'emails/create_account_abonnement_login_link.html.twig',
+                            'front/emails/create_account_abonnement_login_link.html.twig',
                             [
                                 'link' => $loginLinkDetails->getUrl(),
                                 'user' => $user,

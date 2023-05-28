@@ -25,12 +25,14 @@ class UserManager
     }
 
     /**
-     * Retourne un user prêt pour la création
+     * Retourne un user prêt pour la création soit byer soit seller
      */
-    public function createUser(): user
+    public function createUser(int $typeAccount = 1): user
     {
         $user = (new User())
-            ->setToken(hash('sha256', random_bytes(32)));
+            ->setToken(hash('sha256', random_bytes(32)))
+            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER])
+        ;
 
         return $user;
     }
@@ -54,9 +56,12 @@ class UserManager
         }
 
         // si on n'a pas de compte stripe
-        if (!$user->getStripeCustomerId()) {
+        if (!$user->getStripeCustomerId() and in_array(User::ROLE_USER, $user->getRoles())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
+        } elseif(!$user->getStripeAccountId()) {
+            $account = $this->stripeManager->createAccount($user);
+            $user->setStripeAccountId($account->id);
         }
 
         $this->entityManager->flush();

@@ -4,6 +4,8 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\ProductRepository;
+use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,14 +16,18 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
     #[Route('/mon-compte', name: 'user_account', methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(): Response
+    public function account(ProductRepository $productRepository): Response
     {
-        return $this->render('front/user/account.html.twig',['user' => $this->getUser()]);
+        $user = $this->getUser();
+        $products = $productRepository->findBy(['user' => $user->getId()]);
+
+        return $this->render('front/user/byer/account.html.twig', compact('user', 'products'));
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
@@ -29,7 +35,8 @@ class UserController extends AbstractController
         Request                   $request,
         UserManager               $userManager,
         MailerManager             $mailer,
-        RequestStack              $requestStack
+        UserAuthenticatorInterface $authenticator,
+        FrontAuthenticator $frontAuthenticator
     ): Response
     {
         if (!is_null($this->getUser())) {
@@ -44,23 +51,26 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureFileData = $form->get('picture')->getData();
 
-            $userManager->saveOrEditUser($form->getData(), $pictureFileData, false);
+            $userManager->saveOrEditUser($form->getData(), $pictureFileData);
             // changer vers une route de success de création
-            $route = 'front_user_success_creation';
             $param = [];
             $mailer->sendMailNotification(
                 $user->getEmail(),
-                'emails/create_account_free_login_link.html.twig',
+                'front/emails/create_account.html.twig',
                 [
                     'user' => $user,
                 ]
             );
             $userManager->saveUser();
 
-            return $this->redirectToRoute($route, $param, Response::HTTP_SEE_OTHER);
+            // substitute the previous line (redirect response) with this one.
+            return $authenticator->authenticateUser(
+                $user,
+                $frontAuthenticator,
+                $request);
         }
 
-        return $this->render('front/user/edit.html.twig', [
+        return $this->render('front/user/byer/edit.html.twig', [
             'user' => $user,
             'form' => $form
         ]);
@@ -74,7 +84,7 @@ class UserController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['action' => $request->getRequestUri()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,16 +93,18 @@ class UserController extends AbstractController
             $userManager->saveOrEditUser($form->getData(), $pictureFileData, true);
             $this->addFlash('success', 'Enregistrement effectué.');
 
-            return $this->redirectToRoute(
-                'front_user_edit',
+            return $this->json(
                 [
+                    'success' => true,
+                    'redirectUrl' => $this->generateUrl('front_user_edit')
                 ],
-                Response::HTTP_SEE_OTHER);
+                Response::HTTP_OK
+            );
         }
 
-        return $this->render('front/user/edit.html.twig', [
+        return $this->render('front/user/byer/_form.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -182,7 +194,7 @@ class UserController extends AbstractController
     public function userSuccessCreation(): Response
     {
 
-        return $this->render('front/user/creation-success.html.twig');
+        return $this->render('front/user/byer/creation-success.html.twig');
     }
 
     /**
@@ -207,43 +219,6 @@ class UserController extends AbstractController
                 $user->setLon($lon);
                 $userManager->saveUser();
             }
-        } catch (\Exception $e) {
-            // logger l'erreur
-            $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());
-        }
-
-        return $this->json(['success' => true], Response::HTTP_OK);
-    }
-
-    /**
-     * Check et récupère via api gouv les coordonnées GPS d'un utilisateur
-     */
-    #[Route('/check-coord', name: 'user_check_coord', options: ["expose" => true], methods: ['POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function checkCoord(UserManager $userManager, LoggerInterface $logger): Response
-    {
-        try {
-            $user = $this->getUser();
-            $userManager->checkCoord($user);
-        } catch (\Exception $e) {
-            // logger l'erreur
-            $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());
-        }
-
-        return $this->json(['success' => true], Response::HTTP_OK);
-    }
-
-    /**
-     * @return Response
-     */
-    #[Route('vu-profil', name: "user_intro_menu", options: ['expose' => true], methods: ['POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function seeIntroMenu(UserManager $userManager, LoggerInterface $logger): Response
-    {
-        try {
-            $user = $this->getUser();
-            $user->setIntroMenu(true);
-            $userManager->saveUser($user);
         } catch (\Exception $e) {
             // logger l'erreur
             $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());

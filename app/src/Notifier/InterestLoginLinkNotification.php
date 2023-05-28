@@ -14,7 +14,7 @@
         
             // get the NotificationEmail object and override the template
             $email = $emailMessage->getMessage();
-            $email->htmlTemplate('emails/custom_login_link_email.html.twig');
+            $email->htmlTemplate('front/emails/custom_login_link_email.html.twig');
 
             return $emailMessage;
         }

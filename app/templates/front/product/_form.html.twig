@@ -1,0 +1,45 @@
+{% import "front/macros/macros.html.twig" as macros %}
+
+<div class="profile__edit-wrapper" {{ stimulus_controller('product') }}>
+    {{ form_start(form) }}
+    {#    <div class="row"> #}
+    {#        <div class="col-3 profile__basic-thumb valign-items-center"> #}
+    {#            <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}" #}
+    {#                 alt="{{ pictureName }}"> #}
+    {#        </div> #}
+    {#        <div class="col-8" style="margin-top: 23px"> #}
+    {#            {{ form_row(form.picture) }} #}
+    {#        </div> #}
+    {#    </div> #}
+    {#    {{ form_row(form.genre) }} #}
+    <div class="profile__edit-input">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.amount) }}
+    </div>
+    <div class="profile__edit-input">
+        Ajosuter des photos à votre produit
+        <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
+                data-action="click->product#onFileAdd">
+            <i class="fas fa-plus "></i>
+        </button>
+    </div>
+    <div class="manager-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+        {% for picture in form.uploadedPictures %}
+            {{ macros.pictureField(picture) }}
+        {% endfor %}
+    </div>
+    {{ form_rest(form) }}
+    {% if not app.user %}
+        <button class="os-btn w-100" formnovalidate>S'inscrire</button>
+        <div class="or-divide"><span>ou</span></div>
+        <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100">Se connecter</a>
+    {% else %}
+        <button class="os-btn w-100" formnovalidate>Modifier</button>
+    {% endif %}
+    {{ form_end(form) }}
+</div>

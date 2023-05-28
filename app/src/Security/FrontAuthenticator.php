@@ -2,13 +2,14 @@
 
 namespace App\Security;
 
+use App\Entity\User;
+use App\Service\StripeManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use \Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Authenticator pour le Front Office
@@ -27,7 +29,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'front_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private StripeManager $stripeManager)
     {
     }
 
@@ -53,9 +55,19 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
+        // contrôle si on est vendeur et que le compte stripe est actif
+        /**
+         * @var User $user
+         */
+        $user = $token->getUser();
+
+        if (in_array(User::ROLE_SELLER, $user->getRoles()) && !$user->getIsStripeAccountActive()) {
+            $accountLink = $this->stripeManager->createAccountLink($user);
+
+            return new RedirectResponse($accountLink->url);
+        }
+
         return new RedirectResponse($this->urlGenerator->generate('front_home'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
@@ -65,9 +77,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
         }
 
-        $url = $this->getLoginUrl($request);
-
-        return new RedirectResponse($url);
+        return new RedirectResponse($this->getLoginUrl($request));
     }
 
     protected function getLoginUrl(Request $request): string

@@ -34,7 +34,7 @@ class AuthController extends AbstractController
     {
 
         if ($this->isGranted(User::ROLE_USER) || $this->isGranted(User::ROLE_SELLER)) {
-            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_home');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();

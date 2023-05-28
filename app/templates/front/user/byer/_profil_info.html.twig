@@ -1,0 +1,33 @@
+<div class="profile__info">
+    <div class="profile__info-top d-flex justify-content-between align-items-center">
+        <h3 class="profile__info-title">Profil Information</h3>
+        <a class="profile__info-btn open-front-modal" type="button"
+           href="{{ url('front_user_edit', {}, true) }}"
+           data-modal-title="Modifier votre profil"
+        >
+            <i class="fa-regular fa-pen-to-square"></i> Modifier votre profil
+        </a>
+    </div>
+
+    <div class="profile__info-wrapper white-bg">
+        <div class="profile__info-item">
+            <p>Nom / Prénom</p>
+            <h4>{{ user.fullname }}</h4>
+        </div>
+        <div class="profile__info-item">
+            <p>Email</p>
+            <h4><a href="mailto:{{ user.email }}" class="__cf_email__"
+                   data-cfemail="94fdfaf2fbd4f1f0e1fff1e6baf7fbf9">{{ user.email }}</a>
+            </h4>
+        </div>
+
+        <div class="profile__info-item">
+            <p>Téléphone</p>
+            <h4>(+33) {{ user.phone }}</h4>
+        </div>
+        <div class="profile__info-item">
+            <p>Adresse</p>
+            <h4>{{ user.fullAddress }}</h4>
+        </div>
+    </div>
+</div>

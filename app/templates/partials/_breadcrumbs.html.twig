@@ -1,18 +1,6 @@
-{# <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb"> #}
-{#    <ol class="breadcrumb"> #}
-{#        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li> #}
-{#        {% for label, url in breadcrumbItems|default({}) %} #}
-{#            {% if url %} #}
-{#                <li class="breadcrumb-item"><a href="{{ url }}" title="{{ label }}">{{ label }}</a></li> #}
-{#            {% else %} #}
-{#                <li class="breadcrumb-item">{{ label }}</li> #}
-{#            {% endif %} #}
-{#        {% endfor %} #}
-{#    </ol> #}
-{# </nav> #}
 <!-- page title area start -->
 <section class="page__title p-relative d-flex align-items-center"
-         data-background="assets/img/page-title/page-title-1.jpg">
+         data-background="{{ asset('build/images/img/page-title/page-title-1.jpg') }}">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">

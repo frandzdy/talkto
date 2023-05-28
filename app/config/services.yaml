@@ -28,6 +28,7 @@ parameters:
         base_path_twig: '/uploads/profile_picture/'
         directories:
             profile_picture: "profile_picture/"
+            product_picture: "product_picture/"
             medias: "medias/"
             ck_editor: "ck_editor/"
             homepage: "homepage/"

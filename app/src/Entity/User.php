@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\Civility;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -66,10 +65,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Le genre de l'utilisateur
      *
-     * @ORM\Column(type="smallint", nullable=false)
+     * @ORM\Column(type="smallint", nullable=false, enumType=Civility::class)
      * @Assert\NotBlank(message="Information requise.")
      */
-    private ?int $genre;
+    private Civility $genre;
 
     /**
      * Ville de l'utilisateur
@@ -113,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Toutes les photos de l'utilisateur
      *
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Picture", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Picture::class, orphanRemoval=true, cascade={"persist", "remove"})
      */
     private ?Picture $picture;
 
@@ -155,9 +154,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $stripeCustomerId = null;
 
+    # $stripeAccountId [SELLER]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */    private ?string $stripeAccountId = null;
+
+    # si le compte est actif [SELLER]
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $isStripeAccountActive = false;
+
     public function getFullname(): ?string
     {
-        return $this->lastname . ' ' . $this->firstname;
+        return sprintf('%s %s', strtoupper($this->lastname), $this->firstname);
     }
 
     public function getId(): ?int
@@ -196,8 +206,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -234,12 +242,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getGenre(): ?int
+    public function getGenre(): Civility
     {
         return $this->genre;
     }
 
-    public function setGenre(?int $genre): self
+    public function setGenre(Civility $genre): self
     {
         $this->genre = $genre;
 
@@ -438,5 +446,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCountry(?string $country): void
     {
         $this->country = $country;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFullAddress(): ?string
+    {
+        return vsprintf(
+            '%s, %d %s, %s',
+            [
+                $this->getAddress(),
+                $this->getZipCode(),
+                $this->getCity(),
+                $this->getCountry(),
+            ]
+        );
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStripeAccountId(): ?string
+    {
+        return $this->stripeAccountId;
+    }
+
+    /**
+     * @param mixed $stripeAccountId
+     */
+    public function setStripeAccountId(?string $stripeAccountId): self
+    {
+        $this->stripeAccountId = $stripeAccountId;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsStripeAccountActive(): ?bool
+    {
+        return $this->isStripeAccountActive;
+    }
+
+    /**
+     * @param mixed $stripeAccountActive
+     */
+    public function setIsStripeAccountActive(?bool $stripeAccountActive): self
+    {
+        $this->isStripeAccountActive = $stripeAccountActive;
+
+        return $this;
     }
 }

@@ -1,0 +1,36 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{% block form_widget_simple -%}
+    {%- if type is defined and type == 'file' and attr['allow-delete'] is defined %}
+        <div class="d-flex file-elt">
+            {{- parent() -}}
+            <button type="button" class="btn" data-action="click->product#onFileDelete">
+                <i class="text-danger fas fa-trash"></i>
+            </button>
+        </div>
+    {% else %}
+        {{- parent() -}}
+    {% endif -%}
+{%- endblock form_widget_simple %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        {% if compound %}
+            {# ... display the global form errors #}
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {# ... display the errors for a single field #}
+            {% for error in errors %}
+                <div style="color: #842029">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock form_errors %}
+
+

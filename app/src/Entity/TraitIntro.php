@@ -4,12 +4,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Type;
 
 trait TraitIntro
 {
     /**
      * @ORM\Column(type="boolean", options={"default":0})
      */
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     public bool $introMenu = false;
 
     /**

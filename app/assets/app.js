@@ -7,6 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import 'toastr/build/toastr.min.css';
+import 'jquery-confirm/css/jquery-confirm.css';
 import './styles/app.scss';
 
 // start the Stimulus application
@@ -36,7 +37,7 @@ import Routing from '../vendor/friendsofsymfony/jsrouting-bundle/Resources/publi
 Routing.setRoutingData(routes);
 window.Routing = Routing;
 
-require('./js/pages/common')
+//require('./js/pages/common')
 require('./js/services/cookie')
 
 require('./js/services/vendor/modernizr-3.5.0.min.js')

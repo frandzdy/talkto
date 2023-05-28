@@ -38,7 +38,7 @@
                 $mailerManager->sendMailNotification(
                     // params
                     $emailContact,
-                    'emails/contact.html.twig',
+                    'front/emails/contact.html.twig',
                     $vars
                 );
                 $this->addFlash('success', 'Votre message a été envoyé.');

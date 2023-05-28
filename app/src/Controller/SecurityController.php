@@ -52,7 +52,7 @@
                     die;
                     $mailer->sendMailNotification(
                         $user->getEmail(),
-                        'emails/login_link.html.twig',
+                        'front/emails/login_link.html.twig',
                         [
                             'link' => $loginLinkDetails->getUrl(),
                             'user' => $user,

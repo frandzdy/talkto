@@ -1,0 +1,59 @@
+{% set pictureName = '' %}
+{% if user.picture is not null %}
+    {% set pictureName = user.picture.name %}
+{% endif %}
+<div class="profile__edit-wrapper">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-3 profile__basic-thumb valign-items-center">
+            <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}"
+                 alt="{{ pictureName }}">
+        </div>
+        <div class="col-8" style="margin-top: 23px">
+            {{ form_row(form.picture) }}
+        </div>
+    </div>
+    {{ form_row(form.genre) }}
+    <div class="profile__edit-input">
+        {{ form_row(form.email) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.lastname) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.firstname) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.address) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.zipCode) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.city) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.country) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.phone) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.plainPassword) }}
+    </div>
+    <div class="login-action mb-20 fix">
+        <span class="log-rem f-left">
+        </span>
+        <span class="forgot-login f-right">
+            <a href="{{ path('front_seller_new') }}">Devenir loueur ?</a>
+        </span>
+    </div>
+    {% if not app.user %}
+        <button class="os-btn w-100" formnovalidate>S'inscrire</button>
+        <div class="or-divide"><span>ou</span></div>
+        <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100">Se connecter</a>
+    {% else %}
+        <button class="os-btn w-100" formnovalidate>Modifier</button>
+    {% endif %}
+    {{ form_end(form) }}
+</div>

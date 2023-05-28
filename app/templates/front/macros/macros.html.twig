@@ -1,0 +1,10 @@
+{% macro pictureField(formField) %}
+    <div class="manager mt-1 mb-1 d-flex w-100">
+        <div class="w-100">
+            {{ form_widget(formField) }}
+        </div>
+        <button type="button" class="btn" data-action="click->product#onFileDelete">
+            <i class="fa far fa-trash-alt text-danger"></i>
+        </button>
+    </div>
+{% endmacro %}s
