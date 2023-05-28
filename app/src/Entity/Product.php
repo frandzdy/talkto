@@ -104,13 +104,17 @@ class Product
         return $this;
     }
 
-    public function getPictures(): ?ArrayCollection
+    /**
+     * @return Collection
+     */
+    public function getPictures(): Collection
     {
         return $this->pictures;
     }
 
     /**
-     * @return Collection|Picture[]
+     * @param Picture $picture
+     * @return $this
      */
 
     public function addPicture(Picture $picture): self
@@ -122,6 +126,10 @@ class Product
         return $this;
     }
 
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
     public function removePicture(Picture $picture): self
     {
         if ($this->pictures->contains($picture)) {

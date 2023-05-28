@@ -24,6 +24,15 @@ class ProductController extends AbstractController
         return $this->render('front/product/show.html.twig', compact('product'));
     }
 
+    #[Route('/produit-detail/{token}', name: 'product_show_detail', methods: ['GET'])]
+    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    public function showDetail(string $token, ProductRepository $productRepository): Response
+    {
+        $product = $productRepository->findOneBy(['token' => $token]);
+
+        return $this->render('front/product/show_detail.html.twig', compact('product'));
+    }
+
     #[Route('/produit-ajout', name: 'product_new')]
     #[Route('/produit-modification/{token}', name: 'product_edit')]
     public function new(string $token = null, ProductRepository $productRepository, Request $request, ProductManager $productManager): Response

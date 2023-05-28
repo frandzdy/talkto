@@ -17,7 +17,7 @@ export default class extends Controller {
 
     connect() {
         this.handleBsCustomFileInput($('[type=file]'))
-        this.initPLugins();
+        this.initPlugins();
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
                 event.preventDefault();
@@ -176,15 +176,14 @@ export default class extends Controller {
     openProductModal(title, href, size) {
         $.get(href).done((response) => {
             if (title) {
-                $(this.modalTarget).find('.modal-title').html(title);
+                $(this.modalProductTarget).find('.modal-title').html(title);
             }
             if (size == true) {
-                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
+                $(this.modalProductTarget).find('.modal-dialog').addClass('modal-lg');
             }
-            $(this.modalTarget).find('.wrapper').html(response);
-            this.handleModalForm(this.modalTarget);
-            this.handleBsCustomFileInput($(this.modalTarget).find('.custom-file-input[type="file"]'));
-            $(this.modalTarget).modal('show');
+            $(this.modalProductTarget).find('.wrapper').html(response);
+            this.handleModalForm(this.modalProductTarget);
+            $(this.modalProductTarget).modal('show');
 
         }).fail((error) => {
             toastr.error("Une erreur est survenue.");
@@ -308,7 +307,7 @@ export default class extends Controller {
         }
     }
 
-    initPLugins() {
+    initPlugins() {
         ////////////////////////////////////////////////////
         // 01. PreLoader Js
         $("#loading").fadeOut(2000);
