@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\ProductStatus;
+use App\Enum\TransactionStatus;
 use App\Repository\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,6 +26,11 @@ class Transaction
      * @ORM\OneToMany(mappedBy="transaction", targetEntity="App\Entity\TransactionLine")
      */
     private ?Collection $transactionLines = null;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=false, enumType=TransactionStatus::class)
+     */
+    private ?TransactionStatus $status;
 
     public function getId(): ?int
     {
@@ -58,6 +65,24 @@ class Transaction
                 $transactionLine->setTransaction(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return TransactionStatus
+     */
+    public function getStatus(): TransactionStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param TransactionStatus $status
+     */
+    public function setStatus(TransactionStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

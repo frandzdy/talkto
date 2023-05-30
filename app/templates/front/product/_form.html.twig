@@ -1,45 +1,95 @@
 {% import "front/macros/macros.html.twig" as macros %}
 
-<div class="profile__edit-wrapper" {{ stimulus_controller('product') }}>
-    {{ form_start(form) }}
-    {#    <div class="row"> #}
-    {#        <div class="col-3 profile__basic-thumb valign-items-center"> #}
-    {#            <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}" #}
-    {#                 alt="{{ pictureName }}"> #}
-    {#        </div> #}
-    {#        <div class="col-8" style="margin-top: 23px"> #}
-    {#            {{ form_row(form.picture) }} #}
-    {#        </div> #}
-    {#    </div> #}
-    {#    {{ form_row(form.genre) }} #}
-    <div class="profile__edit-input">
-        {{ form_row(form.title) }}
+
+<div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12">
+        <div class="product__modal-box">
+            <div class="tab-content mb-20" id="nav-tabContent">
+                {% if form.vars.value.pictures %}
+                    {% for index, picture in form.vars.value.pictures %}
+                        {% set active = '' %}
+                        {% if index == 0 %}
+                            {% set active = 'active' %}
+                        {% endif %}
+                        <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel" aria-labelledby="nav-{{ picture.token }}-tab">
+                            <div class="product__modal-img w-img">
+                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}" alt="">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <nav>
+                <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
+                    {% if form.vars.value.pictures %}
+                        {% for index, picture in form.vars.value.pictures %}
+                            {% set active = '' %}
+                            {% if index == 0 %}
+                                {% set active = 'active' %}
+                            {% endif %}
+                            <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab" href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}" aria-selected="true">
+                                <div class="product__nav-img w-img">
+                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
     </div>
-    <div class="profile__edit-input">
-        {{ form_row(form.description) }}
+    <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
+        <div class="product__modal-content" {{ stimulus_controller('product') }}>
+            {{ form_start(form) }}
+            {#    <div class="row"> #}
+            {#        <div class="col-3 profile__basic-thumb valign-items-center"> #}
+            {#            <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}" #}
+            {#                 alt="{{ pictureName }}"> #}
+            {#        </div> #}
+            {#        <div class="col-8" style="margin-top: 23px"> #}
+            {#            {{ form_row(form.picture) }} #}
+            {#        </div> #}
+            {#    </div> #}
+            {#    {{ form_row(form.genre) }} #}
+            <div class="profile__edit-input">
+                {{ form_row(form.title) }}
+            </div>
+            <div class="profile__edit-input">
+                {{ form_row(form.description) }}
+            </div>
+            <div class="profile__edit-input">
+                {{ form_row(form.caution) }}
+            </div>
+            <div class="profile__edit-input">
+                {{ form_row(form.amount) }}
+            </div>
+            <div class="profile__edit-input">
+                {{ form_row(form.quantity) }}
+            </div>
+            <div class="profile__edit-input">
+                {{ form_row(form.category) }}
+            </div>
+            <div class="profile__edit-input">
+                Ajouter des photos à votre produit
+                <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
+                        data-action="click->product#onFileAdd">
+                    <i class="fas fa-plus "></i>
+                </button>
+            </div>
+            <div class="manager-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+                {% for picture in form.vars.value.uploadedPictures %}
+                    {{ macros.pictureField(picture) }}
+                {% endfor %}
+            </div>
+            {{ form_rest(form) }}
+            {% if not app.user %}
+                <button class="os-btn w-100" formnovalidate>S'inscrire</button>
+                <div class="or-divide"><span>ou</span></div>
+                <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100">Se connecter</a>
+            {% else %}
+                <button class="os-btn w-100" formnovalidate>Modifier</button>
+            {% endif %}
+            {{ form_end(form) }}
+        </div>
     </div>
-    <div class="profile__edit-input">
-        {{ form_row(form.amount) }}
-    </div>
-    <div class="profile__edit-input">
-        Ajosuter des photos à votre produit
-        <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
-                data-action="click->product#onFileAdd">
-            <i class="fas fa-plus "></i>
-        </button>
-    </div>
-    <div class="manager-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
-        {% for picture in form.uploadedPictures %}
-            {{ macros.pictureField(picture) }}
-        {% endfor %}
-    </div>
-    {{ form_rest(form) }}
-    {% if not app.user %}
-        <button class="os-btn w-100" formnovalidate>S'inscrire</button>
-        <div class="or-divide"><span>ou</span></div>
-        <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100">Se connecter</a>
-    {% else %}
-        <button class="os-btn w-100" formnovalidate>Modifier</button>
-    {% endif %}
-    {{ form_end(form) }}
 </div>

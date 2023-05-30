@@ -144,18 +144,17 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'first_options' =>
-                        [
-                            'label' => 'Mot de passe',
-                            'label_attr' => ['class'=>'form-text text-muted'],
-                            'hash_property_path' => 'password'
-                        ],
-                    'second_options' =>
-                        [
-                            'label' => 'Confirmez votre mot de passe',
-                        ],
-                    'mapped' => false,
-                    'invalid_message' => 'Vos mot de pas se sont pas identique.',
+                    'first_options' => [
+                        'label' => 'Mot de passe',
+                        'label_attr' => ['class'=>'form-text text-muted'],
+                        'hash_property_path' => 'password',
+                        'attr' => ['placeholder' => 'Au moins 8 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
+                    ],
+                    'second_options' => [
+                        'label' => 'Confirmer votre mot de passe',
+                        'attr' => ['maxlength' => 255],
+                    ],
+                    'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                 ]
             );
     }

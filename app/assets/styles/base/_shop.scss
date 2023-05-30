@@ -1033,16 +1033,6 @@
                 color: #ff0000;
             }
         }
-        & select{
-            height: 45px;
-            line-height: 45px;
-            padding: 0 20px;
-            width: 100%;
-            border: 1px solid #e8e8e8;
-            appearance: none;
-            -moz-appearance: none;
-            color: #444;
-        }
         &::after{
             position: absolute;
             content: '\f107';
@@ -1051,6 +1041,23 @@
             font-family: "Font Awesome 5 Pro";
             font-size: 18px;
             color: #7d7d7d;
+        }
+    }
+    &-select{
+        & label{
+            position: relative;
+            display: inline-block;
+            font-size: 12px;
+            color: $black;
+            font-weight: 500;
+            margin-bottom: 0px;
+            & i{
+                position: absolute;
+                top: 6px;
+                right: -7px;
+                font-size: 6px;
+                color: #ff0000;
+            }
         }
     }
     &-required{
@@ -1243,6 +1250,13 @@
       font-weight: normal;
       border: 1px solid #dcdcdc;
   }
+
+.product-quantity select {
+    color: #000;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid #dcdcdc;
+}
   
   .table td, .table th {
       border-top: 1px solid #eaedff;

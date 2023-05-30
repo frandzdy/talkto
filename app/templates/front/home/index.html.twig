@@ -264,14 +264,14 @@
                                             <img class="product__thumb-2" src="{{ asset("build/images/img/shop/product/product-10.jpg") }}" alt="product-img">
                                         </a>
                                         <div class="product__action transition-3">
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
+                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist" class="add-product-wishlist">
                                                 <i class="fal fa-heart"></i>
                                             </a>
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Compare">
-                                                <i class="fal fa-sliders-h"></i>
-                                            </a>
                                             <!-- Button trigger modal -->
-                                            <a href="#" data-toggle="modal" data-target="#productModalId">
+                                            <a href="{{ path('front_product_reservation', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}"
+                                               title="Réservez"
+                                               data-modal-title="Réservation en cours"
+                                               class="open-product-modal">
                                                 <i class="fal fa-search"></i>
                                             </a>
 
@@ -279,14 +279,18 @@
                                     </div>
                                     <div class="product__content p-relative">
                                         <div class="product__content-inner">
-                                            <h4><a href="product-details.html">Wooden container Bowl</a></h4>
+                                            <h4><a href="{{ path('front_product_show_detail', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}">Wooden container Bowl</a></h4>
                                             <div class="product__price transition-3">
                                                 <span>$96.00</span>
                                                 <span class="old-price">$96.00</span>
                                             </div>
                                         </div>
                                         <div class="add-cart p-absolute transition-3">
-                                            <a href="#">+ Add to Cart</a>
+                                            <a href="{{ path('front_product_reservation', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}"
+                                               title="Réservez"
+                                               data-modal-title="Réservation en cours"
+                                               class="open-product-modal"><i
+                                                        class="fa fa-shopping-cart"></i> Réservez</a>
                                         </div>
                                     </div>
                                 </div>

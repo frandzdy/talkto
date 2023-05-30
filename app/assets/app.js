@@ -8,6 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import 'toastr/build/toastr.min.css';
 import 'jquery-confirm/css/jquery-confirm.css';
+import 'flatpickr/dist/flatpickr.min.css';
+require("flatpickr/dist/themes/dark.css");
 import './styles/app.scss';
 
 // start the Stimulus application
@@ -54,11 +56,12 @@ require('./js/services/ajax-form.js')
 //require('./js/services/wow.min.js')
 
 import WOW from 'wow.js';
+import {French} from "flatpickr/dist/l10n/fr";
 window.WOW = WOW
 
 require('./js/services/imagesloaded.pkgd.min.js')
 require('./js/services/main.js')
+require('./js/front/pages/flatpickr.js')
 
 $(function (){
-
 })

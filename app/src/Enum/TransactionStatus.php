@@ -3,9 +3,9 @@
 namespace App\Enum;
 
 /**
- * Status du produit
+ * Status de la transaction
  */
-enum ProductStatus: int
+enum TransactionStatus: int
 {
     case WAITING = 1;
     case VALIDATE = 2;
@@ -14,9 +14,9 @@ enum ProductStatus: int
     public static function getLabels(): array
     {
         return [
-            ProductStatus::WAITING->value => 'En attente de validation',
-            ProductStatus::VALIDATE->value => 'Validé',
-            ProductStatus::REJECTED->value => 'Rejeté',
+            TransactionStatus::WAITING->value => 'En attente de paiement',
+            TransactionStatus::VALIDATE->value => 'Paiement validé',
+            TransactionStatus::REJECTED->value => 'Paiement rejeté',
         ];
     }
 

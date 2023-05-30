@@ -72,14 +72,21 @@
                                         data-target="#nav-account" type="button" role="tab" aria-controls="nav-account"
                                         aria-selected="true"><i class="fa fa-user"></i> Mon compte
                                 </button>
-                                <button class="nav-link" id="nav-product-tab" data-toggle="tab" data-target="#nav-product"
-                                        type="button" role="tab" aria-controls="nav-product" aria-selected="false"><i
-                                            class="fa fa-bags-shopping"></i>Produits
+
+                                <button class="nav-link" id="nav-rent-tab" data-toggle="tab" data-target="#nav-rent"
+                                        type="button" role="tab" aria-controls="nav-rent" aria-selected="false"><i
+                                            class="fa fa-calendar"></i>Mes locations
                                 </button>
-                                <button class="nav-link" id="nav-order-tab" data-toggle="tab" data-target="#nav-order"
-                                        type="button" role="tab" aria-controls="nav-order" aria-selected="false"><i
-                                            class="fa fa-file"></i>Orders
-                                </button>
+                                {% if not user.isStripeAccountActive %}
+                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab" data-target="#nav-reservation"
+                                            type="button" role="tab" aria-controls="nav-reservation" aria-selected="false"><i
+                                                class="fa fa-calendar-check"></i>Mes réservations
+                                    </button>
+                                    <button class="nav-link" id="nav-product-tab" data-toggle="tab" data-target="#nav-product"
+                                            type="button" role="tab" aria-controls="nav-product" aria-selected="false"><i
+                                                class="fa fa-bags-shopping"></i>Produits
+                                    </button>
+                                {% endif %}
                                 <button class="nav-link" id="nav-password-tab" data-toggle="tab"
                                         data-target="#nav-password" type="button" role="tab"
                                         aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>Change
@@ -96,7 +103,7 @@
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-account" role="tabpanel"
                                  aria-labelledby="nav-account-tab">
-                                {% include ('front/user/byer/_profil_info.html.twig') %}
+                                {% include ('front/user/partials/_profil_info.html.twig') %}
                             </div>
                             <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
                                 <div class="order__info">
@@ -144,9 +151,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
-                                {% include('front/user/byer/_product.html.twig') %}
+                            <div class="tab-pane fade" id="nav-rent" role="tabpanel" aria-labelledby="nav-rent-tab">
+                                {% include('front/user/partials/_rent.html.twig') %}
                             </div>
+                            {% if not user.isStripeAccountActive %}
+                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel" aria-labelledby="nav-reservation-tab">
+                                    {% include('front/user/partials/_reservation.html.twig') %}
+                                </div>
+                                <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
+                                    {% include('front/user/partials/_product.html.twig') %}
+                                </div>
+                            {% endif %}
                             <div class="tab-pane fade" id="nav-password" role="tabpanel"
                                  aria-labelledby="nav-password-tab">
                                 <div class="password__change">
@@ -182,42 +197,11 @@
         </div>
     </section>
     <!-- profile menu area end -->
+{% endblock %}
 
-    <div class="profile__edit-modal">
-        <!-- Modal -->
-        <div class="modal fade" id="profile_edit_modal" tabindex="-1" aria-labelledby="profile_edit_modal"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="profile__edit-wrapper">
-                        <div class="profile__edit-close">
-                            <button type="button" class="profile__edit-close-btn" data-dismiss="modal"><i
-                                        class="fa fa-times"></i></button>
-                        </div>
-                        <form action="#">
-                            <div class="profile__edit-input">
-                                <p>Name</p>
-                                <input type="text" placeholder="Your Name">
-                            </div>
-                            <div class="profile__edit-input">
-                                <p>Email</p>
-                                <input type="text" placeholder="Your Email">
-                            </div>
-                            <div class="profile__edit-input">
-                                <p>Phone</p>
-                                <input type="text" placeholder="Your Phone">
-                            </div>
-                            <div class="profile__edit-input">
-                                <p>Address</p>
-                                <input type="text" placeholder="Your Address">
-                            </div>
-                            <div class="profile__edit-input">
-                                <button type="submit" class="os-btn os-btn-black w-100">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block javascripts %}
+    {{ parent() }}
+    {% for file in encore_entry_js_files('front_product') %}
+        <script src="{{ asset(file) }}"></script>
+    {% endfor %}
 {% endblock %}

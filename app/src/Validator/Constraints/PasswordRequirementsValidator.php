@@ -8,14 +8,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
- * Validateur de mot de passe pour l'application Qualifelec
+ * Validateur de mot de passe pour l'application
  *
  * @Annotation
  */
 class PasswordRequirementsValidator extends ConstraintValidator
 {
     /**
-     * Valide les données réçu lors de la validation du formulaire
+     * Valide les données reçu lors de la validation du formulaire
      */
     public function validate($value, Constraint $constraint)
     {
@@ -28,7 +28,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             return;
         }
 
-        // Si c'est pas une chaine de caractère
+        // Si ce n'est pas une chaine de caractère
         if (!is_string($value)) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
             throw new UnexpectedValueException($value, 'string');

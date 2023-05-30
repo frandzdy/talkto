@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AssertQualifelec;
 
 /**
  * @ORM\Table()
@@ -132,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Mot de passe en clair de l'utilisateur
+     * @AssertQualifelec\PasswordRequirements()
      */
     private ?string $plainPassword;
 

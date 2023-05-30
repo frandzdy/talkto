@@ -102,7 +102,7 @@ class UserController extends AbstractController
             );
         }
 
-        return $this->render('front/user/byer/_form.html.twig', [
+        return $this->render('front/user/partial/_form.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -194,7 +194,7 @@ class UserController extends AbstractController
     public function userSuccessCreation(): Response
     {
 
-        return $this->render('front/user/byer/creation-success.html.twig');
+        return $this->render('front/user/partials/creation-success.html.twig');
     }
 
     /**

@@ -2,6 +2,8 @@ import {Controller} from '@hotwired/stimulus';
 import 'toastr'
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
+import flatpickr from "flatpickr";
+import {French} from "flatpickr/dist/l10n/fr";
 
 /*
  * This is an example Stimulus controller!
@@ -60,6 +62,10 @@ export default class extends Controller {
                         }
                     }
                 });
+            })
+            .on('click', 'a.add-product-cart', (event) => {
+                alert('Ajouter produit au panier')
+                console.log($('#productForm').serialize())
             });
 
     }
@@ -130,6 +136,7 @@ export default class extends Controller {
                             window[response.callback]();
                         }
                         $(this.modalTarget).modal('hide');
+                        $(this.modalProductTarget).modal('hide');
                     }
 
                     if (response.message) {
@@ -184,7 +191,6 @@ export default class extends Controller {
             $(this.modalProductTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalProductTarget);
             $(this.modalProductTarget).modal('show');
-
         }).fail((error) => {
             toastr.error("Une erreur est survenue.");
         });

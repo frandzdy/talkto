@@ -27,9 +27,15 @@ class TransactionLine
 
     /**
      *
-     * @ORM\Column(type="integer", length="11")
+     * @ORM\Column(type="datetime")
      */
-    private ?int $duration = null;
+    private ?\DateTime $startDate = null;
+
+    /**
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private ?\DateTime $endDate = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product")
@@ -57,25 +63,11 @@ class TransactionLine
     /**
      * @param int|null $quantity
      */
-    public function setQuantity(?int $quantity): void
+    public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
-    }
 
-    /**
-     * @return int|null
-     */
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    /**
-     * @param int|null $duration
-     */
-    public function setDuration(?int $duration): void
-    {
-        $this->duration = $duration;
+        return $this;
     }
 
     /**
@@ -89,9 +81,11 @@ class TransactionLine
     /**
      * @param Product $product
      */
-    public function setProduct(Product $product): void
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
+
+        return $this;
     }
 
     /**
@@ -105,8 +99,42 @@ class TransactionLine
     /**
      * @param Transaction $transaction
      */
-    public function setTransaction(Transaction $transaction): void
+    public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getStartDate(): ?\DateTime
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param \DateTime|null $startDate
+     */
+    public function setStartDate(?\DateTime $startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEndDate(): ?\DateTime
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @param \DateTime|null $endDate
+     */
+    public function setEndDate(?\DateTime $endDate): void
+    {
+        $this->endDate = $endDate;
     }
 }

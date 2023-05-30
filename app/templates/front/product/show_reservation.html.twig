@@ -1,0 +1,101 @@
+{% set quantityLeft = product.quantity - product.quantityAllReadyReserved %}
+<div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12">
+        <div class="product__modal-box">
+            <div class="tab-content mb-20" id="nav-tabContent">
+                {% if product.pictures %}
+                    {% for index, picture in product.pictures %}
+                        {% set active = '' %}
+                        {% if index == 0 %}
+                            {% set active = 'active' %}
+                        {% endif %}
+                        <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
+                             aria-labelledby="nav-{{ picture.token }}-tab">
+                            <div class="product__modal-img w-img">
+                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}"
+                                     alt="">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <nav>
+                <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
+                    {% if product.pictures %}
+                        {% for index, picture in product.pictures %}
+                            {% set active = '' %}
+                            {% if index == 0 %}
+                                {% set active = 'active' %}
+                            {% endif %}
+                            <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab"
+                               href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
+                               aria-selected="true">
+                                <div class="product__nav-img w-img">
+                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
+                                         alt="">
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
+        <div class="product__modal-content">
+            <h4><a href="{{ path('front_product_show_detail', {'token' : product.token}) }}">{{ product.title }}</a>
+            </h4>
+            <div class="rating rating-shop mb-15">
+                <ul>
+                    <li><span><i class="fas fa-star"></i></span></li>
+                    <li><span><i class="fas fa-star"></i></span></li>
+                    <li><span><i class="fas fa-star"></i></span></li>
+                    <li><span><i class="fas fa-star"></i></span></li>
+                    <li><span><i class="fal fa-star"></i></span></li>
+                </ul>
+                <span class="rating-no ml-10">
+                    3 rating(s)
+                </span>
+            </div>
+            <div class="product__price-2 mb-25">
+                <span>{{ product.amount }}</span>
+                {#                <span class="old-price">$96.00</span> #}
+            </div>
+            <div class="product__modal-des mb-30">
+                <p>{{ product.description }}</p>
+            </div>
+            <div class="product__modal-form">
+                <form action="#" id="product-{{ product.token }}">
+                    <div class="product__modal-select color size mb-20">
+                        <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
+                        <div class="product-quantity">
+                            <div class="">
+                                <input id="startDate" data-input {{ stimulus_controller('datetimepicker') }}
+                                       placeholder="jj/mm/aaaa" type="text"
+                                       data-token="{{ product.token }}" required style="text-align: center;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product__modal-input color mb-20">
+                        <label>Quantité <i class="fas fa-star-of-life"></i></label>
+                        <select id="quantity" style="text-align: center;">
+                            <option>- Choisir une quantité -</option>
+                            {% if quantityLeft > 0 %}
+                                {% for i in range(1, quantityLeft) %}
+                                    <option value="{{ i  }}">{{ i  }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="product__modal-required mb-5">
+                    </div>
+                    <div class="pro-quan-area d-lg-flex align-items-center" style="flex-direction: row-reverse;">
+                        <div class="pro-cart-btn">
+                            <a href="#" class="os-btn os-btn-black os-btn-3 mr-10 add-product-cart">+ Add to Cart</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

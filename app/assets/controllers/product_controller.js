@@ -41,7 +41,7 @@ export default class extends Controller {
                     text: 'Supprimer',
                     btnClass: 'btn-red',
                     action: () => {
-                         elt.closest('.file-elt').parentElement.remove();
+                         elt.parentElement.parentElement.remove();
                     }
                 },
                 close: {
@@ -61,5 +61,57 @@ export default class extends Controller {
                 }
             });
         }
+    }
+
+    /**
+     * Recharge la modale de panier en fonction des données en session
+     */
+    reloadCartModal(openOnReload = false) {
+        $.get(
+            Routing.generate('front_cart_modal'),
+            null,
+            function(data) {
+                $('#cart-dialog').html(data);
+                $('#cart-size').text($('#cart-dialog .item').length);
+            }
+        )
+    }
+
+    /**
+     * Envoie la demande de suppression d'un article du panier
+     * Récupère les nouveaux prix
+     */
+    deleteItem(qualificationSageCode, callback) {
+        $.post(
+            Routing.generate('front_cart_item_remove', {"sageCode": qualificationSageCode}),
+            null,
+            callback
+        );
+    }
+
+    /**
+     * Retourne les prix du panier
+     */
+    getPrices(callback) {
+        $.get(
+            Routing.generate('front_cart_prices'),
+            null,
+            callback
+        );
+    }
+
+    /**
+     * Enregistre le cookie de panier
+     */
+    setCartCookie(value) {
+        var expires = new Date();
+        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+        document.cookie = 'cart=' + value + ';path=/;expires=' + expires.toUTCString();
+    }
+
+    deleteCartCookie() {
+        var expires = new Date();
+        expires.setTime(expires.getTime() + 1);
+        document.cookie = 'cart=;path=/;expires=1' + expires.toUTCString();
     }
 }

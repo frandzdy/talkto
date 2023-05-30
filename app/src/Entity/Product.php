@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ProductCategory;
 use App\Enum\ProductStatus;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -69,6 +70,33 @@ class Product
      * @ORM\ManyToOne(targetEntity=User::class)
      */
     private ?User $user = null;
+
+    /**
+     * @var float|null
+     * @ORM\Column(type="float", length=11, scale=2)
+     * @Assert\NotBlank(message="Information requise.")
+     */
+    private ?float $caution = null;
+
+    /**
+     * @var int|null
+     * @ORM\Column(type="integer", length=11)
+     * @Assert\NotBlank(message="Information requise.")
+     */
+    private ?int $quantity = null;
+
+    /**
+     * @var int|null
+     * @ORM\Column(type="integer", length=11)
+     * @Assert\NotBlank(message="Information requise.")
+     */
+    private ?int $quantityAllReadyReserved = null;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=false, enumType=ProductCategory::class)
+     * @Assert\NotBlank(message="Information requise.")
+     */
+    private ProductCategory $category;
 
     public function __construct()
     {
@@ -178,6 +206,79 @@ class Product
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getCaution(): ?float
+    {
+        return $this->caution;
+    }
+
+    /**
+     * @param float|null $caution
+     */
+    public function setCaution(?float $caution): self
+    {
+        $this->caution = $caution;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int|null $quantity
+     */
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQuantityAllReadyReserved(): ?int
+    {
+        return $this->quantityAllReadyReserved;
+    }
+
+    /**
+     * @param int|null $quantityAllReadyReserved
+     * @return $this
+     */
+    public function setQuantityAllReadyReserved(?int $quantityAllReadyReserved): self
+    {
+        $this->quantityAllReadyReserved = $quantityAllReadyReserved;
+
+        return $this;
+    }
+
+    /**
+     * @return ProductCategory
+     */
+    public function getCategory(): ProductCategory
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param ProductCategory $category
+     */
+    public function setCategory(ProductCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

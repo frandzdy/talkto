@@ -1,0 +1,28 @@
+<div class="order__info">
+    <div class="order__info-top d-flex justify-content-between align-items-center">
+        <h3 class="order__info-title">Mes produits</h3>
+        <a type="button" class="order__info-btn open-product-modal"
+           href="{{ path('front_product_new') }}"
+           data-modal-title="Ajouter un nouveau produit"
+           title="Ajouter un nouveau produit">
+            <i class="fa-regular fa-trash-can"></i> Ajouter
+        </a>
+    </div>
+
+    <div class="order__list white-bg table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Produit ID</th>
+                <th scope="col" class="text-center">Nom</th>
+                <th scope="col" class="text-center">Prix/mois</th>
+                <th scope="col" class="text-center">Etat</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody id="product-list">
+                {{ include('front/user/partials/_list.html.twig') }}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -11,7 +11,11 @@ use App\Entity\CustomerOrder;
 use App\Entity\Domain;
 use App\Entity\Index;
 use App\Entity\Mention;
+use App\Entity\Product;
 use App\Entity\Qualification;
+use App\Entity\Transaction;
+use App\Entity\TransactionLine;
+use App\Enum\TransactionStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -26,23 +30,9 @@ class CartManager
      */
     public function __construct(
         protected EntityManagerInterface $em,
-        protected SageManager $sageManager,
         protected TokenStorageInterface $token,
         protected RequestStack $requestStack
     ) {
-    }
-
-    /**
-     * Retourne l'utilisateur connecté si il y a lieu
-     */
-    private function getUser(): ?CustomerAccount
-    {
-        $user = $this->token->getToken() ? $this->token->getToken()->getUser() : null;
-        if ($user instanceof CustomerAccount) {
-            return $user;
-        }
-
-        return null;
     }
 
     /**
@@ -60,38 +50,20 @@ class CartManager
         if (!$cartData) {
             return $cart;
         }
-        $qualificationAllreadyInCart = [];
+        $transaction = (new Transaction())
+            ->setStatus(TransactionStatus::WAITING);
+        $productAllreadyInCart = [];
         foreach ($cartData as $qualificationId => $itemData) {
-            $qualification = $this->em->getRepository(Qualification::class)->find($qualificationId);
+            $product = $this->em->getRepository(Product::class)->find($qualificationId);
             //si on a une qualif et qu'elle n'est pas dans notre tableau
-            if ($qualification && !in_array($qualification->getId(), $qualificationAllreadyInCart)) {
-                $cartItem = new CustomerBasketItem();
-                $cartItem->setQualification($qualification);
-                // on ajoute la qualification afin de pas le rajouter une deuxième fois
-                $qualificationAllreadyInCart[] = $qualification->getId();
-
-                $indexes = $this->em->getRepository(Index::class)->findBy(['qualification' => $qualificationId, 'id' => $itemData['indexes']]);
-                $mentions = $this->em->getRepository(Mention::class)->findBy(['qualification' => $qualificationId, 'id' => $itemData['mentions']]);
-                $domains = $this->em->getRepository(Domain::class)->findBy(['qualification' => $qualificationId, 'id' => $itemData['domains']]);
-                $classifications = $this->em->getRepository(Classification::class)->findBy(['index' => $itemData['indexes'], 'id' => $itemData['classifications']]);
-
-                foreach ($indexes as $index) {
-                    $cartItem->addIndex($index);
-                }
-
-                foreach ($mentions as $mention) {
-                    $cartItem->addMention($mention);
-                }
-
-                foreach ($domains as $domain) {
-                    $cartItem->addDomain($domain);
-                }
-
-                foreach ($classifications as $classification) {
-                    $cartItem->addClassification($classification);
-                }
-
-                $cart->addItem($cartItem);
+            if ($product && !in_array($product->getId(), $productAllreadyInCart)) {
+                $productAllreadyInCart[] = $product->getId();
+                $transactionLine = (new TransactionLine())
+                    ->setTransaction($transaction)
+                    ->setProduct($product)
+                    ->setStartDate($itemData['startDate'])
+                    ->setEndDate($itemData['endDate'])
+                    ->setQuantity($itemData['endDate']);
             }
         }
 

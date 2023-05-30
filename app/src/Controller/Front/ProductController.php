@@ -12,9 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted("IS_AUTHENTICATED_FULLY")]
 class ProductController extends AbstractController
 {
+    /**
+     * Affiche un produit en prévisualisation
+     * @param string $token
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/produit/{token}', name: 'product_show', methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function show(string $token, ProductRepository $productRepository): Response
@@ -24,8 +29,13 @@ class ProductController extends AbstractController
         return $this->render('front/product/show.html.twig', compact('product'));
     }
 
+    /**
+     * Affiche la page détails d'un produit
+     * @param string $token
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/produit-detail/{token}', name: 'product_show_detail', methods: ['GET'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function showDetail(string $token, ProductRepository $productRepository): Response
     {
         $product = $productRepository->findOneBy(['token' => $token]);
@@ -33,9 +43,24 @@ class ProductController extends AbstractController
         return $this->render('front/product/show_detail.html.twig', compact('product'));
     }
 
+    /**
+     * Affiche la page de réservation d'un produit
+     * @param string $token
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
+    #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET'])]
+    public function productReservation(string $token, ProductRepository $productRepository): Response
+    {
+        $product = $productRepository->findOneBy(['token' => $token]);
+
+        return $this->render('front/product/show_reservation.html.twig', compact('product'));
+    }
+
     #[Route('/produit-ajout', name: 'product_new')]
     #[Route('/produit-modification/{token}', name: 'product_edit')]
-    public function new(string $token = null, ProductRepository $productRepository, Request $request, ProductManager $productManager): Response
+    #[IsGranted("ROLE_SELLER")]
+    public function new(ProductRepository $productRepository, Request $request, ProductManager $productManager, string $token = null): Response
     {
         if (!$product = $productRepository->findOneBy(['token' => $token])) {
             $product = $productManager->createProduct($this->getUser());
@@ -46,12 +71,11 @@ class ProductController extends AbstractController
             $pictureFileDatas = $form->get('uploadedPictures')->getData();
 
             $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, $product->getId() ? true : false);
-            $this->addFlash('success', 'Enregistrement effectué.');
 
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_user_account')
+                    'callback' => 'onProductChange'
                 ]
             );
         }
@@ -69,12 +93,26 @@ class ProductController extends AbstractController
         }
         try {
             if ($productManager->deleteProduct($product)) {
-                $this->addFlash('success', 'Critère supprimé !');
+                $this->addFlash('success', 'Produit supprimé !');
             }
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
         }
 
-        return $this->redirectToRoute('app_qualification_assign', ['id' => $criteria->getQualification()->getId()]);
+        return $this->redirectToRoute('front_user_account');
+    }
+
+    /**
+     * Retourne le html correspondant à liste des produits
+     */
+    #[Route('/produit-mise-a-jour-liste', name: 'product_update_list', options: ["expose"=> true], methods: ['GET'])]
+    public function productUpdateList(ProductRepository $productRepository): Response
+    {
+        $products = $productRepository->findBy(['user' => $this->getUser()]);
+
+        return $this->render(
+            'front/user/partials/_list.html.twig',
+            compact('products')
+        );
     }
 }
