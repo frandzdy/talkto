@@ -6,10 +6,10 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import 'toastr/build/toastr.min.css';
+import 'toastr/build/toastr.css';
 import 'jquery-confirm/css/jquery-confirm.css';
-import 'flatpickr/dist/flatpickr.min.css';
-require("flatpickr/dist/themes/dark.css");
+import 'flatpickr/dist/flatpickr.css';
+import 'flatpickr/dist/themes/material_blue.css';
 import './styles/app.scss';
 
 // start the Stimulus application
@@ -53,10 +53,8 @@ require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
 require('./js/services/jquery-ui-slider-range.js')
 require('./js/services/ajax-form.js')
-//require('./js/services/wow.min.js')
 
 import WOW from 'wow.js';
-import {French} from "flatpickr/dist/l10n/fr";
 window.WOW = WOW
 
 require('./js/services/imagesloaded.pkgd.min.js')

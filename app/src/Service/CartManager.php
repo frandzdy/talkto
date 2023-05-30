@@ -2,22 +2,13 @@
 
 namespace App\Service;
 
-use App\Entity\Classification;
-use App\Entity\CustomerAccount;
-use App\Entity\CustomerBasket;
-use App\Entity\CustomerBasketItem;
-use App\Entity\CustomerCompanyAddress;
-use App\Entity\CustomerOrder;
-use App\Entity\Domain;
-use App\Entity\Index;
-use App\Entity\Mention;
 use App\Entity\Product;
-use App\Entity\Qualification;
 use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Enum\TransactionStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -38,16 +29,15 @@ class CartManager
     /**
      * Retourne le panier correspondant au cookie de l'utilisateur
      */
-    private function getCartFromCookie(): ?CustomerBasket
+    public function getCart(): ?array
     {
-        $cart = new CustomerBasket();
-
-        $cartData = json_decode(
-            $this->requestStack->getCurrentRequest()->cookies->get('cart', null),
-            true
-        );
-
-        if (!$cartData) {
+        return $this->session->get('cart', []);
+    }
+    public function saveCart($cart): void
+    {
+        $this->session->set('cart', $cart);
+    }
+        /*if (!$cartData) {
             return $cart;
         }
         $transaction = (new Transaction())
@@ -67,23 +57,14 @@ class CartManager
             }
         }
 
-        return $cart;
-    }
+        return $cart;*/
+    //}
 
     /**
      * Retourne le panier existant ou initialisé
      */
-    public function getOrInitCart(): CustomerBasket
+    public function getOrInitCart(): array
     {
-        if ($this->getUser()) {
-            $cart = $this->em->getRepository(CustomerBasket::class)->findOneBy(['account' => $this->getUser()]);
-            if (!$cart) {
-                $cart = new CustomerBasket();
-                $cart->setAccount($this->getUser());
-            }
-            return $cart;
-        }
-
         return $this->getCartFromCookie();
     }
 
@@ -283,21 +264,6 @@ class CartManager
         $basket->setOrder($order);
 
         $this->em->flush();
-    }
-
-    /**
-     * Retourne le panier d'un compte
-     */
-    public function getCart(CustomerAccount $account): ?CustomerBasket
-    {
-        if ($account) {
-            $cart = $this->em->getRepository(CustomerBasket::class)->findOneBy(['account' => $account]);
-            if ($cart) {
-                return $cart;
-            }
-        }
-
-        return null;
     }
 
     /**

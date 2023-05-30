@@ -64,10 +64,79 @@ export default class extends Controller {
                 });
             })
             .on('click', 'a.add-product-cart', (event) => {
-                alert('Ajouter produit au panier')
-                console.log($('#productForm').serialize())
+                event.preventDefault();
+                event.stopPropagation();
+                this.addToCart();
             });
 
+    }
+
+    addToCart() {
+        const productForm = $('#productForm');
+        const token = productForm.find('#token').val();
+        const quantity = productForm.find('#quantity').val()
+        const startDate = productForm.find('#startDate').val()
+        if (!quantity || !startDate) {
+            toastr.error('Vérifiez vos quantités et vos dates de réservation !');
+        } else {
+            $.post({
+                url: Routing.generate('front_product_add_cart'),
+                type: 'post',
+                data: {'token': token, 'quantity': quantity, 'startDate': startDate},
+                success: function () {
+                    toastr.success('Produit(s) ajouté(s) !');
+                    parseInt($('cart-length').val());
+                    parseInt(quantity);
+                    $('cart-length').val(parseInt($('cart-length').val()) + parseInt(quantity));
+                }
+            });
+            this.updateWidgetCart();
+        }
+    }
+
+    removeFromCart() {
+        const productForm = $('#productForm');
+        const token = productForm.find('#token').val();
+        const quantity = productForm.find('#quantity').val()
+        const startDate = productForm.find('#startDate').val()
+        if (!quantity || !startDate) {
+            toastr.error('Vérifiez vos quantités et vos dates de réservation !');
+        } else {
+            $.post({
+                url: Routing.generate('front_product_add_cart'),
+                type: 'post',
+                data: {'token': token, 'quantity': quantity, 'startDate': startDate},
+                success: function success(data) {
+                    toastr.success('Produit(s) ajouté(s) !');
+                }
+            });
+            this.updateWidgetCart();
+        }
+    }
+
+    updateWidgetCart () {
+        $.get({
+            url: Routing.generate('front_cart_widget'),
+            type: 'get',
+            data: {},
+            success: function success(data) {
+                $('cart-widget').html(data.response);
+            }
+        });
+    }
+    /**
+     * Enregistre le cookie de panier
+     */
+    setCartCookie(value) {
+        let expires = new Date();
+        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+        document.cookie = 'cart=' + value + ';path=/;expires=' + expires.toUTCString();
+    }
+
+    deleteCartCookie() {
+        let expires = new Date();
+        expires.setTime(expires.getTime() + 1);
+        document.cookie = 'cart=;path=/;expires=1' + expires.toUTCString();
     }
 
     containerTargetConnected() {
@@ -180,6 +249,7 @@ export default class extends Controller {
             toastr.error("Une erreur est survenue.");
         });
     }
+
     openProductModal(title, href, size) {
         $.get(href).done((response) => {
             if (title) {
@@ -300,8 +370,7 @@ export default class extends Controller {
         }, 5000);
     }
 
-    handleBsCustomFileInput(container)
-    {
+    handleBsCustomFileInput(container) {
         if ($(container)) {
             bsCustomFileInput.init();
             $(container).change(function () {

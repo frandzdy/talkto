@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import flatpickr from "flatpickr";
 import { French } from 'flatpickr/dist/l10n/fr'
+import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
 
 import $ from "jquery";
 
@@ -15,10 +16,12 @@ export default class extends Controller {
         let options = {
             mode: "range",
             minDate: "today",
+            altInput: true,
+            altInputClass: '',
             dateFormat: "Y-m-d",
             altFormat: "d/m/Y",
             locale: French,
-            disable: this.getDisabledDate(this.element.dataset.token)
+            disable: this.getDisabledDate(this.element.dataset.token),
         };
 
         flatpickr(this.element, options)
@@ -26,13 +29,17 @@ export default class extends Controller {
 
     getDisabledDate(token) {
         console.log('OK stim' + token)
-        // $.get(
-        //     Routing.generate('front_product_info', {'token': token}),
-        //     null,
-        //     function(data) {
-        //         console.log('OK ')
-        //     }
-        // )
+        let result;
+        $.get(
+            Routing.generate('front_product_reservation_info', {'token': token}),
+            null,
+            function(data) {
+                console.log('OK')
+                console.log(data)
+                result = data;
+            }
+        )
+
         return [
             "2023-05-31",
             "2023-06-01",

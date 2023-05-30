@@ -94,83 +94,10 @@
                         <div class="header__action">
                             <ul>
                                 <li><a href="#" class="search-toggle"><i class="ion-ios-search-strong"></i> Search</a></li>
-                                <li><a href="javascript:void(0);" class="cart"><i class="ion-bag"></i> Cart <span>(01)</span></a>
+                                <li><a href="javascript:void(0);" class="cart"><i class="ion-bag"></i> Cart (<span id="cart-length">0</span>)</a>
                                     <div class="mini-cart">
-                                        <div class="mini-cart-inner">
-                                            <ul class="mini-cart-list">
-                                                <li>
-                                                    <div class="cart-img f-left">
-                                                        <a href="product-details.html">
-                                                            <img src="{{ asset("build/images/img/shop/product/cart-sm/16.jpg") }}" alt="" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-content f-left text-left">
-                                                        <h5>
-                                                            <a href="product-details.html">Consectetur adi </a>
-                                                        </h5>
-                                                        <div class="cart-price">
-                                                            <span class="ammount">1 <i class="fal fa-times"></i></span>
-                                                            <span class="price">$ 400</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="del-icon f-right mt-30">
-                                                        <a href="#">
-                                                            <i class="fal fa-times"></i>
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="cart-img f-left">
-                                                        <a href="product-details.html">
-                                                            <img src="{{ asset("build/images/img/shop/product/cart-sm/17.jpg") }}" alt="" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-content f-left text-left">
-                                                        <h5>
-                                                            <a href="product-details.html">Wooden container Bowl </a>
-                                                        </h5>
-                                                        <div class="cart-price">
-                                                            <span class="ammount">1 <i class="fal fa-times"></i></span>
-                                                            <span class="price">$ 400</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="del-icon f-right mt-30">
-                                                        <a href="#">
-                                                            <i class="fal fa-times"></i>
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="cart-img f-left">
-                                                        <a href="product-details.html">
-                                                            <img src="{{ asset("build/images/img/shop/product/cart-sm/18.jpg") }}" alt="" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-content f-left text-left">
-                                                        <h5>
-                                                            <a href="product-details.html">Black White Towel </a>
-                                                        </h5>
-                                                        <div class="cart-price">
-                                                            <span class="ammount">1 <i class="fal fa-times"></i></span>
-                                                            <span class="price">$ 400</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="del-icon f-right mt-30">
-                                                        <a href="#">
-                                                            <i class="fal fa-times"></i>
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <div class="total-price d-flex justify-content-between mb-30">
-                                                <span>Subtotal:</span>
-                                                <span>$400.0</span>
-                                            </div>
-                                            <div class="checkout-link">
-                                                <a href="cart.html" class="os-btn">view Cart</a>
-                                                <a class="os-btn os-btn-black" href="checkout.html">Checkout</a>
-                                            </div>
-                                        </div>
+                                         {{ include('front/cart/cart-widget.html.twig') }}
+                                        {{ render(url('front_cart_widget')) }}
                                     </div>
                                 </li>
                                 <li> <a href="javascript:void(0);"><i class="far fa-bars"></i></a>

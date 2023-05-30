@@ -5,10 +5,15 @@ namespace App\Controller\Front;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Repository\ReservationRepository;
+use App\Service\CartManager;
 use App\Service\ProductManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -105,7 +110,7 @@ class ProductController extends AbstractController
     /**
      * Retourne le html correspondant à liste des produits
      */
-    #[Route('/produit-mise-a-jour-liste', name: 'product_update_list', options: ["expose"=> true], methods: ['GET'])]
+    #[Route('/produit-mise-a-jour-liste', name: 'product_update_list', options: ["expose" => true], methods: ['GET'])]
     public function productUpdateList(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findBy(['user' => $this->getUser()]);
@@ -113,6 +118,72 @@ class ProductController extends AbstractController
         return $this->render(
             'front/user/partials/_list.html.twig',
             compact('products')
+        );
+    }
+
+    /**
+     * Retourne les reservations d'un produit
+     * @param string $token
+     * @param ReservationRepository $reservationRepository
+     * @return JsonResponse
+     */
+    #[Route('/produit-reservation-info/{token}', name: 'product_reservation_info', options: ['expose' => true], methods: ['GET'])]
+    public function info(string $token, ReservationRepository $reservationRepository): JsonResponse
+    {
+        $resultReservations = '';
+        if ($reservations = $reservationRepository->findOneBy(['token' => $token])) {
+            foreach ($reservations as $reservation) {
+                if ($resultReservations) {
+                    $resultReservations .= ",";
+                }
+                if ($reservation->getStart() != $reservation->getEnd()) {
+                    $resultReservations .= "{'from':" . ($reservation->getStart())->format('Y-m-d') . ", 'to':" . ($reservation->getEnd())->format('Y-m-d') . "}";
+                } else {
+                    $resultReservations .= ($reservation->getStart())->format('Y-m-d');
+                }
+            }
+        }
+        $resultReservations = '[' . $resultReservations . ']';
+
+        return $this->json(['response' => $resultReservations]);
+    }
+
+    #[Route('/ajout-produit', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
+    public function addProductToCart(Request $request, EntityManagerInterface $em, SessionInterface $session): JsonResponse
+    {
+        $token = $request->request->get('token');
+        $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+        $quantity = $request->request->get('quantity');
+        $startDate = $request->request->get('startDate');
+        $totalQuantity = 0;
+        $totalPrice = 0;
+        $cart = $session->get('cart', null);
+
+        if ($cart) {
+            foreach ($cart as $productId => $item) {
+                $totalQuantity += (int)$item['quantity'];
+                $totalPrice += (int)$item['price'];
+            }
+        }
+        $cart[$product->getToken()][] = [
+            'caution' => $product->getCaution(),
+            'price' => $product->getAmount(),
+            'quantity' => $quantity,
+            'amount' => ($quantity * ($product->getAmount() / 100) * 100),
+            'startDate' => $startDate,
+            'image' => $product->getPictures()->first(),
+            'titre' => $product->getTitle(),
+        ];
+        $session->set('cart', $cart);
+
+        return $this->json(
+            [
+                'info_cart' =>
+                    [
+                        'totalQuantity' => $totalQuantity,
+                        'totalPrice' => $totalPrice
+                    ]
+            ]
         );
     }
 }

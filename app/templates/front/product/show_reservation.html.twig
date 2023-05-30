@@ -58,36 +58,38 @@
                 </span>
             </div>
             <div class="product__price-2 mb-25">
-                <span>{{ product.amount }}</span>
+                <span>{{ product.amount }} €</span>
                 {#                <span class="old-price">$96.00</span> #}
             </div>
             <div class="product__modal-des mb-30">
                 <p>{{ product.description }}</p>
             </div>
             <div class="product__modal-form">
-                <form action="#" id="product-{{ product.token }}">
+                <form action="#" id="productForm">
+                    <input type="hidden" id="token" name="token" value="{{ product.token }}">
+                    <div id="quantityFeedback" class="mb-5 invalid-feedback d-none">
+                        Information requise.
+                    </div>
                     <div class="product__modal-select color size mb-20">
                         <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
                         <div class="product-quantity">
                             <div class="">
-                                <input id="startDate" data-input {{ stimulus_controller('datetimepicker') }}
+                                <input name="startDate" id="startDate" data-input {{ stimulus_controller('datetimepicker') }}
                                        placeholder="jj/mm/aaaa" type="text"
-                                       data-token="{{ product.token }}" required style="text-align: center;"/>
+                                       data-token="{{ product.token }}" aria-describedby="startDateFeedback" required style="text-align: center;"/>
                             </div>
                         </div>
                     </div>
                     <div class="product__modal-input color mb-20">
                         <label>Quantité <i class="fas fa-star-of-life"></i></label>
-                        <select id="quantity" style="text-align: center;">
-                            <option>- Choisir une quantité -</option>
+                        <select name="quantity" id="quantity" aria-describedby="quantityFeedback">
+                            <option disabled selected>- Choisir une quantité -</option>
                             {% if quantityLeft > 0 %}
                                 {% for i in range(1, quantityLeft) %}
                                     <option value="{{ i  }}">{{ i  }}</option>
                                 {% endfor %}
                             {% endif %}
                         </select>
-                    </div>
-                    <div class="product__modal-required mb-5">
                     </div>
                     <div class="pro-quan-area d-lg-flex align-items-center" style="flex-direction: row-reverse;">
                         <div class="pro-cart-btn">
