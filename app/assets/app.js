@@ -61,7 +61,6 @@ window.WOW = WOW
 
 require('./js/services/imagesloaded.pkgd.min.js')
 require('./js/services/main.js')
-require('./js/front/pages/flatpickr.js')
 
 $(function (){
 })
