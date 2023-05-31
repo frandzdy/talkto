@@ -154,26 +154,35 @@ class ProductController extends AbstractController
         $token = $request->request->get('token');
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $quantity = $request->request->get('quantity');
-        $startDate = $request->request->get('startDate');
+        $flatpickrDate = $request->request->get('startDate');
         $totalQuantity = 0;
-        $totalPrice = 0;
+        $totalAmount = 0;
         $cart = $session->get('cart', null);
-
-        if ($cart) {
-            foreach ($cart as $productId => $item) {
-                $totalQuantity += (int)$item['quantity'];
-                $totalPrice += (int)$item['price'];
-            }
+        if (str_contains($flatpickrDate, 'au')) {
+            $startDate = trim(explode('au', $flatpickrDate)[0]);
+            $endDate = trim(explode('au', $flatpickrDate)[1]);
+        } else {
+            $startDate = $flatpickrDate;
+            $endDate = $startDate;
         }
-        $cart[$product->getToken()][] = [
+        $cart['products'][$product->getToken()] = [
             'caution' => $product->getCaution(),
             'price' => $product->getAmount(),
             'quantity' => $quantity,
             'amount' => ($quantity * ($product->getAmount() / 100) * 100),
+            'flatpickrDate' => $startDate,
             'startDate' => $startDate,
-            'image' => $product->getPictures()->first(),
-            'titre' => $product->getTitle(),
+            'endDate' => $endDate,
+            'pictureName' => $product->getPictures()->first()->getName(),
+            'title' => $product->getTitle(),
         ];
+        foreach ($cart['products'] as $item) {
+            $totalQuantity += (int)$item['quantity'];
+            $totalAmount += (int)$item['amount'];
+        }
+        $cart['totalQuantity'] = $totalQuantity;
+        $cart['totalAmount'] = $totalAmount;
+
         $session->set('cart', $cart);
 
         return $this->json(
@@ -181,7 +190,7 @@ class ProductController extends AbstractController
                 'info_cart' =>
                     [
                         'totalQuantity' => $totalQuantity,
-                        'totalPrice' => $totalPrice
+                        'totalAmount' => $totalAmount
                     ]
             ]
         );

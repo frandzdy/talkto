@@ -1,90 +1,104 @@
 {% extends 'front/layout.html.twig' %}
 
 {% block title %}
-    Paiement - {{ parent() }}
+    Panier - {{ parent() }}
 {% endblock %}
 
 {% block metas %}
     {{ parent() }}
-    <meta name="description" content="Page de paiement de la location!">
-    <meta name="description" content="Paiement page for rented">
+    <meta name="description" content="Panier de vos locations !">
+    <meta name="description" content="Cart of your rent !">
 {% endblock %}
 
 {% block content %}
 
-<section class="cart-area pt-100 pb-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <form action="#">
-                    <div class="table-content table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th class="product-thumbnail">Images</th>
-                                <th class="cart-product-name">Product</th>
-                                <th class="product-price">Unit Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-subtotal">Total</th>
-                                <th class="product-remove">Remove</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="assets/img/shop/product/product-2.jpg" alt=""></a></td>
-                                <td class="product-name"><a href="product-details.html">Bakix Furniture</a></td>
-                                <td class="product-price"><span class="amount">$130.00</span></td>
-                                <td class="product-quantity">
-                                    <div class="cart-plus-minus"><input type="text" value="1" /></div>
-                                </td>
-                                <td class="product-subtotal"><span class="amount">$130.00</span></td>
-                                <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="assets/img/shop/product/product-4.jpg"  alt=""></a></td>
-                                <td class="product-name"><a href="product-details.html">Sujon Chair Set</a></td>
-                                <td class="product-price"><span class="amount">$120.50</span></td>
-                                <td class="product-quantity">
-                                    <div class="cart-plus-minus"><input type="text" value="1" /></div>
-                                </td>
-                                <td class="product-subtotal"><span class="amount">$120.50</span></td>
-                                <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="coupon-all">
-                                <div class="coupon">
-                                    <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                           placeholder="Coupon code" type="text">
-                                    <button class="os-btn os-btn-black" name="apply_coupon" type="submit">Apply
-                                        coupon</button>
-                                </div>
-                                <div class="coupon2">
-                                    <button class="os-btn os-btn-black" name="update_cart" type="submit">Update cart</button>
+    <section class="cart-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="#">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="product-thumbnail">Photo</th>
+                                    <th class="cart-product-name">Prduit</th>
+                                    <th class="product-quantity">Date de la réservation</th>
+                                    <th class="product-price">Prix unitaire</th>
+                                    <th class="product-quantity">Quantité</th>
+                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-remove">Supprimer</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for index, cart in carts['products'] %}
+                                    <tr >
+                                        <td class="product-thumbnail">
+                                            <a href="{{ path('front_product_show_detail', {'token': index}) }}">
+                                                <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
+                                                     alt="{{ cart.pictureName }}"/>
+                                            </a>
+                                        </td>
+                                        <td class="product-name"><a
+                                                    href="{{ path('front_product_show_detail', {'token': index}) }}">{{ cart.title }}</a>
+                                        </td>
+                                        <td class="product-quantity">{{ cart.startDate }} au {{ cart.endDate }}</td>
+                                        <td class="product-price"><span class="amount">{{ cart.price }} €</span></td>
+                                        <td class="product-quantity">
+                                            <div class="cart-plus-minus-cart"><input data-max="" type="text" id="quantity"
+                                                                                value="{{ cart.quantity }}"/></div>
+                                            <input type="hidden" value="{{ index }}" id="token">
+                                        </td>
+                                        <td class="product-subtotal"><span class="amount">{{ cart.amount }} €</span>
+                                        </td>
+                                        <td class="product-remove">
+                                            <a href="{{ path('front_cart_delete', {'token':index}) }}"
+                                            class="post-confirm"
+                                               data-button-text="Supprimer"
+                                               data-title="Supprimer"
+                                               data-confirm-message="Souhaitez-vous supprimer ce produit ?"
+                                            >
+                                                <i class="fa fa-times"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="coupon-all">
+{#                                    <div class="coupon">#}
+{#                                        <input id="coupon_code" class="input-text" name="coupon_code" value=""#}
+{#                                               placeholder="Coupon code" type="text">#}
+{#                                        <button class="os-btn os-btn-black" name="apply_coupon" type="submit">Apply#}
+{#                                            coupon#}
+{#                                        </button>#}
+{#                                    </div>#}
+                                    <div class="coupon2">
+                                        <a class="os-btn os-btn-black" href="{{ path('front_cart_index') }}" >
+                                            Mettre à jour le panier
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5 ml-auto">
-                            <div class="cart-page-total">
-                                <h2>Cart totals</h2>
-                                <ul class="mb-20">
-                                    <li>Subtotal <span>$250.00</span></li>
-                                    <li>Total <span>$250.00</span></li>
-                                </ul>
-                                <a class="os-btn" href="checkout.html">Procéder au paiement</a>
+                        <div class="row">
+                            <div class="col-md-5 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Total</h2>
+                                    <ul class="mb-20">
+                                        <li>Total <span>{{ carts.totalAmount }} €</span></li>
+                                    </ul>
+                                    <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Procéder au
+                                        paiement</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Cart Area End-->
+    </section>
+    <!-- Cart Area End-->
 {% endblock %}
 

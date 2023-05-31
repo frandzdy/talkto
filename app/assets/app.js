@@ -27,7 +27,11 @@ import bsCustomFileInput from "bs-custom-file-input";
 window.bsCustomFileInput = bsCustomFileInput;
 
 import toastr from 'toastr';
+toastr.options.preventDuplicates = true;
+toastr.options.positionClass = 'toast-bottom-left';
+
 window.toastr = toastr;
+
 
 import 'jquery-confirm';
 
@@ -53,6 +57,7 @@ require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
 require('./js/services/jquery-ui-slider-range.js')
 require('./js/services/ajax-form.js')
+import  '@stripe/stripe-js';
 
 import WOW from 'wow.js';
 window.WOW = WOW

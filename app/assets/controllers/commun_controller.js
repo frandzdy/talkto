@@ -2,8 +2,6 @@ import {Controller} from '@hotwired/stimulus';
 import 'toastr'
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
-import flatpickr from "flatpickr";
-import {French} from "flatpickr/dist/l10n/fr";
 
 /*
  * This is an example Stimulus controller!
@@ -20,6 +18,7 @@ export default class extends Controller {
     connect() {
         this.handleBsCustomFileInput($('[type=file]'))
         this.initPlugins();
+        this.updateWidgetCart();
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
                 event.preventDefault();
@@ -40,7 +39,6 @@ export default class extends Controller {
                 this.openProductModal(title, href, size);
             })
             .on('click', 'a.post-confirm', (event) => {
-                alert("re")
                 // Liens d'actions avec confirmation
                 event.preventDefault();
                 const item = $(event.currentTarget);
@@ -67,6 +65,17 @@ export default class extends Controller {
                 event.preventDefault();
                 event.stopPropagation();
                 this.addToCart();
+                this.closeProductModal();
+            })
+            .on('click', 'div.update-product-cart-minus', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.updateCart(event, false);
+            })
+            .on('click', 'div.update-product-cart-plus', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.updateCart(event);
             });
 
     }
@@ -83,17 +92,25 @@ export default class extends Controller {
                 url: Routing.generate('front_product_add_cart'),
                 type: 'post',
                 data: {'token': token, 'quantity': quantity, 'startDate': startDate},
-                success: function () {
+                success: function (data) {
+                    $('#cart-length').html(data.totalQuantity);
+                    $('#cart-length').text(data.totalQantity);
                     toastr.success('Produit(s) ajouté(s) !');
-                    parseInt($('cart-length').val());
-                    parseInt(quantity);
-                    $('cart-length').val(parseInt($('cart-length').val()) + parseInt(quantity));
                 }
             });
             this.updateWidgetCart();
         }
     }
-
+    updateCart (event) {
+        let quantity = $(event.currentTarget).closest('tr').find('#quantity').val()
+        let token = $(event.currentTarget).closest('tr').find('#token').val()
+        $.post({
+            url: Routing.generate('front_cart_update'),
+            data: {'token': token, 'quantity': quantity}
+        }).done(function (data) {
+            $(event.currentTarget).closest('tr').find('.amount').val(data.amounst)
+        });
+    }
     removeFromCart() {
         const productForm = $('#productForm');
         const token = productForm.find('#token').val();
@@ -105,42 +122,23 @@ export default class extends Controller {
             $.post({
                 url: Routing.generate('front_product_add_cart'),
                 type: 'post',
-                data: {'token': token, 'quantity': quantity, 'startDate': startDate},
-                success: function success(data) {
-                    toastr.success('Produit(s) ajouté(s) !');
-                }
+                data: {'token': token, 'quantity': quantity, 'startDate': startDate}
+            }).done(function (data) {
+                toastr.success('Produit(s) supprimé(s) !');
+                $('#cart-length').html(data.totalQuantity)
+                $('#cart-length').text(data.totalQantity);
             });
             this.updateWidgetCart();
         }
     }
 
     updateWidgetCart () {
-        $.get({
-            url: Routing.generate('front_cart_widget'),
-            type: 'get',
-            data: {},
-            success: function success(data) {
-                $('cart-widget').html(data.response);
-            }
+        $.get(Routing.generate('front_cart_widget'))
+            .done(function(data) {
+            $('.mini-cart').html(data.response);
+            $('#cart-length').html(data.totalQuantity);
+            $('#cart-length').text(data.totalQantity);
         });
-    }
-    /**
-     * Enregistre le cookie de panier
-     */
-    setCartCookie(value) {
-        let expires = new Date();
-        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
-        document.cookie = 'cart=' + value + ';path=/;expires=' + expires.toUTCString();
-    }
-
-    deleteCartCookie() {
-        let expires = new Date();
-        expires.setTime(expires.getTime() + 1);
-        document.cookie = 'cart=;path=/;expires=1' + expires.toUTCString();
-    }
-
-    containerTargetConnected() {
-
     }
 
     /**
@@ -264,6 +262,10 @@ export default class extends Controller {
         }).fail((error) => {
             toastr.error("Une erreur est survenue.");
         });
+    }
+
+    closeProductModal() {
+       $(this.modalProductTarget).modal('hide');
     }
 
     hidePageLoader() {
@@ -954,10 +956,13 @@ export default class extends Controller {
 
         ////////////////////////////////////////////////////
         // 21. Cart Plus Minus Js
+        $(".cart-plus-minus-cart").append('<div class="dec qtybutton update-product-cart-minus">-</div><div class="inc qtybutton update-product-cart-plus">+</div>');
         $(".cart-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
         $(".qtybutton").on("click", function () {
             var $button = $(this);
             var oldValue = $button.parent().find("input").val();
+            let max = $button.parent().find("input").data('max');
+            let min = $button.parent().find("input").data('min');
             if ($button.text() == "+") {
                 var newVal = parseFloat(oldValue) + 1;
             } else {

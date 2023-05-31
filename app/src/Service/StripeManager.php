@@ -8,9 +8,11 @@ use Stripe\Account;
 use Stripe\AccountLink;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
+use Stripe\PaymentIntent;
 use Stripe\Product;
 use Stripe\StripeClient;
 use Stripe\Subscription;
+use Stripe\Transfer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripeManager
@@ -38,29 +40,6 @@ class StripeManager
     public function getStripeInstance()
     {
         return $this->stripe;
-    }
-
-    /**
-     * Retourne le nom de l'abonnement et du rôle ayant été souscrit
-     */
-    public function getTypeAbonnement(string $priceId): array
-    {
-        switch ($priceId) {
-            case $this->stripeParameters['prices']['price_abo1']:
-                $res = [self::ABO_1, User::ROLE_ABO_1];
-                break;
-            case $this->stripeParameters['prices']['price_abo2']:
-                $res = [self::ABO_2, User::ROLE_ABO_2];
-                break;
-            case $this->stripeParameters['prices']['price_abo3']:
-                $res = [self::ABO_3, User::ROLE_ABO_3];
-                break;
-            default:
-                $res = [];
-                break;
-        }
-
-        return $res;
     }
 
     /**
@@ -152,69 +131,62 @@ class StripeManager
     }
 
     /**
-     * retourne un checkout
-     */
-    public function retrieveSubcription(string $subscritionId): ?Subscription
-    {
-        return $this->stripe->subscriptions->retrieve($subscritionId);
-    }
-
-    /**
-     * retourne un checkout
-     */
-    public function retrieveProduct(string $productId): ?Product
-    {
-        return $this->stripe->products->retrieve($productId);
-    }
-
-    /**
-     * retourne un checkout
-     */
-    public function customerPortalSession(User $user): ?\Stripe\BillingPortal\Session
-    {
-        return $this->stripe->billingPortal->sessions->create(
-            [
-                'customer' => $user->getStripeCustomerId(),
-                'return_url' => $this->generator->generate('user_edit', [], UrlGeneratorInterface::ABSOLUTE_URL)
-            ]
-        );
-    }
-
-    /**
      * Création du paiement pour un abonnement
      */
-    public function createCheckoutStripe(string $type, User $user)
+    public function createPaymentIntent(): PaymentIntent
     {
-        return $this->stripe->checkout->sessions->create(
+        $paymentIntent = $this->stripe->paymentIntents->create(
             [
-                'customer' => $user->getStripeCustomerId(),
-                'line_items' => [
-                    [
-                        # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                        'price' => $this->stripeParameters["prices"]["price_$type"],
-                        'quantity' => 1,
-                    ]
-                ],
-                'mode' => 'subscription',
-                'success_url' => $this->generator->generate('app_stripe_success', [], UrlGeneratorInterface::ABSOLUTE_URL) . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => $this->generator->generate('app_stripe_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'amount' => 10000,
+                'customer' => 'cus_NyIudynRPUwh2I',
+                'currency' => 'eur',
+                'setup_future_usage'=> 'on_session',
+                'automatic_payment_methods' => ['enabled' => true],
+                'transfer_group' => 'ORDER10'
             ]
         );
+
+//        $this->stripe->transfers->create(
+//            [
+//                'amount' => 8000,
+//                'currency' => 'eur',
+//                'destination' => 'acct_1NC9n5FZz11Scp6n',
+//                'source_transaction' => $paymentIntent->id,
+//                'transfer_group' => 'ORDER10',
+//            ]
+//        );
+
+        return $paymentIntent;
     }
 
-    public function createProductAndPrice(Product $product)
+    /**
+     * @param PaymentIntent $paymentIntent
+     * @return array
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function captureAndTransferPaymentIntent(PaymentIntent $paymentIntent): array
     {
-        $product = $this->stripe->products->create([
-            'name' => 'Gold Special',
-            'images' => '',
-            'shippable' => false,
-            'url' => $this->generator->generate('front_product', [], UrlGeneratorInterface::ABSOLUTE_URL)
-        ]);
-        // on calcul le cout total.
-        $this->stripe->prices->create([
-            'unit_amount' => $product->getAmount() / $product->getAmount(),
-            'currency' => 'eur',
-            'product' => $product->id,
-        ]);
+
+        $transfer = $this->stripe->transfers->create(
+            [
+                'amount' => 8000,
+                'currency' => 'eur',
+                'destination' => 'acct_1NC9n5FZz11Scp6n',
+                'source_transaction' => $paymentIntent->charges->first()->id,
+                'transfer_group' => 'ORDER10',
+            ]
+        );
+
+        return [$transfer];
+    }
+
+    /**
+     * @param string $paymenIntentId
+     * @return PaymentIntent
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
+    {
+        return $this->stripe->paymentIntents->retrieve($paymenIntentId);
     }
 }

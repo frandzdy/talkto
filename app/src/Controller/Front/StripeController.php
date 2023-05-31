@@ -8,53 +8,41 @@
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Component\Security\Http\Attribute\IsGranted;
 
     class StripeController extends AbstractController
     {
-        #[Route('/paiement', name: 'stripe_checkout_session')]
-        public function checkoutSession(
-            StripeManager $stripeManager,
-            Request $request,
-            UserRepository $userRepository
-        ): Response {
-            $user = $this->getUser();
+        #[Route('/paiement', name: 'stripe_payment_intent', methods: ['GET'])]
+        public function paymentIntent(SessionInterface $session, StripeManager $stripeManager): Response
+        {
+            $carts = $session->get('cart', null);
+            $paymentIntent = $stripeManager->createPaymentIntent();
+            $clientSecret = $paymentIntent->client_secret;
 
-            $checkoutSession = $stripeManager->createCheckoutStripe("abo1", $user);
-           
-            if ($request->isMethod("POST")) {
-                
-                return $this->redirect($checkoutSession->url);
-            }
-            
-            return $this->render('stripe/checkout.html.twig', [
-                'checkoutSession' => $checkoutSession,
-                'type' => "abo1",
-                'token' => $user->getToken()
-            ]);
+            return $this->render('front/stripe/checkout.html.twig', compact('carts', 'clientSecret'));
         }
-        
-        #[Route('/gestion-abonnement', name: 'stripe_customer_portal_session')]
-        public function handleSubcription(
-            StripeManager $stripeManager,
-        ): Response {
-           
-            return $this->redirect($stripeManager->customerPortalSession($this->getUser())->url);
-        }
-        
-        #[Route('/success', name: 'stripe_success')]
+
+        #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
         public function success(StripeManager $stripeManager, Request $request, UserRepository $userRepository, UserManager $userManager): Response
         {
-            $sessionStripe = $stripeManager->retrieveCheckout($request->query->get('session_id'));
-            $subscription = $stripeManager->retrieveSubcription($sessionStripe->subscription);
-            $user = $userRepository->findOneBy(['stripeCustomerId' => $sessionStripe->customer]);
-            if ($user) {
-                
-                return $this->render('stripe/success.html.twig', ['user' => $user]);
-            }
+
+            $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
+            $paymentIntent = $stripeManager->captureAndTransferPaymentIntent($paymentIntent);
+            echo '<pre>';
+            dump($paymentIntent);
+            echo '</pre>';
+            echo 'Répertoire : ' . __DIR__ . ' Ligne : ' . __LINE__ . ' Méthode : ' . __METHOD__ . ' Debug Frandzdy';
+            die;
+//            //$subscription = $stripeManager->retrieveSubcription($sessionStripe->subscription);
+//            $user = $userRepository->findOneBy(['stripeCustomerId' => $sessionStripe->customer]);
+//            if ($user) {
+//
+//                return $this->render('front/stripe/success.html.twig', ['user' => $user]);
+//            }
             
-            return $this->render('user/edit.html.twig', []);
+            return $this->redirectToRoute('front_user_account');
         }
         
         #[Route('/cancel', name: 'stripe_cancel')]

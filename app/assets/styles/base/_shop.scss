@@ -1207,6 +1207,46 @@
     right: 7px;
 }
 
+.cart-plus-minus-cart {
+    position: relative;
+    display: inline-block;
+}
+.cart-plus-minus-cart input {
+    border: 0px;
+    outline: 0px;
+    background: none;
+    font-weight: 400;
+    color: $black;
+    font-size: 14px;
+    display: inline-block;
+    height: 50px;
+    list-style: 45px;
+    padding: 0 20px;
+    width: 110px;
+    border: 1px solid #ebebeb;
+    text-align: center;
+}
+.cart-plus-minus-cart .qtybutton {
+    font-size: 20px;
+    color: $black;
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    height: 22px;
+    width: 22px;
+    background: transparent;
+    border-radius: 30px;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    @include border-radius(0);
+}
+.cart-plus-minus-cart .dec {
+    left: 7px;
+}
+.cart-plus-minus-cart .inc {
+    right: 7px;
+}
 
 /* 16. Cart */
 .table-content table {

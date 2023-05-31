@@ -1,35 +1,43 @@
 <div class="mini-cart-inner">
-    <ul class="mini-cart-list">
-        {% for index, cart in carts %}
-            <li>
-                <div class="cart-img f-left">
-                    <a href="product-details.html">
-                        <img src="{{ asset("build/images/img/shop/product/cart-sm/16.jpg") }}" alt=""/>
-                    </a>
-                </div>
-                <div class="cart-content f-left text-left">
-                    <h5>
-                        <a href="product-details.html">Consectetur adi </a>
-                    </h5>
-                    <div class="cart-price">
-                        <span class="ammount">1 <i class="fal fa-times"></i></span>
-                        <span class="price">$ 400</span>
+    {% if carts['products']|length > 0 %}
+        <ul class="mini-cart-list">
+            {% for index, cart in carts['products'] %}
+                <li>
+                    <div class="cart-img f-left">
+                        <a href="{{ path('front_product_show_detail', {'token': index}) }}">
+                            <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
+                                 alt="{{ cart.pictureName }}"/>
+                        </a>
                     </div>
-                </div>
-                <div class="del-icon f-right mt-30">
-                    <a href="{{ index }}">
-                        <i class="fal fa-times"></i>
-                    </a>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+                    <div class="cart-content f-left text-left">
+                        <h5>
+                            <a href="{{ path('front_product_show_detail', {'token': index}) }}">{{ cart.title }} </a>
+                        </h5>
+                        <div class="cart-price">
+                            <span class="ammount">{{ cart.quantity }} <i class="fal fa-times"></i></span>
+                            <span class="price">{{ cart.amount }} €</span>
+                        </div>
+                    </div>
+                    <div class="del-icon f-right mt-30">
+                        <a href="{{ path('front_cart_delete', {'token':index}) }}"
+                           class="post-confirm"
+                           data-button-text="Supprimer"
+                           data-title="Supprimer"
+                           data-confirm-message="Souhaitez-vous supprimer ce produit ?"
+                        >
+                            <i class="fal fa-times"></i>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="total-price d-flex justify-content-between mb-30">
-        <span>Subtotal:</span>
-        <span>$400.0</span>
+        <span>Total :</span>
+        <span>{{ carts['totalAmount'] }} €</span>
     </div>
     <div class="checkout-link">
-        <a href="cart.html" class="os-btn">view Cart</a>
-        <a class="os-btn os-btn-black" href="checkout.html">Checkout</a>
+        <a href="{{ path('front_cart_index') }}" class="os-btn">Voir le panier</a>
+        <a class="os-btn os-btn-black" href="{{ path('front_stripe_payment_intent') }}">Procéder au paiement</a>
     </div>
 </div>

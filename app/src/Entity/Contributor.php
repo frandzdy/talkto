@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AssertQualifelec;
 
 /**
  * Utilisateur de l'administration
@@ -14,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @UniqueEntity(fields={"email"}, message="E-mail déjà enregistré.")
  */
-class Contributor implements UserInterface
+class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
@@ -55,7 +57,7 @@ class Contributor implements UserInterface
     /**
      * Mot de passe en clair (non persisté)
      *
-     * @Assert\NotBlank(message="Information requise.", groups={"creation"})
+     * @AssertQualifelec\PasswordRequirements()
      */
     public ?string $plainPassword = null;
 
@@ -77,7 +79,7 @@ class Contributor implements UserInterface
     /**
      * <@inheritDoc>
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -85,7 +87,7 @@ class Contributor implements UserInterface
     /**
      * <@inheritDoc>
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->getRole() ? [$this->getRole()] : [];
     }
@@ -184,5 +186,10 @@ class Contributor implements UserInterface
         $this->role = $role;
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string)$this->email;
     }
 }

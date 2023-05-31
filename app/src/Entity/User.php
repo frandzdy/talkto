@@ -118,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Picture $picture;
 
     /**
-     * A propos de l'utilisateur
+     * A propos de l'utilisateur [SELLER]
      *
      * @ORM\Column(type="text", nullable=true)
      */
@@ -127,7 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      *  Mot de passe
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private ?string $password;
 
