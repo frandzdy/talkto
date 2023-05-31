@@ -103,11 +103,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $phone = null;
 
     /**
-     * Le genre de l'utilisateur
+     * Pays
      *
-     * @ORM\Column(type="text", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Country::class)
      */
-    private ?string $country = null;
+    private ?Country $country = null;
 
     /**
      * Toutes les photos de l'utilisateur
@@ -435,19 +435,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return string|null
+     * @return Country|null
      */
-    public function getCountry(): ?string
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
 
     /**
-     * @param string|null $country
+     * @param Country|null $country
      */
-    public function setCountry(?string $country): void
+    public function setCountry(?Country $country): self
     {
         $this->country = $country;
+
+        return $this;
     }
 
     /**

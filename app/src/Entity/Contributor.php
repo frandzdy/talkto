@@ -69,7 +69,7 @@ class Contributor implements UserInterface
     /**
      * <@inheritDoc>
      */
-    public function getUsername(): ?string
+    public function getUsername()
     {
         return $this->email;
     }
@@ -77,7 +77,7 @@ class Contributor implements UserInterface
     /**
      * <@inheritDoc>
      */
-    public function getPassword(): ?string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -85,7 +85,7 @@ class Contributor implements UserInterface
     /**
      * <@inheritDoc>
      */
-    public function getRoles(): array
+    public function getRoles()
     {
         return $this->getRole() ? [$this->getRole()] : [];
     }
@@ -184,11 +184,5 @@ class Contributor implements UserInterface
         $this->role = $role;
 
         return $this;
-    }
-
-    public function getUserIdentifier(): string
-    {
-        // TODO: Implement getUserIdentifier() method.
-        return $this->getEmail();
     }
 }

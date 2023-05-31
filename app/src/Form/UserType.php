@@ -83,14 +83,12 @@ class UserType extends AbstractType
             )
             ->add(
                 'country',
-                TextType::class,
+                EntityType::class,
                 [
-                    'label' => false,
-                    'attr' =>
-                        [
-                            'placeholder' => 'Pays *',
-                            'maxlength' => 255
-                        ]
+                    'class' => Country::class,
+                    'choice_label' => 'label',
+                    'label' => 'Pays',
+                    'placeholder' => '- Séléctionnez un pays -',
                 ]
             )->add(
                 'lastname',

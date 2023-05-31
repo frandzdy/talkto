@@ -9,6 +9,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Intialisation d'un admin en back
+ *
+ * // implements DependentFixtureInterface
  */
 class ContributorFixtures extends Fixture
 {

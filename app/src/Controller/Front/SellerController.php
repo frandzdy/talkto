@@ -28,7 +28,7 @@ class SellerController extends AbstractController
         return $this->render('front/user/seller/account.html.twig', ['user' => $this->getUser()]);
     }
 
-    #[Route('/creation-compte-commercial', name: 'seller_new', methods: ['GET', 'POST'])]
+    #[Route('/compte-commercial/creation', name: 'seller_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         UserManager $userManager,
@@ -102,9 +102,9 @@ class SellerController extends AbstractController
     }
 
     /**
-     * Supprime le compte d'utilisateur connecté
+     * Supprime le compte d'un vendeur
      */
-    #[Route('/mon-compte-commercial/supprimer', name: 'user_delete', methods: ['POST'])]
+    #[Route('/mon-compte-commercial/supprimer', name: 'seller_delete', methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function delete(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -115,10 +115,10 @@ class SellerController extends AbstractController
     }
 
     /**
-     * Affiche le message de succès pour la créatin d'un compte
+     * Affiche le message de succès pour la création d'un compte
      */
-    #[Route('/creation-compte-commercial-valide', name: 'seller_success_creation', methods: ['GET'])]
-    public function userSuccessCreation(): Response
+    #[Route('/compte-commercial/creation-valide', name: 'seller_success_creation', methods: ['GET'])]
+    public function successCreation(): Response
     {
 
         return $this->render('front/user/seller/creation-success.html.twig');
