@@ -4,7 +4,7 @@ import $ from "jquery";
 import {loadStripe} from '@stripe/stripe-js';
 
 /**
- * Gestion des justificatifs
+ * Gestion des paiements
  */
 export default class extends Controller {
     /**
@@ -32,8 +32,9 @@ export default class extends Controller {
                 type: 'accordion',
                 defaultCollapsed: false,
                 radios: false,
-                spacedAccordionItems: false
-            }
+                spacedAccordionItems: true
+            },
+            business: "Rented"
         });
         paymentElement.mount('#payment-element');
 
@@ -63,5 +64,9 @@ export default class extends Controller {
                 // site first to authorize the payment, then redirected to the `return_url`.
             }
         });
+    }
+
+    checkForm() {
+
     }
 }

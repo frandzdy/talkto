@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Information requise.")
      * @Assert\Email(message="Format E-mail incorrect.")
+     * @Assert\NoSuspiciousCharacters(
+     *     checks={"NoSuspiciousCharaters::CHECK_INVISIBLE | NoSuspiciousCharaters::CHECK_MIXED_NUMBERS"},
+     *     restrictionLevel= NoSuspiciousCharaters::RESTRICTION_LEVEL_HIGH)
      */
     private ?string $email;
 

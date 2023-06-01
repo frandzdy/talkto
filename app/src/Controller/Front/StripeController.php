@@ -17,8 +17,18 @@
         #[Route('/paiement', name: 'stripe_payment_intent', methods: ['GET'])]
         public function paymentIntent(SessionInterface $session, StripeManager $stripeManager): Response
         {
+            /**
+             * on récupère l'utilisateur connecté
+             * si pas connecté alors on crée un compte stripe avec les informations de facturation
+             */
             $carts = $session->get('cart', null);
-            $paymentIntent = $stripeManager->createPaymentIntent();
+            if (!isset($carts['paymentIntentId'])) {
+                $paymentIntent = $stripeManager->createPaymentIntent($carts);
+                $carts['paymentIntentId'] = $paymentIntent->id;
+            } else {
+                $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
+            }
+            $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
 
             return $this->render('front/stripe/checkout.html.twig', compact('carts', 'clientSecret'));

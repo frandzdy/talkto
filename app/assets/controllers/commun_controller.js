@@ -70,16 +70,18 @@ export default class extends Controller {
             .on('click', 'div.update-product-cart-minus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.updateCart(event, false);
+                this.updateCart(event);
             })
-            .on('click', 'div.update-product-cart-plus', (event) => {
+            .on('click', 'a.checkout-login', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.updateCart(event);
+                this.login();
             });
 
     }
+    login() {
 
+    }
     addToCart() {
         const productForm = $('#productForm');
         const token = productForm.find('#token').val();

@@ -131,13 +131,14 @@ class StripeManager
     }
 
     /**
-     * Création du paiement pour un abonnement
+     * Création du paiement
      */
-    public function createPaymentIntent(): PaymentIntent
+    public function createPaymentIntent(array $cart, User $user): PaymentIntent
     {
-        $paymentIntent = $this->stripe->paymentIntents->create(
+
+        return $this->stripe->paymentIntents->create(
             [
-                'amount' => 10000,
+                'amount' => $cart['totalAmount'],
                 'customer' => 'cus_NyIudynRPUwh2I',
                 'currency' => 'eur',
                 'setup_future_usage'=> 'on_session',
@@ -145,18 +146,6 @@ class StripeManager
                 'transfer_group' => 'ORDER10'
             ]
         );
-
-//        $this->stripe->transfers->create(
-//            [
-//                'amount' => 8000,
-//                'currency' => 'eur',
-//                'destination' => 'acct_1NC9n5FZz11Scp6n',
-//                'source_transaction' => $paymentIntent->id,
-//                'transfer_group' => 'ORDER10',
-//            ]
-//        );
-
-        return $paymentIntent;
     }
 
     /**
@@ -183,7 +172,6 @@ class StripeManager
     /**
      * @param string $paymenIntentId
      * @return PaymentIntent
-     * @throws \Stripe\Exception\ApiErrorException
      */
     public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
     {

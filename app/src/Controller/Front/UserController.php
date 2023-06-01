@@ -11,6 +11,7 @@ use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +33,10 @@ class UserController extends AbstractController
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(
-        Request                   $request,
-        UserManager               $userManager,
-        MailerManager             $mailer,
-        UserAuthenticatorInterface $authenticator,
+        Request $request,
+        UserManager $userManager,
+        MailerManager $mailer,
+        Security $security,
         FrontAuthenticator $frontAuthenticator
     ): Response
     {
@@ -64,10 +65,7 @@ class UserController extends AbstractController
             $userManager->saveUser();
 
             // substitute the previous line (redirect response) with this one.
-            return $authenticator->authenticateUser(
-                $user,
-                $frontAuthenticator,
-                $request);
+            return $security->login($user, 'frontAuthenticator', 'front');
         }
 
         return $this->render('front/user/byer/edit.html.twig', [

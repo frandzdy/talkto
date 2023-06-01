@@ -12,6 +12,7 @@ use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ class SellerController extends AbstractController
         UserManager $userManager,
         MailerManager $mailer,
         StripeManager $stripeManager,
-        UserAuthenticatorInterface $authenticator,
+        Security $security,
         FrontAuthenticator $frontAuthenticator
     ): Response {
         if (!is_null($this->getUser())) {
@@ -58,7 +59,7 @@ class SellerController extends AbstractController
                 ]
             );
             $userManager->saveUser();
-            $authenticator->authenticateUser($user, $frontAuthenticator, $request);
+            $security->login($user, 'frontAuthenticator', 'front');
 
             return $this->redirect($stripeManager->createAccountLink($user)->url);
         }
