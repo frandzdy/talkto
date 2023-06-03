@@ -17,33 +17,13 @@ export default class extends Controller {
             mode: "range",
             minDate: "today",
             altInput: true,
-            altInputClass: '',
+            altInputClass: 'reservation-date',
             dateFormat: "Y-m-d",
             altFormat: "d/m/Y",
             locale: French,
             disable: this.getDisabledDate(this.element.dataset.token),
         };
-        console.log('"' + this.element.dataset.start + '"');
-        console.log(this.element.dataset.end);
-        let start = '"' + this.element.dataset.start + '"';
-        let end ='"' + this.element.dataset.end + '"';
-        console.log(start)
-        console.log(end)
-        Date.parse(start)
-        console.log(Date.parse(end))
-        if (this.element.dataset.defaultDate) {
-            let options = {
-                mode: "range",
-                minDate: "today",
-                altInput: true,
-                defaultDate: ["02-06-2023", "22-06-2023"],
-                altInputClass: '',
-                dateFormat: "Y-m-d",
-                altFormat: "d/m/Y",
-                locale: French,
-                disable: this.getDisabledDate(this.element.dataset.token),
-            };
-        }
+
         flatpickr(this.element, options)
     }
 

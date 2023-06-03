@@ -72,6 +72,16 @@ export default class extends Controller {
                 event.stopPropagation();
                 this.updateCart(event);
             })
+            .on('click', 'div.update-product-cart-plus', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.updateCart(event);
+            })
+            .on('blur', 'input.reservation-date', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.updateCart(event);
+            })
             .on('click', 'a.checkout-login', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
@@ -106,11 +116,15 @@ export default class extends Controller {
     updateCart (event) {
         let quantity = $(event.currentTarget).closest('tr').find('#quantity').val()
         let token = $(event.currentTarget).closest('tr').find('#token').val()
+        let startDate = $(event.currentTarget).closest('tr').find('#startDate').val()
         $.post({
             url: Routing.generate('front_cart_update'),
-            data: {'token': token, 'quantity': quantity}
+            data: {'token': token, 'quantity': quantity, 'startDate': startDate}
         }).done(function (data) {
-            $(event.currentTarget).closest('tr').find('.amount').val(data.amounst)
+            $(event.currentTarget).closest('tr').find('.amount').html(data.newAmount);
+            $('#totalAmount').text(data.totalAmount + ' €');
+            $('#totalAmountTtc').text((parseFloat(data.totalAmount) + parseFloat(data.totalTva)) + ' €');
+            $('#totalTva').text(data.totalTva + ' €');
         });
     }
     removeFromCart() {
@@ -130,7 +144,9 @@ export default class extends Controller {
                 $('#cart-length').html(data.totalQuantity)
                 $('#cart-length').text(data.totalQantity);
             });
-            this.updateWidgetCart();
+            setTimeout(function (){
+                this.updateWidgetCart();
+            }, 2000);
         }
     }
 

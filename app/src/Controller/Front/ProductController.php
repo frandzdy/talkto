@@ -156,42 +156,45 @@ class ProductController extends AbstractController
         $quantity = $request->request->get('quantity');
         $flatpickrDate = $request->request->get('startDate');
         $totalQuantity = 0;
+        $totalDays = 0;
         $totalAmount = 0;
         $cart = $session->get('cart', null);
         if (str_contains($flatpickrDate, 'au')) {
-            $startDate = trim(explode('au', $flatpickrDate)[0]);
-            $endDate = trim(explode('au', $flatpickrDate)[1]);
+            $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
+            $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+
         } else {
-            $startDate = $flatpickrDate;
+            $startDate = new \DateTimeImmutable($flatpickrDate);
             $endDate = $startDate;
         }
         $cart['products'][$product->getToken()] = [
             'caution' => $product->getCaution(),
             'price' => $product->getAmount(),
             'quantity' => $quantity,
-            'amount' => ($quantity * ($product->getAmount() / 100) * 100),
-            'flatpickrDate' => $startDate,
-            'startDate' => $startDate,
-            'endDate' => $endDate,
+            'flatpickrDate' => $flatpickrDate,
+            'startDate' => $startDate->format('d/m/Y'),
+            'endDate' => $endDate->format('d/m/Y'),
+            'numberDays' => $startDate->diff($endDate)->days,
             'pictureName' => $product->getPictures()->first()->getName(),
-            'title' => $product->getTitle(),
+            'title' => $product->getTitle()
         ];
         foreach ($cart['products'] as $item) {
             $totalQuantity += (int)$item['quantity'];
-            $totalAmount += (int)$item['amount'];
+            $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
         }
         $cart['totalQuantity'] = $totalQuantity;
         $cart['totalAmount'] = $totalAmount;
+        $cart['totalTva'] = $totalAmount * 0.2;
+        $cart['totalAmountTtc'] = $totalAmount * 1.2;
 
         $session->set('cart', $cart);
 
         return $this->json(
             [
-                'info_cart' =>
-                    [
-                        'totalQuantity' => $totalQuantity,
-                        'totalAmount' => $totalAmount
-                    ]
+                'totalQuantity' => $totalQuantity,
+                'totalAmount' => $cart['totalAmount'],
+                'totalTva' => $cart['totalTva'],
+                'totalAmountTtc' => $cart['totalAmountTtc'],
             ]
         );
     }

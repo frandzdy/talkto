@@ -1291,6 +1291,22 @@
       border: 1px solid #dcdcdc;
   }
 
+  .reservation-date {
+      line-height: 52px !important;
+      min-width: 80px !important;
+      border: 0px !important;
+      outline: 0px !important;
+      background: none !important;
+      font-weight: 400 !important;
+      color: #201f1f !important;
+      font-size: 14px !important;
+      display: inline-block !important;
+      height: 50px !important;
+      width: 200px !important;
+      border: 1px solid #ebebeb !important;
+      text-align: center !important;
+  }
+
 .product-quantity select {
     color: #000;
     font-size: 14px;

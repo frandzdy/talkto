@@ -2,6 +2,10 @@
     
     namespace App\Controller\Front;
     
+    use App\Entity\User;
+    use App\Form\LoginType;
+    use App\Form\UserPaymentType;
+    use App\Form\UserType;
     use App\Repository\UserRepository;
     use App\Service\StripeManager;
     use App\Service\UserManager;
@@ -11,6 +15,7 @@
     use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Component\Security\Http\Attribute\IsGranted;
+    use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
     class StripeController extends AbstractController
     {
@@ -22,6 +27,11 @@
              * si pas connecté alors on crée un compte stripe avec les informations de facturation
              */
             $carts = $session->get('cart', null);
+
+            if (!$carts) {
+                return $this->redirectToRoute('front_home');
+            }
+
             if (!isset($carts['paymentIntentId'])) {
                 $paymentIntent = $stripeManager->createPaymentIntent($carts);
                 $carts['paymentIntentId'] = $paymentIntent->id;
@@ -32,6 +42,42 @@
             $clientSecret = $paymentIntent->client_secret;
 
             return $this->render('front/stripe/checkout.html.twig', compact('carts', 'clientSecret'));
+        }
+
+        #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true] , methods: ['GET'])]
+        public function paymentUserLogin(UserManager $userManager, Request $request, AuthenticationUtils $authenticationUtils): Response
+        {
+            $user = $userManager->createUser();
+            $form = $this->createForm(LoginType::class, $user);
+
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+                return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
+            }
+
+            return $this->render(
+                'front/auth/_form.html.twig',
+                [
+                    'form' => $form,
+                    'last_username' => $lastUsername,
+                    'error' => $error
+                ]
+            );
+        }
+
+        #[Route('/paiement-user-creation', name: 'stripe_payment_user_create', options: ['expose' => true], methods: ['GET'])]
+        public function checkPaymentUserCreate(SessionInterface $session, UserManager $userManager, StripeManager $stripeManager, Request $request): Response
+        {
+            $user = $userManager->createUser();
+            $form = $this->createForm(UserPaymentType::class, $user);
+
+            if ($form->handleRequest()->isSubmitted() && $form->isValid()) {
+                return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
+            }
+
+            return $this->render('front/stripe/_form_user.html.twig', ['form' => $form]);
         }
 
         #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]

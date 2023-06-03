@@ -24,7 +24,7 @@
                                     <th class="product-thumbnail">Photo</th>
                                     <th class="cart-product-name">Prduit</th>
                                     <th class="product-quantity">Date de la réservation</th>
-                                    <th class="product-price">Prix unitaire</th>
+                                    <th class="product-price">Prix unitaire HT</th>
                                     <th class="product-quantity">Quantité</th>
                                     <th class="product-subtotal">Total</th>
                                     <th class="product-remove">Supprimer</th>
@@ -42,14 +42,18 @@
                                         <td class="product-name"><a
                                                     href="{{ path('front_product_show_detail', {'token': index}) }}">{{ cart.title }}</a>
                                         </td>
-                                        <td class="product-quantity">{{ cart.startDate }} au {{ cart.endDate }}</td>
-                                        <td class="product-price"><span class="amount">{{ cart.price }} €</span></td>
+                                        <td class="product-quantity">
+                                            <input id="startDate" {{ stimulus_controller('datetimepicker') }}
+                                                   placeholder="jj/mm/aaaa" type="text" value="{{ cart.flatpickrDate }}"
+                                                   data-token="{{ index }}" style="text-align: center;"/>
+                                        </td>
+                                        <td class="product-price"><span>{{ cart.price }} </span>€</td>
                                         <td class="product-quantity">
                                             <div class="cart-plus-minus-cart"><input data-max="" type="text" id="quantity"
                                                                                 value="{{ cart.quantity }}"/></div>
                                             <input type="hidden" value="{{ index }}" id="token">
                                         </td>
-                                        <td class="product-subtotal"><span class="amount">{{ cart.amount }} €</span>
+                                        <td class="product-subtotal"><span class="amount">{{ cart.price * cart.quantity * cart.numberDays }} </span>€
                                         </td>
                                         <td class="product-remove">
                                             <a href="{{ path('front_cart_delete', {'token':index}) }}"
@@ -87,7 +91,9 @@
                                 <div class="cart-page-total">
                                     <h2>Total</h2>
                                     <ul class="mb-20">
-                                        <li>Total <span>{{ carts.totalAmount }} €</span></li>
+                                        <li>Sous-total <span id="totalAmount">{{ carts.totalAmount }} €</span></li>
+                                        <li>TVA 20% <span id="totalTva">{{ carts.totalTva }} €</span></li>
+                                        <li>Total <span id="totalAmountTtc">{{ carts.totalAmountTtc }} €</span></li>
                                     </ul>
                                     <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Procéder au
                                         paiement</a>

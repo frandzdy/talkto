@@ -38,8 +38,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank(message="Information requise.")
      * @Assert\Email(message="Format E-mail incorrect.")
      * @Assert\NoSuspiciousCharacters(
-     *     checks={"NoSuspiciousCharaters::CHECK_INVISIBLE | NoSuspiciousCharaters::CHECK_MIXED_NUMBERS"},
-     *     restrictionLevel= NoSuspiciousCharaters::RESTRICTION_LEVEL_HIGH)
+     *     restrictionLevel="805306368",
+     *     restrictionLevelMessage="Information erronée.",
+     *     hiddenOverlayMessage="Information erronée.",
+     *     invisibleMessage="Information invisible dectectée.",
+     *     mixedNumbersMessage="Information erronée."
+     * )
      */
     private ?string $email;
 

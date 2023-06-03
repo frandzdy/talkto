@@ -2,24 +2,12 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\User;
-use App\Form\SellerType;
-use App\Form\UserType;
-use App\Security\FrontAuthenticator;
-use App\Service\MailerManager;
-use App\Service\StripeManager;
-use App\Service\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class CartController extends AbstractController
 {
@@ -31,7 +19,9 @@ class CartController extends AbstractController
             [
                 'products' => [],
                 'totalQuantity' => 0,
-                'totalAmount' => 0
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
             ]
         );
 
@@ -40,6 +30,8 @@ class CartController extends AbstractController
                 'response' => $this->renderView('front/cart/cart-widget.html.twig', compact('carts')),
                 'totalQuantity' => $carts['totalQuantity'],
                 'totalAmount' => $carts['totalAmount'],
+                'totalTva' => $carts['totalTva'],
+                'totalAmountTtc' => $carts['totalAmountTtc']
             ]
         );
     }
@@ -52,14 +44,16 @@ class CartController extends AbstractController
             [
                 'products' => [],
                 'totalQuantity' => 0,
-                'totalAmount' => 0
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
             ]
         );
 
         return $this->render('front/cart/cart.html.twig', compact('carts'));
     }
 
-    #[Route('/panier/supprimer/{token}', name: 'cart_delete', methods: ['GET'])]
+    #[Route('/panier/supprimer/{token}', name: 'cart_delete', methods: ['POST'])]
     public function delete(string $token, SessionInterface $session): Response
     {
         $carts = $session->get(
@@ -67,7 +61,9 @@ class CartController extends AbstractController
             [
                 'products' => [],
                 'totalQuantity' => 0,
-                'totalAmount' => 0
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
             ]
         );
 
@@ -84,6 +80,10 @@ class CartController extends AbstractController
     {
         $token = $request->request->get('token');
         $quantity = $request->request->get('quantity');
+        $flatpickrDate = $request->request->get('startDate');
+        $startDate = null;
+        $endDate = null;
+        $newPrice = 0;
         $totalQuantity = 0;
         $totalAmount = 0;
         $carts = $session->get(
@@ -91,28 +91,47 @@ class CartController extends AbstractController
             [
                 'products' => [],
                 'totalQuantity' => 0,
-                'totalAmount' => 0
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0,
+
             ]
         );
 
         if ($carts['products'][$token] && $quantity) {
-            $carts['products'][$token]['quantity'] = $quantity;
-            $carts['products'][$token]['amount'] = $quantity * $carts['products'][$token]['price'];
+            $carts['products'][$token]['quantity'] = (int)$quantity;
+            if (str_contains($flatpickrDate, 'au')) {
+                $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
+                $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+
+            } else {
+                $startDate = new \DateTimeImmutable($flatpickrDate);
+                $endDate = $startDate;
+            }
+            $carts['products'][$token]['flatpickrDate'] = $flatpickrDate;
+            $carts['products'][$token]['startDate'] = $startDate->format('d/m/Y');
+            $carts['products'][$token]['endDate'] = $endDate->format('d/m/Y');
+            $carts['products'][$token]['numberDays'] = $startDate->diff($endDate)->days;
+            $newPrice = (int)$carts['products'][$token]['price'] * (int)$carts['products'][$token]['quantity'] * (int)$carts['products'][$token]['numberDays'];
         } else {
             unset($carts['products'][$token]);
         }
         foreach ($carts['products'] as $item) {
-            $totalQuantity += (int)$item['quantity'];
-            $totalAmount += (int)$item['amount'];
+            $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
         }
         $carts['totalQuantity'] = $totalQuantity;
         $carts['totalAmount'] = $totalAmount;
+        $carts['totalTva'] = $totalAmount * 0.2;
+        $carts['totalAmountTTC'] = $totalAmount * 1.2;
 
         $session->set('cart', $carts);
 
         return $this->json(
             [
-                'response' => true
+                'newAmount' => $newPrice,
+                'totalAmount' => $carts['totalAmount'],
+                'totalTva' => $carts['totalTva'],
+                'totalAmountTTC' => $carts['totalAmountTTC']
             ]
         );
     }

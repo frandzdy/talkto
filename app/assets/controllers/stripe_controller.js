@@ -38,11 +38,18 @@ export default class extends Controller {
         });
         paymentElement.mount('#payment-element');
 
-        const form = $('#payment-form');
+        const buttonSubmit = $('#stripe_submit');
 
-        form.on('submit', async (event) => {
+        buttonSubmit.on('click', async (event) => {
+            buttonSubmit.attr('disabled');
             event.preventDefault();
             event.stopPropagation();
+
+            await $.post({
+                url: Routing.generate('front_stripe_success'),
+                method: 'POST',
+            })
+                .then()
 
             const {error} = await stripe.confirmPayment({
                 //`Elements` instance that was used to create the Payment Element
@@ -63,6 +70,7 @@ export default class extends Controller {
                 // methods like iDEAL, your customer will be redirected to an intermediate
                 // site first to authorize the payment, then redirected to the `return_url`.
             }
+            buttonSubmit.attrRemove('disabled');
         });
     }
 

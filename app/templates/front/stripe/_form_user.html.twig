@@ -1,0 +1,9 @@
+<form action="{{ path('front_stripe_payment_user_login') }}" method="POST">
+    <label for="name">Email</label>
+    <input id="name" name="email" type="email" placeholder="email@exemple.fr"
+           value="{{ last_username }}" required autofocus/>
+    <label for="pass">Mot de passe</label>
+    <input id="pass" name="password" type="password" placeholder="Mot de passe"/>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front_login') }}">
+    <button class="os-btn w-100">Connexion</button>
+</form>
