@@ -31,7 +31,16 @@ class CartManager
      */
     public function getCart(): ?array
     {
-        return $this->session->get('cart', []);
+        return $this->session->get(
+            'cart',
+            [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
+            ]
+        );
     }
     public function saveCart($cart): void
     {

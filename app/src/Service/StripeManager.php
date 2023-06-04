@@ -135,10 +135,15 @@ class StripeManager
      */
     public function createPaymentIntent(array $cart, User $user): PaymentIntent
     {
+        if (!$user->getId()) {
+            $customerId = $this->createCustomer($user);
+        } else {
+            $customerId = $user->getStripeCustomerId();
+        }
 
         return $this->stripe->paymentIntents->create(
             [
-                'amount' => $cart['totalAmount'],
+                'amount' => $cart['totalAmountTtc'],
                 'customer' => 'cus_NyIudynRPUwh2I',
                 'currency' => 'eur',
                 'setup_future_usage'=> 'on_session',

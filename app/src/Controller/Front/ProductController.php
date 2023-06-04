@@ -156,9 +156,14 @@ class ProductController extends AbstractController
         $quantity = $request->request->get('quantity');
         $flatpickrDate = $request->request->get('startDate');
         $totalQuantity = 0;
-        $totalDays = 0;
         $totalAmount = 0;
-        $cart = $session->get('cart', null);
+        $cart = $session->get('cart', [
+            'products' => [],
+            'totalQuantity' => 0,
+            'totalAmount' => 0,
+            'totalTva' => 0,
+            'totalAmountTtc' => 0
+        ]);
         if (str_contains($flatpickrDate, 'au')) {
             $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
             $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));

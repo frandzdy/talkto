@@ -20,20 +20,30 @@
     class StripeController extends AbstractController
     {
         #[Route('/paiement', name: 'stripe_payment_intent', methods: ['GET'])]
-        public function paymentIntent(SessionInterface $session, StripeManager $stripeManager): Response
+        public function paymentIntent(SessionInterface $session, StripeManager $stripeManager, UserManager $userManager): Response
         {
             /**
              * on récupère l'utilisateur connecté
              * si pas connecté alors on crée un compte stripe avec les informations de facturation
              */
-            $carts = $session->get('cart', null);
+            $carts = $session->get('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
+            ]);
 
             if (!$carts) {
                 return $this->redirectToRoute('front_home');
             }
 
             if (!isset($carts['paymentIntentId'])) {
-                $paymentIntent = $stripeManager->createPaymentIntent($carts);
+                $user = $this->getUser();
+                if (!$user) {
+                    $user = $userManager->createUser();
+                }
+                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user);
                 $carts['paymentIntentId'] = $paymentIntent->id;
             } else {
                 $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
@@ -81,9 +91,20 @@
         }
 
         #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
-        public function success(StripeManager $stripeManager, Request $request, UserRepository $userRepository, UserManager $userManager): Response
-        {
-
+        public function success(
+            StripeManager $stripeManager,
+            Request $request,
+            UserRepository $userRepository,
+            UserManager $userManager,
+            SessionInterface $session
+        ): Response {
+            $carts = $session->get('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
+            ]);
             $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
             $paymentIntent = $stripeManager->captureAndTransferPaymentIntent($paymentIntent);
             echo '<pre>';
