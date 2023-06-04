@@ -191,7 +191,7 @@ class ProductController extends AbstractController
 
         return $this->json(
             [
-                'totalQuantity' => $totalQuantity,
+                'totalQuantity' => $cart['totalQuantity'],
                 'totalAmount' => $cart['totalAmount'],
                 'totalTva' => $cart['totalTva'],
                 'totalAmountTtc' => $cart['totalAmountTtc'],

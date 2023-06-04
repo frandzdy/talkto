@@ -36,7 +36,7 @@ class CartController extends AbstractController
         );
     }
 
-    #[Route('/panier', name: 'cart_index', methods: ['GET'])]
+    #[Route('/panier', name: 'cart_index', options: ['expose' => true], methods: ['GET'])]
     public function index(SessionInterface $session): Response
     {
         $carts = $session->get(
@@ -78,9 +78,8 @@ class CartController extends AbstractController
     #[Route('/panier/mise-a-jour', name: 'cart_update', options: ['expose' => true], methods: ['POST'])]
     public function update(Request $request, SessionInterface $session): JsonResponse
     {
-        $token = $request->request->get('token');
-        $quantity = $request->request->get('quantity');
-        $flatpickrDate = $request->request->get('startDate');
+        $receiveCarts = $request->request->all();
+
         $startDate = null;
         $endDate = null;
         $newPrice = 0;
@@ -98,31 +97,38 @@ class CartController extends AbstractController
             ]
         );
 
-        if ($carts['products'][$token] && $quantity) {
-            $carts['products'][$token]['quantity'] = (int)$quantity;
-            if (str_contains($flatpickrDate, 'au')) {
-                $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
-                $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+        foreach ($receiveCarts as $receiveCart) {
+            if ($carts['products'][$receiveCart['token']] && $receiveCart['quantity']) {
+                $carts['products'][$receiveCart['token']]['quantity'] = (int)$receiveCart['quantity'];
+                $flatpickrDate = $receiveCart['startDate'];
+                if (str_contains($flatpickrDate, 'au')) {
+                    $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
+                    $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
 
+                } else {
+                    $startDate = new \DateTimeImmutable($flatpickrDate);
+                    $endDate = $startDate;
+                }
+                $carts['products'][$receiveCart['token']]['flatpickrDate'] = $flatpickrDate;
+                $carts['products'][$receiveCart['token']]['startDate'] = $startDate->format('d/m/Y');
+                $carts['products'][$receiveCart['token']]['endDate'] = $endDate->format('d/m/Y');
+                $carts['products'][$receiveCart['token']]['numberDays'] = $startDate->diff($endDate)->days;
+                $newPrice = (int)$carts['products'][$receiveCart['token']]['price']
+                    * (int)$carts['products'][$receiveCart['token']]['quantity']
+                    * (int)$carts['products'][$receiveCart['token']]['numberDays'];
             } else {
-                $startDate = new \DateTimeImmutable($flatpickrDate);
-                $endDate = $startDate;
+                unset($carts['products'][$receiveCart['token']]);
             }
-            $carts['products'][$token]['flatpickrDate'] = $flatpickrDate;
-            $carts['products'][$token]['startDate'] = $startDate->format('d/m/Y');
-            $carts['products'][$token]['endDate'] = $endDate->format('d/m/Y');
-            $carts['products'][$token]['numberDays'] = $startDate->diff($endDate)->days;
-            $newPrice = (int)$carts['products'][$token]['price'] * (int)$carts['products'][$token]['quantity'] * (int)$carts['products'][$token]['numberDays'];
-        } else {
-            unset($carts['products'][$token]);
         }
+
         foreach ($carts['products'] as $item) {
             $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
+            $totalQuantity = (int)$item['quantity'];
         }
         $carts['totalQuantity'] = $totalQuantity;
         $carts['totalAmount'] = $totalAmount;
         $carts['totalTva'] = $totalAmount * 0.2;
-        $carts['totalAmountTTC'] = $totalAmount * 1.2;
+        $carts['totalAmountTtc'] = $totalAmount * 1.2;
 
         $session->set('cart', $carts);
 
@@ -131,7 +137,8 @@ class CartController extends AbstractController
                 'newAmount' => $newPrice,
                 'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
-                'totalAmountTTC' => $carts['totalAmountTTC']
+                'totalAmountTtc' => $carts['totalAmountTtc'],
+                'totalQuantity' => $carts['totalQuantity']
             ]
         );
     }

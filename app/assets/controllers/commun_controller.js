@@ -16,6 +16,7 @@ export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
 
     connect() {
+        let cart = []
         this.handleBsCustomFileInput($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();
@@ -65,22 +66,31 @@ export default class extends Controller {
                 event.preventDefault();
                 event.stopPropagation();
                 this.addToCart();
+                this.updateWidgetCart();
                 this.closeProductModal();
             })
             .on('click', 'div.update-product-cart-minus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 this.updateCart(event);
+                this.updateWidgetCart();
             })
             .on('click', 'div.update-product-cart-plus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 this.updateCart(event);
+                this.updateWidgetCart();
             })
             .on('blur', 'input.reservation-date', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 this.updateCart(event);
+            })
+            .on('click', 'a.update-cart', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.submitUpdateCart(event);
+                this.updateWidgetCart();
             })
             .on('click', 'a.checkout-login', (event) => {
                 event.preventDefault();
@@ -106,25 +116,31 @@ export default class extends Controller {
                 data: {'token': token, 'quantity': quantity, 'startDate': startDate},
                 success: function (data) {
                     $('#cart-length').html(data.totalQuantity);
-                    $('#cart-length').text(data.totalQantity);
                     toastr.success('Produit(s) ajouté(s) !');
                 }
             });
-            this.updateWidgetCart();
+            this.cart = {'token': token, 'quantity': quantity, 'startDate': startDate}
         }
     }
     updateCart (event) {
         let quantity = $(event.currentTarget).closest('tr').find('#quantity').val()
         let token = $(event.currentTarget).closest('tr').find('#token').val()
         let startDate = $(event.currentTarget).closest('tr').find('#startDate').val()
+        if (quantity) {
+            this.cart = {'token': token, 'quantity': quantity, 'startDate': startDate}
+        } else {
+            //this.cart = this.cart.filter(item => item.token !== token)
+        }
+        console.log(this.cart)
+    }
+
+    submitUpdateCart()
+    {
         $.post({
             url: Routing.generate('front_cart_update'),
-            data: {'token': token, 'quantity': quantity, 'startDate': startDate}
+            data: {'carts': this.cart}
         }).done(function (data) {
-            $(event.currentTarget).closest('tr').find('.amount').html(data.newAmount);
-            $('#totalAmount').text(data.totalAmount + ' €');
-            $('#totalAmountTtc').text((parseFloat(data.totalAmount) + parseFloat(data.totalTva)) + ' €');
-            $('#totalTva').text(data.totalTva + ' €');
+            Turbo.visit(Routing.generate('front_cart_index'), { action: "replace" })
         });
     }
     removeFromCart() {
@@ -142,11 +158,8 @@ export default class extends Controller {
             }).done(function (data) {
                 toastr.success('Produit(s) supprimé(s) !');
                 $('#cart-length').html(data.totalQuantity)
-                $('#cart-length').text(data.totalQantity);
             });
-            setTimeout(function (){
-                this.updateWidgetCart();
-            }, 2000);
+            this.updateWidgetCart();
         }
     }
 
@@ -155,7 +168,6 @@ export default class extends Controller {
             .done(function(data) {
             $('.mini-cart').html(data.response);
             $('#cart-length').html(data.totalQuantity);
-            $('#cart-length').text(data.totalQantity);
         });
     }
 
