@@ -27,4 +27,66 @@
 
         private $status;
         private $reclaim;
+
+        /**
+         * @return mixed
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        /**
+         * @return Transaction
+         */
+        public function getTransaction(): Transaction
+        {
+            return $this->transaction;
+        }
+
+        /**
+         * @param Transaction $transaction
+         */
+        public function setTransaction(Transaction $transaction): self
+        {
+            $this->transaction = $transaction;
+
+            return $this;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getStatus()
+        {
+            return $this->status;
+        }
+
+        /**
+         * @param mixed $status
+         */
+        public function setStatus($status): self
+        {
+            $this->status = $status;
+
+            return $this;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getReclaim()
+        {
+            return $this->reclaim;
+        }
+
+        /**
+         * @param mixed $reclaim
+         */
+        public function setReclaim($reclaim): self
+        {
+            $this->reclaim = $reclaim;
+
+            return $this;
+        }
     }

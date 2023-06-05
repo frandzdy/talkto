@@ -81,7 +81,10 @@
             $transaction->setReference(sprintf('#REF_%s_%s', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT), $user->getId()));
             $transaction->setPaymentIntentId($paymentIntent->id);
             $em->persist($transaction);
-            $reservation->
+
+            $reservation->setTransaction();
+            $reservation->setStatus();
+
             $em->flush();
             //$carts['reservation'] = $reservation->getId();
             $session->set('cart', $carts);
