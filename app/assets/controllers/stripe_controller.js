@@ -34,7 +34,7 @@ export default class extends Controller {
                 radios: false,
                 spacedAccordionItems: true
             },
-            business: "Rented"
+            business: {"name":"Rented"}
         });
         paymentElement.mount('#payment-element');
 
@@ -44,13 +44,16 @@ export default class extends Controller {
             buttonSubmit.attr('disabled');
             event.preventDefault();
             event.stopPropagation();
-
+            let form = new FormData($('#user-reservation-form')[0]);
             await $.post({
-                url: Routing.generate('front_stripe_success'),
+                url: Routing.generate('front_stripe_payment_intent'),
                 method: 'POST',
+                data: form
             })
-                .then()
-
+                .then((data) => {
+                    console.log(data);
+                })
+            return;
             const {error} = await stripe.confirmPayment({
                 //`Elements` instance that was used to create the Payment Element
                 elements,

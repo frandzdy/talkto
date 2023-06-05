@@ -221,8 +221,7 @@ export default class extends Controller {
                     }
 
                     if (response.success && response.redirectUrl) {
-                        document.location = response.redirectUrl;
-                        document.location.reload();
+                        Turbo.visit(response.redirectUrl, { action: "replace" });
                         return false;
                     }
 
@@ -246,6 +245,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);
                             this.handleModalForm(target);
+                            this.handleBsCustomFileInput($(target).find('.custom-file-input[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -256,16 +256,21 @@ export default class extends Controller {
             });
         } catch (e) {
             console.log(e);
-            //$(target).html();
         }
     }
 
+    /**
+     *
+     * @param title
+     * @param href
+     * @param size
+     */
     openModal(title, href, size) {
         $.get(href).done((response) => {
             if (title) {
                 $(this.modalTarget).find('.modal-title').html(title);
             }
-            if (size == true) {
+            if (size === true) {
                 $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
             }
             $(this.modalTarget).find('.wrapper').html(response);
@@ -278,6 +283,12 @@ export default class extends Controller {
         });
     }
 
+    /**
+     *
+     * @param title
+     * @param href
+     * @param size
+     */
     openProductModal(title, href, size) {
         $.get(href).done((response) => {
             if (title) {
@@ -294,6 +305,9 @@ export default class extends Controller {
         });
     }
 
+    /**
+     *
+     */
     closeProductModal() {
        $(this.modalProductTarget).modal('hide');
     }
@@ -1037,10 +1051,13 @@ export default class extends Controller {
 
         ////////////////////////////////////////////////////
         // 25. Create An Account Toggle Js
-        $('#cbox').on('click', function () {
+        $('#user_payment_createAccount').on('click', function () {
             $('#cbox_info').slideToggle(900);
         });
 
+        if ($('#user_payment_createAccount').attr('checked') === 'checked') {
+            $('#cbox_info').slideToggle(900);
+        }
         ////////////////////////////////////////////////////
         // 26. Shipping Box Toggle Js
         $('#ship-box').on('click', function () {

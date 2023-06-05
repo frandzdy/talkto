@@ -2,14 +2,18 @@
     
     namespace App\Controller\Front;
     
-    use App\Entity\User;
+    use App\Entity\Product;
+    use App\Entity\Reservation;
+    use App\Entity\Transaction;
+    use App\Entity\TransactionLine;
     use App\Form\LoginType;
     use App\Form\UserPaymentType;
-    use App\Form\UserType;
     use App\Repository\UserRepository;
     use App\Service\StripeManager;
     use App\Service\UserManager;
+    use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Bundle\SecurityBundle\Security;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,11 +23,18 @@
 
     class StripeController extends AbstractController
     {
-        #[Route('/paiement', name: 'stripe_payment_intent', methods: ['GET'])]
-        public function paymentIntent(SessionInterface $session, StripeManager $stripeManager, UserManager $userManager): Response
-        {
+        #[Route('/paiement', name: 'stripe_payment_intent', methods: ['GET', 'POST'])]
+        public function paymentIntent(
+            SessionInterface $session,
+            Request $request,
+            StripeManager $stripeManager,
+            UserManager $userManager,
+            AuthenticationUtils $authenticationUtils,
+            Security $security,
+            EntityManagerInterface $em
+        ): Response {
             /**
-             * on récupère l'utilisateur connecté
+             * On récupère l'utilisateur connecté
              * si pas connecté alors on crée un compte stripe avec les informations de facturation
              */
             $carts = $session->get('cart', [
@@ -38,11 +49,87 @@
                 return $this->redirectToRoute('front_home');
             }
 
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            $user = $this->getUser();
+            if (!$user) {
+                $user = $userManager->createUser();
+            }
             if (!isset($carts['paymentIntentId'])) {
-                $user = $this->getUser();
-                if (!$user) {
-                    $user = $userManager->createUser();
+                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user);
+                $carts['paymentIntentId'] = $paymentIntent->id;
+            } else {
+                $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
+            }
+            $transaction = new Transaction();
+            $reservation = new Reservation();
+            foreach ($carts['products'] as $token => $cart) {
+                $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+                if ($product) {
+                    $transactionLine = (new TransactionLine())
+                        ->setTransaction($transaction)
+                        ->setProduct($product)
+                        ->setQuantity($cart['quantity'])
+                        ->setStartDate($cart['startDate'])
+                        ->setEndDate($cart['endDate'])
+                    ;
+                    $transaction->addTransactionLine($transactionLine);
+                    $product->setQuantityAllReadyReserved($cart['quantity'] + $product->getQuantityAllReadyReserved());
                 }
+            }
+            $transaction->setReference(sprintf('#REF_%s_%s', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT), $user->getId()));
+            $transaction->setPaymentIntentId($paymentIntent->id);
+            $em->persist($transaction);
+            $reservation->
+            $em->flush();
+            //$carts['reservation'] = $reservation->getId();
+            $session->set('cart', $carts);
+            $clientSecret = $paymentIntent->client_secret;
+
+            $form = $this->createForm(UserPaymentType::class, $user);
+
+            if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+                $userManager->saveOrEditUser($user);
+                $security->login($user, 'frontAuthenticator', 'front');
+
+                return $this->redirectToRoute('front_stripe_payment_intent');
+            }
+
+            return $this->render(
+                'front/stripe/checkout.html.twig',
+                [
+                    'last_username' => $lastUsername,
+                    'carts' => $carts,
+                    'clientSecret' => $clientSecret,
+                    'form' => $form,
+                    'error' => $error
+                ]
+            );
+        }
+
+        #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true] , methods: ['POST'])]
+        public function paymentUserLogin(
+            SessionInterface $session,
+            UserManager $userManager,
+            Request $request,
+            AuthenticationUtils $authenticationUtils,
+            StripeManager $stripeManager
+        ): Response {
+            $user = $userManager->createUser();
+            $form = $this->createForm(LoginType::class, $user);
+            $carts = $session->get('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalAmountTtc' => 0
+            ]);
+
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            if (!isset($carts['paymentIntentId'])) {
                 $paymentIntent = $stripeManager->createPaymentIntent($carts, $user);
                 $carts['paymentIntentId'] = $paymentIntent->id;
             } else {
@@ -51,27 +138,17 @@
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
 
-            return $this->render('front/stripe/checkout.html.twig', compact('carts', 'clientSecret'));
-        }
-
-        #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true] , methods: ['GET'])]
-        public function paymentUserLogin(UserManager $userManager, Request $request, AuthenticationUtils $authenticationUtils): Response
-        {
-            $user = $userManager->createUser();
-            $form = $this->createForm(LoginType::class, $user);
-
-            $error = $authenticationUtils->getLastAuthenticationError();
-            $lastUsername = $authenticationUtils->getLastUsername();
-
             if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
                 return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
             }
 
             return $this->render(
-                'front/auth/_form.html.twig',
+                'front/stripe/checkout.html.twig',
                 [
-                    'form' => $form,
                     'last_username' => $lastUsername,
+                    'carts' => $carts,
+                    'clientSecret' => $clientSecret,
+                    'form' => $form,
                     'error' => $error
                 ]
             );
@@ -87,7 +164,7 @@
                 return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
             }
 
-            return $this->render('front/stripe/_form_user.html.twig', ['form' => $form]);
+            return $this->render('front/stripe/_form_user_creation.html.twig', ['form' => $form]);
         }
 
         #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]

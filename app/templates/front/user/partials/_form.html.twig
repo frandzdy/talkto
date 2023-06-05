@@ -3,7 +3,7 @@
     {% set pictureName = user.picture.name %}
 {% endif %}
 <div class="profile__edit-wrapper">
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
     <div class="row">
         <div class="col-3 profile__basic-thumb valign-items-center">
             <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}"
@@ -27,6 +27,9 @@
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.address) }}
+    </div>
+    <div class="profile__edit-input">
+        {{ form_row(form.additionalAddress) }}
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.zipCode) }}

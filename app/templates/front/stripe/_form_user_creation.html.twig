@@ -1,86 +1,171 @@
-<div class="col-md-12">
-    <div class="country-select">
-        <label>Country <span class="required">*</span></label>
-        <select>
-            <option value="volvo">bangladesh</option>
-            <option value="saab">Algeria</option>
-            <option value="mercedes">Afghanistan</option>
-            <option value="audi">Ghana</option>
-            <option value="audi2">Albania</option>
-            <option value="audi3">Bahrain</option>
-            <option value="audi4">Colombia</option>
-            <option value="audi5">Dominican Republic</option>
-        </select>
+{# <div class="col-md-12"> #}
+{#    <div class="country-select"> #}
+{#        <label>Country <span class="required">*</span></label> #}
+{#        <select> #}
+{#            <option value="volvo">bangladesh</option> #}
+{#            <option value="saab">Algeria</option> #}
+{#            <option value="mercedes">Afghanistan</option> #}
+{#            <option value="audi">Ghana</option> #}
+{#            <option value="audi2">Albania</option> #}
+{#            <option value="audi3">Bahrain</option> #}
+{#            <option value="audi4">Colombia</option> #}
+{#            <option value="audi5">Dominican Republic</option> #}
+{#        </select> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>First Name <span class="required">*</span></label> #}
+{#        <input type="text" placeholder=""/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Last Name <span class="required">*</span></label> #}
+{#        <input type="text" placeholder=""/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-12"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Company Name</label> #}
+{#        <input type="text" placeholder=""/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-12"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Address <span class="required">*</span></label> #}
+{#        <input type="text" placeholder="Street address"/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-12"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <input type="text" placeholder="Apartment, suite, unit etc. (optional)"/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-12"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Town / City <span class="required">*</span></label> #}
+{#        <input type="text" placeholder="Town / City"/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>State / County <span class="required">*</span></label> #}
+{#        <input type="text" placeholder=""/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Postcode / Zip <span class="required">*</span></label> #}
+{#        <input type="text" placeholder="Postcode / Zip"/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Email Address <span class="required">*</span></label> #}
+{#        <input type="email" placeholder=""/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-6"> #}
+{#    <div class="checkout-form-list"> #}
+{#        <label>Phone <span class="required">*</span></label> #}
+{#        <input type="text" placeholder="Postcode / Zip"/> #}
+{#    </div> #}
+{# </div> #}
+{# <div class="col-md-12"> #}
+{#    <div class="checkout-form-list create-acc"> #}
+{#        <input id="cbox" type="checkbox"/> #}
+{#        <label>Create an account?</label> #}
+{#    </div> #}
+{#    <div id="cbox_info" class="checkout-form-list create-account"> #}
+{#        <p>Create an account by entering the information below. If you are a returning #}
+{#            customer please login at the top of the page.</p> #}
+{#        <label>Account password <span class="required">*</span></label> #}
+{#        <input type="password" placeholder="password"/> #}
+{#    </div> #}
+{# </div> #}
+
+
+{{ form_start(form, {'attr': {'autocomplete':'off', 'id': 'user-reservation-form'}}) }}
+<div class="row">
+    <div class="col-md-12">
+        <div class="checkout-form-list">
+            {{ form_widget(form.genre) }}
+            {{ form_errors(form.genre) }}
+        </div>
     </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.firstname) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.lastname) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="checkout-form-list">
+            {{ form_widget(form.address) }}
+            {{ form_errors(form.address) }}
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="checkout-form-list">
+            {{ form_widget(form.additionalAddress) }}
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="checkout-form-list">
+            {{ form_widget(form.city) }}
+            {{ form_errors(form.city) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.country) }}
+            {{ form_errors(form.country) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.zipCode) }}
+            {{ form_errors(form.zipCode) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="checkout-form-list">
+            {{ form_widget(form.phone) }}
+            {{ form_errors(form.phone) }}
+        </div>
+    </div>
+    {% if not app.user %}
+        <div class="col-md-12">
+            <div class="checkout-form-list create-acc">
+                {{ form_widget(form.createAccount) }}
+            </div>
+            <div id="cbox_info" class="checkout-form-list create-account">
+                <p>Créer un compte en indiquant les informations ci-dessus.
+                    Create an account by entering the information below.
+                    Si vous êtes déjà client, veuillez vous connectez au haut de cette page.
+                    If you are a returning
+                    customer please login at the top of the page.</p>
+                {{ form_widget(form.plainPassword) }}
+                {{ form_errors(form.plainPassword) }}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="os-btn os-btn-black" formnovalidate="formnovalidate">S'inscrire</button>
+        </div>
+    {% endif %}
+    {{ form_rest(form) }}
 </div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>First Name <span class="required">*</span></label>
-        <input type="text" placeholder=""/>
-    </div>
-</div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>Last Name <span class="required">*</span></label>
-        <input type="text" placeholder=""/>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="checkout-form-list">
-        <label>Company Name</label>
-        <input type="text" placeholder=""/>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="checkout-form-list">
-        <label>Address <span class="required">*</span></label>
-        <input type="text" placeholder="Street address"/>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="checkout-form-list">
-        <input type="text" placeholder="Apartment, suite, unit etc. (optional)"/>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="checkout-form-list">
-        <label>Town / City <span class="required">*</span></label>
-        <input type="text" placeholder="Town / City"/>
-    </div>
-</div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>State / County <span class="required">*</span></label>
-        <input type="text" placeholder=""/>
-    </div>
-</div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>Postcode / Zip <span class="required">*</span></label>
-        <input type="text" placeholder="Postcode / Zip"/>
-    </div>
-</div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" placeholder=""/>
-    </div>
-</div>
-<div class="col-md-6">
-    <div class="checkout-form-list">
-        <label>Phone <span class="required">*</span></label>
-        <input type="text" placeholder="Postcode / Zip"/>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="checkout-form-list create-acc">
-        <input id="cbox" type="checkbox"/>
-        <label>Create an account?</label>
-    </div>
-    <div id="cbox_info" class="checkout-form-list create-account">
-        <p>Create an account by entering the information below. If you are a returning
-            customer please login at the top of the page.</p>
-        <label>Account password <span class="required">*</span></label>
-        <input type="password" placeholder="password"/>
-    </div>
-</div>
+{{ form_end(form) }}

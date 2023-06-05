@@ -23,7 +23,7 @@ class Transaction
 
     /**
      * @var Collection|ArrayCollection|null
-     * @ORM\OneToMany(mappedBy="transaction", targetEntity="App\Entity\TransactionLine")
+     * @ORM\OneToMany(mappedBy="transaction", targetEntity="App\Entity\TransactionLine", cascade={"persist", "remove"})
      */
     private ?Collection $transactionLines = null;
 
@@ -32,6 +32,15 @@ class Transaction
      */
     private ?TransactionStatus $status;
 
+    /**
+     * @ORM\Column(type="string", nullable=false, length=255)
+     */
+    private ?string $reference;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, length=255)
+     */
+    private ?string $paymentIntentId;
     public function getId(): ?int
     {
         return $this->id;
@@ -85,5 +94,37 @@ class Transaction
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param string|null $reference
+     */
+    public function setReference(?string $reference): void
+    {
+        $this->reference = $reference;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentIntentId(): ?string
+    {
+        return $this->paymentIntentId;
+    }
+
+    /**
+     * @param string|null $paymentIntentId
+     */
+    public function setPaymentIntentId(?string $paymentIntentId): void
+    {
+        $this->paymentIntentId = $paymentIntentId;
     }
 }

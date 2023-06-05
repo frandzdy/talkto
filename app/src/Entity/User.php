@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *     mixedNumbersMessage="Information erronée."
      * )
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * Ses différents role dans l'application pour défaut ROLE_USER
@@ -60,15 +60,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $lastname;
+    private ?string $lastname = null;
 
     /**
-     * le prénom de l'utilisateur
+     * Le prénom de l'utilisateur
      *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $firstname;
+    private ?string $firstname = null;
 
     /**
      * Le genre de l'utilisateur
@@ -96,6 +96,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Le genre de l'utilisateur
      *
+     * @ORM\Column(type="text", length= 255, nullable=true)
+     */
+    private ?string $additionalAddress = null;
+
+    /**
+     * Le genre de l'utilisateur
+     *
      * @ORM\Column(type="text", length=5, nullable=false)
      * @Assert\NotBlank(message="Information requise.")
      */
@@ -113,12 +120,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Pays
      *
      * @ORM\ManyToOne(targetEntity=Country::class)
+     * @Assert\Valid()
      */
     private ?Country $country = null;
 
     /**
      * Toutes les photos de l'utilisateur
-     *
      *
      * @ORM\OneToOne(targetEntity=Picture::class, orphanRemoval=true, cascade={"persist", "remove"})
      */
@@ -142,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Mot de passe en clair de l'utilisateur
      * @AssertQualifelec\PasswordRequirements()
      */
-    private ?string $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * Latitude de la position de l'utilisateur
@@ -404,9 +411,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string|null $address
      */
-    public function setAddress(?string $address): void
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAdditionalAddress(): ?string
+    {
+        return $this->additionalAddress;
+    }
+
+    /**
+     * @param string|null $additionalAddress
+     */
+    public function setAdditionalAddress(?string $additionalAddress): self
+    {
+        $this->additionalAddress = $additionalAddress;
+
+        return $this;
     }
 
     /**

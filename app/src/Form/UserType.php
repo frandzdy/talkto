@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Country;
 use App\Entity\User;
 use App\Enum\Civility;
+use App\Validator\Constraints\PasswordRequirements;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use \Symfony\Component\Form\AbstractType;
 use \Symfony\Component\Form\Extension\Core\Type\EnumType;
 use \Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -59,6 +62,19 @@ class UserType extends AbstractType
                         ]
                 ]
             )->add(
+                'additionalAddress',
+                TextType::class,
+                [
+                    'label' => 'Adresse complémentaire',
+                    'label_attr' => ['class'=>'form-text text-muted'],
+                    'attr' =>
+                        [
+                            'placeholder' => 'Appartement, étage, etc.',
+                            'maxlength' => 255
+                        ],
+                    'required' => false
+                ]
+            )->add(
                 'zipCode',
                 TextType::class,
                 [
@@ -88,7 +104,7 @@ class UserType extends AbstractType
                     'class' => Country::class,
                     'choice_label' => 'label',
                     'label' => 'Pays',
-                    'placeholder' => '- Séléctionnez un pays -',
+                    'placeholder' => '- Sélectionnez un pays -',
                 ]
             )->add(
                 'lastname',
@@ -149,9 +165,10 @@ class UserType extends AbstractType
                         'attr' => ['placeholder' => 'Au moins 8 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
                     ],
                     'second_options' => [
-                        'label' => 'Confirmer votre mot de passe',
+                        'label' => 'Confirmez votre mot de passe',
                         'attr' => ['maxlength' => 255],
                     ],
+                    'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                 ]
             );

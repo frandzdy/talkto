@@ -117,9 +117,11 @@ class TransactionLine
     /**
      * @param \DateTime|null $startDate
      */
-    public function setStartDate(?\DateTime $startDate): void
+    public function setStartDate(?\DateTime $startDate): self
     {
         $this->startDate = $startDate;
+
+        return $this;
     }
 
     /**
@@ -133,8 +135,10 @@ class TransactionLine
     /**
      * @param \DateTime|null $endDate
      */
-    public function setEndDate(?\DateTime $endDate): void
+    public function setEndDate(?\DateTime $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
     }
 }

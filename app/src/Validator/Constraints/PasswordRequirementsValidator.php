@@ -34,8 +34,8 @@ class PasswordRequirementsValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        // Vérification du mot de passe 8 caractères, avec au moins une lettre, un chiffre et un symbole
-        if (!preg_match('/^.*^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/', $value, $matches)) {
+        // Vérification du mot de passe 10 caractères, avec au moins une lettre, un chiffre et un symbole
+        if (!preg_match('/^.*^(?=.{10,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/', $value, $matches)) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }

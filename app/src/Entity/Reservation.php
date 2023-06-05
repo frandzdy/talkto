@@ -21,69 +21,10 @@
         private $id;
         
         /**
-         * @ORM\Column(type="datetime")
+         * @ORM\ManyToOne(targetEntity=Transaction::class)
          */
-        private $start;
-        /**
-         * @ORM\Column(type="datetime")
-         */
-        private $end;
+        private Transaction $transaction;
 
-        /**
-         * @ORM\ManyToOne(targetEntity=Product::class)
-         */
-        private Product $product;
-        
-        public function getId(): ?int
-        {
-            return $this->id;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getStart()
-        {
-            return $this->start;
-        }
-
-        /**
-         * @param mixed $start
-         */
-        public function setStart($start): void
-        {
-            $this->start = $start;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getEnd()
-        {
-            return $this->end;
-        }
-
-        /**
-         * @param mixed $end
-         */
-        public function setEnd($end): void
-        {
-            $this->end = $end;
-        }
-
-        /**
-         * @return Product
-         */
-        public function getProduct(): Product
-        {
-            return $this->product;
-        }
-
-        /**
-         * @param Product $product
-         */
-        public function setProduct(Product $product): void
-        {
-            $this->product = $product;
-        }
+        private $status;
+        private $reclaim;
     }

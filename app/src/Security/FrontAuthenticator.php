@@ -28,6 +28,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'front_login';
+    public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator, private StripeManager $stripeManager)
     {
@@ -66,6 +67,9 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
             return new RedirectResponse($accountLink->url);
         }
+        if (str_contains($request->headers->get('referer'), 'paiement')) {
+            return new RedirectResponse($this->urlGenerator->generate('front_stripe_payment_intent'));
+        }
 
         return new RedirectResponse($this->urlGenerator->generate('front_home'));
     }
@@ -82,6 +86,10 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
+        if (str_contains($request->headers->get('referer'), 'paiement')) {
+
+            return $this->urlGenerator->generate(self::LOGIN_CART_ROUTE);
+        }
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }

@@ -143,12 +143,12 @@ class StripeManager
 
         return $this->stripe->paymentIntents->create(
             [
-                'amount' => $cart['totalAmountTtc'],
+                'amount' => $cart['totalAmountTtc'] * 100,
                 'customer' => 'cus_NyIudynRPUwh2I',
                 'currency' => 'eur',
                 'setup_future_usage'=> 'on_session',
                 'automatic_payment_methods' => ['enabled' => true],
-                'transfer_group' => 'ORDER10'
+                'transfer_group' => 'ORDER101'
             ]
         );
     }
