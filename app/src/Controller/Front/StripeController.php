@@ -62,31 +62,37 @@
             } else {
                 $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
             }
-            $transaction = new Transaction();
-            $reservation = new Reservation();
-            foreach ($carts['products'] as $token => $cart) {
-                $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
-                if ($product) {
-                    $transactionLine = (new TransactionLine())
-                        ->setTransaction($transaction)
-                        ->setProduct($product)
-                        ->setQuantity($cart['quantity'])
-                        ->setStartDate($cart['startDate'])
-                        ->setEndDate($cart['endDate'])
-                    ;
-                    $transaction->addTransactionLine($transactionLine);
-                    $product->setQuantityAllReadyReserved($cart['quantity'] + $product->getQuantityAllReadyReserved());
+            if (!$carts['reservationId']) {
+                $transaction = new Transaction();
+                $reservation = new Reservation();
+                foreach ($carts['products'] as $token => $cart) {
+                    $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+                    if ($product) {
+                        $transactionLine = (new TransactionLine())
+                            ->setTransaction($transaction)
+                            ->setProduct($product)
+                            ->setQuantity($cart['quantity'])
+                            ->setStartDate($cart['startDate'])
+                            ->setEndDate($cart['endDate'])
+                        ;
+                        $transaction->addTransactionLine($transactionLine);
+                        $product->setQuantityAllReadyReserved($cart['quantity'] + $product->getQuantityAllReadyReserved());
+                    }
                 }
+                //$transaction->setUser();
+                $em->persist($transaction);
+                $em->flush();
+                $transaction->setReference(sprintf('#REF_%s_%s', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT), $user->getId()));
+                $transaction->setPaymentIntentId($paymentIntent->id);
+
+                $reservation->setTransaction($transaction);
+                $reservation->setStatus();
+                $em->persist($reservation);
+
+                $em->flush();
+                $carts['reservationId'] = $reservation->getId();
             }
-            $transaction->setReference(sprintf('#REF_%s_%s', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT), $user->getId()));
-            $transaction->setPaymentIntentId($paymentIntent->id);
-            $em->persist($transaction);
 
-            $reservation->setTransaction();
-            $reservation->setStatus();
-
-            $em->flush();
-            //$carts['reservation'] = $reservation->getId();
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
 
