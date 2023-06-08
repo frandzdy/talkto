@@ -25,7 +25,7 @@
          */
         private Transaction $transaction;
 
-        private $status;
+
         private $reclaim;
 
         /**

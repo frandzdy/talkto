@@ -21,7 +21,6 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]
         );
 
@@ -31,7 +30,6 @@ class CartController extends AbstractController
                 'totalQuantity' => $carts['totalQuantity'],
                 'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
-                'totalAmountTtc' => $carts['totalAmountTtc']
             ]
         );
     }
@@ -46,7 +44,6 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]
         );
 
@@ -63,7 +60,6 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]
         );
 
@@ -92,7 +88,6 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0,
 
             ]
         );
@@ -128,7 +123,6 @@ class CartController extends AbstractController
         $carts['totalQuantity'] = $totalQuantity;
         $carts['totalAmount'] = $totalAmount;
         $carts['totalTva'] = $totalAmount * 0.2;
-        $carts['totalAmountTtc'] = $totalAmount * 1.2;
 
         $session->set('cart', $carts);
 
@@ -137,7 +131,6 @@ class CartController extends AbstractController
                 'newAmount' => $newPrice,
                 'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
-                'totalAmountTtc' => $carts['totalAmountTtc'],
                 'totalQuantity' => $carts['totalQuantity']
             ]
         );

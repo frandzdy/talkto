@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ReservationStatus;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -46,6 +47,12 @@ class TransactionLine
      * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="transactionLines")
      */
     private Transaction $transaction;
+
+    /**
+     * @var
+     * @ORM\Column(type="smallint", enumType=ReservationStatus::class)
+     */
+    private ReservationStatus $status;
 
     public function getId(): ?int
     {
@@ -138,6 +145,24 @@ class TransactionLine
     public function setEndDate(?\DateTime $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus(): ReservationStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus(?ReservationStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -163,18 +163,25 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="your-order mb-30 ">
-                        <h3>Vos réservations</h3>
+                        <h3>Votre réservation {{ transaction.reference }}</h3>
                         <div class="your-order-table table-responsive">
                             <table>
                                 <thead>
                                 <tr>
+                                    <th class="product-name">Photo</th>
                                     <th class="product-name">Produit</th>
                                     <th class="product-total">Total</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for cart in carts['products'] %}
+                                {% for index, cart in carts['products'] %}
                                     <tr class="cart_item">
+                                        <td class="product-thumbnail">
+                                            <a href="{{ path('front_product_show_detail', {'token': index}) }}">
+                                                <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
+                                                     alt="{{ cart.pictureName }}"/>
+                                            </a>
+                                        </td>
                                         <td class="product-name">
                                             Date de réservation : <br>
                                             {{ cart.flatpickrDate }}<br>
@@ -189,10 +196,12 @@
                                 </tbody>
                                 <tfoot>
                                 <tr class="cart-subtotal">
+                                    <th></th>
                                     <th>Sous total HT</th>
                                     <td><span class="amount">{{ carts.totalAmount - carts.totalTva }} €</span></td>
                                 </tr>
                                 <tr class="shipping">
+                                    <th></th>
                                     <th>T.V.A (20%)</th>
                                     <td>
                                         <ul>
@@ -205,6 +214,7 @@
                                     </td>
                                 </tr>
                                 <tr class="order-total">
+                                    <th></th>
                                     <th>Total TTC</th>
                                     <td><strong><span class="amount">{{ carts.totalAmount }} €</span></strong>
                                     </td>
@@ -280,9 +290,11 @@
                                 {#                                    </div> #}
                             </div>
                             <div class="order-button-payment mt-20">
-                                <button type="submit" id="stripe_submit" class="os-btn os-btn-black">Valider votre
-                                    réservation
-                                </button>
+                                {% if app.user %}
+                                    <button type="submit" id="stripe_submit" class="os-btn os-btn-black">Valider votre
+                                        réservation
+                                    </button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

@@ -181,6 +181,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?bool $isStripeAccountActive = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $isGuess = false;
     public function getFullname(): ?string
     {
         return sprintf('%s %s', strtoupper($this->lastname), $this->firstname);
@@ -534,6 +538,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsStripeAccountActive(?bool $stripeAccountActive): self
     {
         $this->isStripeAccountActive = $stripeAccountActive;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsGuess(): ?bool
+    {
+        return $this->isGuess;
+    }
+
+    /**
+     * @param bool|null $isGuess
+     * @return $this
+     */
+    public function setIsGuess(?bool $isGuess): self
+    {
+        $this->isGuess = $isGuess;
 
         return $this;
     }

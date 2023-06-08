@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use App\Entity\Transaction;
 use App\Entity\User;
 use Stripe\Account;
 use Stripe\AccountLink;
@@ -133,7 +134,7 @@ class StripeManager
     /**
      * Création du paiement
      */
-    public function createPaymentIntent(array $cart, User $user): PaymentIntent
+    public function createPaymentIntent(array $cart, User $user, Transaction $transaction): PaymentIntent
     {
         if (!$user->getId()) {
             $customerId = $this->createCustomer($user);
@@ -143,12 +144,12 @@ class StripeManager
 
         return $this->stripe->paymentIntents->create(
             [
-                'amount' => $cart['totalAmountTtc'] * 100,
-                'customer' => 'cus_NyIudynRPUwh2I',
+                'amount' => $cart['totalAmount'] * 100,
+                'customer' => 'cus_NyIudynRPUwh2I', // $customerId
                 'currency' => 'eur',
                 'setup_future_usage'=> 'on_session',
                 'automatic_payment_methods' => ['enabled' => true],
-                'transfer_group' => 'ORDER101'
+                'transfer_group' => $transaction->getReference()
             ]
         );
     }
@@ -158,9 +159,13 @@ class StripeManager
      * @return array
      * @throws \Stripe\Exception\ApiErrorException
      */
-    public function captureAndTransferPaymentIntent(PaymentIntent $paymentIntent): array
+    public function captureAndTransferPaymentIntent(PaymentIntent $paymentIntent, Transaction $transaction): array
     {
-
+        echo '<pre>';
+        dump($transaction);
+        echo '</pre>';
+        echo 'Répertoire : ' . __DIR__ . ' Ligne : ' . __LINE__ . ' Méthode : ' . __METHOD__ . ' Debug Frandzdy';
+        die;
         $transfer = $this->stripe->transfers->create(
             [
                 'amount' => 8000,

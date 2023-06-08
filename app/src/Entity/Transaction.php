@@ -60,7 +60,7 @@ class Transaction
         if (!$this->transactionLines->contains($transactionLine)) {
 
             $this->transactionLines[] = $transactionLine;
-            $transactionLine->setProduct($this);
+            $transactionLine->setTransaction($this);
         }
 
         return $this;

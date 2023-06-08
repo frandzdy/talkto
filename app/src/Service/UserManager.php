@@ -9,6 +9,7 @@ use App\Repository\PictureRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserManager
 {
@@ -40,7 +41,7 @@ class UserManager
     /**
      * Créer ou met à jour un utilisateur
      */
-    public function saveOrEditUser(User $user, $pictureFileData, $update = false): bool
+    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null, $update = false): bool
     {
         if ($pictureFileData) {
             $fileName = $this->fileUploadManager->uploadFile('profile_picture', $pictureFileData);

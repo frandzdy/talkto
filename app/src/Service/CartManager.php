@@ -38,7 +38,6 @@ class CartManager
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]
         );
     }

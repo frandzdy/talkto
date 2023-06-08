@@ -6,8 +6,11 @@
     use App\Entity\Reservation;
     use App\Entity\Transaction;
     use App\Entity\TransactionLine;
+    use App\Enum\ReservationStatus;
+    use App\Enum\TransactionStatus;
     use App\Form\LoginType;
     use App\Form\UserPaymentType;
+    use App\Repository\TransactionRepository;
     use App\Repository\UserRepository;
     use App\Service\StripeManager;
     use App\Service\UserManager;
@@ -42,10 +45,9 @@
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]);
 
-            if (!$carts) {
+            if (!$carts['products']) {
                 return $this->redirectToRoute('front_home');
             }
 
@@ -56,41 +58,41 @@
             if (!$user) {
                 $user = $userManager->createUser();
             }
-            if (!isset($carts['paymentIntentId'])) {
-                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user);
-                $carts['paymentIntentId'] = $paymentIntent->id;
-            } else {
-                $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
-            }
-            if (!$carts['reservationId']) {
-                $transaction = new Transaction();
-                $reservation = new Reservation();
+
+            if (!array_key_exists('reservationId', $carts)) {
+                $transaction = (new Transaction())
+                    ->setStatus(TransactionStatus::WAITING);
                 foreach ($carts['products'] as $token => $cart) {
                     $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+                    $reservationDate = explode(' au ', $cart['flatpickrDate']);
+
                     if ($product) {
                         $transactionLine = (new TransactionLine())
                             ->setTransaction($transaction)
                             ->setProduct($product)
                             ->setQuantity($cart['quantity'])
-                            ->setStartDate($cart['startDate'])
-                            ->setEndDate($cart['endDate'])
+                            ->setStartDate(new \DateTime($reservationDate[0]))
+                            ->setEndDate(new \DateTime($reservationDate[1]))
+                            ->setStatus(ReservationStatus::WAITING)
                         ;
                         $transaction->addTransactionLine($transactionLine);
-                        $product->setQuantityAllReadyReserved($cart['quantity'] + $product->getQuantityAllReadyReserved());
                     }
                 }
-                //$transaction->setUser();
                 $em->persist($transaction);
                 $em->flush();
-                $transaction->setReference(sprintf('#REF_%s_%s', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT), $user->getId()));
+                $transaction->setReference(sprintf('#REF_%d', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT)));
+                if (!isset($carts['paymentIntentId'])) {
+                    $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
+                    $carts['paymentIntentId'] = $paymentIntent->id;
+                } else {
+                    $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
+                }
                 $transaction->setPaymentIntentId($paymentIntent->id);
-
-                $reservation->setTransaction($transaction);
-                $reservation->setStatus();
-                $em->persist($reservation);
-
                 $em->flush();
-                $carts['reservationId'] = $reservation->getId();
+                $carts['reservationId'] = $transaction->getId();
+            } else {
+                $transaction = $em->getRepository(Transaction::class)->findOneBy(['id' => $carts['reservationId']]);
+                $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
             }
 
             $session->set('cart', $carts);
@@ -112,7 +114,8 @@
                     'carts' => $carts,
                     'clientSecret' => $clientSecret,
                     'form' => $form,
-                    'error' => $error
+                    'error' => $error,
+                    'transaction' => $transaction
                 ]
             );
         }
@@ -132,7 +135,6 @@
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]);
 
             $error = $authenticationUtils->getLastAuthenticationError();
@@ -180,8 +182,7 @@
         public function success(
             StripeManager $stripeManager,
             Request $request,
-            UserRepository $userRepository,
-            UserManager $userManager,
+            TransactionRepository $transactionRepository,
             SessionInterface $session
         ): Response {
             $carts = $session->get('cart', [
@@ -189,10 +190,11 @@
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'totalAmountTtc' => 0
             ]);
             $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
-            $paymentIntent = $stripeManager->captureAndTransferPaymentIntent($paymentIntent);
+            $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
+
+            $paymentIntent = $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
             echo '<pre>';
             dump($paymentIntent);
             echo '</pre>';

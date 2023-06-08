@@ -162,7 +162,6 @@ class ProductController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
-            'totalAmountTtc' => 0
         ]);
         if (str_contains($flatpickrDate, 'au')) {
             $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
@@ -190,7 +189,6 @@ class ProductController extends AbstractController
         $cart['totalQuantity'] = $totalQuantity;
         $cart['totalAmount'] = $totalAmount;
         $cart['totalTva'] = $totalAmount * 0.2;
-        $cart['totalAmountTtc'] = $totalAmount * 1.2;
 
         $session->set('cart', $cart);
 
@@ -199,7 +197,6 @@ class ProductController extends AbstractController
                 'totalQuantity' => $cart['totalQuantity'],
                 'totalAmount' => $cart['totalAmount'],
                 'totalTva' => $cart['totalTva'],
-                'totalAmountTtc' => $cart['totalAmountTtc'],
             ]
         );
     }

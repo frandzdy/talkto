@@ -20,7 +20,10 @@ export default class extends Controller {
         const options = {
             clientSecret: this.element.dataset.clientSecret,
             // Fully customizable with appearance API.
-            //appearance: {/*...*/}
+            appearance: {
+                theme: "flat",
+                labels: 'floating',
+            }
         };
 
         // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3

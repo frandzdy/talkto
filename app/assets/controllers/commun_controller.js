@@ -14,9 +14,8 @@ import bsCustomFileInput from "bs-custom-file-input";
  */
 export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
-
+    cart = []
     connect() {
-        let cart = []
         this.handleBsCustomFileInput($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();
@@ -1051,11 +1050,11 @@ export default class extends Controller {
 
         ////////////////////////////////////////////////////
         // 25. Create An Account Toggle Js
-        $('#user_payment_createAccount').on('click', function () {
+        $('#user_payment_isGuess').on('click', function () {
             $('#cbox_info').slideToggle(900);
         });
 
-        if ($('#user_payment_createAccount').attr('checked') === 'checked') {
+        if ($('#user_payment_isGuess').attr('checked') === 'checked') {
             $('#cbox_info').slideToggle(900);
         }
         ////////////////////////////////////////////////////

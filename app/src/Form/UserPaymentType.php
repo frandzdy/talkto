@@ -165,7 +165,7 @@ class UserPaymentType extends AbstractType
                     ],
                     'second_options' => [
                         'label' => 'Confirmer votre mot de passe',
-                        'attr' => ['maxlength' => 255, 'autocomplete' =>'new-password'],
+                        'attr' => ['maxlength' => 255, 'autocomplete' => 'new-password'],
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
@@ -175,9 +175,8 @@ class UserPaymentType extends AbstractType
                         ]
                 ]
             )
-            ->add('createAccount', CheckboxType::class,
+            ->add('isGuess', CheckboxType::class,
                 [
-                    'mapped' => false,
                     'label' => 'Créer un compte ?',
                     'label_attr' =>
                         [

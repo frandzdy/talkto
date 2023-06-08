@@ -150,7 +150,7 @@
     {% if not app.user %}
         <div class="col-md-12">
             <div class="checkout-form-list create-acc">
-                {{ form_widget(form.createAccount) }}
+                {{ form_widget(form.isGuess) }}
             </div>
             <div id="cbox_info" class="checkout-form-list create-account">
                 <p>Créer un compte en indiquant les informations ci-dessus.
@@ -163,7 +163,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <button type="submit" class="os-btn os-btn-black" formnovalidate="formnovalidate">S'inscrire</button>
+            <button type="submit" class="os-btn os-btn-black" formnovalidate="formnovalidate">Valider</button>
         </div>
     {% endif %}
     {{ form_rest(form) }}
