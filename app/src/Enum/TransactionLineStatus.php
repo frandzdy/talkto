@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Status de la réservation
+ * Status de la ligne de transaction
  */
 enum TransactionLineStatus: int
 {

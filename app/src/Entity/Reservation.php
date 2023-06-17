@@ -2,6 +2,7 @@
     
     namespace App\Entity;
     
+    use App\Enum\ReservationStatus;
     use App\Repository\ReservationRepository;
     use Doctrine\ORM\Mapping as ORM;
     
@@ -12,7 +13,7 @@
     class Reservation
     {
         use TraitToken;
-        
+
         /**
          * @ORM\Id
          * @ORM\GeneratedValue
@@ -25,8 +26,13 @@
          */
         private Transaction $transaction;
 
-
         private $reclaim;
+
+        /**
+         * @var
+         * @ORM\Column(type="smallint", enumType=ReservationStatus::class)
+         */
+        private ReservationStatus $status;
 
         /**
          * @return mixed
@@ -57,7 +63,7 @@
         /**
          * @return mixed
          */
-        public function getStatus()
+        public function getStatus(): ReservationStatus
         {
             return $this->status;
         }
@@ -65,7 +71,7 @@
         /**
          * @param mixed $status
          */
-        public function setStatus($status): self
+        public function setStatus(ReservationStatus $status): self
         {
             $this->status = $status;
 

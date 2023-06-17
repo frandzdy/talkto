@@ -51,9 +51,9 @@ class TransactionLine
 
     /**
      * @var
-     * @ORM\Column(type="smallint", enumType=ReservationStatus::class)
+     * @ORM\Column(type="smallint", enumType=TransactionLineStatus::class)
      */
-    private ReservationStatus $status;
+    private TransactionLineStatus $status;
 
     public function getId(): ?int
     {

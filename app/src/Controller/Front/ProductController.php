@@ -3,6 +3,8 @@
 namespace App\Controller\Front;
 
 use App\Entity\Product;
+use App\Entity\Reservation;
+use App\Entity\TransactionLine;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
@@ -122,7 +124,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Retourne les reservations d'un produit
+     * Retourne-les reservations d'un produit
      * @param string $token
      * @param ReservationRepository $reservationRepository
      * @return JsonResponse
@@ -133,13 +135,22 @@ class ProductController extends AbstractController
         $resultReservations = '';
         if ($reservations = $reservationRepository->findOneBy(['token' => $token])) {
             foreach ($reservations as $reservation) {
-                if ($resultReservations) {
-                    $resultReservations .= ",";
-                }
-                if ($reservation->getStart() != $reservation->getEnd()) {
-                    $resultReservations .= "{'from':" . ($reservation->getStart())->format('Y-m-d') . ", 'to':" . ($reservation->getEnd())->format('Y-m-d') . "}";
-                } else {
-                    $resultReservations .= ($reservation->getStart())->format('Y-m-d');
+                /**
+                 * @var Reservation $reservation
+                 */
+                $transaction = $reservation->getTransaction();
+                foreach ($transaction->getTransactionLines() as $transactionLine) {
+                    /**
+                     * @var TransactionLine $transactionLine
+                     */
+                    if ($resultReservations) {
+                        $resultReservations .= ",";
+                    }
+                    if ($transactionLine->getStartDate() != $transactionLine->getEndDate()) {
+                        $resultReservations .= "{'from':" . ($transactionLine->getStartDate())->format('Y-m-d') . ", 'to':" . ($transactionLine->getEndDate())->format('Y-m-d') . "}";
+                    } else {
+                        $resultReservations .= ($transactionLine->getEndDate())->format('Y-m-d');
+                    }
                 }
             }
         }
