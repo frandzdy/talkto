@@ -9,15 +9,11 @@ parameters:
 
     google_recaptcha_pkey: '%env(resolve:GG_RECAPTCHA_PKEY)%'
     google_recaptcha_skey: '%env(resolve:GG_RECAPTCHA_SKEY)%'
-
+    public_key: '%env(STRIPE_PUBLIC_KEY)%'
     stripe_config:
         public_key: '%env(STRIPE_PUBLIC_KEY)%'
         secret_key: '%env(STRIPE_SECRET_KEY)%'
         wh_secret_key: '%env(STRIPE_WEBHOOK_SECRET_KEY)%'
-        prices:
-            price_abo1: '%env(STRIPE_PRICE_1)%'
-            price_abo2: '%env(STRIPE_PRICE_2)%'
-            price_abo3: '%env(STRIPE_PRICE_3)%'
 
     base_path_twig: '/uploads/profile_picture/'
     api_gouv_config:

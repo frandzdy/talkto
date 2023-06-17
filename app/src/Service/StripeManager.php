@@ -4,7 +4,11 @@
 namespace App\Service;
 
 use App\Entity\Transaction;
+use App\Entity\TransactionLine;
 use App\Entity\User;
+use App\Enum\ReservationStatus;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Account;
 use Stripe\AccountLink;
 use Stripe\Checkout\Session;
@@ -28,19 +32,13 @@ class StripeManager
      * StripeManager constructor.
      */
     public function __construct(
-        private UrlGeneratorInterface $generator,
-        private array                 $stripeParameters
+        private UrlGeneratorInterface  $generator,
+        private array                  $stripeParameters,
+        private ProductRepository      $productRepository,
+        private EntityManagerInterface $em
     )
     {
         $this->stripe = new StripeClient($this->stripeParameters['secret_key']);
-    }
-
-    /**
-     * Retourne une instance stripe
-     */
-    public function getStripeInstance()
-    {
-        return $this->stripe;
     }
 
     /**
@@ -147,7 +145,7 @@ class StripeManager
                 'amount' => $cart['totalAmount'] * 100,
                 'customer' => 'cus_NyIudynRPUwh2I', // $customerId
                 'currency' => 'eur',
-                'setup_future_usage'=> 'on_session',
+                'setup_future_usage' => 'off_session',
                 'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference()
             ]
@@ -161,22 +159,62 @@ class StripeManager
      */
     public function captureAndTransferPaymentIntent(PaymentIntent $paymentIntent, Transaction $transaction): array
     {
-        echo '<pre>';
-        dump($transaction);
-        echo '</pre>';
-        echo 'Répertoire : ' . __DIR__ . ' Ligne : ' . __LINE__ . ' Méthode : ' . __METHOD__ . ' Debug Frandzdy';
-        die;
-        $transfer = $this->stripe->transfers->create(
-            [
-                'amount' => 8000,
-                'currency' => 'eur',
-                'destination' => 'acct_1NC9n5FZz11Scp6n',
-                'source_transaction' => $paymentIntent->charges->first()->id,
-                'transfer_group' => 'ORDER10',
-            ]
-        );
+        foreach ($transaction->getTransactionLines() as $transactionLine) {
+            /**
+             * @var TransactionLine $transactionLine
+             */
+            $product = $transactionLine->getProduct();
+            $renter = $transactionLine->getProduct()->getUser();
+            $numberDays = $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days === 0
+                ? 1
+                : $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days;
+            $transfer = $this->stripe->transfers->create(
+                [
+                    'amount' => (((int)$product->getAmount()
+                                * (int)$transactionLine->getQuantity()
+                                * (int)$numberDays) - ((int)$product->getAmount()
+                                * (int)$transactionLine->getQuantity()
+                                * (int)$numberDays * 0.01)) * 100,
+                    'currency' => 'eur',
+                    'destination' => $renter->getStripeAccountId(),//'acct_1NC9n5FZz11Scp6n'
+                    'source_transaction' => $paymentIntent->charges->first()->id,
+                    'transfer_group' => $transaction->getReference(),
+                ]
+            );
+        }
 
         return [$transfer];
+    }
+
+    /**
+     * @param $products
+     * @param Transaction $transaction
+     * @return void
+     */
+    public function addOrUpdateTransactionLine($products, Transaction $transaction): void
+    {
+        foreach ($products as $token => $cart) {
+            $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $token]);
+            if (str_contains($cart['flatpickrDate'], 'au')) {
+                $reservationDate = explode(' au ', $cart['flatpickrDate']);
+            } else {
+                $reservationDate = [
+                    0 => $cart['flatpickrDate'],
+                    1 => $cart['flatpickrDate']
+                ];
+            }
+
+            if ($product && array_key_exists(0, $reservationDate)) {
+                $transactionLine = (new TransactionLine())
+                    ->setTransaction($transaction)
+                    ->setProduct($product)
+                    ->setQuantity($cart['quantity'])
+                    ->setStartDate(new \DateTime($reservationDate[0]))
+                    ->setEndDate(new \DateTime($reservationDate[1]))
+                    ->setStatus(ReservationStatus::WAITING);
+                $transaction->addTransactionLine($transactionLine);
+            }
+        }
     }
 
     /**
@@ -186,5 +224,19 @@ class StripeManager
     public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
     {
         return $this->stripe->paymentIntents->retrieve($paymenIntentId);
+    }
+
+    /**
+     * @param string $paymenIntentId
+     * @return PaymentIntent
+     */
+    public function updatePaymentIntent(string $paymenIntentId, array $carts): PaymentIntent
+    {
+        return $this->stripe->paymentIntents->update(
+            $paymenIntentId,
+            [
+                'amount' => $carts['totalAmount']
+            ]
+        );
     }
 }

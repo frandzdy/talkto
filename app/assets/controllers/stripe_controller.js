@@ -1,12 +1,14 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 import $ from "jquery";
-
+import 'toastr'
 import {loadStripe} from '@stripe/stripe-js';
 
 /**
  * Gestion des paiements
  */
 export default class extends Controller {
+    rentedPolicyCheckbox = $('#rented-policy')
+    cautionCheckbox = $('#caution-policy')
     /**
      * Initialise la liste des photos avec un element si elle est vide
      */
@@ -15,7 +17,8 @@ export default class extends Controller {
     }
 
     async handleStripe() {
-        const stripe = await loadStripe('pk_test_51HD51PFRcMdepTxq4JsEEuihDjkOnftzJCpyxkZHpHX9aLvWuxviSpQCqH9GvszGqtfwMXcOS12jl11g3yyfSpWW0072zp4ZEd');
+
+        const stripe = await loadStripe(stripePublicKey) // 'pk_test_51HD51PFRcMdepTxq4JsEEuihDjkOnftzJCpyxkZHpHX9aLvWuxviSpQCqH9GvszGqtfwMXcOS12jl11g3yyfSpWW0072zp4ZEd'
 
         const options = {
             clientSecret: this.element.dataset.clientSecret,
@@ -24,10 +27,10 @@ export default class extends Controller {
                 theme: "flat",
                 labels: 'floating',
             }
-        };
+        }
 
         // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
-        const elements = stripe.elements(options);
+        const elements = stripe.elements(options)
 
         // Create and mount the Payment Element
         const paymentElement = elements.create('payment', {
@@ -37,26 +40,40 @@ export default class extends Controller {
                 radios: false,
                 spacedAccordionItems: true
             },
-            business: {"name":"Rented"}
+            business: {"name": "Rented"}
         });
-        paymentElement.mount('#payment-element');
+        paymentElement.mount('#payment-element')
 
-        const buttonSubmit = $('#stripe_submit');
+        const buttonSubmit = $('#stripe_submit')
 
         buttonSubmit.on('click', async (event) => {
-            buttonSubmit.attr('disabled');
             event.preventDefault();
             event.stopPropagation();
-            let form = new FormData($('#user-reservation-form')[0]);
-            await $.post({
-                url: Routing.generate('front_stripe_payment_intent'),
-                method: 'POST',
-                data: form
-            })
-                .then((data) => {
-                    console.log(data);
-                })
-            return;
+            buttonSubmit.attr('disabled');
+            let policy = false
+            if ($('#rented-policy').is(':checked')) {
+                policy = true
+            }
+            let caution = false
+            if ($('#caution-policy').is(':checked')) {
+                caution = true
+            }
+            console.log(caution)
+            console.log(policy)
+            if (!caution || !policy) {
+                if (!caution) {
+                    this.cautionCheckbox.addClass('is-invalid');
+                }
+                if (!policy) {
+                    this.rentedPolicyCheckbox.addClass('is-invalid');
+                }
+                toastr.error('Vous devez accepter les conditions de location et la caution.')
+                return;
+            } else {
+                this.cautionCheckbox.removeClass('is-invalid')
+                this.rentedPolicyCheckbox.removeClass('is-invalid')
+            }
+
             const {error} = await stripe.confirmPayment({
                 //`Elements` instance that was used to create the Payment Element
                 elements,
@@ -76,7 +93,7 @@ export default class extends Controller {
                 // methods like iDEAL, your customer will be redirected to an intermediate
                 // site first to authorize the payment, then redirected to the `return_url`.
             }
-            buttonSubmit.attrRemove('disabled');
+            buttonSubmit.removeAttr('disabled');
         });
     }
 

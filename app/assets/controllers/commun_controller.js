@@ -71,19 +71,17 @@ export default class extends Controller {
             .on('click', 'div.update-product-cart-minus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.updateCart(event);
-                this.updateWidgetCart();
+                this.updateCart();
             })
             .on('click', 'div.update-product-cart-plus', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.updateCart(event);
-                this.updateWidgetCart();
+                this.updateCart();
             })
             .on('blur', 'input.reservation-date', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.updateCart(event);
+                this.updateCart();
             })
             .on('click', 'a.update-cart', (event) => {
                 event.preventDefault();
@@ -118,17 +116,16 @@ export default class extends Controller {
                     toastr.success('Produit(s) ajouté(s) !');
                 }
             });
-            this.cart = {'token': token, 'quantity': quantity, 'startDate': startDate}
         }
     }
-    updateCart (event) {
-        let quantity = $(event.currentTarget).closest('tr').find('#quantity').val()
-        let token = $(event.currentTarget).closest('tr').find('#token').val()
-        let startDate = $(event.currentTarget).closest('tr').find('#startDate').val()
-        if (quantity) {
-            this.cart = {'token': token, 'quantity': quantity, 'startDate': startDate}
-        } else {
-            //this.cart = this.cart.filter(item => item.token !== token)
+    updateCart () {
+        this.cart = [];
+        let listProducts = $('#cart-products').find('tr');
+        for(let i = 0; i < listProducts.length;i++) {
+            let quantity = $(listProducts[i]).find('#quantity').val()
+            let token = $(listProducts[i]).find('#token').val()
+            let startDate = $(listProducts[i]).find('#startDate').val()
+            this.cart.push({token: token, quantity: quantity, startDate: startDate})
         }
         console.log(this.cart)
     }
@@ -137,7 +134,7 @@ export default class extends Controller {
     {
         $.post({
             url: Routing.generate('front_cart_update'),
-            data: {'carts': this.cart}
+            data: {'carts': JSON.stringify(this.cart)}
         }).done(function (data) {
             Turbo.visit(Routing.generate('front_cart_index'), { action: "replace" })
         });
@@ -163,11 +160,13 @@ export default class extends Controller {
     }
 
     updateWidgetCart () {
-        $.get(Routing.generate('front_cart_widget'))
-            .done(function(data) {
-            $('.mini-cart').html(data.response);
-            $('#cart-length').html(data.totalQuantity);
-        });
+        setTimeout(function (){
+            $.get(Routing.generate('front_cart_widget'))
+                .done(function(data) {
+                    $('.mini-cart').html(data.response);
+                    $('#cart-length').html(data.totalQuantity);
+                });
+        }, 2000)
     }
 
     /**

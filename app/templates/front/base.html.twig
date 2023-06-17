@@ -32,16 +32,16 @@
 {#        {% block javascripts %} #}
 {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
 {#            <script type="text/javascript"> #}
-{#                var googleGtm = '{{ googleGtm }}'; #}
-{#                var googleTagUa = '{{ googleTagUa }}'; #}
-{#                var dataLayer = []; #}
-{#                var isLogged = false; #}
-{#                var policyUrl = '{{ absolute_url(path('front_policy')) }}'; #}
+{#                let googleGtm = '{{ googleGtm }}'; #}
+{#                let googleTagUa = '{{ googleTagUa }}'; #}
+{#                let dataLayer = []; #}
+{#                let isLogged = false; #}
+{#                let policyUrl = '{{ absolute_url(path('front_policy')) }}'; #}
 {#                {% if is_granted('IS_AUTHENTICATED_FULLY') %} #}
-{#                    var userId = '{{ app.user.token }}'; #}
-{#                    var lastname = '{{ app.user.lastname }}'; #}
-{#                    var firstname = '{{ app.user.firstname }}'; #}
-{#                    var email = '{{ app.user.email }}'; #}
+{#                    let userId = '{{ app.user.token }}'; #}
+{#                    let lastname = '{{ app.user.lastname }}'; #}
+{#                    let firstname = '{{ app.user.firstname }}'; #}
+{#                    let email = '{{ app.user.email }}'; #}
 {#                        dataLayer = [{ #}
 {#                            'user_id': '{{ app.user.id }}', #}
 {#                            'lastname': '{{ app.user.lastname }}', #}
@@ -101,16 +101,17 @@
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
-        var googleGtm = '{{ googleGtm }}';
-        var googleTagUa = '{{ googleTagUa }}';
-        var dataLayer = [];
-        var isLogged = false;
-        var policyUrl = '{{ absolute_url(path('front_policy')) }}';
+        let googleGtm = '{{ googleGtm }}';
+        let googleTagUa = '{{ googleTagUa }}';
+        let dataLayer = [];
+        let isLogged = false;
+        let policyUrl = '{{ absolute_url(path('front_policy')) }}';
+        let stripePublicKey = '{{ stripePublicKey }}';
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        var userId = '{{ app.user.token }}';
-        var lastname = '{{ app.user.lastname }}';
-        var firstname = '{{ app.user.firstname }}';
-        var email = '{{ app.user.email }}';
+        let userId = '{{ app.user.token }}';
+        let lastname = '{{ app.user.lastname }}';
+        let firstname = '{{ app.user.firstname }}';
+        let email = '{{ app.user.email }}';
         dataLayer = [{
             'user_id': '{{ app.user.id }}',
             'lastname': '{{ app.user.lastname }}',

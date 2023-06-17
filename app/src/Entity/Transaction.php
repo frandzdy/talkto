@@ -33,12 +33,12 @@ class Transaction
     private ?TransactionStatus $status;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
     private ?string $reference;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
     private ?string $paymentIntentId;
     public function getId(): ?int

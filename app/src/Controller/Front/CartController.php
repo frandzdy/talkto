@@ -74,7 +74,6 @@ class CartController extends AbstractController
     #[Route('/panier/mise-a-jour', name: 'cart_update', options: ['expose' => true], methods: ['POST'])]
     public function update(Request $request, SessionInterface $session): JsonResponse
     {
-        $receiveCarts = $request->request->all();
 
         $startDate = null;
         $endDate = null;
@@ -91,11 +90,15 @@ class CartController extends AbstractController
 
             ]
         );
+        $products = [];
+        foreach (json_decode($request->request->get('carts'), true) as $product) {
+            $products[$product['token']] = $product;
+        }
 
-        foreach ($receiveCarts as $receiveCart) {
-            if ($carts['products'][$receiveCart['token']] && $receiveCart['quantity']) {
-                $carts['products'][$receiveCart['token']]['quantity'] = (int)$receiveCart['quantity'];
-                $flatpickrDate = $receiveCart['startDate'];
+        foreach ($products as $token => $product) {
+            if ($carts['products'][$token] && $product['quantity']) {
+                $carts['products'][$token]['quantity'] = (int)$product['quantity'];
+                $flatpickrDate = $product['startDate'];
                 if (str_contains($flatpickrDate, 'au')) {
                     $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
                     $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
@@ -104,15 +107,15 @@ class CartController extends AbstractController
                     $startDate = new \DateTimeImmutable($flatpickrDate);
                     $endDate = $startDate;
                 }
-                $carts['products'][$receiveCart['token']]['flatpickrDate'] = $flatpickrDate;
-                $carts['products'][$receiveCart['token']]['startDate'] = $startDate->format('d/m/Y');
-                $carts['products'][$receiveCart['token']]['endDate'] = $endDate->format('d/m/Y');
-                $carts['products'][$receiveCart['token']]['numberDays'] = $startDate->diff($endDate)->days;
-                $newPrice = (int)$carts['products'][$receiveCart['token']]['price']
-                    * (int)$carts['products'][$receiveCart['token']]['quantity']
-                    * (int)$carts['products'][$receiveCart['token']]['numberDays'];
+                $carts['products'][$token]['flatpickrDate'] = $flatpickrDate;
+                $carts['products'][$token]['startDate'] = $startDate->format('d/m/Y');
+                $carts['products'][$token]['endDate'] = $endDate->format('d/m/Y');
+                $carts['products'][$token]['numberDays'] = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+                $newPrice = (int)$carts['products'][$token]['price']
+                    * (int)$carts['products'][$token]['quantity']
+                    * (int)$carts['products'][$token]['numberDays'];
             } else {
-                unset($carts['products'][$receiveCart['token']]);
+                unset($carts['products'][$token]);
             }
         }
 

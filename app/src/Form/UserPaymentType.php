@@ -19,11 +19,14 @@ use \Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserPaymentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isOnline = $options['isOnline'];
+        $disabled = $isOnline ? 'disabled' : '';
         $builder
             ->add(
                 'genre',
@@ -36,6 +39,7 @@ class UserPaymentType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Civilité *',
+                            'disabled' => $disabled
                         ],
                 ]
             )
@@ -47,7 +51,9 @@ class UserPaymentType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Téléphone *',
-                            'maxlength' => 20
+                            'maxlength' => 20,
+                            'autocomplete' => 'tel',
+                            'disabled' => $disabled
                         ]
                 ]
             )
@@ -62,6 +68,7 @@ class UserPaymentType extends AbstractType
                             'placeholder' => 'Adresse *',
                             'maxlength' => 255,
                             'autocomplete' => 'address-line1',
+                            'disabled' => $disabled
                         ]
                 ]
             )->add(
@@ -75,6 +82,7 @@ class UserPaymentType extends AbstractType
                             'placeholder' => 'Appartement, étage, etc.',
                             'maxlength' => 255,
                             'autocomplete' => 'address-line2',
+                            'disabled' => $disabled
                         ],
                     'required' => false
                 ]
@@ -88,6 +96,7 @@ class UserPaymentType extends AbstractType
                             'placeholder' => 'Code postal *',
                             'maxlength' => 5,
                             'autocomplete' => 'postal-code',
+                            'disabled' => $disabled
                         ]
                 ]
             )->add(
@@ -99,7 +108,8 @@ class UserPaymentType extends AbstractType
                         [
                             'placeholder' => 'Ville *',
                             'autocomplete' => 'address-level2',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'disabled' => $disabled
                         ]
                 ]
             )
@@ -111,6 +121,7 @@ class UserPaymentType extends AbstractType
                     'choice_label' => 'label',
                     'label' => 'Pays',
                     'placeholder' => '- Sélectionnez un pays -',
+                    'disabled' => $disabled
                 ]
             )->add(
                 'lastname',
@@ -120,7 +131,9 @@ class UserPaymentType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Nom *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'family-name',
+                            'disabled' => $disabled
                         ]
                 ]
             )
@@ -132,7 +145,9 @@ class UserPaymentType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Prénom *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'given-name',
+                            'disabled' => $disabled
                         ]
                 ]
             )
@@ -145,10 +160,13 @@ class UserPaymentType extends AbstractType
                         [
                             'placeholder' => 'E-mail *',
                             'autocomplete' => 'email',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'disabled' => $disabled
                         ]
                 ]
-            )->add(
+            );
+        if (!$isOnline) {
+            $builder->add(
                 'plainPassword',
                 RepeatedType::class,
                 [
@@ -175,20 +193,22 @@ class UserPaymentType extends AbstractType
                         ]
                 ]
             )
-            ->add('isGuess', CheckboxType::class,
-                [
-                    'label' => 'Créer un compte ?',
-                    'label_attr' =>
-                        [
-                            'class' => 'custom-control-label'
-                        ],
-                    'attr' =>
-                        [
-                            'class' => 'custom-control-input'
-                        ],
-                ]
-            )
-            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
+                ->add('isGuess', CheckboxType::class,
+                    [
+                        'label' => 'Créer un compte ?',
+                        'label_attr' =>
+                            [
+                                'class' => 'custom-control-label'
+                            ],
+                        'attr' =>
+                            [
+                                'class' => 'custom-control-input'
+                            ],
+                    ]
+                );
+        }
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
     }
 
     public function postSubmit(FormEvent $event)
@@ -198,29 +218,20 @@ class UserPaymentType extends AbstractType
         /**
          * @var User $user
          */
-//        if (!$user->getLastname()) {
-//            $form->get('lastname')->addError(new FormError('Information requise.'));
-//        }
-//        if (!$user->getFirstname()) {
-//            $form->get('firstname')->addError(new FormError('Information requise.'));
-//        }
-//        if (!$user->getAddress()) {
-//            $form->get('address')->addError(new FormError('Information requise.'));
-//        }
-//        if (!$user->getZipCode()) {
-//            $form->get('zipCode')->addError(new FormError('Information requise.'));
-//        }
-//        if (!$user->getCity()) {
-//            $form->get('city')->addError(new FormError('Information requise.'));
-//        }
         if (!$user->getCountry()) {
             $form->get('country')->addError(new FormError('Information requise.'));
         }
-//        if (!$user->getEmail()) {
-//            $form->get('email')->addError(new FormError('Information requise.'));
-//        }
-//        if (!$user->getPhone()) {
-//            $form->get('phone')->addError(new FormError('Information requise.'));
-//        }
+        if ($user->getIsGuess() && !$form->get('plainPassword')->getData()) {
+            $form->get('plainPassword')->get('first')->addError(new FormError('Information requise.'));
+        }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'isOnline' => null
+            ]
+        );
     }
 }

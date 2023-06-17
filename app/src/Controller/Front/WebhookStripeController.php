@@ -2,14 +2,21 @@
     
     namespace App\Controller\Front;
     
+    use App\Entity\Reservation;
     use App\Entity\User;
+    use App\Enum\TransactionStatus;
+    use App\Repository\ProductRepository;
+    use App\Repository\ReservationRepository;
+    use App\Repository\TransactionRepository;
     use App\Repository\UserRepository;
     use App\Service\MailerManager;
     use App\Service\StripeManager;
     use App\Service\UserManager;
+    use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
@@ -20,9 +27,10 @@
             Request $request,
             StripeManager $stripeManager,
             UserRepository $userRepository,
+            TransactionRepository $transactionRepository,
+            EntityManagerInterface $em,
             UserManager $userManager,
             MailerManager $mailer,
-            LoginLinkHandlerInterface $loginLinkHandler,
             array $stripeParameters
         ): Response {
             $endpoint_secret = $stripeParameters['wh_secret_key'];
@@ -64,56 +72,42 @@
                 /**
                  * @var User $user
                  */
-                case 'checkout.session.completed':
-                case 'customer.subscription.created':
+                case 'payment_intent.succeeded':
                     $session = $event->data->object;
-                    $subscription = $stripeManager->retrieveSubcription($session->subscription);
-                    $user = $userRepository->findOneBy(['stripeCustomerId' => $session->customer]);
-                    
-                    if ($user) {
-                        list($status, $role) = $stripeManager->getTypeAbonnement($subscription->plan->id);
-                        $user->setStripePlan($status);
-                        $user->setStripeStatus('active');
-                        $user->setRoles([$role]);
-                        $user->setNumberSpam(null);
-                        $user->setLastUpdateNumberSpam(null);
-                        $userManager->saveUser();
-                        $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
-                        $mailer->sendMailNotification(
-                            $user->getEmail(),
-                            'front/emails/create_account_abonnement_login_link.html.twig',
-                            [
-                                'link' => $loginLinkDetails->getUrl(),
-                                'user' => $user,
-                                'expiresAt' => $loginLinkDetails->getExpiresAt()
-                            ]
-                        );
-                    }
+                    $paymentIntent = $stripeManager->retrievePaymentIntent($session->id);
+                    $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
+                        $transaction->setStatus(TransactionStatus::VALIDATE);
+                        // on fait un virement au
+                        $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
+                        $reservation = new Reservation();
+                        $reservation->setTransaction($transaction);
+                        $em->persist($reservation);
+                        $em->flush();
+//                        $mailer->sendMailNotification(
+//                            $user->getEmail(),
+//                            'front/emails/create_account_abonnement_login_link.html.twig',
+//                            [
+//                                'link' => $loginLinkDetails->getUrl(),
+//                                'user' => $user,
+//                                'expiresAt' => $loginLinkDetails->getExpiresAt()
+//                            ]
+//                        );
                     break;
-                case 'customer.subscription.updated':
-                case 'customer.subscription.deleted':
-                    $subscription = $event->data->object;
-                    $user = $userRepository->findOneBy(['stripeCustomerId' => $subscription->customer]);
-                    if ($user) {
-                        list($status, $role) = $stripeManager->getTypeAbonnement($subscription->items->data[0]->price->id);
-                        if ($subscription->cancel_at_period_end && $event->type == "customer.subscription.deleted") {
-                            $user->setStripePlan(null);
-                            $user->setStripeStatus(null);
-                            $user->setRoles([User::ROLE_USER]);
-                        } else {
-                            $user->setStripePlan($status);
-                            $user->setStripeStatus($subscription->status);
-                            $user->setRoles([$role]);
-                        }
-                        $userManager->saveUser();
-                        $mailer->sendMailNotification(
-                            $user->getEmail(),
-                            'subcription_change.html.twig',
-                            [
-                                'user' => $user,
-                            ]
-                        );
-                    }
+                case 'payment_intent.canceled':
+                    $session = $event->data->object;
+                    $paymentIntent = $stripeManager->retrievePaymentIntent($session->id);
+                    $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
+                    $transaction->setStatus(TransactionStatus::REJECTED);
+                    $em->flush();
+                                            //                        $mailer->sendMailNotification(
+//                            $user->getEmail(),
+//                            'front/emails/create_account_abonnement_login_link.html.twig',
+//                            [
+//                                'link' => $loginLinkDetails->getUrl(),
+//                                'user' => $user,
+//                                'expiresAt' => $loginLinkDetails->getExpiresAt()
+//                            ]
+//                        );
                     break;
                 // Unhandled event type
                 default:

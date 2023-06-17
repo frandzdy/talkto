@@ -7,7 +7,7 @@
         <label>Mot de passe <span class="required">*</span></label>
         <input name="password" type="password" placeholder="Mot de passe" />
     </p>
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front_stripe_payment_user_login') }}">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front_login') }}">
     <p class="form-row">
         <button class="os-btn os-btn-black" type="submit">Se connecter</button>
     </p>

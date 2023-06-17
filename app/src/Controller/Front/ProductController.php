@@ -178,7 +178,7 @@ class ProductController extends AbstractController
             'flatpickrDate' => $flatpickrDate,
             'startDate' => $startDate->format('d/m/Y'),
             'endDate' => $endDate->format('d/m/Y'),
-            'numberDays' => $startDate->diff($endDate)->days,
+            'numberDays' => $startDate->diff($endDate)->days === 0 ?? 1,
             'pictureName' => $product->getPictures()->first()->getName(),
             'title' => $product->getTitle()
         ];

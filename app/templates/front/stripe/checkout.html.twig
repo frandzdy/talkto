@@ -163,7 +163,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="your-order mb-30 ">
-                        <h3>Votre réservation {{ transaction.reference }}</h3>
+                        <h3>Votre réservation {{ transaction ? transaction.reference : '' }}</h3>
                         <div class="your-order-table table-responsive">
                             <table>
                                 <thead>
@@ -207,7 +207,7 @@
                                         <ul>
                                             <li>
                                                 <label>
-                                                     <span class="amount">{{ carts.totalTva }} €</span>
+                                                    <span class="amount">{{ carts.totalTva }} €</span>
                                                 </label>
                                             </li>
                                         </ul>
@@ -226,6 +226,38 @@
                         <div class="payment-method">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="btn-link collapsed" type="button" data-toggle="collapse"
+                                                    data-target="#collapseTwo" aria-expanded="false"
+                                                    aria-controls="collapseTwo">
+                                                Consentement
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                                         data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="checkout-form-list form-check" style="display: flex;">
+                                                <input type="checkbox" value="1" id="caution-policy" class="form-check-input">
+                                                <label for="caution">
+                                                    En cochant cette case, vous vous engagez à
+                                                    payer la / les <span
+                                                            data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="Le prix de la caution est variable, il est établie entre les deux parties en fonction des dégâts.">caution(s) <i class="fal fa-exclamation text-warning"></i></span>.
+                                                </label>
+                                            </div>
+                                            <div class="checkout-form-list form-check" style="display: flex;">
+                                                <input type="checkbox" value="1" id="rented-policy" class="form-check-input">
+                                                <label for="rented-policy">
+                                                    Veuillez accepter notre <a >politique de location</a>.
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h5 class="mb-0">
                                             <button class="btn-link" type="button" data-toggle="collapse"
@@ -239,37 +271,25 @@
                                     <div id="collapseOne" class="collapse " aria-labelledby="headingOne"
                                          data-parent="#accordionExample">
                                         <div class="card-body">
-                                            <form id="payment-form" {{ stimulus_controller('stripe') }}
-                                                  data-client-secret="{{ clientSecret }}">
-                                                <div id="payment-element">
-                                                    <!-- Elements will create form elements here -->
+                                            {% if clientSecret %}
+                                                <form id="payment-form" {{ stimulus_controller('stripe') }}
+                                                      data-client-secret="{{ clientSecret }}">
+                                                    <div id="payment-element">
+                                                        <!-- Elements will create form elements here -->
+                                                    </div>
+                                                    <div id="error-message">
+                                                        <!-- Display error message to your customers here -->
+                                                    </div>
+                                                </form>
+                                            {% else %}
+                                                <div style="color: #842029">
+                                                    Merci de valider les informations de facturation.
                                                 </div>
-                                                <div id="error-message">
-                                                    <!-- Display error message to your customers here -->
-                                                </div>
-                                            </form>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
-                                {#                                    <div class="card"> #}
-                                {#                                        <div class="card-header" id="headingTwo"> #}
-                                {#                                            <h5 class="mb-0"> #}
-                                {#                                                <button class="btn-link collapsed" type="button" data-toggle="collapse" #}
-                                {#                                                        data-target="#collapseTwo" aria-expanded="false" #}
-                                {#                                                        aria-controls="collapseTwo"> #}
-                                {#                                                    Cheque Payment #}
-                                {#                                                </button> #}
-                                {#                                            </h5> #}
-                                {#                                        </div> #}
-                                {#                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" #}
-                                {#                                             data-parent="#accordionExample"> #}
-                                {#                                            <div class="card-body"> #}
-                                {#                                                Please send your cheque to Store Name, Store Street, Store Town, Store #}
-                                {#                                                State / County, Store #}
-                                {#                                                Postcode. #}
-                                {#                                            </div> #}
-                                {#                                        </div> #}
-                                {#                                    </div> #}
+
                                 {#                                    <div class="card"> #}
                                 {#                                        <div class="card-header" id="headingThree"> #}
                                 {#                                            <h5 class="mb-0"> #}

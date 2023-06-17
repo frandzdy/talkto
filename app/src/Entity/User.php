@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use TraitTimestamp, TraitToken, TraitIntro;
 
     const ROLE_USER = 'ROLE_USER';
+    const ROLE_GUESS = 'ROLE_GUESS';
     const ROLE_SELLER = 'ROLE_SELLER';
 
     /**

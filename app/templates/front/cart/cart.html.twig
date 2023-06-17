@@ -22,7 +22,7 @@
                                 <thead>
                                 <tr>
                                     <th class="product-thumbnail">Photo</th>
-                                    <th class="cart-product-name">Prduit</th>
+                                    <th class="cart-product-name">Nom</th>
                                     <th class="product-quantity">Date de la réservation</th>
                                     <th class="product-price">Prix unitaire TTC</th>
                                     <th class="product-quantity">Quantité</th>
@@ -30,7 +30,7 @@
                                     <th class="product-remove">Supprimer</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="cart-products">
                                 {% for index, cart in carts['products'] %}
                                     <tr >
                                         <td class="product-thumbnail">

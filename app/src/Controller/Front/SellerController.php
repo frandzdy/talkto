@@ -84,7 +84,7 @@ class SellerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureFileData = $form->get('picture')->getData();
 
-            $userManager->saveOrEditUser($form->getData(), $pictureFileData, true);
+            $userManager->saveOrEditUser($form->getData(), $pictureFileData);
             $this->addFlash('success', 'Enregistrement effectué.');
 
             return $this->json(

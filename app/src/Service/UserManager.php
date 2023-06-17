@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserManager
 {
@@ -21,6 +22,7 @@ class UserManager
         private UserRepository         $userRepository,
         private LoggerInterface        $logger,
         private AdresseApi             $adresseApi,
+        private UserPasswordHasherInterface $passwordHasher
     )
     {
     }
@@ -41,7 +43,7 @@ class UserManager
     /**
      * Créer ou met à jour un utilisateur
      */
-    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null, $update = false): bool
+    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null): bool
     {
         if ($pictureFileData) {
             $fileName = $this->fileUploadManager->uploadFile('profile_picture', $pictureFileData);
@@ -51,11 +53,16 @@ class UserManager
             $this->entityManager->persist($pic);
             $user->setPicture($pic);
         }
-
-        if (!$update) {
-            $this->entityManager->persist($user);
+        // si on est un compte invité
+        if (!$user->getIsGuess() && !$user->getId()) {
+            $user->setRoles([User::ROLE_GUESS]);
+            $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname().$user->getLastname());
+            $this->userRepository->upgradePassword($user, $hashPassword);
         }
 
+        if (!$user->getId()) {
+            $this->entityManager->persist($user);
+        }
         // si on n'a pas de compte stripe
         if (!$user->getStripeCustomerId() and in_array(User::ROLE_USER, $user->getRoles())) {
             $customer = $this->stripeManager->createCustomer($user);
@@ -64,6 +71,8 @@ class UserManager
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
         }
+
+
 
         $this->entityManager->flush();
         
