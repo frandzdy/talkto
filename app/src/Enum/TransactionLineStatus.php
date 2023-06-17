@@ -5,7 +5,7 @@ namespace App\Enum;
 /**
  * Status de la réservation
  */
-enum ReservationStatus: int
+enum TransactionLineStatus: int
 {
     case WAITING = 1;
     case VALIDATE = 2;
@@ -15,10 +15,10 @@ enum ReservationStatus: int
     public static function getLabels(): array
     {
         return [
-            ReservationStatus::WAITING->value => 'En attente de réservation',
-            ReservationStatus::VALIDATE->value => 'Réservation en cours',
-            ReservationStatus::FINISHED->value => 'Réservation terminé',
-            ReservationStatus::CANCELED->value => 'Réservation annulé',
+            TransactionLineStatus::WAITING->value => 'En attente de réservation',
+            TransactionLineStatus::VALIDATE->value => 'Réservation en cours',
+            TransactionLineStatus::FINISHED->value => 'Réservation terminé',
+            TransactionLineStatus::CANCELED->value => 'Réservation annulé',
         ];
     }
 

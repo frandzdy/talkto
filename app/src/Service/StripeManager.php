@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ReservationStatus;
+use App\Enum\TransactionLineStatus;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Account;
@@ -211,7 +212,7 @@ class StripeManager
                     ->setQuantity($cart['quantity'])
                     ->setStartDate(new \DateTime($reservationDate[0]))
                     ->setEndDate(new \DateTime($reservationDate[1]))
-                    ->setStatus(ReservationStatus::WAITING);
+                    ->setStatus(TransactionLineStatus::WAITING);
                 $transaction->addTransactionLine($transactionLine);
             }
         }

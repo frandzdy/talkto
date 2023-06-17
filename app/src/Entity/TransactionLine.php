@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\ReservationStatus;
+use App\Enum\TransactionLineStatus;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -152,7 +153,7 @@ class TransactionLine
     /**
      * @return mixed
      */
-    public function getStatus(): ReservationStatus
+    public function getStatus(): TransactionLineStatus
     {
         return $this->status;
     }
@@ -160,7 +161,7 @@ class TransactionLine
     /**
      * @param mixed $status
      */
-    public function setStatus(?ReservationStatus $status): self
+    public function setStatus(?TransactionLineStatus $status): self
     {
         $this->status = $status;
 

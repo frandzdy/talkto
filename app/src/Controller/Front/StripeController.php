@@ -6,7 +6,7 @@ use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\Transaction;
 use App\Entity\TransactionLine;
-use App\Enum\ReservationStatus;
+use App\Enum\TransactionLineStatus;
 use App\Enum\TransactionStatus;
 use App\Form\LoginType;
 use App\Form\UserPaymentType;
