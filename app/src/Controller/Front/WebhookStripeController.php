@@ -5,20 +5,14 @@
     use App\Entity\Reservation;
     use App\Entity\User;
     use App\Enum\TransactionStatus;
-    use App\Repository\ProductRepository;
-    use App\Repository\ReservationRepository;
     use App\Repository\TransactionRepository;
-    use App\Repository\UserRepository;
     use App\Service\MailerManager;
     use App\Service\StripeManager;
-    use App\Service\UserManager;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use Symfony\Component\Routing\Annotation\Route;
-    use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
     class WebhookStripeController extends AbstractController
     {
@@ -26,10 +20,8 @@
         public function checkoutSession(
             Request $request,
             StripeManager $stripeManager,
-            UserRepository $userRepository,
             TransactionRepository $transactionRepository,
             EntityManagerInterface $em,
-            UserManager $userManager,
             MailerManager $mailer,
             array $stripeParameters
         ): Response {
