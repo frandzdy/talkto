@@ -192,8 +192,13 @@ class StripeManager
      * @param Transaction $transaction
      * @return void
      */
-    public function addOrUpdateTransactionLine($products, Transaction $transaction): void
+    public function addOrUpdateTransactionLine($products, Transaction $transaction): array
     {
+        $response = [
+          'transactionTotalTtc' => 0,
+          'transactionTotalTva' => 0,
+          'transactionTotalFees' => 0,
+        ];
         foreach ($products as $token => $cart) {
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $token]);
             if (str_contains($cart['flatpickrDate'], 'au')) {
@@ -206,16 +211,31 @@ class StripeManager
             }
 
             if ($product && array_key_exists(0, $reservationDate)) {
+                $amountTtc = $cart['price'] * $cart['quantity'] * $cart['numberDays'];
+                $amountTva = $amountTtc * 0.2;
+                $amountfees = $amountTtc * 0.01;
                 $transactionLine = (new TransactionLine())
                     ->setTransaction($transaction)
                     ->setProduct($product)
                     ->setQuantity($cart['quantity'])
+                    ->setAmountTtc($amountTtc)
+                    ->setAmountTva($amountTva)
+                    ->setFees($amountfees)
                     ->setStartDate(new \DateTime($reservationDate[0]))
                     ->setEndDate(new \DateTime($reservationDate[1]))
                     ->setStatus(TransactionLineStatus::WAITING);
                 $transaction->addTransactionLine($transactionLine);
+                $response['transactionTotalTtc'] += $amountTtc;
+                $response['transactionTotalTva'] += $amountTva;
+                $response['transactionTotalFees'] += $amountfees;
             }
         }
+
+        $transaction->setTotalAmountTtc($response['transactionTotalTtc'])
+        ->setTotalAmountTva($response['transactionTotalTva'])
+        ->setTotalFees($response['transactionTotalFees']);
+
+        return $response;
     }
 
     /**

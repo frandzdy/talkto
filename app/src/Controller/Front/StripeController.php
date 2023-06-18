@@ -61,7 +61,9 @@ class StripeController extends AbstractController
         } else {
             if (!array_key_exists('transactionId', $carts)) {
                 $transaction = (new Transaction())
-                    ->setStatus(TransactionStatus::WAITING);
+                    ->setStatus(TransactionStatus::WAITING)
+                    ->setToken(hash('sha256', random_bytes(32)))
+                    ->setAuthor($user);
                 $stripeManager->addOrUpdateTransactionLine($carts['products'], $transaction);
                 $em->persist($transaction);
                 $em->flush();

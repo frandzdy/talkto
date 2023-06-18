@@ -15,6 +15,9 @@ use App\Validator\Constraints as AssertQualifelec;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="E-mail déjà enregistré.")
+ * @ORM\Table(indexes={
+ *     @ORM\Index(name="ecommerce_user", columns={"email", "firstname", "lastname", "created_at"})
+ * })
  * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -502,7 +505,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $this->getAddress(),
                 $this->getZipCode(),
                 $this->getCity(),
-                $this->getCountry(),
+                $this->getCountry()?->getLabel(),
             ]
         );
     }

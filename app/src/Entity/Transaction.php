@@ -11,9 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
+ * @ORM\Table(indexes={
+ *     @ORM\Index(name="ecommerce_transaction", columns={"author_id", "created_at", "token", "status"})
+ * })
  */
 class Transaction
 {
+    use TraitToken, TraitAuthor, TraitTimestamp;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -41,6 +46,25 @@ class Transaction
      * @ORM\Column(type="string", nullable=true, length=255)
      */
     private ?string $paymentIntentId;
+
+    /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $totalAmountTtc = null;
+
+    /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $totalAmountTva = null;
+
+    /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $totalFees = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,6 +74,7 @@ class Transaction
     {
         $this->transactionLines = new ArrayCollection();
     }
+
     public function getTransactionLines(): ?Collection
     {
         return $this->transactionLines;
@@ -126,5 +151,60 @@ class Transaction
     public function setPaymentIntentId(?string $paymentIntentId): void
     {
         $this->paymentIntentId = $paymentIntentId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTotalAmountTtc(): ?int
+    {
+        return $this->totalAmountTtc;
+    }
+
+    /**
+     * @param int|null $totalAmountTtc
+     */
+    public function setTotalAmountTtc(?int $totalAmountTtc): self
+    {
+        $this->totalAmountTtc = $totalAmountTtc;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTotalAmountTva(): ?int
+    {
+        return $this->totalAmountTva;
+    }
+
+    /**
+     * @param int|null $totalAmountTva
+     */
+    public function setTotalAmountTva(?int $totalAmountTva): self
+    {
+        $this->totalAmountTva = $totalAmountTva;
+
+        return $this;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getTotalFees(): ?int
+    {
+        return $this->totalFees;
+    }
+
+    /**
+     * @param int|null $totalFees
+     */
+    public function setTotalFees(?int $totalFees): self
+    {
+        $this->totalFees = $totalFees;
+
+        return $this;
     }
 }

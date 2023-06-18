@@ -1,4 +1,4 @@
-{% for product in products %}
+{% for product in collections.products.results %}
     <tr>
         <td class="text-center order__id">#3520</td>
         <td class="text-center"><a href="{{ path('front_product_show', {'token': product.token}) }}"

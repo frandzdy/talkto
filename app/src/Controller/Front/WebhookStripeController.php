@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Reservation;
+use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionStatus;
@@ -73,10 +74,20 @@ class WebhookStripeController extends AbstractController
                 $transaction->setStatus(TransactionStatus::VALIDATE);
                 // on fait un virement au
                 $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
-                $reservation = new Reservation();
-                $reservation->setTransaction($transaction)
+
+                // mettre à jour le nombre de produits restant pour chaque
+                foreach ($transaction->getTransactionLines() as $transactionLine) {
+                    /**
+                     * @var TransactionLine $transactionLine
+                     */
+                    $product = $transactionLine->getProduct();
+                    $product->setQuantityAllReadyReserved($product->getQuantityAllReadyReserved() + $transactionLine->getQuantity());
+                }
+                $reservation = (new Reservation())
+                    ->setTransaction($transaction)
                     ->setToken(hash('sha256', random_bytes(32)))
-                    ->setStatus(ReservationStatus::VALIDATE);
+                    ->setStatus(ReservationStatus::VALIDATE)
+                    ->setAuthor($transaction->getAuthor());
                 $em->persist($reservation);
                 $em->flush();
 //                        $mailer->sendMailNotification(

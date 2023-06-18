@@ -45,6 +45,23 @@ class TransactionLine
     private Product $product;
 
     /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $amountTtc = null;
+
+    /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $amountTva = null;
+    /**
+     *
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private ?int $fees = null;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="transactionLines")
      */
     private Transaction $transaction;
@@ -164,6 +181,60 @@ class TransactionLine
     public function setStatus(?TransactionLineStatus $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAmountTtc(): ?int
+    {
+        return $this->amountTtc;
+    }
+
+    /**
+     * @param int|null $amountTtc
+     */
+    public function setAmountTtc(?int $amountTtc): self
+    {
+        $this->amountTtc = $amountTtc;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAmountTva(): ?int
+    {
+        return $this->amountTva;
+    }
+
+    /**
+     * @param int|null $amountTva
+     */
+    public function setAmountTva(?int $amountTva): self
+    {
+        $this->amountTva = $amountTva;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getFees(): ?int
+    {
+        return $this->fees;
+    }
+
+    /**
+     * @param int|null $fees
+     */
+    public function setFees(?int $fees): self
+    {
+        $this->fees = $fees;
 
         return $this;
     }

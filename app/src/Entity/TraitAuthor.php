@@ -10,7 +10,7 @@ trait TraitAuthor
     /**
      * @var
      * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(name="auteur_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=true)
      */
     private $author;
 

@@ -4,6 +4,8 @@
     
     use App\Entity\Picture;
     use App\Entity\Reservation;
+    use App\Entity\User;
+    use App\Enum\ReservationStatus;
     use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
     use Doctrine\Persistence\ManagerRegistry;
     
@@ -48,4 +50,26 @@
             ;
         }
         */
+
+        public function getProducts(User $user, int $offset): array
+        {
+            $qb = $this->createQueryBuilder('r')
+                ->where('r.user = :userId')
+                ->setParameter('userId', $user->getId());
+
+            $count = (clone $qb)->select('count(Distinct(r.id))')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            $qb->select('r')
+                //->orderBy('p.', 'DESC')
+                ->setFirstResult($offset * 5)
+                ->setMaxResults(5);
+
+            return [
+                'results' => $qb->getQuery()->getResult(),
+                'totalPage' => ceil($count / 5),
+                'page' => $offset + 1,
+            ];
+        }
     }

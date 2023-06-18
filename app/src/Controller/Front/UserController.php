@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\ProductRepository;
+use App\Repository\ReservationRepository;
 use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\UserManager;
@@ -21,14 +22,18 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
-    #[Route('/mon-compte', name: 'user_account', methods: ['GET'])]
+    #[Route('/mon-compte', name: 'user_account', options: ['expose' => true], methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(ProductRepository $productRepository): Response
+    public function account(ProductRepository $productRepository, ReservationRepository $reservationRepository): Response
     {
         $user = $this->getUser();
-        $products = $productRepository->findBy(['user' => $user->getId()]);
+        $collections = [
+            'rents' => $productRepository->getProducts($user, 0),
+            'rents' => $reservationRepository->getProducts($user, 0),
+            'products' => $productRepository->getProducts($user, 0)
+        ];
 
-        return $this->render('front/user/byer/account.html.twig', compact('user', 'products'));
+        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections'));
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]

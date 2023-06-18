@@ -8,11 +8,14 @@
     
     /**
      * @ORM\Entity(repositoryClass=ReservationRepository::class)
+     * @ORM\Table(indexes={
+     *     @ORM\Index(name="ecommerce_reservation", columns={"author_id", "created_at", "token", "status"})
+     * })
      * @ORM\HasLifecycleCallbacks()
      */
     class Reservation
     {
-        use TraitToken;
+        use TraitToken, TraitAuthor, TraitTimestamp;
 
         /**
          * @ORM\Id
