@@ -208,39 +208,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function getReservations(User $user, int $offset): array
     {
-        $qb = $this->_em->getRepository(Reservation::class)
-            ->createQueryBuilder('r')
-            ->join('r.author', 'u')
-  //          ->where('u.id = :userId')
-   //         ->setParameter('userId', $user->getId())
-        ;
-
-        $count = (clone $qb)->select('count(Distinct(r.id))')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $qb->select('r')
-            ->orderBy('r.createdAt', 'DESC')
-            ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
-
-        return [
-            'results' => $qb->getQuery()->getResult(),
-            'totalPage' => ceil($count / 5),
-            'page' => $offset + 1,
-        ];
-    }
-
-    public function getSellers(User $user, int $offset): array
-    {
-        $qb = $this->_em->getRepository(Reservation::class)
-            ->createQueryBuilder('r')
-            ->join('r.transaction', 't')
-            ->join('t.transactionLines', 'tl')
-            ->join('tl.product', 'p')
+        if (in_array(['ROLE_USER'], $user->getRoles())) {
+            $qb = $this->_em->getRepository(Reservation::class)
+                ->createQueryBuilder('r')
+                ->join('r.author', 'u')
+                //          ->where('u.id = :userId')
+                //         ->setParameter('userId', $user->getId())
+            ;
+        } else {
+            $qb = $this->_em->getRepository(Reservation::class)
+                ->createQueryBuilder('r')
+                ->join('r.transaction', 't')
+                ->join('t.transactionLines', 'tl')
+                ->join('tl.product', 'p')
 //            ->join('p.author', 'u', Join::WITH, 'u.id = :userId')
 //            ->setParameter('userId', $user->getId())
-        ;
+            ;
+        }
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()

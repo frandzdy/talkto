@@ -1,1 +1,47 @@
-{{ include('front/user/partials/_list.html.twig') }}
+<div class="order__info">
+    <div class="order__info-top d-flex justify-content-between align-items-center">
+        <h3 class="order__info-title">Mes réservations</h3>
+    </div>
+    <div class="order__list white-bg table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Référence</th>
+                <th scope="col" class="text-center">Total Ttc</th>
+                <th scope="col" class="text-center">Etat</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody id="product-list">
+            {% for reservation in results.results %}
+                <tr>
+                    <td class="text-center order__id">
+                        <a href="{{ path('front_product_show', {'token': reservation.token}) }}" class="order__title">
+                            {{ reservation.transaction.reference }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ reservation.transaction.totalAmountTtc }} €</td>
+                    <td class="text-center">{{ reservation.status.label }}</td>
+                    <td class="text-center">
+                        <a href="{{ path('front_product_show', {'token': reservation.token}) }}"
+                           class="order__view-btn open-product-modal"
+                           data-modal-title="Voir la réservation {{ reservation.transaction.reference }}"
+                           title="Voir la réservation {{ reservation.transaction.reference }}">Voir</a>
+                        <br>
+                        <br>
+                        <a href="{{ path('front_product_delete', {'token': reservation.token}) }}"
+                           class="order__view-btn post-confirm"
+                           data-confirm-message="Etes-vous sur de vouloir annuler la réservation {{ reservation.transaction.reference }} ?"
+                           data-title="Annulation de la réservation {{ reservation.transaction.reference }}"
+                           data-button-text="Annulation"
+                           title="Annulation de la réservation {{ reservation.transaction.reference }}"
+                        >
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -40,8 +40,7 @@ class UserController extends AbstractController
         ]);
         $collections = [
             'reservations' => $em->getRepository(User::class)->getReservations($user, 0),
-            'products' => $em->getRepository(User::class)->getProducts($user, 0),
-            'sellers' => $em->getRepository(User::class)->getSellers($user, 0),
+            'products' => $em->getRepository(User::class)->getProducts($user, 0)
         ];
 
         return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts'));
@@ -244,7 +243,7 @@ class UserController extends AbstractController
     /**
      * Pagination des blocs table de la fiche qualif
      */
-    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products|sellers'], methods: ["GET"])]
+    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products'], methods: ["GET"])]
     public function collection(string $name, int $page, EntityManagerInterface $em): Response
     {
         $func = "get" . ucwords($name);

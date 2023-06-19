@@ -172,7 +172,7 @@ class StripeManager
                                 * (int)$transactionLine->getQuantity()
                                 * (int)$numberDays) - ((int)$product->getAmount()
                                 * (int)$transactionLine->getQuantity()
-                                * (int)$numberDays * 0.01)) * 100,
+                                * (int)$numberDays * 0.1)) * 100,
                     'currency' => 'eur',
                     'destination' => $renter->getStripeAccountId(),//'acct_1NC9n5FZz11Scp6n'
                     'source_transaction' => $paymentIntent->charges->first()->id,
@@ -211,7 +211,7 @@ class StripeManager
             if ($product && array_key_exists(0, $reservationDate)) {
                 $amountTtc = $cart['price'] * $cart['quantity'] * $cart['numberDays'];
                 $amountTva = $amountTtc * 0.2;
-                $amountFees = $amountTtc * 0.01;
+                $amountFees = $amountTtc * 0.1;
                 $transactionLine = (new TransactionLine())
                     ->setTransaction($transaction)
                     ->setProduct($product)

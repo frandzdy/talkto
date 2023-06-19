@@ -73,10 +73,6 @@
                                         aria-selected="true"><i class="fa fa-user"></i> Mon compte
                                 </button>
                                 {% if user.isStripeAccountActive %}
-                                    <button class="nav-link" id="nav-seller-tab" data-toggle="tab" data-target="#nav-seller"
-                                            type="button" role="tab" aria-controls="nav-seller" aria-selected="false"><i
-                                                class="fa fa-calendar"></i>Mes locations
-                                    </button>
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab" data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false"><i
                                                 class="fa fa-bags-shopping"></i>Produits
@@ -87,11 +83,6 @@
                                                 class="fa fa-calendar-check"></i>Mes réservations
                                     </button>
                                 {% endif %}
-                                <button class="nav-link" id="nav-password-tab" data-toggle="tab"
-                                        data-target="#nav-password" type="button" role="tab"
-                                        aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>Change
-                                    Password
-                                </button>
                                 <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out"></i>
                                     Déconnexion</a>
                             </div>
@@ -167,21 +158,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="nav-seller" role="tabpanel" aria-labelledby="nav-seller-tab">
-                                    {% include "partials/_block_pagination.html.twig" with {
-                                        page: collections.sellers.page,
-                                        totalPage: collections.sellers.totalPage,
-                                        url: path('front_user_collection', {
-                                            'name': 'sellers',
-                                            'page': "_PAGE_"
-                                        })
-                                    } %}
-                                    <div class="card-body pb-0 position-relative">
-                                        <div class="table-responsive scrollbar mx-ncard">
-                                            {% include "front/user/partials/_sellers.html.twig" with {'results': collections.sellers|default([])} only %}
-                                        </div>
-                                    </div>
-                                </div>
                             {% else %}
                                 <div class="tab-pane fade" id="nav-reservation" role="tabpanel" aria-labelledby="nav-reservation-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
@@ -199,34 +175,6 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            <div class="tab-pane fade" id="nav-password" role="tabpanel"
-                                 aria-labelledby="nav-password-tab">
-                                <div class="password__change">
-                                    <div class="password__change-top">
-                                        <h3 class="password__change-title">Change Password</h3>
-                                    </div>
-                                    <div class="password__form white-bg">
-                                        <form action="#">
-                                            <div class="password__input">
-                                                <p>Old Password</p>
-                                                <input type="password" placeholder="Enter Old Password">
-                                            </div>
-                                            <div class="password__input">
-                                                <p>New Password</p>
-                                                <input type="password" placeholder="Enter New Password">
-                                            </div>
-                                            <div class="password__input">
-                                                <p>Confirm Password</p>
-                                                <input type="password" placeholder="Confirm Password">
-                                            </div>
-                                            <div class="password__input">
-                                                <button type="submit" class="os-btn os-btn-black">Update password
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
