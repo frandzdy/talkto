@@ -204,16 +204,38 @@
                                 <tr class="cart-subtotal">
                                     <th></th>
                                     <th>Sous total HT</th>
-                                    <td><span class="amount">{{ carts.totalAmount - carts.totalTva }} €</span></td>
+                                    <td><span class="amount">{{ carts.totalAmount - carts.totalTva - carts.totalFees }} €</span>
+                                    </td>
                                 </tr>
                                 <tr class="shipping">
                                     <th></th>
-                                    <th>T.V.A (20%)</th>
+                                    <th data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="La TVA est de 20%.">
+                                        Dont TVA (20%)
+                                    </th>
                                     <td>
                                         <ul>
                                             <li>
                                                 <label>
                                                     <span class="amount">{{ carts.totalTva }} €</span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr class="shipping">
+                                    <th></th>
+                                    <th data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Le montant des frais de service représente 10% du montant TTC.">
+                                        Dont frais de service
+                                    </th>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <label>
+                                                    <span class="amount">{{ carts.totalFees }} €</span>
                                                 </label>
                                             </li>
                                         </ul>
@@ -245,19 +267,22 @@
                                          data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="checkout-form-list form-check" style="display: flex;">
-                                                <input type="checkbox" value="1" id="caution-policy" class="form-check-input">
+                                                <input type="checkbox" value="1" id="caution-policy"
+                                                       class="form-check-input">
                                                 <label for="caution">
                                                     En cochant cette case, vous vous engagez à
                                                     payer la / les <span
                                                             data-toggle="tooltip"
                                                             data-placement="top"
-                                                            title="Le prix de la caution est variable, il est établie entre les deux parties en fonction des dégâts.">caution(s) <i class="fal fa-exclamation text-warning"></i></span>.
+                                                            title="Le prix de la caution est variable, il est établie entre les deux parties en fonction des dégâts.">caution(s) <i
+                                                                class="fal fa-exclamation text-warning"></i></span>.
                                                 </label>
                                             </div>
                                             <div class="checkout-form-list form-check" style="display: flex;">
-                                                <input type="checkbox" value="1" id="rented-policy" class="form-check-input">
+                                                <input type="checkbox" value="1" id="rented-policy"
+                                                       class="form-check-input">
                                                 <label for="rented-policy">
-                                                    Veuillez accepter notre <a >politique de location</a>.
+                                                    Veuillez accepter notre <a>politique de location</a>.
                                                 </label>
                                             </div>
                                         </div>

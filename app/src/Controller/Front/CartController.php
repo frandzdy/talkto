@@ -21,6 +21,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'totalFees' => 0,
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]
@@ -30,8 +31,9 @@ class CartController extends AbstractController
             [
                 'response' => $this->renderView('front/cart/cart-widget.html.twig', compact('carts')),
                 'totalQuantity' => $carts['totalQuantity'],
-                'totalAmount' => $carts['totalAmount'],
+                'totalAmount' => $carts['totalAmount'] + ($carts['totalFees'] * 0.1),
                 'totalTva' => $carts['totalTva'],
+                'totalFees' => $carts['totalFees']
             ]
         );
     }
@@ -46,6 +48,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'totalFees' => 0,
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]
@@ -64,6 +67,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'totalFees' => 0,
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]
@@ -73,7 +77,9 @@ class CartController extends AbstractController
             $carts['totalQuantity'] -= $carts['products'][$token]['quantity'];
             $carts['totalAmount'] -= $carts['products'][$token]['price']
                 * $carts['products'][$token]['numberDays']
-                * $carts['products'][$token]['quantity'];
+                * $carts['products'][$token]['quantity'] + ($carts['products'][$token]['price']
+                    * $carts['products'][$token]['numberDays']
+                    * $carts['products'][$token]['quantity'] * 0.1);
             $carts['totalTva'] = $carts['totalAmount'] * 0.2;
             unset($carts['products'][$token]);
         }
@@ -84,6 +90,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'totalFees' => 0,
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]);
@@ -109,6 +116,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'totalFees' => 0,
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]
@@ -147,8 +155,9 @@ class CartController extends AbstractController
             $totalQuantity = (int)$item['quantity'];
         }
         $carts['totalQuantity'] = $totalQuantity;
-        $carts['totalAmount'] = $totalAmount;
+        $carts['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
         $carts['totalTva'] = $totalAmount * 0.2;
+        $carts['totalFees'] = $totalAmount * 0.1;
 
         $session->set('cart', $carts);
 

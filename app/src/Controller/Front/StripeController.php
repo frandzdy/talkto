@@ -42,6 +42,7 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'totalFees' => 0,
             'paymentIntentId' => null,
             'transactionId' => null
         ]);
@@ -119,9 +120,9 @@ class StripeController extends AbstractController
         UserManager         $userManager,
         Request             $request,
         AuthenticationUtils $authenticationUtils,
-        StripeManager       $stripeManager
-    ): Response
-    {
+        StripeManager       $stripeManager,
+        EntityManagerInterface $em
+    ): Response {
         $user = $userManager->createUser();
         $form = $this->createForm(LoginType::class, $user);
         $carts = $session->get('cart', [
@@ -129,21 +130,13 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'totalFees' => 0,
             'paymentIntentId' => null,
             'transactionId' => null
         ]);
-
+        $clientSecret = null;
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        if (!isset($carts['paymentIntentId'])) {
-            $paymentIntent = $stripeManager->createPaymentIntent($carts, $user);
-            $carts['paymentIntentId'] = $paymentIntent->id;
-        } else {
-            $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
-        }
-        $session->set('cart', $carts);
-        $clientSecret = $paymentIntent->client_secret;
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
@@ -187,6 +180,7 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'totalFees' => 0,
             'paymentIntentId' => null,
             'transactionId' => null
         ]);

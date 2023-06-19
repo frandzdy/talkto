@@ -108,12 +108,27 @@
                                 </td>
                                 <td></td>
                             </tr>
+                            <tr class="shipping">
+                                <th></th>
+                                <th></th>
+                                <th>Frais de service</th>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <label>
+                                                <span class="amount">{{ reservation.transaction.totalFees / 100 }} €</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td></td>
+                            </tr>
                             <tr class="order-total">
                                 <th></th>
                                 <th></th>
                                 <th>Total TTC</th>
                                 <td><strong><span
-                                                class="amount">{{ reservation.transaction.totalAmountTtc / 100 }} €</span></strong>
+                                                class="amount">{{ reservation.transaction.totalAmountTtc + reservation.transaction.totalFees / 100 }} €</span></strong>
                                 </td>
                                 <td></td>
                             </tr>

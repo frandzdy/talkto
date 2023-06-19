@@ -23,7 +23,7 @@ export default class extends Controller {
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
-        this.handleBsCustomFileInput(collectionHolder.find('input[type=file]'));
+        this.handleBsCustomFileInput(collectionHolder.find('[type=file]'));
     }
 
     /**

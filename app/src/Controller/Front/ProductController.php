@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Form\ProductType;
+use App\Form\ProductReservationType;
 use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
 use App\Service\ProductManager;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProductController extends AbstractController
@@ -51,16 +53,89 @@ class ProductController extends AbstractController
 
     /**
      * Affiche la page de réservation d'un produit
+     *
      * @param string $token
      * @param ProductRepository $productRepository
+     * @param Request $request
+     * @param RouterInterface $router
      * @return Response
      */
-    #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET'])]
-    public function productReservation(string $token, ProductRepository $productRepository): Response
+    #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
+    public function productReservation(
+        string            $token,
+        ProductRepository $productRepository,
+        Request           $request,
+        SessionInterface $session
+    ): Response
     {
         $product = $productRepository->findOneBy(['token' => $token]);
+        $data = [
+            'date' => null,
+            'quantity' => null
+        ];
+        $quantityLeft = $product->getQuantity() - $product->getQuantityAllReadyReserved();
+        $options = [
+            'quantityLeft' => $quantityLeft,
+            'action' => $request->getRequestUri()
+        ];
+        $form = $this->createForm(ProductReservationType::class, $data, $options);
 
-        return $this->render('front/product/show_reservation.html.twig', compact('product'));
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $flatpickrDate = $data['date'];
+            $quantity = $data['quantity'];
+            $totalQuantity = 0;
+            $totalAmount = 0;
+            $cart = $session->get('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalFees' => 0,
+                'paymentIntentId' => null,
+                'transactionId' => null
+            ]);
+
+            if (str_contains($flatpickrDate, 'au')) {
+                $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
+                $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+
+            } else {
+                $startDate = new \DateTimeImmutable($flatpickrDate);
+                $endDate = $startDate;
+            }
+            $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+            $cart['products'][$product->getToken()] = [
+                'caution' => $product->getCaution(),
+                'price' => $product->getAmount(),
+                'quantity' => $quantity,
+                'flatpickrDate' => $flatpickrDate,
+                'startDate' => $startDate->format('d/m/Y'),
+                'endDate' => $endDate->format('d/m/Y'),
+                'numberDays' => $numberDays,
+                'pictureName' => $product->getPictures()->first()->getName(),
+                'title' => $product->getTitle()
+            ];
+            foreach ($cart['products'] as $item) {
+                $totalQuantity += (int)$item['quantity'];
+                $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
+            }
+            $cart['totalQuantity'] = $totalQuantity;
+            $cart['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
+            $cart['totalTva'] = $totalAmount * 0.2;
+            $cart['totalFees'] = $totalAmount * 0.1;
+
+            $session->set('cart', $cart);
+
+            return $this->json(
+                [
+                    'success' => true,
+                    'redirectUrl' => $this->generateUrl('front_home')
+                ]
+            );
+        }
+
+        return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
     }
 
     #[Route('/produit-ajout', name: 'product_new')]
@@ -172,6 +247,7 @@ class ProductController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'totalFees' => 0,
             'paymentIntentId' => null,
             'transactionId' => null
         ]);
@@ -200,8 +276,9 @@ class ProductController extends AbstractController
             $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
         }
         $cart['totalQuantity'] = $totalQuantity;
-        $cart['totalAmount'] = $totalAmount;
+        $cart['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
         $cart['totalTva'] = $totalAmount * 0.2;
+        $cart['totalFees'] = $totalAmount * 0.1;
 
         $session->set('cart', $cart);
 

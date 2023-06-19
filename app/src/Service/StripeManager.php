@@ -134,7 +134,7 @@ class StripeManager
     public function createPaymentIntent(array $cart, User $user, Transaction $transaction): PaymentIntent
     {
         if (!$user->getId()) {
-            $customerId = $this->createCustomer($user);
+            $customerId = $this->createCustomer($user)->id;
         } else {
             $customerId = $user->getStripeCustomerId();
         }
@@ -142,7 +142,7 @@ class StripeManager
         return $this->stripe->paymentIntents->create(
             [
                 'amount' => $cart['totalAmount'] * 100,
-                'customer' => 'cus_NyIudynRPUwh2I', // $customerId
+                'customer' => $customerId, // $customerId
                 'currency' => 'eur',
                 'setup_future_usage' => 'off_session',
                 'automatic_payment_methods' => ['enabled' => true],
@@ -169,11 +169,9 @@ class StripeManager
                 : $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days;
             $transfer = $this->stripe->transfers->create(
                 [
-                    'amount' => (((int)$product->getAmount()
+                    'amount' => ((int)$product->getAmount()
                                 * (int)$transactionLine->getQuantity()
-                                * (int)$numberDays) - ((int)$product->getAmount()
-                                * (int)$transactionLine->getQuantity()
-                                * (int)$numberDays * 0.1)) * 100,
+                                * (int)$numberDays) * 100,
                     'currency' => 'eur',
                     'destination' => $renter->getStripeAccountId(),//'acct_1NC9n5FZz11Scp6n'
                     'source_transaction' => $paymentIntent->charges->first()->id,

@@ -65,38 +65,25 @@
                 <p>{{ product.description }}</p>
             </div>
             <div class="product__modal-form">
-                <form action="#" id="productForm">
-                    <input type="hidden" id="token" name="token" value="{{ product.token }}">
-                    <div id="quantityFeedback" class="mb-5 invalid-feedback d-none">
-                        Information requise.
-                    </div>
+                {{ form_start(form, {'attr': {'id':'productForm'}}) }}
                     <div class="product__modal-select color size mb-20">
                         <label>Date de la réservation <i class="fas fa-star-of-life"></i></label>
                         <div class="product-quantity">
                             <div class="">
-                                <input name="startDate" id="startDate" data-input {{ stimulus_controller('datetimepicker') }}
-                                       placeholder="jj/mm/aaaa" type="text"
-                                       data-token="{{ product.token }}" aria-describedby="startDateFeedback" required style="text-align: center;"/>
+                                {{ form_row(form.date) }}
                             </div>
                         </div>
                     </div>
                     <div class="product__modal-input color mb-20">
                         <label>Quantité <i class="fas fa-star-of-life"></i></label>
-                        <select name="quantity" id="quantity" aria-describedby="quantityFeedback">
-                            <option disabled selected>- Choisir une quantité -</option>
-                            {% if quantityLeft > 0 %}
-                                {% for i in range(1, quantityLeft) %}
-                                    <option value="{{ i  }}">{{ i  }}</option>
-                                {% endfor %}
-                            {% endif %}
-                        </select>
+                        {{ form_widget(form.quantity) }}
                     </div>
                     <div class="pro-quan-area d-lg-flex align-items-center" style="flex-direction: row-reverse;">
                         <div class="pro-cart-btn">
                             <a href="#" class="os-btn os-btn-black os-btn-3 mr-10 add-product-cart">+ Add to Cart</a>
                         </div>
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

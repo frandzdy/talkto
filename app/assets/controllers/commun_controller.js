@@ -64,9 +64,7 @@ export default class extends Controller {
             .on('click', 'a.add-product-cart', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                this.addToCart();
-                this.updateWidgetCart();
-                this.closeProductModal();
+                $("#productForm").submit();
             })
             .on('click', 'div.update-product-cart-minus', (event) => {
                 event.preventDefault();
@@ -210,7 +208,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html($(response));
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('.custom-file-input[type="file"]'));
+                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -243,7 +241,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('.custom-file-input[type="file"]'));
+                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -273,7 +271,7 @@ export default class extends Controller {
             }
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);
-            this.handleBsCustomFileInput($(this.modalTarget).find('.custom-file-input[type="file"]'));
+            this.handleBsCustomFileInput($(this.modalTarget).find('[type="file"]'));
             $(this.modalTarget).modal('show');
 
         }).fail((error) => {
@@ -292,7 +290,7 @@ export default class extends Controller {
             if (title) {
                 $(this.modalProductTarget).find('.modal-title').html(title);
             }
-            if (size == true) {
+            if (size === true) {
                 $(this.modalProductTarget).find('.modal-dialog').addClass('modal-lg');
             }
             $(this.modalProductTarget).find('.wrapper').html(response);

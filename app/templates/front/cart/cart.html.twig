@@ -32,7 +32,7 @@
                                 </thead>
                                 <tbody id="cart-products">
                                 {% for index, cart in carts['products'] %}
-                                    <tr >
+                                    <tr>
                                         <td class="product-thumbnail">
                                             <a href="{{ path('front_product_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
@@ -49,15 +49,17 @@
                                         </td>
                                         <td class="product-price"><span>{{ cart.price }} </span>€</td>
                                         <td class="product-quantity">
-                                            <div class="cart-plus-minus-cart"><input data-max="" type="text" id="quantity"
-                                                                                value="{{ cart.quantity }}"/></div>
+                                            <div class="cart-plus-minus-cart"><input data-max="" type="text"
+                                                                                     id="quantity"
+                                                                                     value="{{ cart.quantity }}"/></div>
                                             <input type="hidden" value="{{ index }}" id="token">
                                         </td>
-                                        <td class="product-subtotal"><span class="amount">{{ cart.price * cart.quantity * cart.numberDays }} </span>€
+                                        <td class="product-subtotal"><span
+                                                    class="amount">{{ cart.price * cart.quantity * cart.numberDays }} </span>€
                                         </td>
                                         <td class="product-remove">
                                             <a href="{{ path('front_cart_delete', {'token':index}) }}"
-                                            class="post-confirm"
+                                               class="post-confirm"
                                                data-button-text="Supprimer"
                                                data-title="Supprimer"
                                                data-confirm-message="Souhaitez-vous supprimer ce produit ?"
@@ -71,15 +73,15 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="coupon-all">
-{#                                    <div class="coupon">#}
-{#                                        <input id="coupon_code" class="input-text" name="coupon_code" value=""#}
-{#                                               placeholder="Coupon code" type="text">#}
-{#                                        <button class="os-btn os-btn-black" name="apply_coupon" type="submit">Apply#}
-{#                                            coupon#}
-{#                                        </button>#}
-{#                                    </div>#}
+                                    {#                                    <div class="coupon"> #}
+                                    {#                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" #}
+                                    {#                                               placeholder="Coupon code" type="text"> #}
+                                    {#                                        <button class="os-btn os-btn-black" name="apply_coupon" type="submit">Apply #}
+                                    {#                                            coupon #}
+                                    {#                                        </button> #}
+                                    {#                                    </div> #}
                                     <div class="coupon2">
-                                        <a class="os-btn os-btn-black update-cart" >
+                                        <a class="os-btn os-btn-black update-cart">
                                             Mettre à jour le panier
                                         </a>
                                     </div>
@@ -91,11 +93,25 @@
                                 <div class="cart-page-total">
                                     <h2>Total</h2>
                                     <ul class="mb-20">
-                                        <li>Total Ht<span id="totalAmount">{{ carts.totalAmount - carts.totalTva }} €</span></li>
-                                        <li>TVA (20%) <span id="totalTva">{{ carts.totalTva }} €</span></li>
-                                        <li>Total Ttc<span id="totalAmountTtc">{{ carts.totalAmount }} €</span></li>
+                                        <li>
+                                            Total
+                                            HT<span>{{ carts.totalAmount - carts.totalTva - carts.totalFees }} €</span>
+                                        </li>
+                                        <li data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="La TVA est de 20%.">
+                                            Dont TVA (20%) <span>{{ carts.totalTva }} €</span></li>
+                                        <li data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Le montant des frais de service représente 10% du montant TTC.">
+                                            Dont frais de service
+                                            <span>{{ carts.totalFees }} €</span>
+                                        </li>
+                                        <li><b>Total TTC</b><span id="totalAmountTtc"
+                                                                  class="text-black font-weight-bold">{{ carts.totalAmount }} €</span>
+                                        </li>
                                     </ul>
-                                    <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
+                                    <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Réserver</a>
                                 </div>
                             </div>
                         </div>

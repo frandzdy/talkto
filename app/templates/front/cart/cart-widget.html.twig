@@ -1,7 +1,7 @@
 <div class="mini-cart-inner">
-    {% if carts['products']|length > 0 %}
+    {% if carts.products|length > 0 %}
         <ul class="mini-cart-list">
-            {% for index, cart in carts['products'] %}
+            {% for index, cart in carts.products %}
                 <li>
                     <div class="cart-img f-left">
                         <a href="{{ path('front_product_show_detail', {'token': index}) }}">
@@ -33,8 +33,8 @@
         </ul>
     {% endif %}
     <div class="total-price d-flex justify-content-between mb-30">
-        <span>Total :</span>
-        <span>{{ carts['totalAmount'] }} €</span>
+        <span>Total TTC:</span>
+        <span>{{ carts.totalAmount }} €</span>
     </div>
     <div class="checkout-link">
         <a href="{{ path('front_cart_index') }}" class="os-btn">Voir le panier</a>

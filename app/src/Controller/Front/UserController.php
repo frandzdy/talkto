@@ -29,6 +29,7 @@ class UserController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'totalFees' => 0,
             'paymentIntentId' => null,
             'transactionId' => null
         ]);
