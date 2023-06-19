@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Product;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\ProductRepository;
@@ -16,6 +17,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -24,16 +27,23 @@ class UserController extends AbstractController
 {
     #[Route('/mon-compte', name: 'user_account', options: ['expose' => true], methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(ProductRepository $productRepository, ReservationRepository $reservationRepository): Response
+    public function account(EntityManagerInterface $em, SessionInterface $session): Response
     {
         $user = $this->getUser();
+        $carts = $session->get('cart', [
+            'products' => [],
+            'totalQuantity' => 0,
+            'totalAmount' => 0,
+            'totalTva' => 0,
+            'paymentIntentId' => null
+        ]);
         $collections = [
-            'rents' => $productRepository->getProducts($user, 0),
-            'rents' => $reservationRepository->getProducts($user, 0),
-            'products' => $productRepository->getProducts($user, 0)
+            'reservations' => $em->getRepository(User::class)->getReservations($user, 0),
+            'products' => $em->getRepository(User::class)->getProducts($user, 0),
+            'sellers' => $em->getRepository(User::class)->getSellers($user, 0),
         ];
 
-        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections'));
+        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts'));
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
@@ -105,7 +115,7 @@ class UserController extends AbstractController
             );
         }
 
-        return $this->render('front/user/partial/_form.html.twig', [
+        return $this->render('front/user/partials/_form.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -228,5 +238,21 @@ class UserController extends AbstractController
         }
 
         return $this->json(['success' => true], Response::HTTP_OK);
+    }
+
+    /**
+     * Pagination des blocs table de la fiche qualif
+     */
+    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products|sellers'], methods: ["GET"])]
+    public function collection(string $name, int $page, EntityManagerInterface $em): Response
+    {
+        $func = "get" . ucwords($name);
+
+        return $this->render(
+            'front/user/partials/_' . $name . '.html.twig',
+            [
+                'results' => $em->getRepository(User::class)->$func($this->getUser(), $page - 1)
+            ]
+        );
     }
 }

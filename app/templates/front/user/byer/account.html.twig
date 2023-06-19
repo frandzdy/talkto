@@ -47,7 +47,7 @@
                             <div class="cart-item">
                                 <a href="cart.html">
                                     <i class="fa-regular fa-basket-shopping"></i>
-                                    <span class="cart-quantity">2</span>
+                                    <span class="cart-quantity">{{ carts.totalQuantity|default(0) }}</span>
                                 </a>
                             </div>
                         </div>
@@ -72,19 +72,19 @@
                                         data-target="#nav-account" type="button" role="tab" aria-controls="nav-account"
                                         aria-selected="true"><i class="fa fa-user"></i> Mon compte
                                 </button>
-
-                                <button class="nav-link" id="nav-rent-tab" data-toggle="tab" data-target="#nav-rent"
-                                        type="button" role="tab" aria-controls="nav-rent" aria-selected="false"><i
-                                            class="fa fa-calendar"></i>Mes locations
-                                </button>
-                                {% if not user.isStripeAccountActive %}
-                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab" data-target="#nav-reservation"
-                                            type="button" role="tab" aria-controls="nav-reservation" aria-selected="false"><i
-                                                class="fa fa-calendar-check"></i>Mes réservations
+                                {% if user.isStripeAccountActive %}
+                                    <button class="nav-link" id="nav-seller-tab" data-toggle="tab" data-target="#nav-seller"
+                                            type="button" role="tab" aria-controls="nav-seller" aria-selected="false"><i
+                                                class="fa fa-calendar"></i>Mes locations
                                     </button>
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab" data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false"><i
                                                 class="fa fa-bags-shopping"></i>Produits
+                                    </button>
+                                {% else %}
+                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab" data-target="#nav-reservation"
+                                            type="button" role="tab" aria-controls="nav-reservation" aria-selected="false"><i
+                                                class="fa fa-calendar-check"></i>Mes réservations
                                     </button>
                                 {% endif %}
                                 <button class="nav-link" id="nav-password-tab" data-toggle="tab"
@@ -151,25 +151,52 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="nav-rent" role="tabpanel" aria-labelledby="nav-rent-tab">
-                                {% include('front/user/partials/_rent.html.twig') %}
-                                {% include "partials/_block_pagination.html.twig" with {
-                                    page: collections.rents.page,
-                                    totalPage: collections.rents.totalPage,
-                                    url: path('front_user_account')
-                                } %}
-                            </div>
-                            {% if not user.isStripeAccountActive %}
-                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel" aria-labelledby="nav-reservation-tab">
-                                    {% include('front/user/partials/_reservation.html.twig') %}
-                                </div>
+                            {% if user.isStripeAccountActive %}
                                 <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
-                                    {% include('front/user/partials/_product.html.twig') %}
                                     {% include "partials/_block_pagination.html.twig" with {
                                         page: collections.products.page,
                                         totalPage: collections.products.totalPage,
-                                        url: path('front_user_account')
+                                        url: path('front_user_collection', {
+                                            'name': 'products',
+                                            'page': "_PAGE_"
+                                        })
                                     } %}
+                                    <div class="card-body pb-0 position-relative">
+                                        <div class="table-responsive scrollbar mx-ncard">
+                                            {% include "front/user/partials/_products.html.twig" with {'results': collections.products|default([])} only %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-seller" role="tabpanel" aria-labelledby="nav-seller-tab">
+                                    {% include "partials/_block_pagination.html.twig" with {
+                                        page: collections.sellers.page,
+                                        totalPage: collections.sellers.totalPage,
+                                        url: path('front_user_collection', {
+                                            'name': 'sellers',
+                                            'page': "_PAGE_"
+                                        })
+                                    } %}
+                                    <div class="card-body pb-0 position-relative">
+                                        <div class="table-responsive scrollbar mx-ncard">
+                                            {% include "front/user/partials/_sellers.html.twig" with {'results': collections.sellers|default([])} only %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel" aria-labelledby="nav-reservation-tab">
+                                    {% include "partials/_block_pagination.html.twig" with {
+                                        page: collections.reservations.page,
+                                        totalPage: collections.reservations.totalPage,
+                                        url: path('front_user_collection', {
+                                            'name': 'reservations',
+                                            'page': "_PAGE_"
+                                        })
+                                    } %}
+                                    <div class="card-body pb-0 position-relative">
+                                        <div class="table-responsive scrollbar mx-ncard">
+                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([])} only %}
+                                        </div>
+                                    </div>
                                 </div>
                             {% endif %}
                             <div class="tab-pane fade" id="nav-password" role="tabpanel"

@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
+use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -175,5 +178,83 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->having('diff_hours = 0');
 
         return $qb->getQuery()->toIterable();
+    }
+
+
+    public function getProducts(User $user, int $offset): array
+    {
+        $qb = $this->_em->getRepository(Product::class)
+            ->createQueryBuilder('p')
+            ->join('p.author', 'u')
+    //        ->where('u.id = :userId')
+    //        ->setParameter('userId', $user->getId())
+        ;
+
+        $count = (clone $qb)->select('count(Distinct(p.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $qb->select('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setFirstResult($offset * 5)
+            ->setMaxResults(5);
+
+        return [
+            'results' => $qb->getQuery()->getResult(),
+            'totalPage' => ceil($count / 5),
+            'page' => $offset + 1,
+        ];
+    }
+
+    public function getReservations(User $user, int $offset): array
+    {
+        $qb = $this->_em->getRepository(Reservation::class)
+            ->createQueryBuilder('r')
+            ->join('r.author', 'u')
+  //          ->where('u.id = :userId')
+   //         ->setParameter('userId', $user->getId())
+        ;
+
+        $count = (clone $qb)->select('count(Distinct(r.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $qb->select('r')
+            ->orderBy('r.createdAt', 'DESC')
+            ->setFirstResult($offset * 5)
+            ->setMaxResults(5);
+
+        return [
+            'results' => $qb->getQuery()->getResult(),
+            'totalPage' => ceil($count / 5),
+            'page' => $offset + 1,
+        ];
+    }
+
+    public function getSellers(User $user, int $offset): array
+    {
+        $qb = $this->_em->getRepository(Reservation::class)
+            ->createQueryBuilder('r')
+            ->join('r.transaction', 't')
+            ->join('t.transactionLines', 'tl')
+            ->join('tl.product', 'p')
+//            ->join('p.author', 'u', Join::WITH, 'u.id = :userId')
+//            ->setParameter('userId', $user->getId())
+        ;
+
+        $count = (clone $qb)->select('count(Distinct(r.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $qb->select('r')
+            ->orderBy('r.createdAt', 'DESC')
+            ->setFirstResult($offset * 5)
+            ->setMaxResults(5);
+
+        return [
+            'results' => $qb->getQuery()->getResult(),
+            'totalPage' => ceil($count / 5),
+            'page' => $offset + 1,
+        ];
     }
 }

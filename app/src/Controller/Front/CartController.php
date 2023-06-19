@@ -21,6 +21,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'paymentIntentId' => null
             ]
         );
 
@@ -44,6 +45,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'paymentIntentId' => null
             ]
         );
 
@@ -60,11 +62,29 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
+                'paymentIntentId' => null,
+                'transactionId' => null
             ]
         );
 
         if ($carts['products'][$token]) {
+            $carts['totalQuantity'] -= $carts['products'][$token]['quantity'];
+            $carts['totalAmount'] -= $carts['products'][$token]['quantity']
+                * $carts['products'][$token]['numberDays']
+                * $carts['products'][$token]['quantity'];
+            $carts['totalTva'] = $carts['totalAmount'] * 0.2;
             unset($carts['products'][$token]);
+        }
+
+        if (count($carts['products']) === 0) {
+            $session->set('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'paymentIntentId' => null,
+                'transactionId' => null
+            ]);
         }
         $session->set('cart', $carts);
 
@@ -74,7 +94,6 @@ class CartController extends AbstractController
     #[Route('/panier/mise-a-jour', name: 'cart_update', options: ['expose' => true], methods: ['POST'])]
     public function update(Request $request, SessionInterface $session): JsonResponse
     {
-
         $startDate = null;
         $endDate = null;
         $newPrice = 0;
@@ -87,7 +106,7 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-
+                'paymentIntentId' => null
             ]
         );
         $products = [];

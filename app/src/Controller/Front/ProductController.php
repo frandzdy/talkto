@@ -173,6 +173,7 @@ class ProductController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'paymentIntentId' => null
         ]);
         if (str_contains($flatpickrDate, 'au')) {
             $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
@@ -182,6 +183,7 @@ class ProductController extends AbstractController
             $startDate = new \DateTimeImmutable($flatpickrDate);
             $endDate = $startDate;
         }
+        $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
         $cart['products'][$product->getToken()] = [
             'caution' => $product->getCaution(),
             'price' => $product->getAmount(),
@@ -189,7 +191,7 @@ class ProductController extends AbstractController
             'flatpickrDate' => $flatpickrDate,
             'startDate' => $startDate->format('d/m/Y'),
             'endDate' => $endDate->format('d/m/Y'),
-            'numberDays' => $startDate->diff($endDate)->days === 0 ?? 1,
+            'numberDays' => $numberDays,
             'pictureName' => $product->getPictures()->first()->getName(),
             'title' => $product->getTitle()
         ];

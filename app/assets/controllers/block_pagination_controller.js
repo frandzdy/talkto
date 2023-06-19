@@ -38,14 +38,14 @@ export default class extends Controller {
     }
 
     /**
-     * Remplace le contenu du bloc par le resultat de la pagination
+     * Remplace le contenu du bloc par le résultat de la pagination
      */
     call() {
         $.get(
             this.element.dataset.url.replace('_PAGE_', this.element.dataset.page),
             null,
             (data) => {
-                this.element.closest('.card').querySelector('.table-responsive').innerHTML = data
+                this.element.closest('.tab-pane').querySelector('.table-responsive').innerHTML = data
             }
         )
     }

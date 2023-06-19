@@ -46,6 +46,8 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'paymentIntentId' => null,
+            'transactionId' => null
         ]);
 
         if (!$carts['products']) {
@@ -59,7 +61,7 @@ class StripeController extends AbstractController
         if (!$user) {
             $user = $userManager->createUser();
         } else {
-            if (!array_key_exists('transactionId', $carts)) {
+            if (!$carts['transactionId']) {
                 $transaction = (new Transaction())
                     ->setStatus(TransactionStatus::WAITING)
                     ->setToken(hash('sha256', random_bytes(32)))
@@ -131,6 +133,7 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'paymentIntentId' => null
         ]);
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -187,6 +190,7 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
+            'paymentIntentId' => null
         ]);
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
         $message = 'Erreur lors du paiement';

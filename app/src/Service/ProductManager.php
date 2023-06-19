@@ -31,7 +31,7 @@ class ProductManager
     {
         return (new Product())
             ->setToken(hash('sha256', random_bytes(32)))
-            ->setUser($user)
+            ->setAuthor($user)
             ->setStatus(ProductStatus::WAITING)
         ;
     }

@@ -58,11 +58,13 @@
     <!-- checkout-area start -->
     <section class="checkout-area pb-70">
         <div class="container">
+            {{ form_start(form, {'attr': {'autocomplete':'off', 'id': 'user-reservation-form'}}) }}
             <div class="row">
                 <div class="col-lg-6">
                     <div class="checkbox-form">
                         <h3>Détails de facturation</h3>
                         <div class="row">
+
                             {{ include('front/stripe/_form_user_creation.html.twig') }}
                         </div>
                         {#                            <div class="different-address"> #}
@@ -320,6 +322,7 @@
                     </div>
                 </div>
             </div>
+            {{ form_end(form) }}
         </div>
     </section>
     <!-- checkout-area end -->

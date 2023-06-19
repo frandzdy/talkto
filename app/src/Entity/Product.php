@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Product
 {
-    use TraitToken;
+    use TraitToken, TraitAuthor, TraitTimestamp;
 
     /**
      * @ORM\Id
@@ -65,11 +65,6 @@ class Product
      * @ORM\Column(type="smallint", nullable=false, enumType=ProductStatus::class)
      */
     private ?ProductStatus $status;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private ?User $user = null;
 
     /**
      * @var float|null
@@ -187,25 +182,6 @@ class Product
     public function setStatus(ProductStatus $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User|null $user
-     * @return $this
-     */
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

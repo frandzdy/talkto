@@ -3,10 +3,10 @@
 
 namespace App\Service;
 
+use App\Entity\Product;
 use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Entity\User;
-use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,10 +15,7 @@ use Stripe\AccountLink;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
-use Stripe\Product;
 use Stripe\StripeClient;
-use Stripe\Subscription;
-use Stripe\Transfer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripeManager
@@ -165,7 +162,7 @@ class StripeManager
              * @var TransactionLine $transactionLine
              */
             $product = $transactionLine->getProduct();
-            $renter = $transactionLine->getProduct()->getUser();
+            $renter = $transactionLine->getProduct()->getAuthor();
             $numberDays = $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days === 0
                 ? 1
                 : $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days;
@@ -199,6 +196,7 @@ class StripeManager
           'transactionTotalTva' => 0,
           'transactionTotalFees' => 0,
         ];
+
         foreach ($products as $token => $cart) {
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $token]);
             if (str_contains($cart['flatpickrDate'], 'au')) {
@@ -213,21 +211,21 @@ class StripeManager
             if ($product && array_key_exists(0, $reservationDate)) {
                 $amountTtc = $cart['price'] * $cart['quantity'] * $cart['numberDays'];
                 $amountTva = $amountTtc * 0.2;
-                $amountfees = $amountTtc * 0.01;
+                $amountFees = $amountTtc * 0.01;
                 $transactionLine = (new TransactionLine())
                     ->setTransaction($transaction)
                     ->setProduct($product)
                     ->setQuantity($cart['quantity'])
                     ->setAmountTtc($amountTtc)
                     ->setAmountTva($amountTva)
-                    ->setFees($amountfees)
+                    ->setFees($amountFees)
                     ->setStartDate(new \DateTime($reservationDate[0]))
                     ->setEndDate(new \DateTime($reservationDate[1]))
                     ->setStatus(TransactionLineStatus::WAITING);
                 $transaction->addTransactionLine($transactionLine);
                 $response['transactionTotalTtc'] += $amountTtc;
                 $response['transactionTotalTva'] += $amountTva;
-                $response['transactionTotalFees'] += $amountfees;
+                $response['transactionTotalFees'] += $amountFees;
             }
         }
 

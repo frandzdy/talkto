@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -64,28 +65,4 @@ class ProductRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-    public function getProducts(User $user, int $offset): array
-    {
-        $qb = $this->_em->getRepository(Product::class)
-            ->createQueryBuilder('p')
-            ->join('p.user', 'u')
-            ->where('u.id = :userId')
-            ->setParameter('userId', $user->getId());
-
-        $count = (clone $qb)->select('count(Distinct(p.id))')
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        $qb->select('p')
-            //->orderBy('p.', 'DESC')
-            ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
-
-        return [
-            'results' => $qb->getQuery()->getResult(),
-            'totalPage' => ceil($count / 5),
-            'page' => $offset + 1,
-        ];
-    }
 }

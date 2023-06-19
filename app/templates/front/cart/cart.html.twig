@@ -91,12 +91,11 @@
                                 <div class="cart-page-total">
                                     <h2>Total</h2>
                                     <ul class="mb-20">
-                                        <li>Sous-total <span id="totalAmount">{{ carts.totalAmount - carts.totalTva }} €</span></li>
-                                        <li>TVA (20% inclus) <span id="totalTva">{{ carts.totalTva }} €</span></li>
-                                        <li>Total <span id="totalAmountTtc">{{ carts.totalAmount }} €</span></li>
+                                        <li>Total Ht<span id="totalAmount">{{ carts.totalAmount - carts.totalTva }} €</span></li>
+                                        <li>TVA (20%) <span id="totalTva">{{ carts.totalTva }} €</span></li>
+                                        <li>Total Ttc<span id="totalAmountTtc">{{ carts.totalAmount }} €</span></li>
                                     </ul>
-                                    <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Procéder au
-                                        paiement</a>
+                                    <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
                                 </div>
                             </div>
                         </div>
