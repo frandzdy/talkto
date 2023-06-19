@@ -2,11 +2,7 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Product;
-use App\Entity\Reservation;
 use App\Entity\Transaction;
-use App\Entity\TransactionLine;
-use App\Enum\TransactionLineStatus;
 use App\Enum\TransactionStatus;
 use App\Form\LoginType;
 use App\Form\UserPaymentType;
@@ -98,7 +94,7 @@ class StripeController extends AbstractController
         $form = $this->createForm(UserPaymentType::class, $user, ['isOnline' => $this->getUser() ?? false]);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            $userManager->saveOrEditUser($user);
+            $userManager->saveOrEditUser(user: $user, isGuess: true);
             $security->login($user, 'App\Security\FrontAuthenticator', 'front');
 
             return $this->redirectToRoute('front_stripe_payment_intent');

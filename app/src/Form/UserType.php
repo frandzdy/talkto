@@ -17,6 +17,7 @@ use \Symfony\Component\Form\Extension\Core\Type\TextType;
 use \Symfony\Component\Form\Extension\Core\Type\EmailType;
 use \Symfony\Component\Form\FormBuilderInterface;
 use \Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -45,7 +46,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Téléphone *',
-                            'maxlength' => 20
+                            'maxlength' => 20,
+                            'autocomplete' => 'tel',
                         ]
                 ]
             )
@@ -58,7 +60,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Adresse *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'address-level1',
                         ]
                 ]
             )->add(
@@ -70,7 +73,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Appartement, étage, etc.',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'address-level2',
                         ],
                     'required' => false
                 ]
@@ -82,7 +86,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Code postal *',
-                            'maxlength' => 5
+                            'maxlength' => 5,
+                            'autocomplete' => 'postal-code',
                         ]
                 ]
             )->add(
@@ -93,7 +98,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Ville *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'city',
                         ]
                 ]
             )
@@ -114,7 +120,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Nom *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'family-name',
                         ]
                 ]
             )
@@ -126,7 +133,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'Prénom *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'email',
                         ]
                 ]
             )
@@ -138,7 +146,8 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'placeholder' => 'E-mail *',
-                            'maxlength' => 255
+                            'maxlength' => 255,
+                            'autocomplete' => 'email',
                         ]
                 ]
             )->add(
@@ -162,7 +171,7 @@ class UserType extends AbstractType
                         'label' => 'Mot de passe',
                         'label_attr' => ['class'=>'form-text text-muted'],
                         'hash_property_path' => 'password',
-                        'attr' => ['placeholder' => 'Au moins 8 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
+                        'attr' => ['placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
                     ],
                     'second_options' => [
                         'label' => 'Confirmez votre mot de passe',
@@ -170,6 +179,10 @@ class UserType extends AbstractType
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
+                    'constraints' => [
+                        new NotBlank(['message'=>'Information requise.']),
+                        new PasswordRequirements()
+                    ]
                 ]
             );
     }

@@ -106,7 +106,7 @@ class UserPaymentType extends AbstractType
                         'attr' =>
                             [
                                 'placeholder' => 'Ville *',
-                                'autocomplete' => 'address-level2',
+                                'autocomplete' => 'city',
                                 'maxlength' => 255,
                                 'disabled' => 'disabled'
                             ]

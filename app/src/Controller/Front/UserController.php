@@ -2,11 +2,8 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Product;
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\ProductRepository;
-use App\Repository\ReservationRepository;
 use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\UserManager;
@@ -15,13 +12,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
@@ -80,7 +74,7 @@ class UserController extends AbstractController
             $userManager->saveUser();
 
             // substitute the previous line (redirect response) with this one.
-            return $security->login($user, 'frontAuthenticator', 'front');
+            return $security->login($user, 'App\Security\FrontAuthenticator', 'front');
         }
 
         return $this->render('front/user/byer/edit.html.twig', [

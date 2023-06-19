@@ -186,7 +186,11 @@
                                         </td>
                                         <td class="product-name">
                                             Date de réservation : <br>
-                                            {{ cart.flatpickrDate }}<br>
+                                            {% if cart.startDate != cart.endDate %}
+                                                {{ cart.startDate }} au {{ cart.endDate }}<br>
+                                            {% else %}
+                                                {{ cart.startDate }}<br>
+                                            {% endif %}
                                             {{ cart.title }} <strong class="product-quantity">
                                                 × {{ cart.quantity }}</strong>
                                         </td>

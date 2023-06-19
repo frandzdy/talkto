@@ -43,7 +43,7 @@ class UserManager
     /**
      * Créer ou met à jour un utilisateur
      */
-    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null): bool
+    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null, $isGuess = false): bool
     {
         if ($pictureFileData) {
             $fileName = $this->fileUploadManager->uploadFile('profile_picture', $pictureFileData);
@@ -54,7 +54,7 @@ class UserManager
             $user->setPicture($pic);
         }
         // si on est un compte invité
-        if (!$user->getIsGuess() && !$user->getId()) {
+        if (!$user->getIsGuess() && !$user->getId() && $isGuess) {
             $user->setRoles([User::ROLE_GUESS]);
             $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname().$user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
@@ -64,7 +64,7 @@ class UserManager
             $this->entityManager->persist($user);
         }
         // si on n'a pas de compte stripe
-        if (!$user->getStripeCustomerId() and in_array(User::ROLE_USER, $user->getRoles())) {
+        if (!$user->getStripeCustomerId() and in_array([User::ROLE_USER, User::ROLE_GUESS], $user->getRoles())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
         } elseif(!$user->getStripeAccountId()) {

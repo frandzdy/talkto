@@ -10,9 +10,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TransactionLineRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ClaimRepository")
  */
-class TransactionLine
+class Claim
 {
     use TraitToken;
 
@@ -28,40 +28,6 @@ class TransactionLine
      * @ORM\Column(type="integer", length="11")
      */
     private ?int $quantity = null;
-
-    /**
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private ?\DateTime $startDate = null;
-
-    /**
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private ?\DateTime $endDate = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product")
-     */
-    private Product $product;
-
-    /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
-    private ?int $amountTtc = null;
-
-    /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
-    private ?int $amountTva = null;
-    /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
-    private ?int $fees = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="transactionLines")
@@ -247,7 +213,7 @@ class TransactionLine
      */
     public function canBeCancel(): bool
     {
-        return $this->getStatus()->value == TransactionLineStatus::WAITING->value
-            && $this->getStartDate() < (new \DateTime('now'));
+        return !in_array($this->getStatus()->value, [TransactionLineStatus::CANCELED->value, TransactionLineStatus::FINISHED->value])
+            && (new \DateTime('now') < $this->getStartDate());
     }
 }

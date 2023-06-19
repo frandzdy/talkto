@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @ORM\OneToOne(targetEntity=Picture::class, orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private ?Picture $picture;
+    private ?Picture $picture = null;
 
     /**
      * A propos de l'utilisateur [SELLER]

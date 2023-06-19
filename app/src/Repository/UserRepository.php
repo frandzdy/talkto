@@ -113,8 +113,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter(':interestAge', $user->getInterestAge())
             ->andWhere('(u.children = :interestChildren OR u.smoker = :interestSmoke)')
             ->setParameter(':interestSmoke', $user->getInterestSmoker())
-            ->setParameter(':interestChildren', $user->getInterestChildren())
-            ;
+            ->setParameter(':interestChildren', $user->getInterestChildren());
         // si abonné
         if ($user->getStripeStatus() === "active") {
             // les personnes qui sont parmis mes préférences d'intérêts
@@ -186,8 +185,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb = $this->_em->getRepository(Product::class)
             ->createQueryBuilder('p')
             ->join('p.author', 'u')
-    //        ->where('u.id = :userId')
-    //        ->setParameter('userId', $user->getId())
+            //        ->where('u.id = :userId')
+            //        ->setParameter('userId', $user->getId())
         ;
 
         $count = (clone $qb)->select('count(Distinct(p.id))')
@@ -208,30 +207,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function getReservations(User $user, int $offset): array
     {
+        $qb = $this->_em->getRepository(Reservation::class)
+            ->createQueryBuilder('r')
+            ->join('r.transaction', 't')
+            ->join('t.transactionLines', 'tl')
+            ->join('tl.product', 'p');
         if (in_array(['ROLE_USER'], $user->getRoles())) {
-            $qb = $this->_em->getRepository(Reservation::class)
-                ->createQueryBuilder('r')
-                ->join('r.author', 'u')
-                //          ->where('u.id = :userId')
-                //         ->setParameter('userId', $user->getId())
-            ;
+            // $qb->where('u.id = :userId');
         } else {
-            $qb = $this->_em->getRepository(Reservation::class)
-                ->createQueryBuilder('r')
-                ->join('r.transaction', 't')
-                ->join('t.transactionLines', 'tl')
-                ->join('tl.product', 'p')
-//            ->join('p.author', 'u', Join::WITH, 'u.id = :userId')
-//            ->setParameter('userId', $user->getId())
-            ;
+            // $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
         }
-
+        //$qb->setParameter('userId', $user->getId());
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
             ->getSingleScalarResult();
 
         $qb->select('r')
-            ->orderBy('r.createdAt', 'DESC')
+            ->orderBy('tl.startDate, tl.status', 'DESC')
             ->setFirstResult($offset * 5)
             ->setMaxResults(5);
 

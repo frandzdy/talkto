@@ -15,6 +15,7 @@ use Stripe\AccountLink;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
+use Stripe\Refund;
 use Stripe\StripeClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -213,12 +214,13 @@ class StripeManager
                 $amountTva = $amountTtc * 0.2;
                 $amountFees = $amountTtc * 0.1;
                 $transactionLine = (new TransactionLine())
+                    ->setToken(hash('sha256', random_bytes(32)))
                     ->setTransaction($transaction)
                     ->setProduct($product)
                     ->setQuantity($cart['quantity'])
-                    ->setAmountTtc($amountTtc)
-                    ->setAmountTva($amountTva)
-                    ->setFees($amountFees)
+                    ->setAmountTtc($amountTtc * 100)
+                    ->setAmountTva($amountTva * 100)
+                    ->setFees($amountFees * 100)
                     ->setStartDate(new \DateTime($reservationDate[0]))
                     ->setEndDate(new \DateTime($reservationDate[1]))
                     ->setStatus(TransactionLineStatus::WAITING);
@@ -229,9 +231,9 @@ class StripeManager
             }
         }
 
-        $transaction->setTotalAmountTtc($response['transactionTotalTtc'])
-        ->setTotalAmountTva($response['transactionTotalTva'])
-        ->setTotalFees($response['transactionTotalFees']);
+        $transaction->setTotalAmountTtc($response['transactionTotalTtc'] * 100)
+        ->setTotalAmountTva($response['transactionTotalTva'] * 100)
+        ->setTotalFees($response['transactionTotalFees'] * 100);
 
         return $response;
     }
@@ -255,6 +257,21 @@ class StripeManager
             $paymenIntentId,
             [
                 'amount' => $carts['totalAmount']
+            ]
+        );
+    }
+
+    /**
+     * @param TransactionLine $transactionLine
+     * @return Refund
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function refundTransactionLine(TransactionLine $transactionLine): Refund
+    {
+        return $this->stripe->refunds->create(
+            [
+                'payment_intent' => $transactionLine->getTransaction()->getPaymentIntentId(),
+                'amount' => $transactionLine->getAmountTtc() - $transactionLine->getFees(),
             ]
         );
     }

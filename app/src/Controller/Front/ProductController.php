@@ -8,7 +8,6 @@ use App\Entity\TransactionLine;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
-use App\Service\CartManager;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
