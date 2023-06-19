@@ -67,9 +67,9 @@ class CartController extends AbstractController
             ]
         );
 
-        if ($carts['products'][$token]) {
+        if (array_key_exists($token, $carts['products'])) {
             $carts['totalQuantity'] -= $carts['products'][$token]['quantity'];
-            $carts['totalAmount'] -= $carts['products'][$token]['quantity']
+            $carts['totalAmount'] -= $carts['products'][$token]['price']
                 * $carts['products'][$token]['numberDays']
                 * $carts['products'][$token]['quantity'];
             $carts['totalTva'] = $carts['totalAmount'] * 0.2;
@@ -85,8 +85,9 @@ class CartController extends AbstractController
                 'paymentIntentId' => null,
                 'transactionId' => null
             ]);
+        } else {
+            $session->set('cart', $carts);
         }
-        $session->set('cart', $carts);
 
         return $this->redirectToRoute('front_cart_index');
     }
