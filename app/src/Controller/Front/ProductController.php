@@ -173,7 +173,8 @@ class ProductController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
-            'paymentIntentId' => null
+            'paymentIntentId' => null,
+            'transactionId' => null
         ]);
         if (str_contains($flatpickrDate, 'au')) {
             $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));

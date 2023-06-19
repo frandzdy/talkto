@@ -21,7 +21,8 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'paymentIntentId' => null
+                'paymentIntentId' => null,
+                'transactionId' => null
             ]
         );
 
@@ -45,7 +46,8 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'paymentIntentId' => null
+                'paymentIntentId' => null,
+                'transactionId' => null
             ]
         );
 
@@ -107,7 +109,8 @@ class CartController extends AbstractController
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
-                'paymentIntentId' => null
+                'paymentIntentId' => null,
+                'transactionId' => null
             ]
         );
         $products = [];

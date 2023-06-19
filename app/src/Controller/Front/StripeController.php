@@ -133,7 +133,8 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
-            'paymentIntentId' => null
+            'paymentIntentId' => null,
+            'transactionId' => null
         ]);
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -190,7 +191,8 @@ class StripeController extends AbstractController
             'totalQuantity' => 0,
             'totalAmount' => 0,
             'totalTva' => 0,
-            'paymentIntentId' => null
+            'paymentIntentId' => null,
+            'transactionId' => null
         ]);
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
         $message = 'Erreur lors du paiement';
