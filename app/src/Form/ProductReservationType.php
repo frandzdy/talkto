@@ -35,20 +35,16 @@ class ProductReservationType extends AbstractType
             )->add('quantity', ChoiceType::class,
                 [
                     'label' => false,
+                    'placeholder' => '- Sélectionnez une quantité -',
                     'attr' =>
                         [
-                            'placeholder' => '4',
-                            'maxlength' => 11,
-                            'max' => $options['quantityLeft']
+                            'maxlength' => 11
                         ],
                     'constraints' =>
                         [
                             new Range(['min' => 0, 'max' => $options['quantityLeft'], 'notInRangeMessage' => ''])
                         ],
-                    'choices' => [
-                        0 => 0,
-                        1 => 1,
-                    ],
+                    'choices' => $options['choicesValue'],
                     'required' => true
                 ]
             );
@@ -57,7 +53,8 @@ class ProductReservationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'quantityLeft' => null
+            'quantityLeft' => null,
+            'choicesValue' => null
         ]);
     }
 }

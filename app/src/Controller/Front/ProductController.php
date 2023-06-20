@@ -74,9 +74,14 @@ class ProductController extends AbstractController
             'quantity' => null
         ];
         $quantityLeft = $product->getQuantity() - $product->getQuantityAllReadyReserved();
+        $choicesValue = [];
+        for($i=0; $i<=$quantityLeft; $i++) {
+            $choicesValue[] = $i;
+        }
         $options = [
             'quantityLeft' => $quantityLeft,
-            'action' => $request->getRequestUri()
+            'action' => $request->getRequestUri(),
+            'choicesValue' => $choicesValue
         ];
         $form = $this->createForm(ProductReservationType::class, $data, $options);
 
