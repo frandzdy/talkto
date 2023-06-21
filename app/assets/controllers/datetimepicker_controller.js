@@ -13,13 +13,10 @@ export default class extends Controller {
      * Initialise le datepicker
      */
     connect() {
-        const token = this.element.dataset.token;
         const disabledDates = JSON.parse(this.element.dataset.disabledDates);
         const dateNow = new Date();
         const minDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate() + 1);
         const maxDate = new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate());
-        console.log(minDate.toISOString().split('T')[0]);
-        console.log(maxDate.toISOString().split('T')[0]);
         let options = {
             mode: "range",
             minDate: minDate.toISOString().split('T')[0],
@@ -35,13 +32,10 @@ export default class extends Controller {
                 for (let i = 0; i < disabledDates.length; i++) {
                     let range = disabledDates[i];
                     if (dateString >= range.from && dateString <= range.to) {
-                        console.log(dateString + ' : IN : ' + range.from + ' - ' + range.to)
                         inRange = true;
                     } else if (dateString === range.from && range.to === undefined) {
                         inRange = true;
-                        console.log(dateString + ' : IN : ' + range.from)
                     } else {
-                        console.log(dateString + ' : NOT IN : ' + range.from + ' - ' + range.to)
                         inRange = false;
                     }
                 }

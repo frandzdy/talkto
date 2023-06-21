@@ -57,19 +57,16 @@ class ProductController extends AbstractController
      * @param string $token
      * @param ProductRepository $productRepository
      * @param Request $request
-     * @param RouterInterface $router
      * @return Response
      */
     #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
     public function productReservation(
-        string                $token,
-        ProductRepository     $productRepository,
-        Request               $request,
-        SessionInterface      $session,
-        ReservationRepository $reservationRepository,
+        string $token,
+        ProductRepository $productRepository,
+        Request $request,
+        SessionInterface $session,
         ProductManager $productManager
-    ): Response
-    {
+    ): Response {
         $product = $productRepository->findOneBy(['token' => $token]);
         $data = [
             'date' => null,
@@ -81,35 +78,11 @@ class ProductController extends AbstractController
             $choicesValue[] = $i;
         }
 
-        $disabledDates = [];
-        if ($reservations = $reservationRepository->getAvailableProducts($token)) {
-            foreach ($reservations as $reservation) {
-                /**
-                 * @var Reservation $reservation
-                 */
-                $transaction = $reservation->getTransaction();
-                foreach ($transaction->getTransactionLines() as $transactionLine) {
-                    /**
-                     * @var TransactionLine $transactionLine
-                     */
-                    if ($transactionLine->getStartDate() != $transactionLine->getEndDate()) {
-                        $disabledDates[] = [
-                            'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
-                            'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
-                        ];
-                    } else {
-                        $disabledDates[] = ['from' => ($transactionLine->getStartDate())->format('Y-m-d')];
-                    }
-                }
-            }
-        }
-
         $options = [
             'quantityLeft' => $quantityLeft,
             'action' => $request->getRequestUri(),
             'choicesValue' => $choicesValue,
-            'token' => $token,
-            'disabledDates' => $disabledDates
+            'disabledDates' => $productManager->getDisabledDatesFormProduct($token)
         ];
         $form = $this->createForm(ProductReservationType::class, $data, $options);
 
@@ -117,7 +90,7 @@ class ProductController extends AbstractController
             $data = $form->getData();
             $flatpickrDate = $data['date'];
             $quantity = $data['quantity'];
-            $productManager->addProducToCart($session, $flatpickrDate, $product, $quantity);
+            $productManager->addProductToCart($session, $flatpickrDate, $product, $quantity);
 
             return $this->json(
                 [
@@ -189,41 +162,6 @@ class ProductController extends AbstractController
         );
     }
 
-    /**
-     * Retourne-les reservations d'un produit
-     * @param string $token
-     * @param ReservationRepository $reservationRepository
-     * @return JsonResponse
-     */
-    #[Route('/produit-reservation-info/{token}', name: 'product_reservation_info', options: ['expose' => true], methods: ['GET'])]
-    public function info(string $token, ReservationRepository $reservationRepository): JsonResponse
-    {
-        $resultReservations = '';
-        $r = [];
-        if ($reservations = $reservationRepository->getAvailableProducts($token)) {
-            foreach ($reservations as $reservation) {
-                /**
-                 * @var Reservation $reservation
-                 */
-                $transaction = $reservation->getTransaction();
-                foreach ($transaction->getTransactionLines() as $transactionLine) {
-                    /**
-                     * @var TransactionLine $transactionLine
-                     */
-                    if ($transactionLine->getStartDate() != $transactionLine->getEndDate()) {
-                        $r[] = [
-                            'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
-                            'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
-                        ];
-                    } else {
-                        $r[] = ['from' => ($transactionLine->getStartDate())->format('Y-m-d')];
-                    }
-                }
-            }
-        }
-        return $this->json(['response' => $r]);
-    }
-
     #[Route('/ajout-produit', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
     public function addProductToCart(Request $request, EntityManagerInterface $em, SessionInterface $session, ProductManager $productManager): JsonResponse
     {
@@ -231,7 +169,7 @@ class ProductController extends AbstractController
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $quantity = $request->request->get('quantity');
         $flatpickrDate = $request->request->get('startDate');
-        $cart = $productManager->addProducToCart($session, $flatpickrDate, $product, $quantity);
+        $cart = $productManager->addProductToCart($session, $flatpickrDate, $product, $quantity);
 
         return $this->json(
             [
@@ -241,6 +179,4 @@ class ProductController extends AbstractController
             ]
         );
     }
-
-
 }

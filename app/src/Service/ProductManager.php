@@ -5,9 +5,12 @@ namespace App\Service;
 use App\Entity\Genre;
 use App\Entity\Picture;
 use App\Entity\Product;
+use App\Entity\Reservation;
+use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ProductStatus;
 use App\Repository\PictureRepository;
+use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +23,8 @@ class ProductManager
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly FileUploadManager      $fileUploadManager,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly ReservationRepository $reservationRepository
     )
     {
     }
@@ -159,5 +163,37 @@ class ProductManager
         $session->set('cart', $cart);
 
         return $cart;
+    }
+
+    /**
+     * @param string $token
+     * @return array
+     */
+    public function getDisabledDatesFormProduct(string $token): array
+    {
+        $disabledDates = [];
+        if ($reservations = $this->reservationRepository->getAvailableProducts($token)) {
+            foreach ($reservations as $reservation) {
+                /**
+                 * @var Reservation $reservation
+                 */
+                $transaction = $reservation->getTransaction();
+                foreach ($transaction->getTransactionLines() as $transactionLine) {
+                    /**
+                     * @var TransactionLine $transactionLine
+                     */
+                    if ($transactionLine->getStartDate() != $transactionLine->getEndDate()) {
+                        $disabledDates[] = [
+                            'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
+                            'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
+                        ];
+                    } else {
+                        $disabledDates[] = ['from' => ($transactionLine->getStartDate())->format('Y-m-d')];
+                    }
+                }
+            }
+        }
+
+        return $disabledDates;
     }
 }
