@@ -112,25 +112,16 @@ class ProductManager
     }
 
     /**
-     * @param SessionInterface $session
+     * @param array $cart
      * @param mixed $flatpickrDate
      * @param Product|null $product
      * @param mixed $quantity
      * @return array
      */
-    public function addProductToCart(mixed $flatpickrDate, ?Product $product, mixed $quantity): array
+    public function addProductToCart(array $cart, mixed $flatpickrDate, ?Product $product, mixed $quantity): array
     {
         $totalQuantity = 0;
         $totalAmount = 0;
-        $cart = $this->session->get('cart', [
-            'products' => [],
-            'totalQuantity' => 0,
-            'totalAmount' => 0,
-            'totalTva' => 0,
-            'totalFees' => 0,
-            'paymentIntentId' => null,
-            'transactionId' => null
-        ]);
 
         if (str_contains($flatpickrDate, 'au')) {
             $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
@@ -160,8 +151,6 @@ class ProductManager
         $cart['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
         $cart['totalTva'] = $totalAmount * 0.2;
         $cart['totalFees'] = $totalAmount * 0.1;
-
-        $this->session->set('cart', $cart);
 
         return $cart;
     }

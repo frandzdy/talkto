@@ -66,7 +66,8 @@ class ProductController extends AbstractController
         string $token,
         ProductRepository $productRepository,
         Request $request,
-        ProductManager $productManager
+        ProductManager $productManager,
+        SessionInterface $session
     ): Response {
         $product = $productRepository->findOneBy(['token' => $token]);
         $data = [
@@ -91,7 +92,19 @@ class ProductController extends AbstractController
             $data = $form->getData();
             $flatpickrDate = $data['date'];
             $quantity = $data['quantity'];
-            $productManager->addProductToCart($flatpickrDate, $product, $quantity);
+            $cart = $session->get('cart', [
+                'products' => [],
+                'totalQuantity' => 0,
+                'totalAmount' => 0,
+                'totalTva' => 0,
+                'totalFees' => 0,
+                'paymentIntentId' => null,
+                'transactionId' => null
+            ]);
+
+            $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
+
+            $session->set('cart', $cart);
 
             return $this->json(
                 [
@@ -165,14 +178,34 @@ class ProductController extends AbstractController
         );
     }
 
+    /**
+     * Ajout un produit dans le panier
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param ProductManager $productManager
+     * @param SessionInterface $session
+     * @return JsonResponse
+     */
     #[Route('/ajout-produit', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
-    public function addProductToCart(Request $request, EntityManagerInterface $em, ProductManager $productManager): JsonResponse
+    public function addProductToCart(Request $request, EntityManagerInterface $em, ProductManager $productManager, SessionInterface $session): JsonResponse
     {
         $token = $request->request->get('token');
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $quantity = $request->request->get('quantity');
         $flatpickrDate = $request->request->get('startDate');
-        $cart = $productManager->addProductToCart($flatpickrDate, $product, $quantity);
+        $cart = $session->get('cart', [
+            'products' => [],
+            'totalQuantity' => 0,
+            'totalAmount' => 0,
+            'totalTva' => 0,
+            'totalFees' => 0,
+            'paymentIntentId' => null,
+            'transactionId' => null
+        ]);
+        $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
+
+        $session->get('cart', $cart);
 
         return $this->json(
             [
