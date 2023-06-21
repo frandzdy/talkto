@@ -24,6 +24,7 @@ class ProductController extends AbstractController
 {
     /**
      * Affiche un produit en prévisualisation
+     *
      * @param string $token
      * @param ProductRepository $productRepository
      * @return Response
@@ -57,6 +58,7 @@ class ProductController extends AbstractController
      * @param string $token
      * @param ProductRepository $productRepository
      * @param Request $request
+     * @param $productManager $productManager
      * @return Response
      */
     #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
@@ -64,7 +66,6 @@ class ProductController extends AbstractController
         string $token,
         ProductRepository $productRepository,
         Request $request,
-        SessionInterface $session,
         ProductManager $productManager
     ): Response {
         $product = $productRepository->findOneBy(['token' => $token]);
@@ -90,7 +91,7 @@ class ProductController extends AbstractController
             $data = $form->getData();
             $flatpickrDate = $data['date'];
             $quantity = $data['quantity'];
-            $productManager->addProductToCart($session, $flatpickrDate, $product, $quantity);
+            $productManager->addProductToCart($flatpickrDate, $product, $quantity);
 
             return $this->json(
                 [
@@ -163,13 +164,13 @@ class ProductController extends AbstractController
     }
 
     #[Route('/ajout-produit', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
-    public function addProductToCart(Request $request, EntityManagerInterface $em, SessionInterface $session, ProductManager $productManager): JsonResponse
+    public function addProductToCart(Request $request, EntityManagerInterface $em, ProductManager $productManager): JsonResponse
     {
         $token = $request->request->get('token');
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $quantity = $request->request->get('quantity');
         $flatpickrDate = $request->request->get('startDate');
-        $cart = $productManager->addProductToCart($session, $flatpickrDate, $product, $quantity);
+        $cart = $productManager->addProductToCart($flatpickrDate, $product, $quantity);
 
         return $this->json(
             [

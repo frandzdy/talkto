@@ -24,10 +24,9 @@ class ProductManager
         private readonly EntityManagerInterface $entityManager,
         private readonly FileUploadManager      $fileUploadManager,
         private readonly LoggerInterface $logger,
-        private readonly ReservationRepository $reservationRepository
-    )
-    {
-    }
+        private readonly ReservationRepository $reservationRepository,
+        private readonly SessionInterface $session
+    ) {}
 
     /**
      * Retourne un user prêt pour la création soit byer soit seller
@@ -71,14 +70,16 @@ class ProductManager
     /**
      * Supprime une photo du compte utilisateur serveur et bdd
      */
-    public function deleteProductPicture(Product $product): bool
+    public function deleteProductPicture(Product $product, Picture $pictureToRemove): bool
     {
         try {
             // on supprime le fichier du serveur du compte
             foreach ($product->getPictures() as $picture) {
-                $product->removePicture($picture);
-                $this->fileUploadManager->removeFile('product_picture', $picture->getName());
-                $this->entityManager->remove($picture);
+                if ($picture === $pictureToRemove && $product->getPictures()->contains($pictureToRemove)) {
+                    $product->removePicture($picture);
+                    $this->fileUploadManager->removeFile('product_picture', $picture->getName());
+                    $this->entityManager->remove($picture);
+                }
             }
 
             $this->entityManager->flush();
@@ -117,11 +118,11 @@ class ProductManager
      * @param mixed $quantity
      * @return array
      */
-    public function addProductToCart(SessionInterface $session, mixed $flatpickrDate, ?Product $product, mixed $quantity): array
+    public function addProductToCart(mixed $flatpickrDate, ?Product $product, mixed $quantity): array
     {
         $totalQuantity = 0;
         $totalAmount = 0;
-        $cart = $session->get('cart', [
+        $cart = $this->session->get('cart', [
             'products' => [],
             'totalQuantity' => 0,
             'totalAmount' => 0,
@@ -160,7 +161,7 @@ class ProductManager
         $cart['totalTva'] = $totalAmount * 0.2;
         $cart['totalFees'] = $totalAmount * 0.1;
 
-        $session->set('cart', $cart);
+        $this->session->set('cart', $cart);
 
         return $cart;
     }
