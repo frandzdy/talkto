@@ -24,7 +24,7 @@ class ProductReservationType extends AbstractType
                             'placeholder' => 'Définissez votre date',
                             'maxlength' => 11,
                             'data-controller' => 'datetimepicker',
-                            'data-disabled-date' => json_encode($options['disabledDates']),
+                            'data-disabled-dates' => json_encode($options['disabledDates']),
                             'class' => 'text-center'
                         ],
                     'constraints' =>

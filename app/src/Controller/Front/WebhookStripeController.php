@@ -86,7 +86,7 @@ class WebhookStripeController extends AbstractController
                 $reservation = (new Reservation())
                     ->setTransaction($transaction)
                     ->setToken(hash('sha256', random_bytes(32)))
-                    ->setStatus(ReservationStatus::VALIDATE)
+                    ->setStatus(ReservationStatus::PENDING)
                     ->setAuthor($transaction->getAuthor());
                 $em->persist($reservation);
                 $em->flush();

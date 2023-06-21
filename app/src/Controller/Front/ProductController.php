@@ -3,12 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Entity\Product;
-use App\Entity\Reservation;
-use App\Entity\TransactionLine;
 use App\Form\ProductType;
 use App\Form\ProductReservationType;
 use App\Repository\ProductRepository;
-use App\Repository\ReservationRepository;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProductController extends AbstractController

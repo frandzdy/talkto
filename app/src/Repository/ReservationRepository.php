@@ -6,6 +6,7 @@
     use App\Entity\Reservation;
     use App\Entity\User;
     use App\Enum\ReservationStatus;
+    use App\Enum\TransactionLineStatus;
     use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
     use Doctrine\Persistence\ManagerRegistry;
     
@@ -79,7 +80,6 @@
          */
         public function getAvailableProducts(string $token): array
         {
-            $minDate = (new \DateTime('now'));
             $maxDate = (new \DateTime('now'))->modify('+1 year');
 
             return $this->createQueryBuilder('r')
@@ -88,12 +88,12 @@
                 ->join('tl.product', 'p')
                 ->where('p.token = :token')
                 ->andWhere('r.status = :reservationStatus')
-                ->andWhere('tl.startDate >= :startDate')
+                ->andWhere('tl.status IN (:transactionLineStatus)')
                 ->andWhere('tl.endDate <= :endDate')
 
                 ->setParameter('token', $token)
-                ->setParameter('reservationStatus', ReservationStatus::VALIDATE->value)
-                ->setParameter('startDate', $minDate)
+                ->setParameter('reservationStatus', ReservationStatus::PENDING->value)
+                ->setParameter('transactionLineStatus', [TransactionLineStatus::WAITING->value, TransactionLineStatus::VALIDATE->value])
                 ->setParameter('endDate', $maxDate)
                 ->getQuery()
                 ->getResult();

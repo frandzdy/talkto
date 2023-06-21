@@ -24,8 +24,7 @@ class ProductManager
         private readonly EntityManagerInterface $entityManager,
         private readonly FileUploadManager      $fileUploadManager,
         private readonly LoggerInterface $logger,
-        private readonly ReservationRepository $reservationRepository,
-        private readonly SessionInterface $session
+        private readonly ReservationRepository $reservationRepository
     ) {}
 
     /**
