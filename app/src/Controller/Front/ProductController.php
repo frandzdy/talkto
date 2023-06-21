@@ -131,6 +131,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/produit/supprimer/{token}', name: 'product_delete', methods: ['POST'])]
+    #[IsGranted("ROLE_SELLER")]
     public function delete(string $token, ProductRepository $productRepository, ProductManager $productManager): Response
     {
         $product = $productRepository->findOneBy(['token' => $token]);
@@ -153,6 +154,7 @@ class ProductController extends AbstractController
      * Retourne le html correspondant à liste des produits
      */
     #[Route('/produit-mise-a-jour-liste', name: 'product_update_list', options: ["expose" => true], methods: ['GET'])]
+    #[IsGranted("ROLE_SELLER")]
     public function productUpdateList(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findBy(['user' => $this->getUser()]);
