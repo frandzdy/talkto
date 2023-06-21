@@ -72,4 +72,30 @@
                 'page' => $offset + 1,
             ];
         }
+
+        /**
+         * @param string $token
+         * @return array
+         */
+        public function getAvailableProducts(string $token): array
+        {
+            $minDate = (new \DateTime('now'));
+            $maxDate = (new \DateTime('now'))->modify('+1 year');
+
+            return $this->createQueryBuilder('r')
+                ->join('r.transaction', 't')
+                ->join('t.transactionLines', 'tl')
+                ->join('tl.product', 'p')
+                ->where('p.token = :token')
+                ->andWhere('r.status = :reservationStatus')
+                ->andWhere('tl.startDate >= :startDate')
+                ->andWhere('tl.endDate <= :endDate')
+
+                ->setParameter('token', $token)
+                ->setParameter('reservationStatus', ReservationStatus::VALIDATE->value)
+                ->setParameter('startDate', $minDate)
+                ->setParameter('endDate', $maxDate)
+                ->getQuery()
+                ->getResult();
+        }
     }

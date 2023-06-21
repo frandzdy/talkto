@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ProductManager
 {
@@ -103,5 +104,60 @@ class ProductManager
          */
         $this->entityManager->remove($product);
         $this->saveProduct();
+    }
+
+    /**
+     * @param SessionInterface $session
+     * @param mixed $flatpickrDate
+     * @param Product|null $product
+     * @param mixed $quantity
+     * @return array
+     */
+    public function addProductToCart(SessionInterface $session, mixed $flatpickrDate, ?Product $product, mixed $quantity): array
+    {
+        $totalQuantity = 0;
+        $totalAmount = 0;
+        $cart = $session->get('cart', [
+            'products' => [],
+            'totalQuantity' => 0,
+            'totalAmount' => 0,
+            'totalTva' => 0,
+            'totalFees' => 0,
+            'paymentIntentId' => null,
+            'transactionId' => null
+        ]);
+
+        if (str_contains($flatpickrDate, 'au')) {
+            $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
+            $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+
+        } else {
+            $startDate = new \DateTimeImmutable($flatpickrDate);
+            $endDate = $startDate;
+        }
+        $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+        $cart['products'][$product->getToken()] = [
+            'caution' => $product->getCaution(),
+            'price' => $product->getAmount(),
+            'quantity' => $quantity,
+            'flatpickrDate' => $flatpickrDate,
+            'startDate' => $startDate->format('d/m/Y'),
+            'endDate' => $endDate->format('d/m/Y'),
+            'numberDays' => $numberDays,
+            'pictureName' => $product->getPictures()->first()->getName(),
+            'title' => $product->getTitle()
+        ];
+        foreach ($cart['products'] as $item) {
+            $totalQuantity += (int)$item['quantity'];
+            $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
+        }
+        $cart['totalQuantity'] = $totalQuantity;
+        $cart['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
+        $cart['totalTva'] = $totalAmount * 0.2;
+        $cart['totalFees'] = $totalAmount * 0.1;
+
+        $session->set('cart', $cart);
+
+        return $cart;
     }
 }

@@ -21,9 +21,11 @@ class ProductReservationType extends AbstractType
                     'label' => false,
                     'attr' =>
                         [
-                            'placeholder' => 'jj/mm/aaaa',
+                            'placeholder' => 'Définissez votre date',
                             'maxlength' => 11,
                             'data-controller' => 'datetimepicker',
+                            'data-token' => $options['token'],
+                            'data-disabled-date' => json_encode($options['disabledDates']),
                             'class' => 'text-center'
                         ],
                     'constraints' =>
@@ -38,11 +40,11 @@ class ProductReservationType extends AbstractType
                     'placeholder' => '- Sélectionnez une quantité -',
                     'attr' =>
                         [
-                            'maxlength' => 11
+                            'class' => 'text-center'
                         ],
                     'constraints' =>
                         [
-                            new Range(['min' => 0, 'max' => $options['quantityLeft'], 'notInRangeMessage' => ''])
+                            new Range(['min' => 1, 'max' => $options['quantityLeft'], 'notInRangeMessage' => ''])
                         ],
                     'choices' => $options['choicesValue'],
                     'required' => true
@@ -54,7 +56,9 @@ class ProductReservationType extends AbstractType
     {
         $resolver->setDefaults([
             'quantityLeft' => null,
-            'choicesValue' => null
+            'choicesValue' => null,
+            'token' => null,
+            'disabledDates' => null,
         ]);
     }
 }
