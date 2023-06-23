@@ -5,32 +5,36 @@
         {% block title %}Bienvenue sur SPAMI{% endblock %}
         {% block accroche %}Bienvenue sur SPAMI{% endblock %}
         {% block body %}
-<tr>
-    <td style="padding-top:20px;">
-        <p>
-        <h1>Bonjour,</h1>
-        </p>
-        <p>
-            {{ user.lastname ~ ' ' ~ user.firstname }}
-        </p>
-        <p>
-            Nous vous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Spami.
-        </p>
-        <p>
-            Dans votre espace, vous pourrez configurer votre compte, y ajoute un abonnement ouvrant droit à des nouvelles
-            fonctionnalités de recherche et de future nouvelle options qui viendront enrichir votre expérience.
-            Vous pouvez souscrire à un abonnement, le modifier ou le résilier quand vous le souhaitez.
-        </p>
-        <p>
-            Cordialement,<br/>
-            L'équipe SPAMI<br/>
-            <a title="Site Spami" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
-        </p>
-        <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre
-            directement.</p>
-    </td>
-</tr>
-{% endblock %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>
+                    <h1>Bonjour,</h1>
+                    </p>
+                    <p>
+                        {{ user.lastname ~ ' ' ~ user.firstname }}
+                    </p>
+                    <p>
+                        Nous vous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Spami.
+                    </p>
+                    <p>
+                        Dans votre espace, vous pourrez configurer votre compte, y ajoute un abonnement ouvrant droit à
+                        des nouvelles
+                        fonctionnalités de recherche et de future nouvelle options qui viendront enrichir votre
+                        expérience.
+                        Vous pouvez souscrire à un abonnement, le modifier ou le résilier quand vous le souhaitez.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe SPAMI<br/>
+                        <a title="Site Spami"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre
+                        directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
     {% endembed %}
 {% endblock %}
 

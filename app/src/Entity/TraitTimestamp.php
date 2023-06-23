@@ -3,32 +3,37 @@
     namespace App\Entity;
     
     use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Validator\Constraints as Assert;
 
     /**
-     *
+     * Gère les champs date de création et de mise à jour
      */
     trait TraitTimestamp
     {
         /**
-         * @ORM\Column(type="datetime", nullable=true)
+         * @var \DateTime|null
          */
-        private \DateTime $createdAt;
-    
+        #[ORM\Column()]
+        #[Assert\DateTime()]
+        private ?\DateTime $createdAt = null;
         /**
-         * @ORM\Column(type="datetime", nullable=true)
+         * @var \DateTime|null
          */
-        private \DateTime $updatedAt;
-    
+        #[ORM\Column()]
+        #[Assert\DateTime()]
+        private ?\DateTime $updatedAt = null;
+
         /**
-         * @return \DateTime
+         * @return \DateTime|null
          */
         public function getCreatedAt(): ?\DateTime
         {
             return $this->createdAt;
         }
-    
+
         /**
-         * @param \DateTime $createdAt
+         * @param \DateTime|null $createdAt
+         * @return User|Message|Notification|Product|Reservation|TraitTimestamp|Transaction
          */
         public function setCreatedAt(?\DateTime $createdAt): self
         {
@@ -36,9 +41,9 @@
             
             return $this;
         }
-    
+
         /**
-         * @return \DateTime
+         * @return \DateTime|null
          */
         public function getUpdatedAt(): ?\DateTime
         {
@@ -47,7 +52,7 @@
 
         /**
          * @param \DateTime|null $updatedAt
-         * @return User|Message|Notification|TraitTimestamp
+         * @return User|Message|Notification|Product|Reservation|TraitTimestamp|Transaction
          */
         public function setUpdatedAt(?\DateTime $updatedAt): self
         {

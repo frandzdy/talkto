@@ -2,7 +2,7 @@
     
     namespace App\Model;
     
-    use App\Entity\ContactSubject;
+    use App\Enum\ContactSubject;
     use Symfony\Component\Validator\Constraints as Assert;
 
     class ContactModel

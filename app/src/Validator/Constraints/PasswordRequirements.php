@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Annotation
  */
-class PasswordRequirements extends Constraint
+#[\Attribute] class PasswordRequirements extends Constraint
 {
     public string $message = 'Mot de passe trop simple (minimum 10 caractères, avec au moins une majuscule, un chiffre et un symbole).';
 

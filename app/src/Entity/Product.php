@@ -11,86 +11,82 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=ProductRepository::class)
- * @ORM\Table(indexes={
- *     @ORM\Index(name="ecommerce_products", columns={"status", "description", "title"})
- * })
- */
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Index(columns: ["status", "description", "title"], name: "ecommerce_products")]
+#[ORM\HasLifecycleCallbacks()]
 class Product
 {
     use TraitToken, TraitAuthor, TraitTimestamp;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="float", scale=2)
-     * @Assert\NotBlank(message="Information requise.")
-     *
+     * @var float|null
      */
+    #[ORM\Column(scale: 2)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?float $amount = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Information requise.")
+     * @var string|null
      */
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $description = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Picture::class)
+     * @var ArrayCollection|Collection
      */
-    private Collection $pictures;
+    #[ORM\ManyToMany(targetEntity: Picture::class)]
+    private Collection|ArrayCollection $pictures;
 
     /**
      * @var UploadedFile[]
-     * @Assert\All(
-     *     {@Assert\File(maxSize=5242880, mimeTypes="image/*", maxSizeMessage="Document trop lourd.", mimeTypesMessage="Format Image uniquement autorisé.")}
-     * )
-     * @Assert\Count(max=5, maxMessage="5 fichiers maximums.")
      */
+    #[Assert\All([new Assert\File(maxSize: 5242880, mimeTypes: "image/*", maxSizeMessage: "Document trop lourd.", mimeTypesMessage: "Format Image uniquement autorisé.")])]
+    #[Assert\Count(max: 5, maxMessage: "5 fichiers maximums.")]
     public array $uploadedPictures = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Information requise.")
+     * @var string|null
      */
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $title = null;
 
     /**
-     * @ORM\Column(type="smallint", nullable=false, enumType=ProductStatus::class)
+     * @var ProductStatus
      */
-    private ?ProductStatus $status;
+    #[ORM\Column(type: "smallint", enumType: ProductStatus::class)]
+    private ProductStatus $status;
 
     /**
-     * @var float|null
-     * @ORM\Column(type="float", length=11, scale=2)
-     * @Assert\NotBlank(message="Information requise.")
+     * @var float
      */
-    private ?float $caution = null;
+    #[ORM\Column(length: 11)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private float $caution;
+
+    /**
+     * @var int
+     */
+    #[ORM\Column(length: 11)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private int $quantity;
 
     /**
      * @var int|null
-     * @ORM\Column(type="integer", length=11)
-     * @Assert\NotBlank(message="Information requise.")
      */
-    private ?int $quantity = null;
-
-    /**
-     * @var int|null
-     * @ORM\Column(type="integer", length=11)
-     * @Assert\NotBlank(message="Information requise.")
-     */
+    #[ORM\Column(length: 11)]
     private ?int $quantityAllReadyReserved = null;
 
     /**
-     * @ORM\Column(type="smallint", nullable=false, enumType=ProductCategory::class)
-     * @Assert\NotBlank(message="Information requise.")
+     * @var ProductCategory
      */
+    #[ORM\Column(type: "smallint", enumType: ProductCategory::class)]
     private ProductCategory $category;
 
     public function __construct()
@@ -187,17 +183,17 @@ class Product
     }
 
     /**
-     * @return float|null
+     * @return float
      */
-    public function getCaution(): ?float
+    public function getCaution(): float
     {
         return $this->caution;
     }
 
     /**
-     * @param float|null $caution
+     * @param float $caution
      */
-    public function setCaution(?float $caution): self
+    public function setCaution(float $caution): self
     {
         $this->caution = $caution;
 

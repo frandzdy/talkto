@@ -2,8 +2,8 @@
     
     namespace App\Form;
     
-    use App\Entity\ContactSubject;
     use App\Entity\WebsiteContactSubject;
+    use App\Enum\ContactSubject;
     use App\Model\ContactModel;
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

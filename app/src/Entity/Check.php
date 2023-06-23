@@ -6,35 +6,31 @@ use App\Enum\CheckStatus;
 use App\Enum\ClaimStatus;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
+use App\Repository\CheckRepository;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CheckRepository")
- */
+#[ORM\Entity(repositoryClass: CheckRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Check
 {
     use TraitToken;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity=TransactionLine::class)
-     */
+    #[ORM\OneToOne(targetEntity: TransactionLine::class)]
     private TransactionLine $transactionLine;
 
-    /**
-     * @var
-     * @ORM\Column(type="smallint", enumType=ClaimStatus::class)
-     */
-    private ClaimStatus $status;
+    #[ORM\Column(type: "smallint", enumType: CheckStatus::class)]
+    private CheckStatus $status;
+
+    #[ORM\Column]
+    private \DateTime $startDate;
 
     public function getId(): ?int
     {
@@ -60,11 +56,22 @@ class Check
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getStartDate(): ?\DateTime
+    public function getStartDate(): \DateTime
     {
         return $this->startDate;
+    }
+
+    /**
+     * @param \DateTime $startDate
+     * @return $this
+     */
+    public function setStartDate(\DateTime $startDate): self
+    {
+         $this->startDate = $startDate;
+
+         return $this;
     }
 
     /**
@@ -78,7 +85,7 @@ class Check
     /**
      * @param mixed $status
      */
-    public function setStatus(?CheckStatus $status): self
+    public function setStatus(CheckStatus $status): self
     {
         $this->status = $status;
 

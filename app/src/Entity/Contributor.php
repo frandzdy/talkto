@@ -7,28 +7,24 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AssertQualifelec;
+use App\Validator\Constraints as AssertRented;
 
 /**
  * Utilisateur de l'administration
  *
- * @ORM\Entity(repositoryClass="App\Repository\ContributorRepository")
- * @ORM\Table()
- * @UniqueEntity(fields={"email"}, message="E-mail déjà enregistré.")
  */
+#[ORM\Entity(repositoryClass: ContributorRepository::class)]
+#[ORM\Table]
+#[UniqueEntity(fields: ["email"], message: "E-mail déjà enregistré.")]
 class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
 
-    /**
-     * Id de l'utilisateur
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     /**
      * Nom complet de l'utilisateur
@@ -41,30 +37,34 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Email de l'utilisateur
      *
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Information requise.")
-     * @Assert\Email(message="Email incorrect.")
+     * @var string|null
      */
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: "Information erronée.",
+        invisibleMessage: "Information erronée.",
+        mixedNumbersMessage: "Information erronée.",
+        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
     private ?string $email = null;
 
     /**
      * Mot de passe
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     /**
      * Mot de passe en clair (non persisté)
-     *
-     * @AssertQualifelec\PasswordRequirements()
      */
+    #[AssertRented\PasswordRequirements()]
     public ?string $plainPassword = null;
 
     /**
      * Niveau de droits
-     *
-     * @ORM\Column(type="string", length=255)
      */
     private ?string $role = null;
 

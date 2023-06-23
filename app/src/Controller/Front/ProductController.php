@@ -101,6 +101,7 @@ class ProductController extends AbstractController
             $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
 
             $session->set('cart', $cart);
+            $this->addFlash('success', 'Produit(s) ajouté(s)');
 
             return $this->json(
                 [
@@ -183,7 +184,7 @@ class ProductController extends AbstractController
      * @param SessionInterface $session
      * @return JsonResponse
      */
-    #[Route('/ajout-produit', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
+    #[Route('/ajout-produit/panier', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
     public function addProductToCart(Request $request, EntityManagerInterface $em, ProductManager $productManager, SessionInterface $session): JsonResponse
     {
         $token = $request->request->get('token');

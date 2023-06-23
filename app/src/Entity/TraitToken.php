@@ -10,17 +10,24 @@
     trait TraitToken
     {
         /**
-         * @ORM\Column(type="string", length=255)
+         * @var string
          */
-        private ?string $token;
-    
-    
-        public function getToken(): ?string
+        #[ORM\Column(length: 255)]
+        private string $token;
+
+        /**
+         * @return string
+         */
+        public function getToken(): string
         {
             return $this->token;
         }
-        
-        public function setToken(?string $token): self
+
+        /**
+         * @param string $token
+         * @return TraitToken|Check|Claim|Discussion|Media|Message|Picture|Product|Reservation|Transaction|TransactionLine|User|Video
+         */
+        public function setToken(string $token): self
         {
             $this->token = $token;
     
@@ -31,6 +38,8 @@
          * @ORM\PrePersist
          * @ORM\PreUpdate
          */
+        #[ORM\PrePersist]
+        #[ORM\PreUpdate]
         private function setTokenValue() :void
         {
             echo '<pre>';

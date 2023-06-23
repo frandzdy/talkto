@@ -9,17 +9,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AssertQualifelec;
+use App\Validator\Constraints as AssertRented;
 
-/**
- * @ORM\Table()
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="E-mail déjà enregistré.")
- * @ORM\Table(indexes={
- *     @ORM\Index(name="ecommerce_user", columns={"email", "firstname", "lastname", "created_at"})
- * })
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity()]
+#[ORM\Index(columns: ["email", "firstname", "lastname", "created_at"], name: "ecommerce_user")]
+#[UniqueEntity(fields: ["email"], message: "E-mail déjà enregistré.")]
+#[ORM\HasLifecycleCallbacks()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TraitTimestamp, TraitToken, TraitIntro;
@@ -28,27 +23,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ROLE_GUESS = 'ROLE_GUESS';
     const ROLE_SELLER = 'ROLE_SELLER';
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     /**
      * L'e-mail de l'utilisateur
-     *
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank(message="Information requise.")
-     * @Assert\Email(message="Format E-mail incorrect.")
-     * @Assert\NoSuspiciousCharacters(
-     *     restrictionLevel="805306368",
-     *     restrictionLevelMessage="Information erronée.",
-     *     hiddenOverlayMessage="Information erronée.",
-     *     invisibleMessage="Information invisible dectectée.",
-     *     mixedNumbersMessage="Information erronée."
-     * )
      */
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: "Information erronée.",
+        invisibleMessage: "Information erronée.",
+        mixedNumbersMessage: "Information erronée.",
+        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
     private ?string $email = null;
 
     /**
@@ -56,6 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(type="json")
      */
+    #[ORM\Column(type: "json")]
     private ?array $roles = [];
 
     /**
@@ -64,6 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Information requise.")
      */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $lastname = null;
 
     /**
@@ -72,6 +67,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Information requise.")
      */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $firstname = null;
 
     /**
@@ -80,115 +77,112 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="smallint", nullable=false, enumType=Civility::class)
      * @Assert\NotBlank(message="Information requise.")
      */
+    #[ORM\Column(type: "smallint", enumType: Civility::class)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private Civility $genre;
 
     /**
      * Ville de l'utilisateur
-     * @ORM\Column(type="text", length= 255, nullable=false)
-     * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $city = null;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private string $city;
 
     /**
      * Le genre de l'utilisateur
-     *
-     * @ORM\Column(type="text", length= 255, nullable=false)
-     * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $address = null;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private string $address;
 
     /**
      * Le genre de l'utilisateur
-     *
-     * @ORM\Column(type="text", length= 255, nullable=true)
      */
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $additionalAddress = null;
 
     /**
      * Le genre de l'utilisateur
-     *
-     * @ORM\Column(type="text", length=5, nullable=false)
-     * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $zipCode = null;
+    #[ORM\Column(length: 5)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private string $zipCode;
 
     /**
      * Le genre de l'utilisateur
-     *
-     * @ORM\Column(type="text", length=20, nullable=false)
-     * @Assert\NotBlank(message="Information requise.")
      */
-    private ?string $phone = null;
+    #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message: "Information requise.")]
+    private string $phone;
 
     /**
      * Pays
-     *
-     * @ORM\ManyToOne(targetEntity=Country::class)
-     * @Assert\Valid()
      */
-    private ?Country $country = null;
+    #[ORM\ManyToOne(targetEntity: Country::class)]
+    private Country $country;
 
     /**
-     * Toutes les photos de l'utilisateur
-     *
-     * @ORM\OneToOne(targetEntity=Picture::class, orphanRemoval=true, cascade={"persist", "remove"})
+     * La photo de l'utilisateur
      */
-    private ?Picture $picture = null;
+    #[ORM\OneToOne(targetEntity: Picture::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    private Picture $picture;
 
     /**
      * A propos de l'utilisateur [SELLER]
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: "text", nullable: true)]
     private ?string $description;
 
     /**
      *  Mot de passe
-     *
-     * @ORM\Column(type="string", length=255)
      */
-    private ?string $password;
+    #[ORM\Column(length: 255)]
+    private string $password;
 
     /**
      * Mot de passe en clair de l'utilisateur
-     * @AssertQualifelec\PasswordRequirements()
      */
+    #[AssertRented\PasswordRequirements()]
     private ?string $plainPassword = null;
 
     /**
      * Latitude de la position de l'utilisateur
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(length: 15)]
     private ?string $lat = null;
 
     /**
      * Longitude de la position de l'utilisateur
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(length: 15)]
     private ?string $lon = null;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
+    #[ORM\Column(length: 40)]
     private ?string $stripeCustomerId = null;
 
     # $stripeAccountId [SELLER]
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */    private ?string $stripeAccountId = null;
+     * @var string|null
+     */
+    #[ORM\Column(length: 40)]
+    private ?string $stripeAccountId = null;
 
     # si le compte est actif [SELLER]
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool|null
      */
+    #[ORM\Column(type: "boolean")]
     private ?bool $isStripeAccountActive = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool|null
      */
+    #[ORM\Column(type: "boolean")]
     private ?bool $isGuess = false;
+
     public function getFullname(): ?string
     {
         return sprintf('%s %s', strtoupper($this->lastname), $this->firstname);
@@ -409,9 +403,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getAddress(): ?string
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -419,7 +413,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string|null $address
      */
-    public function setAddress(?string $address): self
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
@@ -447,15 +441,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string|null
      */
-    public function getZipCode(): ?string
+    public function getZipCode(): string
     {
         return $this->zipCode;
     }
 
     /**
-     * @param string|null $zipCode
+     * @param string $zipCode
      */
-    public function setZipCode(?string $zipCode): void
+    public function setZipCode(string $zipCode): void
     {
         $this->zipCode = $zipCode;
     }
@@ -463,17 +457,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string|null
      */
-    public function getPhone(): ?string
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
     /**
-     * @param string|null $phone
+     * @param string $phone
+     * @return $this
      */
-    public function setPhone(?string $phone): void
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
     }
 
     /**

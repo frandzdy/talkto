@@ -1,0 +1,35 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block content %}
+    <!-- login Area Strat-->
+    <section class="login-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="basic-login">
+                        {% for flash_error in app.flashes('reset_password_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+                        <h1>Reset your password</h1>
+
+                        {{ form_start(requestForm) }}
+                        {{ form_row(requestForm.email) }}
+                        <div>
+                            <small>
+                                Enter your email address and we will send you a
+                                link to reset your password.
+                            </small>
+                        </div>
+
+                        <button class="os-btn">Send password reset email</button>
+                        {{ form_end(requestForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- login Area End-->
+
+{% endblock %}

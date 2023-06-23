@@ -5,73 +5,77 @@ namespace App\Entity;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use App\Repository\ProductRepository;
+use App\Repository\TransactionLineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TransactionLineRepository")
- */
+#[ORM\Entity(repositoryClass: TransactionLineRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class TransactionLine
 {
     use TraitToken;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     /**
-     *
-     * @ORM\Column(type="integer", length="11")
+     * @var int
      */
-    private ?int $quantity = null;
+    #[ORM\Column(type: "integer", length: 11)]
+    private int $quantity;
 
     /**
-     *
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
-    private ?\DateTime $startDate = null;
+    #[ORM\Column(type: "date")]
+    #[Assert\DateTime()]
+    private \DateTime $startDate;
 
     /**
-     *
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
-    private ?\DateTime $endDate = null;
+    #[ORM\Column()]
+    #[Assert\DateTime()]
+    private \DateTime $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product")
+     * @var Product
      */
+    #[ORM\ManyToOne()]
     private Product $product;
 
     /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @var int
      */
-    private ?int $amountTtc = null;
+    #[ORM\Column(length: 11)]
+    private int $amountTtc;
 
     /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @var int
      */
-    private ?int $amountTva = null;
-    /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
-    private ?int $fees = null;
+    #[ORM\Column(length: 11)]
+    private int $amountTva;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="transactionLines")
+     * @var int
      */
+    #[ORM\Column(length: 11)]
+    private int $fees;
+
+    /**
+     * @var Transaction
+     */
+    #[ORM\ManyToOne(inversedBy: "transactionLines")]
     private Transaction $transaction;
 
     /**
-     * @var
-     * @ORM\Column(type="smallint", enumType=TransactionLineStatus::class)
+     * @var TransactionLineStatus
      */
+    #[ORM\Column(type: "smallint", enumType: TransactionLineStatus::class)]
     private TransactionLineStatus $status;
 
     public function getId(): ?int

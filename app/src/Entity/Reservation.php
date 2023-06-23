@@ -1,40 +1,35 @@
 <?php
-    
+
     namespace App\Entity;
-    
+
     use App\Enum\ReservationStatus;
     use App\Repository\ReservationRepository;
     use Doctrine\ORM\Mapping as ORM;
-    
-    /**
-     * @ORM\Entity(repositoryClass=ReservationRepository::class)
-     * @ORM\Table(indexes={
-     *     @ORM\Index(name="ecommerce_reservation", columns={"author_id", "created_at", "token", "status"})
-     * })
-     * @ORM\HasLifecycleCallbacks()
-     */
+
+    #[ORM\Entity(repositoryClass: ReservationRepository::class)]
+    #[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_reservation")]
+    #[ORM\HasLifecycleCallbacks]
     class Reservation
     {
         use TraitToken, TraitAuthor, TraitTimestamp;
 
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
+        private ?int $id = null;
+
         /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
+         * @var Transaction
          */
-        private $id;
-        
-        /**
-         * @ORM\ManyToOne(targetEntity=Transaction::class)
-         */
+        #[ORM\ManyToOne(targetEntity: Transaction::class)]
         private Transaction $transaction;
 
         private $reclaim;
 
         /**
-         * @var
-         * @ORM\Column(type="smallint", enumType=ReservationStatus::class)
+         * @var ReservationStatus
          */
+        #[ORM\Column(type:"smallint", enumType: ReservationStatus::class)]
         private ReservationStatus $status;
 
         /**

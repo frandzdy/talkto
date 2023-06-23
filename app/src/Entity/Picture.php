@@ -4,37 +4,44 @@
     
     use App\Repository\PictureRepository;
     use Doctrine\ORM\Mapping as ORM;
-    
-    /**
-     * @ORM\Entity(repositoryClass=PictureRepository::class)
-     * @ORM\HasLifecycleCallbacks()
-     */
+
+    #[ORM\Entity(repositoryClass: PictureRepository::class)]
+    #[ORM\HasLifecycleCallbacks()]
     class Picture
     {
         use TraitToken;
         
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
+        private ?int $id = null;
+
         /**
-         * @ORM\Id
-         * @ORM\GeneratedValue
-         * @ORM\Column(type="integer")
+         * @var string|null
          */
-        private $id;
-        
+        #[ORM\Column(length: 255)]
+        private ?string $name = null;
+
         /**
-         * @ORM\Column(type="string", length=255, nullable=true)
+         * @return int|null
          */
-        private $name;
-        
         public function getId(): ?int
         {
             return $this->id;
         }
-        
+
+        /**
+         * @return string|null
+         */
         public function getName(): ?string
         {
             return $this->name;
         }
-        
+
+        /**
+         * @param string|null $name
+         * @return $this
+         */
         public function setName(?string $name): self
         {
             $this->name = $name;

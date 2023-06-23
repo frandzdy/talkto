@@ -9,24 +9,24 @@ trait TraitAuthor
 {
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=true)
      */
-    private $author;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name:"author_id", referencedColumnName:"id")]
+    private User $author;
 
     /**
-     * @return mixed
+     * @return User
      */
-    public function getAuthor()
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
     /**
-     * @param $author
-     * @return $this
+     * @param User $author
+     * @return Reservation|Message|Product|TraitAuthor|Transaction
      */
-    public function setAuthor($author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
 

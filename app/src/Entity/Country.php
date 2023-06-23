@@ -7,37 +7,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pays
- *
- * @ORM\Entity()
- * @ORM\Table()
  */
+#[ORM\Entity()]
+#[ORM\Table()]
 class Country
 {
     use TraitPositionable;
 
     /**
-     * Id
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int|null
      */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     /**
      * Nom du pays
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
      */
+    #[ORM\Column(length: 255)]
     private ?string $label = null;
 
     /**
      * Code du pays sur 2 caractères
      *
-     * @ORM\Column(type="string", length=2, nullable=false)
-     * @Assert\NotBlank()
+     * @var string|null
      */
+    #[ORM\Column(length: 255)]
     private ?string $code = null;
 
     /***********************************************/

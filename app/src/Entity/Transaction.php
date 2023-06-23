@@ -9,61 +9,59 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
- * @ORM\Table(indexes={
- *     @ORM\Index(name="ecommerce_transaction", columns={"author_id", "created_at", "token", "status"})
- * })
- */
+#[ORM\Entity()]
+#[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_transaction")]
+#[ORM\HasLifecycleCallbacks()]
 class Transaction
 {
     use TraitToken, TraitAuthor, TraitTimestamp;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
     /**
-     * @var Collection|ArrayCollection|null
-     * @ORM\OneToMany(mappedBy="transaction", targetEntity="App\Entity\TransactionLine", cascade={"persist", "remove"})
+     * @var Collection|ArrayCollection
      */
-    private ?Collection $transactionLines = null;
+    #[ORM\OneToMany(mappedBy: "transaction", targetEntity: TransactionLine::class, cascade: ["persist", "remove"])]
+    private Collection $transactionLines;
 
     /**
-     * @ORM\Column(type="smallint", nullable=false, enumType=TransactionStatus::class)
+     * @var TransactionStatus
      */
-    private ?TransactionStatus $status;
+    #[ORM\Column(type: "smallint", enumType: TransactionStatus::class)]
+    private TransactionStatus $status;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @var string
      */
-    private ?string $reference;
+    #[ORM\Column(length: 20)]
+    private string $reference;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @var string
      */
-    private ?string $paymentIntentId;
+    #[ORM\Column(length: 40)]
+    private string $paymentIntentId;
 
     /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @var int
      */
-    private ?int $totalAmountTtc = null;
+    #[ORM\Column(length: 11)]
+    private int $totalAmountTtc;
 
     /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @var int
      */
-    private ?int $totalAmountTva = null;
+    #[ORM\Column(length: 11)]
+    private int $totalAmountTva;
 
     /**
-     *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @var int
      */
-    private ?int $totalFees = null;
+    #[ORM\Column(length: 11)]
+    private int $totalFees;
 
     public function getId(): ?int
     {
@@ -130,43 +128,27 @@ class Transaction
     }
 
     /**
-     * @param string|null $reference
+     * @param string $reference
      */
-    public function setReference(?string $reference): void
+    public function setReference(string $reference): void
     {
         $this->reference = $reference;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getPaymentIntentId(): ?string
+    public function getPaymentIntentId(): string
     {
         return $this->paymentIntentId;
     }
 
     /**
-     * @param string|null $paymentIntentId
+     * @param string $paymentIntentId
      */
-    public function setPaymentIntentId(?string $paymentIntentId): void
+    public function setPaymentIntentId(string $paymentIntentId): self
     {
         $this->paymentIntentId = $paymentIntentId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getTotalAmountTtc(): ?int
-    {
-        return $this->totalAmountTtc;
-    }
-
-    /**
-     * @param int|null $totalAmountTtc
-     */
-    public function setTotalAmountTtc(?int $totalAmountTtc): self
-    {
-        $this->totalAmountTtc = $totalAmountTtc;
 
         return $this;
     }
@@ -174,15 +156,33 @@ class Transaction
     /**
      * @return int|null
      */
-    public function getTotalAmountTva(): ?int
+    public function getTotalAmountTtc(): int
+    {
+        return $this->totalAmountTtc;
+    }
+
+    /**
+     * @param int $totalAmountTtc
+     */
+    public function setTotalAmountTtc(int $totalAmountTtc): self
+    {
+        $this->totalAmountTtc = $totalAmountTtc;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalAmountTva(): int
     {
         return $this->totalAmountTva;
     }
 
     /**
-     * @param int|null $totalAmountTva
+     * @param int $totalAmountTva
      */
-    public function setTotalAmountTva(?int $totalAmountTva): self
+    public function setTotalAmountTva(int $totalAmountTva): self
     {
         $this->totalAmountTva = $totalAmountTva;
 
@@ -191,17 +191,17 @@ class Transaction
 
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getTotalFees(): ?int
+    public function getTotalFees(): int
     {
         return $this->totalFees;
     }
 
     /**
-     * @param int|null $totalFees
+     * @param int $totalFees
      */
-    public function setTotalFees(?int $totalFees): self
+    public function setTotalFees(int $totalFees): self
     {
         $this->totalFees = $totalFees;
 
