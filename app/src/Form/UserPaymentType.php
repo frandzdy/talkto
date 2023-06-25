@@ -302,7 +302,7 @@ class UserPaymentType extends AbstractType
                             'label_attr' => ['class' => 'form-text text-muted'],
                             'hash_property_path' => 'password',
                             'attr' => [
-                                'placeholder' => 'Au moins 8 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
+                                'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
                                 'autocomplete' => 'new-password',
                                 'maxlength' => 255
                             ],
