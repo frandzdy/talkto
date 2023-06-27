@@ -33,7 +33,6 @@ class ProductManager
     public function createProduct(User $user): Product
     {
         return (new Product())
-            ->setToken(hash('sha256', random_bytes(32)))
             ->setAuthor($user)
             ->setStatus(ProductStatus::WAITING)
         ;
@@ -50,7 +49,6 @@ class ProductManager
                     $fileName = $this->fileUploadManager->uploadFile('product_picture', $pictureFileData);
                     $pic = new Picture();
                     $pic->setName($fileName);
-                    $pic->setToken(hash('sha256', random_bytes(32)));
                     $this->entityManager->persist($pic);
                     $product->addPicture($pic);
                 }

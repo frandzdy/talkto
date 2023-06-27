@@ -41,7 +41,6 @@
                 ->setCreatedAt((new \DateTime()))
                 ->setAuthor($from)
                 ->setDiscussion($discussion)
-                ->setToken(hash('sha256', random_bytes(32)))
             ;
 
             if ($medias) {

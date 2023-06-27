@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Genre;
+use App\Entity\Country;
 use App\Entity\Picture;
 use App\Entity\User;
 use App\Repository\PictureRepository;
@@ -23,18 +23,17 @@ class UserManager
         private LoggerInterface             $logger,
         private AdresseApi                  $adresseApi,
         private UserPasswordHasherInterface $passwordHasher
-    )
-    {
-    }
+    ) {}
 
     /**
      * Retourne un user prêt pour la création soit byer soit seller
      */
     public function createUser(int $typeAccount = 1): user
     {
+        $country = $this->entityManager->getRepository(Country::class)->findOneBy(['code' => 'FR']);
         $user = (new User())
-            ->setToken(hash('sha256', random_bytes(32)))
-            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER]);
+            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER])
+            ->setCountry($country);
 
         return $user;
     }
@@ -48,7 +47,6 @@ class UserManager
             $fileName = $this->fileUploadManager->uploadFile('profile_picture', $pictureFileData);
             $pic = new Picture();
             $pic->setName($fileName);
-            $pic->setToken(hash('sha256', random_bytes(32)));
             $this->entityManager->persist($pic);
             $user->setPicture($pic);
         }

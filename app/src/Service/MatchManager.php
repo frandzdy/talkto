@@ -72,7 +72,6 @@ class MatchManager
             if ($isMatchMutual) {
                 $discussion = new Discussion();
                 $discussion->setName($userConnected->getLastname() . ' | ' . $match->getLastname())
-                    ->setToken(hash('sha256', random_bytes(32)))
                     ->addUser($userConnected)
                     ->addUser($match);
                 $this->entityManager->persist($discussion);

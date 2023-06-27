@@ -212,7 +212,6 @@ class StripeManager
                 $amountTva = $amountTtc * 0.2;
                 $amountFees = $amountTtc * 0.1;
                 $transactionLine = (new TransactionLine())
-                    ->setToken(hash('sha256', random_bytes(32)))
                     ->setTransaction($transaction)
                     ->setProduct($product)
                     ->setQuantity($cart['quantity'])
