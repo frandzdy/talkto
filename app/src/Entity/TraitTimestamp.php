@@ -14,13 +14,11 @@
          * @var \DateTime|null
          */
         #[ORM\Column()]
-        #[Assert\DateTime()]
         private ?\DateTime $createdAt = null;
         /**
          * @var \DateTime|null
          */
         #[ORM\Column()]
-        #[Assert\DateTime()]
         private ?\DateTime $updatedAt = null;
 
         /**

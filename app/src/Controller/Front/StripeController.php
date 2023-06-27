@@ -116,13 +116,12 @@ class StripeController extends AbstractController
 
     #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true], methods: ['POST'])]
     public function paymentUserLogin(
-        SessionInterface    $session,
-        UserManager         $userManager,
-        Request             $request,
-        AuthenticationUtils $authenticationUtils,
-        StripeManager       $stripeManager,
-        EntityManagerInterface $em
-    ): Response {
+        SessionInterface       $session,
+        UserManager            $userManager,
+        Request                $request,
+        AuthenticationUtils    $authenticationUtils
+    ): Response
+    {
         $user = $userManager->createUser();
         $form = $this->createForm(LoginType::class, $user);
         $carts = $session->get('cart', [
@@ -155,7 +154,7 @@ class StripeController extends AbstractController
     }
 
     #[Route('/paiement-user-creation', name: 'stripe_payment_user_create', options: ['expose' => true], methods: ['GET'])]
-    public function checkPaymentUserCreate(SessionInterface $session, UserManager $userManager, StripeManager $stripeManager, Request $request): Response
+    public function checkPaymentUserCreate(UserManager $userManager): Response
     {
         $user = $userManager->createUser();
         $form = $this->createForm(UserPaymentType::class, $user);
@@ -168,22 +167,8 @@ class StripeController extends AbstractController
     }
 
     #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
-    public function success(
-        StripeManager         $stripeManager,
-        Request               $request,
-        TransactionRepository $transactionRepository,
-        SessionInterface      $session
-    ): Response
+    public function success(StripeManager $stripeManager, Request $request): Response
     {
-        $carts = $session->get('cart', [
-            'products' => [],
-            'totalQuantity' => 0,
-            'totalAmount' => 0,
-            'totalTva' => 0,
-            'totalFees' => 0,
-            'paymentIntentId' => null,
-            'transactionId' => null
-        ]);
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
         $message = 'Erreur lors du paiement';
         switch ($paymentIntent->status) {
@@ -195,7 +180,6 @@ class StripeController extends AbstractController
                 break;
             case 'requires_payment_method':
                 return $this->redirectToRoute('front_stripe_payment_intent');
-                break;
             default:
                 break;
         }
@@ -210,14 +194,14 @@ class StripeController extends AbstractController
     }
 
     #[Route('/reauth', name: 'stripe_reauth')]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function reauth(StripeManager $stripeManager, Request $request, UserRepository $userRepository): Response
+    #[Security("is_granted('ROLE_SELLER') and is_granted('IS_AUTHENTICATED_FULLY')")]
+    public function reauth(StripeManager $stripeManager): Response
     {
         return $this->redirect($stripeManager->createAccountLink($this->getUser())->url);
     }
 
     #[Route('/return', name: 'stripe_return')]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    #[Security("is_granted('ROLE_SELLER') and is_granted('IS_AUTHENTICATED_FULLY')")]
     public function return(StripeManager $stripeManager, UserManager $userManager): Response
     {
         $user = $this->getUser();

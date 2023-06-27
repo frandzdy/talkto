@@ -162,7 +162,33 @@ class UserType extends AbstractType
                             'accept' => 'image/*'
                         ]
                 ]
-            )->add(
+            );
+        if ($options['edit']) {
+            $builder->add(
+                'plainPassword',
+                RepeatedType::class,
+                [
+                    'type' => PasswordType::class,
+                    'first_options' => [
+                        'label' => 'Mot de passe',
+                        'label_attr' => ['class'=>'form-text text-muted'],
+                        'hash_property_path' => 'password',
+                        'attr' => ['placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
+                    ],
+                    'second_options' => [
+                        'label' => 'Confirmez votre mot de passe',
+                        'attr' => ['maxlength' => 255],
+                    ],
+                    'mapped' => false,
+                    'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
+                    'constraints' => [
+                        new PasswordRequirements()
+                    ],
+                    'required' => false
+                ]
+            );
+        } else {
+            $builder->add(
                 'plainPassword',
                 RepeatedType::class,
                 [
@@ -185,13 +211,16 @@ class UserType extends AbstractType
                     ]
                 ]
             );
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
-                'data_class' => User::class
+                'data_class' => User::class,
+                'edit' => null
             ]
         );
     }

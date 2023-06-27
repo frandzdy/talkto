@@ -75,7 +75,7 @@ class SellerController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(SellerType::class, $user, ['action' => $request->getRequestUri()]);
+        $form = $this->createForm(SellerType::class, $user, ['action' => $request->getRequestUri(), 'edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

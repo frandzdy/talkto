@@ -98,7 +98,7 @@ class UserController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserType::class, $user, ['action' => $request->getRequestUri()]);
+        $form = $this->createForm(UserType::class, $user, ['action' => $request->getRequestUri(), 'edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,7 +110,7 @@ class UserController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_user_edit')
+                    'redirectUrl' => $this->generateUrl('front_user_account')
                 ],
                 Response::HTTP_OK
             );
