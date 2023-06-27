@@ -7,10 +7,12 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
+use App\Service\StripeManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +24,7 @@ class UserController extends AbstractController
 {
     #[Route('/mon-compte', name: 'user_account', options: ['expose' => true], methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(UserRepository $userRepository, SessionInterface $session): Response
+    public function account(UserRepository $userRepository, SessionInterface $session, StripeManager $stripeManager): Response
     {
         $user = $this->getUser();
         $carts = $session->get('cart', [
@@ -38,8 +40,12 @@ class UserController extends AbstractController
             'reservations' => $userRepository->getReservations($user, 0),
             'products' => $userRepository->getProducts($user, 0)
         ];
+        $urlActivationAccount = '';
+        if (!$user->getIsStripeAccountActive()) {
+            $urlActivationAccount = $stripeManager->createAccountLink($user)->url;
+        }
 
-        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts'));
+        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts', 'urlActivationAccount'));
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
@@ -47,13 +53,12 @@ class UserController extends AbstractController
         Request $request,
         UserManager $userManager,
         MailerManager $mailer,
-        Security $security,
-        FrontAuthenticator $frontAuthenticator
+        Security $security
     ): Response
     {
-        if (!is_null($this->getUser())) {
+        if ($this->getUser()) {
 
-            return $this->redirectToRoute('front_user_edit');
+            return $this->redirectToRoute('front_user_account');
         }
         $user = $userManager->createUser();
 
@@ -113,7 +118,7 @@ class UserController extends AbstractController
 
         return $this->render('front/user/partials/_form.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 

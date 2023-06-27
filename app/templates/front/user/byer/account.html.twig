@@ -33,9 +33,13 @@
                             </div>
                             <div class="profile__basic-content">
                                 <h3 class="profile__basic-title">
-                                    Bienvenue <span>{{ user.fullname }}</span> {{ user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : ''}}
+                                    Bienvenue
+                                    <span>{{ user.fullname }}</span> {{ user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : '' }}
                                 </h3>
                                 <p>2 locations en cours <a href="my-course.html">Voir mes locations</a></p>
+                                {% if user.isStripeAccountActive is same as (false) %}
+                                    <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}">Activer</a> votre compte</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -72,14 +76,19 @@
                                         data-target="#nav-account" type="button" role="tab" aria-controls="nav-account"
                                         aria-selected="true"><i class="fa fa-user"></i> Mon compte
                                 </button>
-                                {% if user.isStripeAccountActive %}
-                                    <button class="nav-link" id="nav-product-tab" data-toggle="tab" data-target="#nav-product"
-                                            type="button" role="tab" aria-controls="nav-product" aria-selected="false"><i
+                                {% if user.isStripeAccountActive and user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
+                                    <button class="nav-link" id="nav-product-tab" data-toggle="tab"
+                                            data-target="#nav-product"
+                                            type="button" role="tab" aria-controls="nav-product" aria-selected="false">
+                                        <i
                                                 class="fa fa-bags-shopping"></i>Produits
                                     </button>
-                                {% else %}
-                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab" data-target="#nav-reservation"
-                                            type="button" role="tab" aria-controls="nav-reservation" aria-selected="false"><i
+                                {% endif %}
+                                {% if user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') or user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') %}
+                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
+                                            data-target="#nav-reservation"
+                                            type="button" role="tab" aria-controls="nav-reservation"
+                                            aria-selected="false"><i
                                                 class="fa fa-calendar-check"></i>Mes réservations
                                     </button>
                                 {% endif %}
@@ -143,7 +152,8 @@
                                 </div>
                             </div>
                             {% if user.isStripeAccountActive %}
-                                <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
+                                <div class="tab-pane fade" id="nav-product" role="tabpanel"
+                                     aria-labelledby="nav-product-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
                                         page: collections.products.page,
                                         totalPage: collections.products.totalPage,
@@ -159,7 +169,8 @@
                                     </div>
                                 </div>
                             {% else %}
-                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel" aria-labelledby="nav-reservation-tab">
+                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel"
+                                     aria-labelledby="nav-reservation-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
                                         page: collections.reservations.page,
                                         totalPage: collections.reservations.totalPage,

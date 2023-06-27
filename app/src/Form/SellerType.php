@@ -53,4 +53,9 @@ class SellerType extends UserType
             ]
         );
     }
+
+    public function getParent(): string
+    {
+        return UserType::class;
+    }
 }

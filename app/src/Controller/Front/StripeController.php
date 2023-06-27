@@ -218,7 +218,7 @@ class StripeController extends AbstractController
 
     #[Route('/return', name: 'stripe_return')]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function return(StripeManager $stripeManager): Response
+    public function return(StripeManager $stripeManager, UserManager $userManager): Response
     {
         $user = $this->getUser();
         $account = $stripeManager->retrieveAccount($user);
@@ -226,6 +226,7 @@ class StripeController extends AbstractController
         if ($account->details_submitted || $account->charges_enabled) {
             $user->setIsStripeAccountActive(true);
         }
+        $userManager->saveUser();
 
         return $this->redirectToRoute('front_user_account');
     }

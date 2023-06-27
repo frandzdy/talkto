@@ -22,6 +22,7 @@ class SellerController extends AbstractController
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function account(): Response
     {
+
         return $this->render('front/user/seller/account.html.twig', ['user' => $this->getUser()]);
     }
 
@@ -31,12 +32,11 @@ class SellerController extends AbstractController
         UserManager $userManager,
         MailerManager $mailer,
         StripeManager $stripeManager,
-        Security $security,
-        FrontAuthenticator $frontAuthenticator
+        Security $security
     ): Response {
-        if (!is_null($this->getUser())) {
+        if ($this->getUser()) {
 
-            return $this->redirectToRoute('front_seller_edit');
+            return $this->redirectToRoute('front_seller_account');
         }
         $user = $userManager->createUser(2);
 
@@ -70,7 +70,8 @@ class SellerController extends AbstractController
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function edit(
         Request     $request,
-        UserManager $userManager
+        UserManager $userManager,
+        StripeManager $stripeManager
     ): Response
     {
         $user = $this->getUser();
@@ -94,7 +95,7 @@ class SellerController extends AbstractController
 
         return $this->render('front/user/seller/_form.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
