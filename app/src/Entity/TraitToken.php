@@ -10,24 +10,24 @@
     trait TraitToken
     {
         /**
-         * @var string
+         * @var string|null
          */
         #[ORM\Column(length: 255)]
-        private string $token;
+        private ?string $token = null;
 
         /**
-         * @return string
+         * @return string|null
          */
-        public function getToken(): string
+        public function getToken(): ?string
         {
             return $this->token;
         }
 
         /**
-         * @param string $token
+         * @param string|null $token
          * @return TraitToken|Check|Claim|Discussion|Media|Message|Picture|Product|Reservation|Transaction|TransactionLine|User|Video
          */
-        public function setToken(string $token): self
+        public function setToken(?string $token): self
         {
             $this->token = $token;
     
@@ -42,8 +42,8 @@
         #[ORM\PreUpdate]
         public function setTokenValue() :void
         {
-            if (!$this->token) {
-                $this->token = hash('sha256', random_bytes(32));
+            if (!$this->getToken()) {
+                $this->setToken(hash('sha256', random_bytes(32)));
             }
         }
     }
