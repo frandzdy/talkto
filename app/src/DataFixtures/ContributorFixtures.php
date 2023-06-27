@@ -27,7 +27,7 @@ class ContributorFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $contributor = new Contributor();
-        $contributor->setEmail('zz_qualifelec@webnet.fr');
+        $contributor->setEmail('zz_rented@yopmail.fr');
         $contributor->setPassword($this->passwordEncoder->hashPassword($contributor, 'contributorpass'));
         $contributor->setRole(Contributor::ROLE_SUPERADMIN);
         $contributor->setFullname("Super Administrateur");

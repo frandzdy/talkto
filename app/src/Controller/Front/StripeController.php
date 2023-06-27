@@ -66,7 +66,7 @@ class StripeController extends AbstractController
                 $stripeManager->addOrUpdateTransactionLine($carts['products'], $transaction);
                 $em->persist($transaction);
                 $em->flush();
-                $transaction->setReference(sprintf('#REF_%d', str_pad($transaction->getId(), 6, '0', STR_PAD_LEFT)));
+                $transaction->setReference(sprintf('#REF_%s', str_pad((string)$transaction->getId(), 6, '0', STR_PAD_LEFT)));
                 if (!isset($carts['paymentIntentId'])) {
                     $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
                     $carts['paymentIntentId'] = $paymentIntent->id;

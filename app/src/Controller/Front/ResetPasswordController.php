@@ -53,7 +53,7 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('front/reset_password/request.html.twig', [
-            'requestForm' => $form->createView(),
+            'requestForm' => $form,
         ]);
     }
 
@@ -160,7 +160,6 @@ class ResetPasswordController extends AbstractController
 
             return $this->redirectToRoute('front_check_email');
         }
-        $this->addFlash('success', 'Un e-mail vous a été envoyé !');
 
         $this->mailerManager->sendMailNotification(
             $user->getEmail(),

@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\UserManager;
@@ -21,7 +22,7 @@ class UserController extends AbstractController
 {
     #[Route('/mon-compte', name: 'user_account', options: ['expose' => true], methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(EntityManagerInterface $em, SessionInterface $session): Response
+    public function account(UserRepository $userRepository, SessionInterface $session): Response
     {
         $user = $this->getUser();
         $carts = $session->get('cart', [
@@ -34,8 +35,8 @@ class UserController extends AbstractController
             'transactionId' => null
         ]);
         $collections = [
-            'reservations' => $em->getRepository(User::class)->getReservations($user, 0),
-            'products' => $em->getRepository(User::class)->getProducts($user, 0)
+            'reservations' => $userRepository->getReservations($user, 0),
+            'products' => $userRepository->getProducts($user, 0)
         ];
 
         return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts'));

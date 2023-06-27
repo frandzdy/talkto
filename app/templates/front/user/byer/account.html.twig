@@ -33,7 +33,7 @@
                             </div>
                             <div class="profile__basic-content">
                                 <h3 class="profile__basic-title">
-                                    Bienvenue <span>{{ user.fullname }}</span> {{ user.isGuess is same as(false) ? 'Invité(e)' : ''}}
+                                    Bienvenue <span>{{ user.fullname }}</span> {{ user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : ''}}
                                 </h3>
                                 <p>2 locations en cours <a href="my-course.html">Voir mes locations</a></p>
                             </div>

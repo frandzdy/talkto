@@ -15,13 +15,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserManager
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private FileUploadManager      $fileUploadManager,
-        private StripeManager          $stripeManager,
-        private PictureRepository      $pictureRepository,
-        private UserRepository         $userRepository,
-        private LoggerInterface        $logger,
-        private AdresseApi             $adresseApi,
+        private EntityManagerInterface      $entityManager,
+        private FileUploadManager           $fileUploadManager,
+        private StripeManager               $stripeManager,
+        private PictureRepository           $pictureRepository,
+        private UserRepository              $userRepository,
+        private LoggerInterface             $logger,
+        private AdresseApi                  $adresseApi,
         private UserPasswordHasherInterface $passwordHasher
     )
     {
@@ -34,8 +34,7 @@ class UserManager
     {
         $user = (new User())
             ->setToken(hash('sha256', random_bytes(32)))
-            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER])
-        ;
+            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER]);
 
         return $user;
     }
@@ -56,7 +55,7 @@ class UserManager
         // si on est un compte invité
         if (!$user->getIsGuess() && !$user->getId() && $isGuess) {
             $user->setRoles([User::ROLE_GUESS]);
-            $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname().$user->getLastname());
+            $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname() . $user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
         }
 
@@ -64,18 +63,25 @@ class UserManager
             $this->entityManager->persist($user);
         }
         // si on n'a pas de compte stripe
-        if (!$user->getStripeCustomerId() and in_array([User::ROLE_USER, User::ROLE_GUESS], $user->getRoles())) {
+        if (
+            !$user->getStripeCustomerId()
+            && (
+                in_array(User::ROLE_USER, $user->getRoles())
+                || in_array(User::ROLE_GUESS, $user->getRoles())
+            )
+        ) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
-        } elseif(!$user->getStripeAccountId()) {
+        } elseif (
+            !$user->getStripeAccountId()
+            && in_array(User::ROLE_SELLER, $user->getRoles())
+        ) {
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
         }
 
-
-
         $this->entityManager->flush();
-        
+
         return true;
     }
 

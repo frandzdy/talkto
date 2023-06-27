@@ -36,14 +36,14 @@ class Transaction
     /**
      * @var string
      */
-    #[ORM\Column(length: 20)]
-    private string $reference;
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $reference = null;
 
     /**
      * @var string
      */
-    #[ORM\Column(length: 40)]
-    private string $paymentIntentId;
+    #[ORM\Column(length: 40, nullable: true)]
+    private ?string $paymentIntentId = null;
 
     /**
      * @var int

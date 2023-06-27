@@ -125,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * La photo de l'utilisateur
      */
     #[ORM\OneToOne(targetEntity: Picture::class, cascade: ["persist", "remove"], orphanRemoval: true)]
-    private Picture $picture;
+    private ?Picture $picture = null;
 
     /**
      * A propos de l'utilisateur [SELLER]
@@ -148,26 +148,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Latitude de la position de l'utilisateur
      */
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 15, nullable: true)]
     private ?string $lat = null;
 
     /**
      * Longitude de la position de l'utilisateur
      */
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 15, nullable: true)]
     private ?string $lon = null;
 
     /**
      * @var string|null
      */
-    #[ORM\Column(length: 40)]
+    #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeCustomerId = null;
 
     # $stripeAccountId [SELLER]
     /**
      * @var string|null
      */
-    #[ORM\Column(length: 40)]
+    #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeAccountId = null;
 
     # si le compte est actif [SELLER]
@@ -560,5 +560,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isGuess = $isGuess;
 
         return $this;
+    }
+
+    /**
+     * Retourne les rôles disponibles
+     */
+    public static function getAvailableRoles(): array
+    {
+        return [
+            self::ROLE_USER => 'Client',
+            self::ROLE_GUESS => 'Client invité(e)',
+            self::ROLE_SELLER => 'Loueur'
+        ];
+    }
+
+    /**
+     * Retourne le label du rôle de l'utilisateur
+     */
+    public function getRoleAsLabel(): string
+    {
+        $availableRoles = self::getAvailableRoles();
+
+        return $availableRoles[$this->getRoles()[0]] ?? '';
     }
 }

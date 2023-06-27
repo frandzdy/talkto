@@ -13,18 +13,7 @@
                         <div class="main-menu d-none d-lg-block">
                             <nav>
                                 <ul>
-                                    <li class="active has-dropdown"><a href="index.html">Home</a>
-                                        <ul class="submenu transition-3">
-                                            <li><a href="index.html">Home Style 1</a></li>
-                                            <li><a href="index-2.html">Home Style 2</a></li>
-                                            <li><a href="index-3.html">Home Style 3</a></li>
-                                            <li><a href="index-4.html">Home Style 4</a></li>
-                                            <li><a href="index-5.html">Home Style 5</a></li>
-                                            <li><a href="index-6.html">Home Style 6</a></li>
-                                            <li><a href="index-7.html">Home Style 7</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mega-menu has-dropdown"><a href="shop.html">Shop</a>
+                                    <li class="active mega-menu has-dropdown"><a href="shop.html">Shop</a>
                                         <ul class="submenu transition-3" data-background="{{ asset("build/images/img/bg/mega-menu-bg.jpg") }}">
                                             <li class="has-dropdown">
                                                 <a href="shop.html">Shop Pages</a>
@@ -50,19 +39,9 @@
                                                     <li><a href="product-details.html">External Product</a></li>
                                                 </ul>
                                             </li>
-                                            <li  class="has-dropdown">
-                                                <a href="shop.html">Other Shop Pages</a>
-                                                <ul>
-                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="register.html">Register</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                </ul>
-                                            </li>
                                         </ul>
                                     </li>
-                                    <li class="has-dropdown"><a href="blog.html">Blog</a>
+                                    <li class="has-dropdown"><a href="blog.html">Notre Blog</a>
                                         <ul class="submenu transition-3">
                                             <li><a href="blog.html">Blog</a></li>
                                             <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
@@ -73,18 +52,7 @@
                                             <li><a href="blog-details.html">Blog Details</a></li>
                                         </ul>
                                     </li>
-                                    <li class="has-dropdown"><a href="shop.html">Pages</a>
-                                        <ul class="submenu transition-3">
-                                            <li><a href="wishlist.html">Wishlist</a></li>
-                                            <li><a href="cart.html">Shopping Cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                            <li><a href="account.html">My Account</a></li>
-                                            <li><a href="register.html">Register</a></li>
-                                            <li><a href="login.html">Login</a></li>
-                                            <li><a href="error.html">Error 404</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="contact.html">Contact</a></li></li>
                                 </ul>
                             </nav>
                         </div>
@@ -104,13 +72,13 @@
                                             {% if app.user %}
                                             <div class="my-account">
                                                 <div class="extra-title">
-                                                    <h5>Bonjour, {{ app.user.fullname }}</h5>{{ app.user.isGuess is same as(false) ? 'Invité(e)' : ''}}
+                                                    <h5>Bonjour, {{ app.user.fullname }}</h5>{{ app.user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : ''}}
                                                 </div>
                                                 <ul>
                                                     <li><a href="{{ path('front_user_account') }}">Mon compte</a></li>
                                                     <li><a href="wishlist.html">Wishlist</a></li>
-                                                    <li><a href="cart.html">Cart</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
+                                                    <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                    <li><a href="{{ path('front_stripe_payment_intent') }}">Checkout</a></li>
                                                     <li><a href="{{ path('front_logout') }}">Déconnexion</a></li>
                                                 </ul>
                                             </div>
@@ -122,9 +90,8 @@
                                                     <ul>
                                                         <li><a href="{{ path('front_login') }}">Connexion</a></li>
                                                         <li><a href="wishlist.html">Wishlist</a></li>
-                                                        <li><a href="cart.html">Cart</a></li>
-                                                        <li><a href="checkout.html">Checkout</a></li>
-                                                        <li><a href="{{ path('front_user_new') }}">Create Account</a></li>
+                                                        <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                        <li><a href="{{ path('front_user_new') }}">Création de compte</a></li>
                                                     </ul>
                                                 </div>
                                             {% endif %}
