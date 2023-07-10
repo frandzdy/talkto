@@ -45,7 +45,7 @@
                                         <td class="product-quantity">
                                             <input id="startDate" {{ stimulus_controller('datetimepicker') }}
                                                    placeholder="jj/mm/aaaa" type="text" value="{{ cart.flatpickrDate }}"
-                                                   data-token="{{ index }}" style="text-align: center;"/>
+                                                   data-token="{{ index }}" data-disabled-dates="{{ cart.disabledDates }}" style="text-align: center;"/>
                                         </td>
                                         <td class="product-price"><span>{{ cart.price }} </span>€</td>
                                         <td class="product-quantity">

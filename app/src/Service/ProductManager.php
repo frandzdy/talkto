@@ -129,6 +129,10 @@ class ProductManager
             $endDate = $startDate;
         }
         $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+        $pictureName = '';
+        if ($product->getPictures()->count() > 0) {
+            $pictureName = $product->getPictures()->first()->getName();
+        }
         $cart['products'][$product->getToken()] = [
             'caution' => $product->getCaution(),
             'price' => $product->getAmount(),
@@ -137,8 +141,9 @@ class ProductManager
             'startDate' => $startDate->format('d/m/Y'),
             'endDate' => $endDate->format('d/m/Y'),
             'numberDays' => $numberDays,
-            'pictureName' => $product->getPictures()->first()?->getName(),
-            'title' => $product->getTitle()
+            'pictureName' => $pictureName,
+            'title' => $product->getTitle(),
+            'disabledDates' => json_encode($this->getDisabledDatesFormProduct($product->getToken()))
         ];
         foreach ($cart['products'] as $item) {
             $totalQuantity += (int)$item['quantity'];

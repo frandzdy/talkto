@@ -43,6 +43,7 @@ class ProductReservationType extends AbstractType
                         ],
                     'constraints' =>
                         [
+                            new NotBlank(['message' => 'Information requise.']),
                             new Range(['min' => 1, 'max' => $options['quantityLeft'], 'notInRangeMessage' => ''])
                         ],
                     'choices' => $options['choicesValue'],
