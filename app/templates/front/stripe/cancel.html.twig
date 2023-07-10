@@ -1,49 +1,83 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %} Confirmation de paiement annulé |  {{ parent() }}{% endblock %}
+{% block title %} Paiement annulé |  {{ parent() }}{% endblock %}
 
 {% block metas %}
     <meta name="description"
-          content="Annulation de paiement et d'inscription à Spami !">
+          content="Annulation du paiement !">
 {% endblock %}
+
 
 {% block content %}
     <!-- App features section-->
-    <section id="features" class="background-circle" style="height: 100%">
+    <!-- error area start -->
+    <section class="error__area pt-60 pb-100">
         <div class="container">
-            <div class="row d-flex my-5 justify-content-center">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <div class="card shadow text-center">
-                        <div class="card-header">
-                            <h5 class="card-title text-center fs-1 text-danger"><i class="bi bi-x-circle"></i> Paiement annulé</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                {{ user.firstname|capitalize }}, Si vous souhaitez vous s'inscrire par la suite vous pourrez toujours le faire depuis
-                                <a href="{{ path('user_edit') }}">votre compte</a>.<br>
-                                <br>
-                                Un e-mail contenant votre lien de connexion vous a été envoyé.<br>
-                                <br>
-                                Pour toutes questions, vous pouvez contacter notre <a href="mailto:contact@spami.fr" title="E-mail de contact Spami">service client</a>.
-                            </p>
-                            <div class="text-center mb-2">
-                                <small class="form-text text-muted">
-                                    Share Passion and Love. C'est tout que l'on vous souhaite 👨‍👨‍👦‍👦.
-                                </small>
-                            </div>
-                            <div class="text-center">
-                                {% if app.user %}
-                                    <a class="btn btn-blue" title="Retourner sur l'espace client" href="{{ path('user_edit') }}">Retourner sur espace client</a>
-                                {% else %}
-                                    <a class="btn btn-blue" title="Retourner à l'accueil" href="{{ path('home') }}">Retourner à l'accueil</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-xl-8 offset-xl-2 col-lg-8 offset-lg-2">
+                <div class="error__content text-center">
+                    <h2>
+                        <span class="highlight comment">Paiement annulé</span>
+                    </h2>
+                    <p>
+                        Vous avez annulé le paiement ou une erreur est survenue.<br>
+                        Vous avez toujours la possibilité de le poursuivre votre réservation plus tard.
+                    </p>
+                    <p class="text-center">
+                        <a class="os-btn os-btn-black" title="Retourner au paiement"
+                           href="{{ path('front_stripe_payment_intent') }}">Retourner au paiement</a>
+                        <br>
+                        <br>
+                        <a class="os-btn os-btn-black" title="Retourner à votre espace"
+                           href="{{ path('front_user_account') }}">Retourner à votre espace</a>
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 {% endblock %}
 
+{# {% block javascripts %} #}
+{# {{ parent() }} #}
+{#    <script> #}
+{#        // Initialize Stripe.js using your publishable key #}
+{#        const stripe = Stripe(stripePublicKey); #}
 
+{#        // Retrieve the "payment_intent_client_secret" query parameter appended to #}
+{#        // your return_url by Stripe.js #}
+{#        const clientSecret = new URLSearchParams(window.location.search).get( #}
+{#            'payment_intent_client_secret' #}
+{#        ); #}
+
+{#        // Retrieve the PaymentIntent #}
+{#        stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => { #}
+{#            const message = document.querySelector('#message') #}
+
+{#            // Inspect the PaymentIntent `status` to indicate the status of the payment #}
+{#            // to your customer. #}
+{#            // #}
+{#            // Some payment methods will [immediately succeed or fail][0] upon #}
+{#            // confirmation, while others will first enter a `processing` state. #}
+{#            // #}
+{#            // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification #}
+{#            switch (paymentIntent.status) { #}
+{#                case 'succeeded': #}
+{#                    message.innerText = 'Success! Payment received.'; #}
+{#                    break; #}
+
+{#                case 'processing': #}
+{#                    message.innerText = "Payment processing. We'll update you when payment is received."; #}
+{#                    break; #}
+
+{#                case 'requires_payment_method': #}
+{#                    message.innerText = 'Payment failed. Please try another payment method.'; #}
+{#                    // Redirect your user back to your payment page to attempt collecting #}
+{#                    // payment again #}
+{#                    break; #}
+
+{#                default: #}
+{#                    message.innerText = 'Something went wrong.'; #}
+{#                    break; #}
+{#            } #}
+{#        }); #}
+{#    </script> #}
+{# {% endblock %} #}

@@ -31,31 +31,31 @@
                                 </tr>
                                 </thead>
                                 <tbody id="cart-products">
-                                {% for index, cart in carts['products'] %}
+                                {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
                                             <a href="{{ path('front_product_show_detail', {'token': index}) }}">
-                                                <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
-                                                     alt="{{ cart.pictureName }}"/>
+                                                <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
+                                                     alt="{{ product.pictureName }}"/>
                                             </a>
                                         </td>
                                         <td class="product-name"><a
-                                                    href="{{ path('front_product_show_detail', {'token': index}) }}">{{ cart.title }}</a>
+                                                    href="{{ path('front_product_show_detail', {'token': index}) }}">{{ product.title }}</a>
                                         </td>
                                         <td class="product-quantity">
                                             <input id="startDate" {{ stimulus_controller('datetimepicker') }}
-                                                   placeholder="jj/mm/aaaa" type="text" value="{{ cart.flatpickrDate }}"
-                                                   data-token="{{ index }}" data-disabled-dates="{{ cart.disabledDates }}" style="text-align: center;"/>
+                                                   placeholder="jj/mm/aaaa" type="text" value="{{ product.flatpickrDate }}"
+                                                   data-token="{{ index }}" data-disabled-dates="{{ product.disabledDates }}" style="text-align: center;"/>
                                         </td>
-                                        <td class="product-price"><span>{{ cart.price }} </span>€</td>
+                                        <td class="product-price"><span>{{ product.price }} </span>€</td>
                                         <td class="product-quantity">
                                             <div class="cart-plus-minus-cart"><input data-max="" type="text"
                                                                                      id="quantity"
-                                                                                     value="{{ cart.quantity }}"/></div>
+                                                                                     value="{{ product.quantity }}"/></div>
                                             <input type="hidden" value="{{ index }}" id="token">
                                         </td>
                                         <td class="product-subtotal"><span
-                                                    class="amount">{{ cart.price * cart.quantity * cart.numberDays }} </span>€
+                                                    class="amount">{{ product.price * product.quantity * product.numberDays }} </span>€
                                         </td>
                                         <td class="product-remove">
                                             <a href="{{ path('front_cart_delete', {'token':index}) }}"

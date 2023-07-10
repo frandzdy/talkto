@@ -253,7 +253,7 @@ class StripeManager
         return $this->stripe->paymentIntents->update(
             $paymenIntentId,
             [
-                'amount' => $carts['totalAmount']
+                'amount' => $carts['totalAmount'] * 100
             ]
         );
     }

@@ -43,7 +43,6 @@ class StripeController extends AbstractController
             'totalAmount' => 0,
             'totalTva' => 0,
             'totalFees' => 0,
-            'paymentIntentId' => null,
             'transactionId' => null
         ]);
 
@@ -66,27 +65,26 @@ class StripeController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
                 $transaction->setReference(sprintf('#REF_%s', str_pad((string)$transaction->getId(), 6, '0', STR_PAD_LEFT)));
-                if (!isset($carts['paymentIntentId'])) {
-                    $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
-                    $carts['paymentIntentId'] = $paymentIntent->id;
-                } else {
-                    $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
-                }
+                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
                 $transaction->setPaymentIntentId($paymentIntent->id);
                 $em->flush();
                 $carts['transactionId'] = $transaction->getId();
             } else {
                 $transaction = $em->getRepository(Transaction::class)->findOneBy(['id' => $carts['transactionId']]);
-                $paymentIntent = $stripeManager->retrievePaymentIntent($carts['paymentIntentId']);
-                $paymentIntent = $stripeManager->updatePaymentIntent($paymentIntent->id, $carts);
+
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
                     $transaction->removeTransactionLine($transactionLine);
+                    $em->remove($transactionLine);
                 }
+                $em->flush();
+
                 // mettre à jour aussi la transaction
                 $stripeManager->addOrUpdateTransactionLine($carts['products'], $transaction);
+                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
+                $transaction->setPaymentIntentId($paymentIntent->id);
+
                 $em->flush();
             }
-
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
         }
@@ -105,10 +103,10 @@ class StripeController extends AbstractController
             [
                 'last_username' => $lastUsername,
                 'carts' => $carts,
-                'clientSecret' => $clientSecret ?? null,
+                'clientSecret' => $clientSecret ?: null,
                 'form' => $form,
                 'error' => $error,
-                'transaction' => $transaction ?? null
+                'transaction' => $transaction ?: null
             ]
         );
     }
@@ -129,7 +127,6 @@ class StripeController extends AbstractController
             'totalAmount' => 0,
             'totalTva' => 0,
             'totalFees' => 0,
-            'paymentIntentId' => null,
             'transactionId' => null
         ]);
         $clientSecret = null;
@@ -169,7 +166,8 @@ class StripeController extends AbstractController
     public function success(StripeManager $stripeManager, Request $request): Response
     {
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
-        $message = 'Erreur lors du paiement';
+        $message = 'Erreur lors du paiement.';
+        $error = false;
         switch ($paymentIntent->status) {
             case 'succeeded':
                 $message = 'Paiement validé';
@@ -178,18 +176,20 @@ class StripeController extends AbstractController
                 $message = 'Paiement en cour de validation';
                 break;
             case 'requires_payment_method':
-                return $this->redirectToRoute('front_stripe_payment_intent');
+                $message = 'Veuillez choisir un autre moyen de paiement.';
+                $error = true;
+                break;
             default:
                 break;
         }
 
-        return $this->render('front/stripe/success.html.twig', ['user' => $this->getUser(), 'message' => $message]);
+        return $this->render('front/stripe/success.html.twig', ['user' => $this->getUser(), 'message' => $message, 'error' => $error]);
     }
 
     #[Route('/cancel', name: 'stripe_cancel')]
     public function cancel(): Response
     {
-        return $this->render('stripe/cancel.html.twig');
+        return $this->render('front/stripe/cancel.html.twig');
     }
 
     #[Route('/reauth', name: 'stripe_reauth')]

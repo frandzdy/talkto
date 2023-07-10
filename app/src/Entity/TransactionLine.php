@@ -70,7 +70,7 @@ class TransactionLine
      * @var Transaction
      */
     #[ORM\ManyToOne(inversedBy: "transactionLines")]
-    private Transaction $transaction;
+    private ?Transaction $transaction;
 
     /**
      * @var TransactionLineStatus
@@ -120,17 +120,18 @@ class TransactionLine
     }
 
     /**
-     * @return Transaction
+     * @return Transaction|null
      */
-    public function getTransaction(): Transaction
+    public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }
 
     /**
-     * @param Transaction $transaction
+     * @param Transaction|null $transaction
+     * @return $this
      */
-    public function setTransaction(Transaction $transaction): self
+    public function setTransaction(?Transaction $transaction): self
     {
         $this->transaction = $transaction;
 
