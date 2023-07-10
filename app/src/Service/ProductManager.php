@@ -137,7 +137,7 @@ class ProductManager
             'startDate' => $startDate->format('d/m/Y'),
             'endDate' => $endDate->format('d/m/Y'),
             'numberDays' => $numberDays,
-            'pictureName' => $product->getPictures()->first()->getName(),
+            'pictureName' => $product->getPictures()->first()?->getName(),
             'title' => $product->getTitle()
         ];
         foreach ($cart['products'] as $item) {

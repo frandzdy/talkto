@@ -1,0 +1,85 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block title %} {{ 'Nouveau compte | ' ~ parent() }} {% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
+    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+{% endblock %}
+
+{% set breadcrumbTitle = 'Mes favoris' %}
+{% set breadcrumbItems =
+    {
+        breadcrumbTitle: ''
+    } %}
+
+{% block content %}
+    {{ include('partials/_breadcrumbs.html.twig') }}
+    <!-- Cart Area Strat-->
+    <section class="cart-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="#">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="product-thumbnail">Images</th>
+                                    <th class="cart-product-name">Produit</th>
+                                    <th class="product-price">Prix unitaire / Jour</th>
+                                    <th class="product-quantity">Action</th>
+                                    <th class="product-remove">Supprimer</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for wishlist in wishlists %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        {% set pictureName = '' %}
+                                        {% if wishlist.product.pictures|length > 0 %}
+                                            {% set pictureName = wishlist.product.pictures.first.name %}
+                                        {% endif %}
+                                        <a href="{{ path('front_product_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
+                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                 alt="{{ pictureName }}"/>
+                                        </a>
+                                    </td>
+                                    <td class="product-name">
+                                        <a href="{{ path('front_product_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
+                                            {{ wishlist.product.title }}
+                                        </a>
+                                    </td>
+                                    <td class="product-price"><span class="amount">{{ wishlist.product.amount }} €</span></td>
+                                    <td class="product-quantity">
+                                        <a href="{{ path('front_product_reservation', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}"
+                                           title="Réservez"
+                                           data-modal-title="Réservation en cours"
+                                           class="open-product-modal">
+                                            <button class="os-btn os-btn-black">Réservez</button></a>
+                                    </td>
+                                    <td class="product-remove">
+                                        <a href="{{ path('front_wishlist_delete', {'token': wishlist.token}) }}"
+                                           class="order__view-btn post-confirm"
+                                           data-confirm-message="Etes-vous sur de vouloir supprimer le produit {{ wishlist.product.title }} de votre liste d'envie ?"
+                                           data-title="Suppression du produit {{ wishlist.product.title }} de votre liste d'envie"
+                                           data-button-text="Supprimer"
+                                           title="Suppression du produit {{ wishlist.product.title }}"
+                                        >
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Cart Area End-->
+{% endblock %}

@@ -40,12 +40,26 @@ class UserController extends AbstractController
             'reservations' => $userRepository->getReservations($user, 0),
             'products' => $userRepository->getProducts($user, 0)
         ];
+        /**
+         * @var User $user
+         */
+        if ($user->getRoleAsLabel() !== User::ROLE_SELLER) {
+            $collections['wishlists'] = $userRepository->getWishlists($user, 0);
+        } else {
+            $collections['wishlists'] = [
+              'page' => 0,
+              'totalPage' => 0,
+              'results' => [],
+            ];
+        }
         $urlActivationAccount = '';
-        if (!$user->getIsStripeAccountActive()) {
+        $urlActivation = false;
+        if (!$user->getIsStripeAccountActive() && $user->getStripeAccountId()) {
             $urlActivationAccount = $stripeManager->createAccountLink($user)->url;
+            $urlActivation = true;
         }
 
-        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts', 'urlActivationAccount'));
+        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts', 'urlActivationAccount', 'urlActivation'));
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
@@ -244,7 +258,7 @@ class UserController extends AbstractController
     /**
      * Pagination des blocs table de la fiche qualif
      */
-    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products'], methods: ["GET"])]
+    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products|wishlists'], methods: ["GET"])]
     public function collection(string $name, int $page, EntityManagerInterface $em): Response
     {
         $func = "get" . ucwords($name);

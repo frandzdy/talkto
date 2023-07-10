@@ -7,7 +7,7 @@
 {% block metas %}
     {{ parent() }}
     <meta name="description"
-          content="Création de compte gratuit ou avec abonnements, choissisez vos centres d'intérêts, trouvez des matchs près de chez vous">
+          content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
     <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
 {% endblock %}
 
@@ -37,8 +37,9 @@
                                     <span>{{ user.fullname }}</span> {{ user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : '' }}
                                 </h3>
                                 <p>2 locations en cours <a href="my-course.html">Voir mes locations</a></p>
-                                {% if user.isStripeAccountActive is same as (false) %}
-                                    <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}">Activer</a> votre compte</p>
+                                {% if urlActivation is same as (true) %}
+                                    <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}">Activer</a>
+                                        votre compte</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -81,15 +82,25 @@
                                             data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false">
                                         <i
-                                                class="fa fa-bags-shopping"></i>Produits
+                                                class="fa fa-bags-shopping"></i>Mes biens
                                     </button>
                                 {% endif %}
-                                {% if user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') or user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') %}
-                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
-                                            data-target="#nav-reservation"
-                                            type="button" role="tab" aria-controls="nav-reservation"
+                                {% set title = 'Mes locations' %}
+                                {% if user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
+                                    {% set title = 'Mes réservations' %}
+                                {% endif %}
+                                <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
+                                        data-target="#nav-reservation"
+                                        type="button" role="tab" aria-controls="nav-reservation"
+                                        aria-selected="false"><i
+                                            class="fa fa-calendar-check"></i>{{ title }}
+                                </button>
+                                {% if user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                                    <button class="nav-link" id="nav-wishlist-tab" data-toggle="tab"
+                                            data-target="#nav-wishlist"
+                                            type="button" role="tab" aria-controls="nav-wishlist"
                                             aria-selected="false"><i
-                                                class="fa fa-calendar-check"></i>Mes réservations
+                                                class="fal fa-heart text-danger"></i>Ma liste d'envie
                                     </button>
                                 {% endif %}
                                 <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out"></i>
@@ -105,53 +116,7 @@
                                  aria-labelledby="nav-account-tab">
                                 {% include ('front/user/partials/_profil_info.html.twig') %}
                             </div>
-                            <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-                                <div class="order__info">
-                                    <div class="order__info-top d-flex justify-content-between align-items-center">
-                                        <h3 class="order__info-title">My Orders</h3>
-                                        <button type="button" class="order__info-btn"><i
-                                                    class="fa-regular fa-trash-can"></i> Clear
-                                        </button>
-                                    </div>
-
-                                    <div class="order__list white-bg table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Details</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td class="order__id">#3520</td>
-                                                <td><a href="product-details.html" class="order__title">University
-                                                        seminar series global.</a></td>
-                                                <td>$144.00</td>
-                                                <td><a href="product-details.html" class="order__view-btn">View</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order__id">#2441</td>
-                                                <td><a href="product-details.html" class="order__title">Web coding and
-                                                        apache basics</a></td>
-                                                <td>$59.54</td>
-                                                <td><a href="product-details.html" class="order__view-btn">View</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order__id">#2357</td>
-                                                <td><a href="product-details.html" class="order__title">Economics
-                                                        historical development</a></td>
-                                                <td>$89.90</td>
-                                                <td><a href="product-details.html" class="order__view-btn">View</a></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            {% if user.isStripeAccountActive %}
+                            {% if user.isStripeAccountActive and user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
                                 <div class="tab-pane fade" id="nav-product" role="tabpanel"
                                      aria-labelledby="nav-product-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
@@ -168,20 +133,37 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% else %}
-                                <div class="tab-pane fade" id="nav-reservation" role="tabpanel"
-                                     aria-labelledby="nav-reservation-tab">
+                            {% endif %}
+                            <div class="tab-pane fade" id="nav-reservation" role="tabpanel"
+                                 aria-labelledby="nav-reservation-tab">
+                                {% include "partials/_block_pagination.html.twig" with {
+                                    page: collections.reservations.page,
+                                    totalPage: collections.reservations.totalPage,
+                                    url: path('front_user_collection', {
+                                        'name': 'reservations',
+                                        'page': "_PAGE_"
+                                    })
+                                } %}
+                                <div class="card-body pb-0 position-relative">
+                                    <div class="table-responsive scrollbar mx-ncard">
+                                        {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': title} only %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                                <div class="tab-pane fade" id="nav-wishlist" role="tabpanel"
+                                     aria-labelledby="nav-wishlist-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
-                                        page: collections.reservations.page,
-                                        totalPage: collections.reservations.totalPage,
+                                        page: collections.wishlists.page,
+                                        totalPage: collections.wishlists.totalPage,
                                         url: path('front_user_collection', {
-                                            'name': 'reservations',
+                                            'name': 'wishlists',
                                             'page': "_PAGE_"
                                         })
                                     } %}
                                     <div class="card-body pb-0 position-relative">
                                         <div class="table-responsive scrollbar mx-ncard">
-                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([])} only %}
+                                            {% include "front/user/partials/_wishlists.html.twig" with {'results': collections.wishlists|default([])} only %}
                                         </div>
                                     </div>
                                 </div>

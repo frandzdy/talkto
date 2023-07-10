@@ -1,0 +1,55 @@
+<div class="order__info">
+    <div class="order__info-top d-flex justify-content-between align-items-center">
+        <h3 class="order__info-title">Mes favoris</h3>
+    </div>
+
+    <div class="order__list white-bg table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Photo</th>
+                <th scope="col" class="text-center">Nom</th>
+                <th scope="col" class="text-center">Prix/jour</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody id="product-list">
+            {% for wishlist in results.results %}
+                <tr>
+                    <td class="text-center product-thumbnail">
+                        <img src="{{ asset("build/images/img/shop/product/product-1.jpg") }}"
+                             alt="product-img">
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('front_product_show', {'token': wishlist.token}) }}"
+                           class="order__title open-product-modal"
+                           data-modal-title="Réservation en cours {{ wishlist.product.title }}"
+                           title="Réservez {{ wishlist.product.title }}">
+                            {{ wishlist.product.title }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ wishlist.product.amount }} €</td>
+                    <td class="text-center">
+                        <a href="{{ path('front_product_reservation', {'token': wishlist.product.token}) }}"
+                           class="order__view-btn open-product-modal"
+                           data-modal-title="Réservation en cours {{ wishlist.product.title }}"
+                           title="Réservez {{ wishlist.product.title }}">
+                            Réservez
+                        </a>
+                        <br>
+                        <a href="{{ path('front_wishlist_delete', {'token': wishlist.token}) }}"
+                           class="order__view-btn post-confirm"
+                           data-confirm-message="Etes-vous sur de vouloir supprimer le produit {{ wishlist.product.title }} de votre liste d'envie ?"
+                           data-title="Suppression du produit {{ wishlist.product.title }} de votre liste d'envie"
+                           data-button-text="Supprimer"
+                           title="Suppression du produit {{ wishlist.product.title }}"
+                        >
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

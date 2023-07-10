@@ -21,10 +21,6 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "engines": {
-        "node": "16.x",
-        "yarn": "1.x"
-    },
     "dependencies": {
         "@stripe/stripe-js": "^1.54.0",
         "@webcreate/infinite-ajax-scroll": "^3.0.0",

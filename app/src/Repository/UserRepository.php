@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\User;
+use App\Entity\Wishlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
@@ -224,6 +225,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $qb->select('r')
             ->orderBy('tl.startDate, tl.status', 'DESC')
+            ->setFirstResult($offset * 5)
+            ->setMaxResults(5);
+
+        return [
+            'results' => $qb->getQuery()->getResult(),
+            'totalPage' => ceil($count / 5),
+            'page' => $offset + 1,
+        ];
+    }
+
+    public function getWishlists(User $user, int $offset): array
+    {
+        $qb = $this->_em->getRepository(Wishlist::class)
+            ->createQueryBuilder('w')
+            ->join('w.user', 'u')
+            ->join('w.product', 'p')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $user->getId());
+
+        $count = (clone $qb)->select('count(Distinct(w.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $qb->select('w')
+            ->orderBy('w.createdAt', 'DESC')
             ->setFirstResult($offset * 5)
             ->setMaxResults(5);
 

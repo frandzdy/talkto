@@ -262,7 +262,14 @@
                                             <img src="{{ asset("build/images/img/shop/product/product-1.jpg") }}" alt="product-img">
                                             <img class="product__thumb-2" src="{{ asset("build/images/img/shop/product/product-10.jpg") }}" alt="product-img">
                                         <div class="product__action transition-3">
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist" class="add-product-wishlist">
+                                            <a href="{{ path('front_wishlist_add', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'}) }}"
+                                               class="post-confirm add-product-wishlist"
+                                               data-button-text="Ajouter"
+                                               data-title="Liste d'envie"
+                                               data-type="green"
+                                               data-btn-class="btn-green"
+                                               data-confirm-message="Souhaitez-vous ajouter ce produit à votre liste d'envie?"
+                                               data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
                                                 <i class="fal fa-heart"></i>
                                             </a>
                                             <!-- Button trigger modal -->
@@ -272,7 +279,6 @@
                                                class="open-product-modal">
                                                 <i class="fal fa-search"></i>
                                             </a>
-
                                         </div>
                                     </div>
                                     <div class="product__content p-relative">

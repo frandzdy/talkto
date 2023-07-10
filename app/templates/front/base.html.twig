@@ -128,7 +128,7 @@
     {% endfor %}
 </head>
 <body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
-{% block body %}{% endblock %}
+<main>{% block body %}{% endblock %}</main>
 
 {% block javascripts %}
     {% for flash_message in app.session.flashBag.get('error') %}
