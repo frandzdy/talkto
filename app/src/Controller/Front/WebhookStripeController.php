@@ -26,8 +26,7 @@ class WebhookStripeController extends AbstractController
         EntityManagerInterface $em,
         MailerManager          $mailer,
         array                  $stripeParameters
-    ): Response
-    {
+    ): Response {
         $endpoint_secret = $stripeParameters['wh_secret_key'];
 
         $payload = $request->getContent();
@@ -89,15 +88,14 @@ class WebhookStripeController extends AbstractController
                     ->setAuthor($transaction->getAuthor());
                 $em->persist($reservation);
                 $em->flush();
-//                        $mailer->sendMailNotification(
-//                            $user->getEmail(),
-//                            'front/emails/create_account_abonnement_login_link.html.twig',
-//                            [
-//                                'link' => $loginLinkDetails->getUrl(),
-//                                'user' => $user,
-//                                'expiresAt' => $loginLinkDetails->getExpiresAt()
-//                            ]
-//                        );
+
+                $mailer->sendMailNotification(
+                    $transaction->getAuthor()->getEmail(),
+                    'front/emails/reservation_validation.html.twig',
+                    [
+                        'user' => $transaction->getAuthor(),
+                    ]
+                );
                 break;
             case 'payment_intent.canceled':
                 $session = $event->data->object;

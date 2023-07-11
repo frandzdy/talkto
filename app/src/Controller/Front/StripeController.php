@@ -31,8 +31,7 @@ class StripeController extends AbstractController
         AuthenticationUtils    $authenticationUtils,
         Security               $security,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         /**
          * On récupère l'utilisateur connecté
          * si pas connecté alors on crée un compte stripe avec les informations de facturation
@@ -45,7 +44,8 @@ class StripeController extends AbstractController
             'totalFees' => 0,
             'transactionId' => null
         ]);
-
+        $clientSecret = null;
+        $transaction = null;
         if (!$carts['products']) {
             return $this->redirectToRoute('front_home');
         }
@@ -57,34 +57,7 @@ class StripeController extends AbstractController
         if (!$user) {
             $user = $userManager->createUser();
         } else {
-            if (!$carts['transactionId']) {
-                $transaction = (new Transaction())
-                    ->setStatus(TransactionStatus::WAITING)
-                    ->setAuthor($user);
-                $stripeManager->addOrUpdateTransactionLine($carts['products'], $transaction);
-                $em->persist($transaction);
-                $em->flush();
-                $transaction->setReference(sprintf('#REF_%s', str_pad((string)$transaction->getId(), 6, '0', STR_PAD_LEFT)));
-                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
-                $transaction->setPaymentIntentId($paymentIntent->id);
-                $em->flush();
-                $carts['transactionId'] = $transaction->getId();
-            } else {
-                $transaction = $em->getRepository(Transaction::class)->findOneBy(['id' => $carts['transactionId']]);
-
-                foreach ($transaction->getTransactionLines() as $transactionLine) {
-                    $transaction->removeTransactionLine($transactionLine);
-                    $em->remove($transactionLine);
-                }
-                $em->flush();
-
-                // mettre à jour aussi la transaction
-                $stripeManager->addOrUpdateTransactionLine($carts['products'], $transaction);
-                $paymentIntent = $stripeManager->createPaymentIntent($carts, $user, $transaction);
-                $transaction->setPaymentIntentId($paymentIntent->id);
-
-                $em->flush();
-            }
+            list($paymentIntent, $transaction) = $stripeManager->createTransaction($carts);
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
         }
@@ -103,10 +76,10 @@ class StripeController extends AbstractController
             [
                 'last_username' => $lastUsername,
                 'carts' => $carts,
-                'clientSecret' => $clientSecret ?: null,
+                'clientSecret' => $clientSecret,
                 'form' => $form,
                 'error' => $error,
-                'transaction' => $transaction ?: null
+                'transaction' => $transaction
             ]
         );
     }
@@ -129,7 +102,6 @@ class StripeController extends AbstractController
             'totalFees' => 0,
             'transactionId' => null
         ]);
-        $clientSecret = null;
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -142,7 +114,7 @@ class StripeController extends AbstractController
             [
                 'last_username' => $lastUsername,
                 'carts' => $carts,
-                'clientSecret' => $clientSecret,
+                'clientSecret' => null,
                 'form' => $form,
                 'error' => $error
             ]
@@ -163,7 +135,8 @@ class StripeController extends AbstractController
     }
 
     #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
-    public function success(StripeManager $stripeManager, Request $request): Response
+    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    public function success(StripeManager $stripeManager, Request $request, SessionInterface $session): Response
     {
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
         $message = 'Erreur lors du paiement.';
@@ -171,9 +144,25 @@ class StripeController extends AbstractController
         switch ($paymentIntent->status) {
             case 'succeeded':
                 $message = 'Paiement validé';
+                $session->set('cart', [
+                    'products' => [],
+                    'totalQuantity' => 0,
+                    'totalAmount' => 0,
+                    'totalTva' => 0,
+                    'totalFees' => 0,
+                    'transactionId' => null
+                ]);
                 break;
             case 'processing':
                 $message = 'Paiement en cour de validation';
+                $session->set('cart', [
+                    'products' => [],
+                    'totalQuantity' => 0,
+                    'totalAmount' => 0,
+                    'totalTva' => 0,
+                    'totalFees' => 0,
+                    'transactionId' => null
+                ]);
                 break;
             case 'requires_payment_method':
                 $message = 'Veuillez choisir un autre moyen de paiement.';
@@ -187,6 +176,7 @@ class StripeController extends AbstractController
     }
 
     #[Route('/cancel', name: 'stripe_cancel')]
+    #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function cancel(): Response
     {
         return $this->render('front/stripe/cancel.html.twig');

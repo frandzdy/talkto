@@ -8,6 +8,7 @@ use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\TransactionLineStatus;
+use App\Enum\TransactionStatus;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Account;
@@ -31,12 +32,11 @@ class StripeManager
      * StripeManager constructor.
      */
     public function __construct(
-        private UrlGeneratorInterface  $generator,
-        private array                  $stripeParameters,
-        private ProductRepository      $productRepository,
+        private UrlGeneratorInterface $generator,
+        private array $stripeParameters,
+        private ProductRepository $productRepository,
         private EntityManagerInterface $em
-    )
-    {
+    ) {
         $this->stripe = new StripeClient($this->stripeParameters['secret_key']);
     }
 
@@ -95,8 +95,16 @@ class StripeManager
         return $this->stripe->accountLinks->create(
             [
                 'account' => $user->getStripeAccountId(),
-                'refresh_url' => $this->generator->generate('front_stripe_reauth', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'return_url' => $this->generator->generate('front_stripe_return', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                'refresh_url' => $this->generator->generate(
+                    'front_stripe_reauth',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                'return_url' => $this->generator->generate(
+                    'front_stripe_return',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
                 'type' => 'account_onboarding',
             ]
         );
@@ -170,8 +178,8 @@ class StripeManager
             $transfer = $this->stripe->transfers->create(
                 [
                     'amount' => ((int)$product->getAmount()
-                                * (int)$transactionLine->getQuantity()
-                                * (int)$numberDays) * 100,
+                            * (int)$transactionLine->getQuantity()
+                            * (int)$numberDays) * 100,
                     'currency' => 'eur',
                     'destination' => $renter->getStripeAccountId(),//'acct_1NC9n5FZz11Scp6n'
                     'source_transaction' => $paymentIntent->charges->first()->id,
@@ -191,9 +199,9 @@ class StripeManager
     public function addOrUpdateTransactionLine($products, Transaction $transaction): array
     {
         $response = [
-          'transactionTotalTtc' => 0,
-          'transactionTotalTva' => 0,
-          'transactionTotalFees' => 0,
+            'transactionTotalTtc' => 0,
+            'transactionTotalTva' => 0,
+            'transactionTotalFees' => 0,
         ];
 
         foreach ($products as $token => $cart) {
@@ -229,8 +237,8 @@ class StripeManager
         }
 
         $transaction->setTotalAmountTtc($response['transactionTotalTtc'] * 100)
-        ->setTotalAmountTva($response['transactionTotalTva'] * 100)
-        ->setTotalFees($response['transactionTotalFees'] * 100);
+            ->setTotalAmountTva($response['transactionTotalTva'] * 100)
+            ->setTotalFees($response['transactionTotalFees'] * 100);
 
         return $response;
     }
@@ -271,5 +279,48 @@ class StripeManager
                 'amount' => $transactionLine->getAmountTtc() - $transactionLine->getFees(),
             ]
         );
+    }
+
+    /**
+     * Créer une transaction avec les informations du panier
+     *
+     * @param array $carts
+     * @param User $user
+     * @return PaymentIntent
+     */
+    public function createTransaction(array &$carts, User $user): PaymentIntent
+    {
+        if (!$carts['transactionId']) {
+            $transaction = (new Transaction())
+                ->setStatus(TransactionStatus::WAITING)
+                ->setAuthor($user);
+            $this->addOrUpdateTransactionLine($carts['products'], $transaction);
+            $this->em->persist($transaction);
+            $this->em->flush();
+            $transaction->setReference(
+                sprintf('#REF_%s', str_pad((string)$transaction->getId(), 6, '0', STR_PAD_LEFT))
+            );
+            $paymentIntent = $this->createPaymentIntent($carts, $user, $transaction);
+            $transaction->setPaymentIntentId($paymentIntent->id);
+            $this->em->flush();
+            $carts['transactionId'] = $transaction->getId();
+        } else {
+            $transaction = $this->em->getRepository(Transaction::class)->findOneBy(['id' => $carts['transactionId']]);
+
+            foreach ($transaction->getTransactionLines() as $transactionLine) {
+                $transaction->removeTransactionLine($transactionLine);
+                $this->em->remove($transactionLine);
+            }
+            $this->em->flush();
+
+            // mettre à jour aussi la transaction
+            $this->addOrUpdateTransactionLine($carts['products'], $transaction);
+            $paymentIntent = $this->createPaymentIntent($carts, $user, $transaction);
+            $transaction->setPaymentIntentId($paymentIntent->id);
+
+            $this->em->flush();
+        }
+
+        return [$paymentIntent, $transaction];
     }
 }
