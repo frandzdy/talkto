@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WebhookStripeController extends AbstractController
 {
@@ -72,7 +74,8 @@ class WebhookStripeController extends AbstractController
                 $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
                 $transaction->setStatus(TransactionStatus::VALIDATE);
                 // on fait un virement au
-                $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
+                //$stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
+
 
                 // mettre à jour le nombre de produits restant pour chaque
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
@@ -96,6 +99,23 @@ class WebhookStripeController extends AbstractController
                         'user' => $transaction->getAuthor(),
                     ]
                 );
+                // notification du bailleur
+                foreach ($transaction->getTransactionLines() as $transactionLine) {
+                    $mailer->sendMailNotification(
+                        $transactionLine->getProduct()->getAuthor()->getEmail(),
+                        'front/emails/seller_reservation_validation.html.twig',
+                        [
+                            'seller' => strtoupper($transactionLine->getProduct()->getAuthor()->getFirstname()),
+                            'buyer' => strtoupper($transaction->getAuthor()->getFullname()),
+                            'title' => $transactionLine->getProduct()->getTitle(),
+                            'startDate' => $transactionLine->getStartDate()->format('d/m/Y'),
+                            'endDate' => $transactionLine->getEndDate()->format('d/m/Y'),
+                            'quantity' => $transactionLine->getQuantity(),
+                            'totalAmount' => $transactionLine->getAmountTtc() / 100,
+                            'link' => $this->generateUrl('front_reservation_line_show', ['token' => $transactionLine->getToken(), UrlGeneratorInterface::ABSOLUTE_URL])
+                        ]
+                    );
+                }
                 break;
             case 'payment_intent.canceled':
                 $session = $event->data->object;

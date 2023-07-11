@@ -2,6 +2,6 @@ framework:
     mailer:
         dsn: '%env(MAILER_DNS)%'
         envelope:
-            sender: 'contact@spami.fr'
+            sender: 'contact@rented.fr'
         headers:
-            from: 'SPAMI <contact@spami.fr>'
+            from: 'SPAMI <contact@rented.fr>'

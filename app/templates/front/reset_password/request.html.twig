@@ -18,9 +18,6 @@
                     <div class="basic-login" id="formReinitPassWord">
                         <div class="profile__edit-wrapper">
                             <h3 class="text-center mb-60">Mot de passe oublié</h3>
-                            {% for flash_error in app.flashes('reset_password_error') %}
-                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                            {% endfor %}
                             {{ form_start(requestForm, {attr: {'autocomplete':'off'}}) }}
                             {{ form_row(requestForm.email, {attr: {"class":""}}) }}
                             <div class="profile__edit-input">
