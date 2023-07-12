@@ -34,12 +34,15 @@
                             <div class="profile__basic-content">
                                 <h3 class="profile__basic-title">
                                     Bienvenue
-                                    <span>{{ user.fullname }}</span> {{ user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : '' }}
+                                    <span>{{ user.fullname }}</span> {% if user.roles[0] == constant('App\\Entity\\User::ROLE_GUESS') %}{{ user.roleAsLabel }}{% endif %}
                                 </h3>
-                                <p>2 locations en cours <a href="my-course.html">Voir mes locations</a></p>
-                                {% if urlActivation is same as (true) %}
-                                    <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}">Activer</a>
-                                        votre compte</p>
+                                {% if user.roles[0] is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                                    <p>2 location(s) en cours</p>
+                                {% else %}
+                                    {% if urlActivation is same as (true) %}
+                                        <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}" title="lien d'activation du compte bailleur">Activer</a>
+                                            votre compte</p>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -47,10 +50,10 @@
                     <div class="col-xxl-6 col-md-6">
                         <div class="profile__basic-cart d-flex align-items-center justify-content-md-end">
                             <div class="cart-info mr-10">
-                                <a href="cart.html"> Voir mon panier </a>
+                                <a href="{{ path('front_cart_index') }}"> Voir mon panier </a>
                             </div>
                             <div class="cart-item">
-                                <a href="cart.html">
+                                <a href="{{ path('front_cart_index') }}">
                                     <i class="fa-regular fa-basket-shopping"></i>
                                     <span class="cart-quantity">{{ carts.totalQuantity|default(0) }}</span>
                                 </a>
@@ -77,7 +80,7 @@
                                         data-target="#nav-account" type="button" role="tab" aria-controls="nav-account"
                                         aria-selected="true"><i class="fa fa-user"></i> Mon compte
                                 </button>
-                                {% if user.isStripeAccountActive and user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
+                                {% if user.isStripeAccountActive and user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') %}
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab"
                                             data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false">
@@ -86,7 +89,7 @@
                                     </button>
                                 {% endif %}
                                 {% set title = 'Mes locations' %}
-                                {% if user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
+                                {% if user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') %}
                                     {% set title = 'Mes réservations' %}
                                 {% endif %}
                                 <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
@@ -95,12 +98,13 @@
                                         aria-selected="false"><i
                                             class="fa fa-calendar-check"></i>{{ title }}
                                 </button>
-                                {% if user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                                {% if user.roles[0] is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
                                     <button class="nav-link" id="nav-wishlist-tab" data-toggle="tab"
                                             data-target="#nav-wishlist"
                                             type="button" role="tab" aria-controls="nav-wishlist"
-                                            aria-selected="false"><i
-                                                class="fal fa-heart text-danger"></i>Mes favoris
+                                            aria-selected="false">
+                                        <i class="fas fa-heart" style="color: #ffc8c8;"></i>
+                                        Mes favoris
                                     </button>
                                 {% endif %}
                                 <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out"></i>
@@ -116,7 +120,7 @@
                                  aria-labelledby="nav-account-tab">
                                 {% include ('front/user/partials/_profil_info.html.twig') %}
                             </div>
-                            {% if user.isStripeAccountActive and user.roleAsLabel == constant('App\\Entity\\User::ROLE_SELLER') %}
+                            {% if user.isStripeAccountActive and user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') %}
                                 <div class="tab-pane fade" id="nav-product" role="tabpanel"
                                      aria-labelledby="nav-product-tab">
                                     {% include "partials/_block_pagination.html.twig" with {
@@ -150,7 +154,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                            {% if user.roles[0] is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
                                 <div class="tab-pane fade" id="nav-wishlist" role="tabpanel"
                                      aria-labelledby="nav-wishlist-tab">
                                     {% include "partials/_block_pagination.html.twig" with {

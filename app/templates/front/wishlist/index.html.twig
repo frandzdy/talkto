@@ -39,7 +39,7 @@
                                 <tr>
                                     <td class="product-thumbnail">
                                         {% set pictureName = '' %}
-                                        {% if wishlist.product.pictures|length > 0 %}
+                                        {% if wishlist.product.pictures.count > 0 %}
                                             {% set pictureName = wishlist.product.pictures.first.name %}
                                         {% endif %}
                                         <a href="{{ path('front_product_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">

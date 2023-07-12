@@ -253,6 +253,6 @@ class TransactionLine
     public function canBeCancel(): bool
     {
         return $this->getStatus()->value == TransactionLineStatus::WAITING->value
-            && $this->getStartDate() < (new \DateTime('now'));
+            && $this->getStartDate() > (new \DateTime('now'));
     }
 }

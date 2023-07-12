@@ -72,7 +72,7 @@
                                             {% if app.user %}
                                             <div class="my-account">
                                                 <div class="extra-title">
-                                                    <h5>Bonjour, {{ app.user.fullname }}</h5>{{ app.user.roleAsLabel == constant('App\\Entity\\User::ROLE_GUESS') ? 'Invité(e)' : ''}}
+                                                    <h5>Bonjour, {{ app.user.fullname }}</h5>{{ app.user.roleAsLabel }}
                                                 </div>
                                                 <ul>
                                                     <li><a href="{{ path('front_user_account') }}">Mon compte</a></li>

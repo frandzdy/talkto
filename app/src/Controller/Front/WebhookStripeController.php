@@ -73,10 +73,8 @@ class WebhookStripeController extends AbstractController
                 $paymentIntent = $stripeManager->retrievePaymentIntent($session->id);
                 $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
                 $transaction->setStatus(TransactionStatus::VALIDATE);
-                // on fait un virement au
-                //$stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
-
-
+                // on fait un virement aux différents bailleurs
+                $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
                 // mettre à jour le nombre de produits restant pour chaque
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
                     /**
@@ -118,20 +116,12 @@ class WebhookStripeController extends AbstractController
                 }
                 break;
             case 'payment_intent.canceled':
+            case 'payment_intent.payment_failed':
                 $session = $event->data->object;
                 $paymentIntent = $stripeManager->retrievePaymentIntent($session->id);
                 $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
-                $transaction->setStatus(TransactionStatus::REJECTED);
+                $transaction->setStatus(TransactionStatus::CANCELED);
                 $em->flush();
-                //                        $mailer->sendMailNotification(
-//                            $user->getEmail(),
-//                            'front/emails/create_account_abonnement_login_link.html.twig',
-//                            [
-//                                'link' => $loginLinkDetails->getUrl(),
-//                                'user' => $user,
-//                                'expiresAt' => $loginLinkDetails->getExpiresAt()
-//                            ]
-//                        );
                 break;
             // Unhandled event type
             default:

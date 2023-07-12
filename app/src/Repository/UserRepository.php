@@ -211,14 +211,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb = $this->_em->getRepository(Reservation::class)
             ->createQueryBuilder('r')
             ->join('r.transaction', 't')
-            ->join('t.transactionLines', 'tl')
+            ->leftjoin('t.transactionLines', 'tl')
             ->join('tl.product', 'p');
-        if (in_array(['ROLE_USER'], $user->getRoles())) {
-            // $qb->where('u.id = :userId');
+        if (in_array(User::ROLE_USER, $user->getRoles())) {
+            $qb->where('r.author = :userId');
         } else {
-            // $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
+            $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
         }
-        //$qb->setParameter('userId', $user->getId());
+        $qb->setParameter('userId', $user->getId());
+
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
             ->getSingleScalarResult();

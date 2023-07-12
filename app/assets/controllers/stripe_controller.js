@@ -19,19 +19,17 @@ export default class extends Controller {
     async handleStripe() {
 
         const stripe = await loadStripe(stripePublicKey) // 'pk_test_51HD51PFRcMdepTxq4JsEEuihDjkOnftzJCpyxkZHpHX9aLvWuxviSpQCqH9GvszGqtfwMXcOS12jl11g3yyfSpWW0072zp4ZEd'
-
+        const loader = 'auto'
+        let linkAuthenticationElement = null
         const options = {
             clientSecret: this.element.dataset.clientSecret,
-            // Fully customizable with appearance API.
-            appearance: {
-                theme: "flat",
-                labels: 'floating',
-            }
         }
 
         // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
         const elements = stripe.elements(options)
-
+        if (isLogged) {
+            linkAuthenticationElement = elements.create('linkAuthentication', {defaultValues: {email: email}});
+        }
         // Create and mount the Payment Element
         const paymentElement = elements.create('payment', {
             layout: {
@@ -43,7 +41,9 @@ export default class extends Controller {
             business: {"name": "Rented"}
         });
         paymentElement.mount('#payment-element')
-
+        if (isLogged) {
+            linkAuthenticationElement.mount('#link-authentication-element')
+        }
         const buttonSubmit = $('#stripe_submit')
 
         buttonSubmit.on('click', async (event) => {

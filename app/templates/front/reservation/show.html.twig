@@ -18,11 +18,15 @@
                             </thead>
                             <tbody>
                             {% for transactionLine in reservation.transaction.transactionLines %}
+                                {% set pictureName = '' %}
+                                {% if transactionLine.product.pictures.count > 0 %}
+                                    {% set pictureName = transactionLine.product.pictures.first.name %}
+                                {% endif %}
                                 <tr class="cart_item">
                                     <td class="product-thumbnail">
                                         <a href="{{ path('front_product_show_detail', {'token': transactionLine.product.token }) }}">
-                                            <img src="{{ asset('uploads/product_picture/' ~ transactionLine.product.pictures.first.name)|imagine_filter('product_miniature') }}"
-                                                 alt="{{ transactionLine.product.pictures.first.name }}"/>
+                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                 alt="{{ pictureName }}"/>
                                         </a>
                                     </td>
                                     <td class="product-name">
@@ -45,14 +49,15 @@
                                     <td class="product-name">
                                         {% if not app.user.isStripeAccountActive %}
                                             {% if transactionLine.endDate|date('d/m/Y') <= "now"|date("m/d/Y")
-                                                or transactionLine.status.value != constant('App\\Enum\\TransactionLineStatus::WAITING').value %}
+                                                or transactionLine.status.value == constant('App\\Enum\\TransactionLineStatus::VALIDATE').value
+                                            %}
                                                 <a class="profile__info-btn post-confirm"
                                                    data-button-text="Annuler"
                                                    data-title="Annulation"
-                                                   data-confirm-message="Souhaitez-vous annuler cette réservation ?"
-                                                   href="{{ path('front_transaction_line_claim', {'token': transactionLine.token}) }}"
-                                                   title="Faire une réclamation">
-                                                    Réclamation
+                                                   data-confirm-message="Souhaitez-vous faire ouvrir un litige ?"
+                                                   href="{{ path('front_claim_create', {'token': transactionLine.token}) }}"
+                                                   title="Faire une litige">
+                                                    Litige
                                                 </a>
                                             {% endif %}
                                         {% else %}
@@ -128,7 +133,7 @@
                                 <th></th>
                                 <th>Total TTC</th>
                                 <td><strong><span
-                                                class="amount">{{ reservation.transaction.totalAmountTtc + reservation.transaction.totalFees / 100 }} €</span></strong>
+                                                class="amount">{{ (reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100 }} €</span></strong>
                                 </td>
                                 <td></td>
                             </tr>

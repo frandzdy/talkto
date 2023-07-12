@@ -70,8 +70,10 @@ class ProductController extends AbstractController
             'date' => null,
             'quantity' => null
         ];
+        $choicesValue = [];
+        $choicesValue[] = 0;
         $quantityLeft = $product->getQuantity() - $product->getQuantityAllReadyReserved();
-        for ($i = 1; $i <= $quantityLeft; $i++) {
+        for ($i = 1; $i <= $quantityLeft + 1; $i++) {
             $choicesValue[$i] = $i;
         }
 

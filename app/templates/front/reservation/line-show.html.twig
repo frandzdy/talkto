@@ -1,3 +1,7 @@
+{% set pictureName = '' %}
+{% if transactionLine.product.pictures.count > 0 %}
+    {% set pictureName = transactionLine.product.pictures.first.name %}
+{% endif %}
 <!-- checkout-area start -->
 <section class="checkout-area pb-70">
     <div class="container">
@@ -20,8 +24,8 @@
                                 <tr class="cart_item">
                                     <td class="product-thumbnail">
                                         <a href="{{ path('front_product_show_detail', {'token': transactionLine.product.token }) }}">
-                                            <img src="{{ asset('uploads/product_picture/' ~ transactionLine.product.pictures.first.name)|imagine_filter('product_miniature') }}"
-                                                 alt="{{ transactionLine.product.pictures.first.name }}"/>
+                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                 alt="{{ pictureName }}"/>
                                         </a>
                                     </td>
                                     <td class="product-name">

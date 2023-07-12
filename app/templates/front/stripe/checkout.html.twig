@@ -248,7 +248,7 @@
                                 <tr class="order-total">
                                     <th></th>
                                     <th>Total TTC</th>
-                                    <td><strong><span class="amount">{{ carts.totalAmount }} €</span></strong>
+                                    <td><strong><span class="amount">{{ carts.totalAmount + carts.totalFees }} €</span></strong>
                                     </td>
                                 </tr>
                                 </tfoot>
@@ -309,6 +309,7 @@
                                             {% if clientSecret %}
                                                 <form id="payment-form" {{ stimulus_controller('stripe') }}
                                                       data-client-secret="{{ clientSecret }}">
+                                                    <div id="link-authentication-element"></div>
                                                     <div id="payment-element">
                                                         <!-- Elements will create form elements here -->
                                                     </div>

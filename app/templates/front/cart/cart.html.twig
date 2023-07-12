@@ -108,7 +108,7 @@
                                             <span>{{ carts.totalFees }} €</span>
                                         </li>
                                         <li><b>Total TTC</b><span id="totalAmountTtc"
-                                                                  class="text-black font-weight-bold">{{ carts.totalAmount }} €</span>
+                                                                  class="text-black font-weight-bold">{{ carts.totalAmount + carts.totalFees }} €</span>
                                         </li>
                                     </ul>
                                     <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Réserver</a>

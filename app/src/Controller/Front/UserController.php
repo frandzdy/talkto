@@ -42,7 +42,7 @@ class UserController extends AbstractController
         /**
          * @var User $user
          */
-        if ($user->getRoleAsLabel() !== User::ROLE_SELLER) {
+        if (!in_array(User::ROLE_SELLER, $user->getRoles())) {
             $collections['wishlists'] = $userRepository->getWishlists($user, 0);
         } else {
             $collections['wishlists'] = [

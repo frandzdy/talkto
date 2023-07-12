@@ -32,12 +32,16 @@ class StripeManager
      * StripeManager constructor.
      */
     public function __construct(
-        private UrlGeneratorInterface $generator,
-        private array $stripeParameters,
-        private ProductRepository $productRepository,
-        private EntityManagerInterface $em
+        private readonly UrlGeneratorInterface $generator,
+        private readonly array $stripeParameters,
+        private readonly EntityManagerInterface $em
     ) {
-        $this->stripe = new StripeClient($this->stripeParameters['secret_key']);
+        $this->stripe = new StripeClient(
+            [
+                'api_key' => $this->stripeParameters['secret_key'],
+                'stripe_version' => '2022-11-15'
+            ]
+        );
     }
 
     /**
@@ -154,13 +158,17 @@ class StripeManager
                 'currency' => 'eur',
                 'setup_future_usage' => 'off_session',
                 'automatic_payment_methods' => ['enabled' => true],
-                'transfer_group' => $transaction->getReference()
+                'transfer_group' => $transaction->getReference(),
+                'receipt_email' => $user->getEmail(),
+                'receipt_number' => $user->getPhone(),
+                'description' => sprintf('Location d\'un bien Rented : Ref %s', $transaction->getReference())
             ]
         );
     }
 
     /**
      * @param PaymentIntent $paymentIntent
+     * @param Transaction $transaction
      * @return array
      * @throws \Stripe\Exception\ApiErrorException
      */
@@ -181,8 +189,8 @@ class StripeManager
                             * (int)$transactionLine->getQuantity()
                             * (int)$numberDays) * 100,
                     'currency' => 'eur',
-                    'destination' => $renter->getStripeAccountId(),//'acct_1NC9n5FZz11Scp6n'
-                    'source_transaction' => $paymentIntent->charges->first()->id,
+                    'destination' => $renter->getStripeAccountId(),
+                    'source_transaction' => $paymentIntent->latest_charge,
                     'transfer_group' => $transaction->getReference(),
                 ]
             );
@@ -288,7 +296,7 @@ class StripeManager
      * @param User $user
      * @return PaymentIntent
      */
-    public function createTransaction(array &$carts, User $user): PaymentIntent
+    public function createTransaction(array &$carts, User $user): array
     {
         if (!$carts['transactionId']) {
             $transaction = (new Transaction())

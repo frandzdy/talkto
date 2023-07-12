@@ -57,7 +57,7 @@ class StripeController extends AbstractController
         if (!$user) {
             $user = $userManager->createUser();
         } else {
-            list($paymentIntent, $transaction) = $stripeManager->createTransaction($carts);
+            list($paymentIntent, $transaction) = $stripeManager->createTransaction($carts, $user);
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
         }
