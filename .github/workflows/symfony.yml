@@ -18,7 +18,7 @@ jobs:
           php-version: '8.1'
       - uses: actions/checkout@v3
       - name: Copy .env.test.local
-        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+        run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
