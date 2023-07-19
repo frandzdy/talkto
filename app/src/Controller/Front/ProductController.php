@@ -208,20 +208,28 @@ class ProductController extends AbstractController
         ProductCategory $productCategory,
         EntityManagerInterface $em,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        SessionInterface $session
     ): Response {
-        $amount = $request->query->get('amount', '0-300');
-        $distance = $request->query->get('distance', '0-2');
+        $amount = $request->query->get('amount', '0-500');
+        $distance = $request->query->get('distance', '0-5');
         $sortedBy = $request->query->getInt('sortedBy', 1);
         $filter = [
-            'startAmount' => explode('-', $amount)[0] ?? 0,
-            'endAmount' => explode('-', $amount)[1] ?? 300,
-            'startDistance' => explode('-', $distance)[0] ?? 0,
-            'endDistance' => explode('-', $distance)[1] ?? 2,
+            'startAmount' => explode('-', $amount)[0],
+            'endAmount' => explode('-', $amount)[1],
+            'startDistance' => explode('-', $distance)[0],
+            'endDistance' => explode('-', $distance)[1],
             'sortedBy' => $sortedBy,
             'category' => $productCategory->value
         ];
-        $queryProducts = $em->getRepository(Product::class)->getFilteredProducts($this->getUser(), $filter);
+        $lat = $session->get('lat', 0);
+        $lon = $session->get('lon', 0);
+        $queryProducts = $em->getRepository(Product::class)->getFilteredProducts($filter, $lat, $lon, $this->getUser());
+        $data = [
+            'amount' => $amount,
+            'distance' => $distance,
+            'sortedBy' => $sortedBy
+        ];
 
         $products = $paginator->paginate(
             $queryProducts, /* query NOT result */
@@ -230,27 +238,53 @@ class ProductController extends AbstractController
             ['wrap-queries' => true]
         );
 
-        if ($request->getMethod() === "POST") {
-
-            return $this->json(
-                [
-                    'response' => $this->renderView(
-                        'front/product/category.html.twig',
-                        [
-                            'pagination' => $products,
-                            'productCategory' => $productCategory
-                        ]
-                    )
-                ]
-            );
-        }
-
         return $this->render(
             'front/product/category.html.twig',
             [
                 'pagination' => $products,
-                'productCategory' => $productCategory
+                'productCategory' => $productCategory,
+                'data' => $data
             ]
+        );
+    }
+
+    #[Route('/produit-recherche', name: 'product_search', methods: ['GET'])]
+    public function productSearch(
+        ProductRepository $productRepository,
+        Request $request,
+        PaginatorInterface $paginator,
+        SessionInterface $session
+    ): Response {
+        $user = $this->getUser();
+        $lat = $session->get('lat', 0);
+        $lon = $session->get('lon', 1);
+        $sortedBy = $request->query->getInt('sortedBy', 1);
+        $searchProducts = $request->query->get('searchProducts', null);
+        $filter = [
+            'searchIds' => $searchProducts,
+            'startDistance' => 0,
+            'endDistance' => 1000,
+            'sortedBy' => $sortedBy
+             ];
+        $querysearchProducts = $productRepository->searchProducts($filter, $lat, $lon, $user);
+        $data = [
+            'sortedBy' => $sortedBy,
+            'searchProducts' => $searchProducts
+        ];
+
+        $searchProducts = $paginator->paginate(
+            $querysearchProducts, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            20 /*limit per page*/,
+            ['wrap-queries' => true]
+        );
+
+        return $this->render(
+            'front/product/search.html.twig',
+            [
+                'pagination' => $searchProducts,
+                'data' => $data
+            ],
         );
     }
 }

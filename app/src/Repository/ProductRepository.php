@@ -73,17 +73,18 @@ class ProductRepository extends ServiceEntityRepository
 //    }
 
     /**
-     * @param User $user
      * @param array $filter
+     * @param mixed $lat 48.866667 (Paris)
+     * @param mixed $lon 2.333333
+     * @param User|null $user
      * @return QueryBuilder
      */
-    public function getFilteredProducts(User $user, array $filter): QueryBuilder
+    public function getFilteredProducts(array $filter, mixed $lat = 0, mixed $lon = 0, ?User $user = null): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
             ->select(
                 '
                     p,
-                    
                     ( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
                        * sin(radians(a.lat)))) AS distance'
@@ -100,8 +101,58 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':endAmount', $filter['endAmount'])
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':productCategory', $filter['category'])
-            ->setParameter(':userLat', $user->getLat())
-            ->setParameter(':userLon', $user->getLon());
+            ;
+
+        if ($user) {
+           $qb->setParameter(':userLat', $user->getLat())
+               ->setParameter(':userLon', $user->getLon());
+        } else {
+            $qb->setParameter(':userLat', $lat != 0 ? $lat : 48.866667)
+                ->setParameter(':userLon', $lon != 0 ? $lon : 2.333333);
+        }
+        match ((int)$filter['sortedBy']) {
+            1 => $qb->orderBy('distance', 'ASC'),
+            2 => $qb->orderBy('p.amount', 'ASC'),
+            3 => $qb->orderBy('p.amount', 'DESC'),
+            4 => $qb->orderBy('p.title', 'ASC'),
+            5 => $qb->orderBy('p.title', 'DESC'),
+        };
+
+        return $qb;
+    }
+
+    public function searchProducts(array $filter, mixed $lat = 0, mixed $lon = 0, ?User $user = null): QueryBuilder
+    {
+        $searchIds = [$filter['searchIds']];
+        if (is_array(explode(',', $filter['searchIds']))) {
+            $searchIds = explode(',', $filter['searchIds']);
+        }
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                '
+                    p,
+                    ( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                       * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
+                       * sin(radians(a.lat)))) AS distance'
+            )
+            ->innerjoin('p.author', 'a')
+            ->where('p.status = :productStatus')
+            ->andWhere('p.token IN (:searchIds)')
+            ->andWhere('a.isStripeAccountActive = true')
+            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->setParameter(':searchIds', $searchIds)
+            ->setParameter(':startDistance', $filter['startDistance'])
+            ->setParameter(':endDistance', $filter['endDistance'])
+            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+        ;
+
+        if ($user) {
+            $qb->setParameter(':userLat', $user->getLat())
+                ->setParameter(':userLon', $user->getLon());
+        } else {
+            $qb->setParameter(':userLat', $lat != 0 ? $lat : 48.866667)
+                ->setParameter(':userLon', $lon != 0 ? $lon : 2.333333);
+        }
 
         match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),

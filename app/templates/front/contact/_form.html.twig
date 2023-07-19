@@ -1,0 +1,38 @@
+{{ form_start(form, {attr:{'id': 'contact-form', 'autocomplete': 'off', 'data-contact-target': 'contactForm', 'data-action' : 'contact#checkRecaptcha'}}) }}
+<div class="row">
+    <div class="col-xl-6 col-lg-6">
+        <div class="contact__input">
+            {{ form_row(form.lastname) }}
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6">
+        <div class="contact__input">
+            {{ form_row(form.firstname) }}
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="contact__input">
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="contact__input">
+            {{ form_row(form.subject) }}
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="contact__input">
+            {{ form_row(form.message) }}
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="contact__submit">
+            <button id="contact-submit-btn"
+                    data-loading-img="{{ asset('build/images/img/pulse.gif') }}"
+                    type="submit" class="os-btn os-btn-black" formnovalidate>
+                Envoyer
+            </button>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

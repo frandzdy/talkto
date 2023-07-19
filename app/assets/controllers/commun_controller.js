@@ -15,6 +15,8 @@ import bsCustomFileInput from "bs-custom-file-input";
 export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
     cart = []
+    rejectLocalisation = false;
+    localisationDone = false;
     connect() {
         this.handleBsCustomFileInput($('[type=file]'))
         this.initPlugins();
@@ -118,14 +120,15 @@ export default class extends Controller {
             });
 
     }
+
     login() {
 
     }
 
-    updateCart () {
+    updateCart() {
         this.cart = [];
         let listProducts = $('#cart-products').find('tr');
-        for(let i = 0; i < listProducts.length;i++) {
+        for (let i = 0; i < listProducts.length; i++) {
             let quantity = $(listProducts[i]).find('#quantity').val()
             let token = $(listProducts[i]).find('#token').val()
             let startDate = $(listProducts[i]).find('#startDate').val()
@@ -134,24 +137,52 @@ export default class extends Controller {
         console.log(this.cart)
     }
 
-    submitUpdateCart()
-    {
+    submitUpdateCart() {
         $.post({
             url: Routing.generate('front_cart_update'),
             data: {'carts': JSON.stringify(this.cart)}
         }).done(function (data) {
-            Turbo.visit(Routing.generate('front_cart_index'), { action: "replace" })
+            Turbo.visit(Routing.generate('front_cart_index'), {action: "replace"})
         });
     }
 
-    updateWidgetCart () {
-        setTimeout(function (){
+    updateWidgetCart() {
+        setTimeout(function () {
             $.get(Routing.generate('front_cart_widget'))
-                .done(function(data) {
+                .done(function (data) {
                     $('.mini-cart').html(data.response);
                     $('#cart-length').html(data.totalQuantity);
                 });
         }, 2000)
+    }
+
+    containerTargetConnected() {
+        if ((!lat && !lon) || (!this.rejectLocalisation || !this.localisationDone)) {
+            navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
+        }
+    }
+
+    /**
+     * GPS COORD SAVE
+     */
+    optionsAccuracy = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    successAccuracy = (pos) => {
+        var cards = pos.coords;
+        $.post(Routing.generate('front_user_save_coord', {
+            'lat': cards.latitude,
+            'lon': cards.longitude
+        }))
+        this.localisationDone = true
+    }
+
+    error = (err) => {
+        this.rejectLocalisation = true
+        console.warn(`Erreur (${err.code} : ${err.message})`)
     }
 
     /**
@@ -172,8 +203,8 @@ export default class extends Controller {
             url: url,
             type: 'post',
         }).done(function (data) {
-            $('#nav-'+data.token+'-tab').remove();
-            $('#nav-'+data.token).remove();
+            $('#nav-' + data.token + '-tab').remove();
+            $('#nav-' + data.token).remove();
         });
     }
 
@@ -214,7 +245,7 @@ export default class extends Controller {
                     }
 
                     if (response.success && response.redirectUrl) {
-                        Turbo.visit(response.redirectUrl, { action: "replace" });
+                        Turbo.visit(response.redirectUrl, {action: "replace"});
                         return false;
                     }
 
@@ -303,7 +334,7 @@ export default class extends Controller {
      *
      */
     closeProductModal() {
-       $(this.modalProductTarget).modal('hide');
+        $(this.modalProductTarget).modal('hide');
     }
 
     hidePageLoader() {
@@ -1017,14 +1048,17 @@ export default class extends Controller {
 
 
         ////////////////////////////////////////////////////
+        const minAmount = $("#amount-value").val() ? $("#amount-value").val().split('-')[0] : 0;
+        const maxAmount = $("#amount-value").val() ? $("#amount-value").val().split('-')[1] : 500;
         // 22. Range Slider Js
         $("#slider-range").slider({
             range: true,
             min: 0,
-            max: 100000,
-            values: [0, 300],
+            max: 10000,
+            values: [minAmount, maxAmount],
             slide: function (event, ui) {
                 $("#amount").val(ui.values[0] + " € - " + ui.values[1] + " €");
+                $("#amount-value").val(ui.values[0] + "-" + ui.values[1])
             }
         });
 
@@ -1032,14 +1066,18 @@ export default class extends Controller {
             " € - " + $("#slider-range").slider("values", 1) + " €");
         $("#amount-value").val($("#slider-range").slider("values", 0) +
             "-" + $("#slider-range").slider("values", 1))
-// 22. Range Slider Js
+
+        // 22.bis Range Slider Js distance
+        const minDistance = $("#distance-value").val() ? $("#distance-value").val().split('-')[0] : 0;
+        const maxdistance = $("#distance-value").val() ? $("#distance-value").val().split('-')[1] : 5;
         $("#slider-range-distance").slider({
             range: true,
             min: 0,
-            max: 10,
-            values: [0, 2],
+            max: 100,
+            values: [minDistance, maxdistance],
             slide: function (event, ui) {
                 $("#distance").val(ui.values[0] + " Km - " + ui.values[1] + " Km");
+                $("#distance-value").val(ui.values[0] + "-" + ui.values[1]);
             }
         });
 
@@ -1197,5 +1235,13 @@ export default class extends Controller {
                 }
             }
         });
+    }
+
+    onSortedBy(e) {
+        $('#categoryForm').submit();
+    }
+
+    onSearchSortedBy(e) {
+        $('#searchProductForm').submit();
     }
 }

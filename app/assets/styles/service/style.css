@@ -1333,8 +1333,8 @@ p {
 }
 .header__search-input button {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 14px;
+  right: -55px;
   height: 50px;
   width: 50px;
   text-align: center;
@@ -5072,7 +5072,7 @@ p.checkout-coupon input[type=text] {
 .contact__input label span.required {
   color: red;
 }
-.contact__input input, .contact__input textarea {
+.contact__input input, .contact__input textarea, .contact__input select {
   height: 50px;
   width: 100%;
   border: 1px solid #ececec;

@@ -56,7 +56,6 @@ require('./js/services/jquery.fancybox.min.js')
 require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
 require('./js/services/jquery-ui-slider-range.js')
-require('./js/services/ajax-form.js')
 import  '@stripe/stripe-js';
 
 import WOW from 'wow.js';

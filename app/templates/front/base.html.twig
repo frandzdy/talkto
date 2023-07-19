@@ -101,17 +101,21 @@
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
-        let googleGtm = '{{ googleGtm }}';
-        let googleTagUa = '{{ googleTagUa }}';
+        const googleGtm = '{{ googleGtm }}';
+        const googleTagUa = '{{ googleTagUa }}';
         let dataLayer = [];
         let isLogged = false;
-        let policyUrl = '{{ absolute_url(path('front_policy')) }}';
-        let stripePublicKey = '{{ stripePublicKey }}';
+        const policyUrl = '{{ absolute_url(path('front_policy')) }}';
+        const stripePublicKey = '{{ stripePublicKey }}';
+        let lat = {{ app.request.session.get('lat', 0) }};
+        let lon = {{ app.request.session.get('lon', 0) }};
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        let userId = '{{ app.user.token }}';
-        let lastname = '{{ app.user.lastname }}';
-        let firstname = '{{ app.user.firstname }}';
-        let email = '{{ app.user.email }}';
+        const userId = '{{ app.user.token }}';
+        const lastname = '{{ app.user.lastname }}';
+        const firstname = '{{ app.user.firstname }}';
+        const email = '{{ app.user.email }}';
+        lat = '{{ app.user.lat|default(0) }}';
+        lon = '{{ app.user.lon|default(0) }}';
         dataLayer = [{
             'user_id': '{{ app.user.id }}',
             'lastname': '{{ app.user.lastname }}',

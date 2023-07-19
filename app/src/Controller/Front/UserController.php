@@ -234,12 +234,12 @@ class UserController extends AbstractController
      * Enregistre les coordonnées GPS d'un utilisateur
      */
     #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ["expose" => true], methods: ['POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function saveUserCoord(
         string $lat,
         string $lon,
         UserManager $userManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SessionInterface $session
     ): Response {
         try {
             $user = $this->getUser();
@@ -250,6 +250,9 @@ class UserController extends AbstractController
                 $user->setLat($lat);
                 $user->setLon($lon);
                 $userManager->saveUser();
+            } else {
+                $session->set('lat', $lat);
+                $session->set('lon', $lon);
             }
         } catch (\Exception $e) {
             // logger l'erreur

@@ -70,41 +70,4 @@ export default class extends Controller {
             });
         }
     }
-
-    /**
-     * Recharge la modale de panier en fonction des données en session
-     */
-    reloadCartModal(openOnReload = false) {
-        $.get(
-            Routing.generate('front_cart_modal'),
-            null,
-            function(data) {
-                $('#cart-dialog').html(data);
-                $('#cart-size').text($('#cart-dialog .item').length);
-            }
-        )
-    }
-
-    /**
-     * Envoie la demande de suppression d'un article du panier
-     * Récupère les nouveaux prix
-     */
-    deleteItem(qualificationSageCode, callback) {
-        $.post(
-            Routing.generate('front_cart_item_remove', {"sageCode": qualificationSageCode}),
-            null,
-            callback
-        );
-    }
-
-    /**
-     * Retourne les prix du panier
-     */
-    getPrices(callback) {
-        $.get(
-            Routing.generate('front_cart_prices'),
-            null,
-            callback
-        );
-    }
 }
