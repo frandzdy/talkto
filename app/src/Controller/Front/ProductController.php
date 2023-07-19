@@ -2,12 +2,16 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Picture;
 use App\Entity\Product;
+use App\Entity\User;
+use App\Enum\ProductCategory;
 use App\Form\ProductType;
 use App\Form\ProductReservationType;
 use App\Repository\ProductRepository;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +40,7 @@ class ProductController extends AbstractController
 
     /**
      * Affiche la page détails d'un produit
+     *
      * @param string $token
      * @param ProductRepository $productRepository
      * @return Response
@@ -71,7 +76,6 @@ class ProductController extends AbstractController
             'quantity' => null
         ];
         $choicesValue = [];
-        $choicesValue[] = 0;
         $quantityLeft = $product->getQuantity() - $product->getQuantityAllReadyReserved();
         for ($i = 1; $i <= $quantityLeft + 1; $i++) {
             $choicesValue[$i] = $i;
@@ -83,6 +87,7 @@ class ProductController extends AbstractController
             'choicesValue' => $choicesValue,
             'disabledDates' => $productManager->getDisabledDatesFormProduct($token)
         ];
+
         $form = $this->createForm(ProductReservationType::class, $data, $options);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
@@ -117,8 +122,12 @@ class ProductController extends AbstractController
     #[Route('/produit-ajout', name: 'product_new')]
     #[Route('/produit-modification/{token}', name: 'product_edit')]
     #[IsGranted("ROLE_SELLER")]
-    public function new(ProductRepository $productRepository, Request $request, ProductManager $productManager, string $token = null): Response
-    {
+    public function new(
+        ProductRepository $productRepository,
+        Request $request,
+        ProductManager $productManager,
+        string $token = null
+    ): Response {
         if (!$product = $productRepository->findOneBy(['token' => $token])) {
             $product = $productManager->createProduct($this->getUser());
         }
@@ -142,8 +151,11 @@ class ProductController extends AbstractController
 
     #[Route('/produit/supprimer/{token}', name: 'product_delete', methods: ['POST'])]
     #[IsGranted("ROLE_SELLER")]
-    public function delete(string $token, ProductRepository $productRepository, ProductManager $productManager): Response
-    {
+    public function delete(
+        string $token,
+        ProductRepository $productRepository,
+        ProductManager $productManager
+    ): Response {
         $product = $productRepository->findOneBy(['token' => $token]);
 
         if (!$product) {
@@ -175,39 +187,69 @@ class ProductController extends AbstractController
         );
     }
 
-    /**
-     * Ajout un produit dans le panier
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param ProductManager $productManager
-     * @param SessionInterface $session
-     * @return JsonResponse
-     */
-    #[Route('/ajout-produit/panier', name: 'product_add_cart', options: ['expose' => true], methods: ['POST'])]
-    public function addProductToCart(Request $request, EntityManagerInterface $em, ProductManager $productManager, SessionInterface $session): JsonResponse
+    #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_SELLER')]
+    public function productPictureDelete(string $token, EntityManagerInterface $em): JsonResponse
     {
-        $token = $request->request->get('token');
-        $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
-        $quantity = $request->request->get('quantity');
-        $flatpickrDate = $request->request->get('startDate');
-        $cart = $session->get('cart', [
-            'products' => [],
-            'totalQuantity' => 0,
-            'totalAmount' => 0,
-            'totalTva' => 0,
-            'totalFees' => 0,
-            'transactionId' => null
-        ]);
-        $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
+        if ($picture = $em->getRepository(Picture::class)->findOneBy(['token'])) {
+            $em->remove($picture);
+            $em->flush();
+            return $this->json(['token' => $token]);
+        }
 
-        $session->get('cart', $cart);
+        return $this->json(['token' => null], Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
 
-        return $this->json(
+    #[Route('/produit/categorie/{productCategory}', name: 'product_category', options: ['expose' => true], methods: [
+        'GET',
+        'POST'
+    ])]
+    public function productCategory(
+        ProductCategory $productCategory,
+        EntityManagerInterface $em,
+        Request $request,
+        PaginatorInterface $paginator
+    ): Response {
+        $amount = $request->query->get('amount', '0-300');
+        $distance = $request->query->get('distance', '0-2');
+        $sortedBy = $request->query->getInt('sortedBy', 1);
+        $filter = [
+            'startAmount' => explode('-', $amount)[0] ?? 0,
+            'endAmount' => explode('-', $amount)[1] ?? 300,
+            'startDistance' => explode('-', $distance)[0] ?? 0,
+            'endDistance' => explode('-', $distance)[1] ?? 2,
+            'sortedBy' => $sortedBy,
+            'category' => $productCategory->value
+        ];
+        $queryProducts = $em->getRepository(Product::class)->getFilteredProducts($this->getUser(), $filter);
+
+        $products = $paginator->paginate(
+            $queryProducts, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            20 /*limit per page*/,
+            ['wrap-queries' => true]
+        );
+
+        if ($request->getMethod() === "POST") {
+
+            return $this->json(
+                [
+                    'response' => $this->renderView(
+                        'front/product/category.html.twig',
+                        [
+                            'pagination' => $products,
+                            'productCategory' => $productCategory
+                        ]
+                    )
+                ]
+            );
+        }
+
+        return $this->render(
+            'front/product/category.html.twig',
             [
-                'totalQuantity' => $cart['totalQuantity'],
-                'totalAmount' => $cart['totalAmount'],
-                'totalTva' => $cart['totalTva'],
+                'pagination' => $products,
+                'productCategory' => $productCategory
             ]
         );
     }

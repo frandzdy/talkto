@@ -26,7 +26,8 @@ export default class extends Controller {
                 const href = item.attr('href');
                 const title = item.data('modal-title');
                 const size = item.data('lg-size');
-
+                $(this.modalTarget).modal('hide');
+                $(this.modalProductTarget).modal('hide');
                 this.openModal(title, href, size);
             })
             .on('click', 'a.open-product-modal', (event) => {
@@ -53,6 +54,29 @@ export default class extends Controller {
                             btnClass: item.data('btn-class') || 'btn-red',
                             action: () => {
                                 this.postUrl(item.attr('href'))
+                            }
+                        },
+                        close: {
+                            text: "Annuler"
+                        }
+                    }
+                });
+            })
+            .on('click', 'a.post-confirm-product', (event) => {
+                // Liens d'actions avec confirmation
+                event.preventDefault();
+                const item = $(event.currentTarget);
+                $.confirm({
+                    title: item.data('title'),
+                    content: item.data('confirm-message'),
+                    type: item.data('type') || 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: {
+                            text: item.data('button-text'),
+                            btnClass: item.data('btn-class') || 'btn-red',
+                            action: () => {
+                                this.postAjaxUrlProduct(item.attr('href'))
                             }
                         },
                         close: {
@@ -97,25 +121,7 @@ export default class extends Controller {
     login() {
 
     }
-    addToCart() {
-        const productForm = $('#productForm');
-        const token = productForm.find('#token').val();
-        const quantity = productForm.find('#quantity').val()
-        const startDate = productForm.find('#startDate').val()
-        if (!quantity || !startDate) {
-            toastr.error('Vérifiez vos quantités et vos dates de réservation !');
-        } else {
-            $.post({
-                url: Routing.generate('front_product_add_cart'),
-                type: 'post',
-                data: {'token': token, 'quantity': quantity, 'startDate': startDate},
-                success: function (data) {
-                    $('#cart-length').html(data.totalQuantity);
-                    toastr.success('Produit(s) ajouté(s) !');
-                }
-            });
-        }
-    }
+
     updateCart () {
         this.cart = [];
         let listProducts = $('#cart-products').find('tr');
@@ -136,25 +142,6 @@ export default class extends Controller {
         }).done(function (data) {
             Turbo.visit(Routing.generate('front_cart_index'), { action: "replace" })
         });
-    }
-    removeFromCart() {
-        const productForm = $('#productForm');
-        const token = productForm.find('#token').val();
-        const quantity = productForm.find('#quantity').val()
-        const startDate = productForm.find('#startDate').val()
-        if (!quantity || !startDate) {
-            toastr.error('Vérifiez vos quantités et vos dates de réservation !');
-        } else {
-            $.post({
-                url: Routing.generate('front_product_add_cart'),
-                type: 'post',
-                data: {'token': token, 'quantity': quantity, 'startDate': startDate}
-            }).done(function (data) {
-                toastr.success('Produit(s) supprimé(s) !');
-                $('#cart-length').html(data.totalQuantity)
-            });
-            this.updateWidgetCart();
-        }
     }
 
     updateWidgetCart () {
@@ -178,6 +165,16 @@ export default class extends Controller {
             .appendTo('body');
 
         $('#form-confirm').submit();
+    }
+
+    postAjaxUrlProduct(url) {
+        $.post({
+            url: url,
+            type: 'post',
+        }).done(function (data) {
+            $('#nav-'+data.token+'-tab').remove();
+            $('#nav-'+data.token).remove();
+        });
     }
 
     /**
@@ -295,6 +292,7 @@ export default class extends Controller {
             }
             $(this.modalProductTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalProductTarget);
+            this.handleBsCustomFileInput($(this.modalProductTarget).find('[type="file"]'));
             $(this.modalProductTarget).modal('show');
         }).fail((error) => {
             toastr.error("Une erreur est survenue.");
@@ -417,6 +415,7 @@ export default class extends Controller {
             bsCustomFileInput.init();
             $(container).change(function () {
                 var fieldVal = $(this).val();
+                console.log(fieldVal);
                 if (fieldVal != undefined || fieldVal != "") {
                     $(this).next(".custom-file-label").text(fieldVal);
                 }
@@ -1022,17 +1021,32 @@ export default class extends Controller {
         $("#slider-range").slider({
             range: true,
             min: 0,
-            max: 500,
-            values: [75, 300],
+            max: 100000,
+            values: [0, 300],
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#amount").val(ui.values[0] + " € - " + ui.values[1] + " €");
             }
         });
 
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-            " - $" + $("#slider-range").slider("values", 1));
+        $("#amount").val($("#slider-range").slider("values", 0) +
+            " € - " + $("#slider-range").slider("values", 1) + " €");
+        $("#amount-value").val($("#slider-range").slider("values", 0) +
+            "-" + $("#slider-range").slider("values", 1))
+// 22. Range Slider Js
+        $("#slider-range-distance").slider({
+            range: true,
+            min: 0,
+            max: 10,
+            values: [0, 2],
+            slide: function (event, ui) {
+                $("#distance").val(ui.values[0] + " Km - " + ui.values[1] + " Km");
+            }
+        });
 
-
+        $("#distance").val($("#slider-range-distance").slider("values", 0) +
+            " Km - " + $("#slider-range-distance").slider("values", 1) + " Km");
+        $("#distance-value").val($("#slider-range-distance").slider("values", 0) +
+            "-" + $("#slider-range-distance").slider("values", 1))
         ////////////////////////////////////////////////////
         // 23. Show Login Toggle Js
         $('#showlogin').on('click', function () {

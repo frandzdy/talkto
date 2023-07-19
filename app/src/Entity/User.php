@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ROLE_USER = 'ROLE_USER';
     const ROLE_GUESS = 'ROLE_GUESS';
     const ROLE_SELLER = 'ROLE_SELLER';
+    const ROLE_SUPPORT = 'ROLE_SUPPORT';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -125,6 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * La photo de l'utilisateur
      */
     #[ORM\OneToOne(targetEntity: Picture::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[Assert\File(maxSize: 5242880, mimeTypes: "image/*", maxSizeMessage: "Document trop lourd.", mimeTypesMessage: "Format Image uniquement autorisé.")]
     private ?Picture $picture = null;
 
     /**
@@ -449,9 +451,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $zipCode
      */
-    public function setZipCode(string $zipCode): void
+    public function setZipCode(string $zipCode): self
     {
         $this->zipCode = $zipCode;
+
+        return $this;
     }
 
     /**

@@ -111,6 +111,7 @@ class UserType extends AbstractType
                     'choice_label' => 'label',
                     'label' => 'Pays',
                     'placeholder' => '- Sélectionnez un pays -',
+                    'autocomplete' => true,
                 ]
             )->add(
                 'lastname',

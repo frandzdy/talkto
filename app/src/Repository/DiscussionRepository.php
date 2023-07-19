@@ -44,15 +44,12 @@
          */
         public function getDiscussionForChat($token)
         {
-            $res = $this->createQueryBuilder('discussion')
-                ->select('discussion')
-                ->leftJoin('discussion.messages', 'messages')
-                ->addSelect('messages')
-                ->leftJoin('discussion.users', 'users')
-                ->addSelect('users')
-                ->where('discussion.token = :token')
+            $res = $this->createQueryBuilder('m')
+                ->leftJoin('m.author', 'u')
+                ->leftJoin('m.reservation', 'r')
+                ->where('r.token = :token')
                 ->setParameter('token', $token);
 
-            return $res->getQuery()->getSingleResult();
+            return $res->getQuery()->getArrayResult();
         }
     }

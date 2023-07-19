@@ -30,6 +30,14 @@
                             <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab" href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}" aria-selected="true">
                                 <div class="product__nav-img w-img">
                                     <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
+                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}"
+                                       class="post-confirm"
+                                       data-button-text="Supprimer"
+                                       data-title="Supprimer"
+                                       data-confirm-message="Souhaitez-vous supprimer ce photo ?"
+                                    >
+                                        <i class="fal fa-times"></i>
+                                    </a>
                                 </div>
                             </a>
                         {% endfor %}

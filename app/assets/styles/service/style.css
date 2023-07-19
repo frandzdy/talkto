@@ -469,6 +469,21 @@ p {
   z-index: 1;
   font-size: 12px;
 }
+.os-btn-chat {
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 600;
+  height: 61px;
+  line-height: 51px;
+  padding: 0 42px;
+  border: 2px solid #ebebeb;
+  color: #323232;
+  background: transparent;
+  z-index: 1;
+  font-size: 12px;
+}
 .os-btn span {
   color: #bc8246;
 }

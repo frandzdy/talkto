@@ -134,7 +134,7 @@ class StripeController extends AbstractController
         return $this->render('front/stripe/_form_user_creation.html.twig', ['form' => $form]);
     }
 
-    #[Route('/success', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
+    #[Route('/valider', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function success(StripeManager $stripeManager, Request $request, SessionInterface $session): Response
     {
@@ -175,22 +175,22 @@ class StripeController extends AbstractController
         return $this->render('front/stripe/success.html.twig', ['user' => $this->getUser(), 'message' => $message, 'error' => $error]);
     }
 
-    #[Route('/cancel', name: 'stripe_cancel')]
+    #[Route('/annuler', name: 'stripe_cancel')]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function cancel(): Response
     {
         return $this->render('front/stripe/cancel.html.twig');
     }
 
-    #[Route('/reauth', name: 'stripe_reauth')]
-    #[Security("is_granted('ROLE_SELLER') and is_granted('IS_AUTHENTICATED_FULLY')")]
+    #[Route('/commercial/reauthentification', name: 'stripe_reauth')]
+    #[IsGranted('ROLE_SELLER')]
     public function reauth(StripeManager $stripeManager): Response
     {
         return $this->redirect($stripeManager->createAccountLink($this->getUser())->url);
     }
 
-    #[Route('/return', name: 'stripe_return')]
-    #[Security("is_granted('ROLE_SELLER') and is_granted('IS_AUTHENTICATED_FULLY')")]
+    #[Route('/commercial/retour', name: 'stripe_return')]
+    #[IsGranted('ROLE_SELLER')]
     public function return(StripeManager $stripeManager, UserManager $userManager): Response
     {
         $user = $this->getUser();
@@ -198,8 +198,8 @@ class StripeController extends AbstractController
 
         if ($account->details_submitted || $account->charges_enabled) {
             $user->setIsStripeAccountActive(true);
+            $userManager->saveUser();
         }
-        $userManager->saveUser();
 
         return $this->redirectToRoute('front_user_account');
     }

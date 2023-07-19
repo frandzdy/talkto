@@ -12,6 +12,13 @@ export default class extends Controller {
         if ($('.manager-collection').children().length == 0) {
             this.onFileAdd();
         }
+
+        let indexFile = 0;
+        $('.file-elt').each(function () {
+            ++indexFile
+            $(this).find('.file-index').html(indexFile);
+            $(this).find('.file-index').removeClass("d-none");
+        });
     }
 
     /**
@@ -23,7 +30,8 @@ export default class extends Controller {
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
-        this.handleBsCustomFileInput(collectionHolder.find('[type=file]'));
+        this.handleBsCustomFileInput(collectionHolder.find('[type="file"]'));
+        collectionHolder.find('.file-index').removeClass("d-none");
     }
 
     /**
@@ -55,9 +63,9 @@ export default class extends Controller {
         if ($(container)) {
             bsCustomFileInput.init();
             $(container).change(function () {
-                var fieldVal = $(this).val();
+                let fieldVal = $(this).val();
                 if (fieldVal != undefined || fieldVal != "") {
-                    $(this).next(".custom-file-label").text(fieldVal);
+                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
                 }
             });
         }
@@ -99,6 +107,4 @@ export default class extends Controller {
             callback
         );
     }
-
-
 }

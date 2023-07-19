@@ -59,21 +59,26 @@
                                                    title="Faire une litige">
                                                     Litige
                                                 </a>
+                                                <br>
                                             {% endif %}
                                         {% else %}
-                                            {% if transactionLine.startDate|date('d/m/Y') == "now"|date("m/d/Y") %}
-                                                <a class="profile__info-btn"
+                                            {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") %}
+                                                <a class="profile__info-btn open-front-modal"
                                                    href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
-                                                   title="Check-in">
+                                                   title="Check-in"
+                                                   data-modal-title="Checkout">
                                                     Check-in
                                                 </a>
+                                                <br>
                                             {% endif %}
-                                            {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("m/d/Y") %}
-                                                <a class="profile__info-btn"
+                                            {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") %}
+                                                <a class="profile__info-btn open-front-modal"
                                                    href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
-                                                   title="Check-out">
-                                                    Check-out
+                                                   title="Check-out"
+                                                   data-modal-title="Checkout">
+                                                    Checkout
                                                 </a>
+                                                <br>
                                             {% endif %}
                                         {% endif %}
                                         {% if transactionLine.canBeCancel %}
@@ -83,7 +88,15 @@
                                                data-confirm-message="Souhaitez-vous annuler cette réservation ?"
                                                href="{{ path('front_transaction_line_delete', {'token': transactionLine.token}) }}"
                                                title="Annuler votre réservation">Annulation</a>
+                                            <br>
                                         {% endif %}
+                                        <a class="profile__info-btn open-front-modal" type="button"
+                                           data-lg-size="true"
+                                           href="{{ url('front_chat_index', {'token': reservation.token, 'transactionLineToken': transactionLine.token}, true) }}"
+                                           data-modal-title="Chat"
+                                        >
+                                            Chat
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -141,6 +154,7 @@
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

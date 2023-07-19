@@ -5,7 +5,8 @@
             <div class="row align-items-center">
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                     <div class="logo">
-                        <a href="{{ path('front_home') }}"><img src="{{ asset('build/images/img/logo/logo.png') }}" alt="logo"></a>
+                        <a href="{{ path('front_home') }}"><img src="{{ asset('build/images/img/logo/logo.png') }}"
+                                                                alt="logo"></a>
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8">
@@ -13,46 +14,22 @@
                         <div class="main-menu d-none d-lg-block">
                             <nav>
                                 <ul>
-                                    <li class="active mega-menu has-dropdown"><a href="shop.html">Shop</a>
-                                        <ul class="submenu transition-3" data-background="{{ asset("build/images/img/bg/mega-menu-bg.jpg") }}">
-                                            <li class="has-dropdown">
-                                                <a href="shop.html">Shop Pages</a>
-                                                <ul>
-                                                    <li><a href="shop.html">Standard Shop Page</a></li>
-                                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                                    <li><a href="shop-4-col.html">Shop 4 Column</a></li>
-                                                    <li><a href="shop-3-col.html">Shop 3 Column</a></li>
-                                                    <li><a href="shop.html">Shop Page</a></li>
-                                                    <li><a href="shop.html">Shop Page </a></li>
-                                                    <li><a href="shop.html">Shop Infinity</a></li>
-                                                </ul>
-                                            </li>
-                                            <li  class="has-dropdown">
-                                                <a href="shop.html">Products Pages</a>
-                                                <ul>
-                                                    <li><a href="product-details.html">Product Details</a></li>
-                                                    <li><a href="product-details.html">Product Page V2</a></li>
-                                                    <li><a href="product-details.html">Product Page V3</a></li>
-                                                    <li><a href="product-details.html">Product Page V4</a></li>
-                                                    <li><a href="product-details.html">Simple Product</a></li>
-                                                    <li><a href="product-details.html">Variable Product</a></li>
-                                                    <li><a href="product-details.html">External Product</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="has-dropdown"><a href="blog.html">Notre Blog</a>
+                                    <li class="active has-dropdown">
+                                        <a href="shop.html">Catégories</a>
                                         <ul class="submenu transition-3">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                            <li><a href="blog-no-sidebar.html">Blog No Sidebar</a></li>
-                                            <li><a href="blog-2-col.html">Blog 2 Column</a></li>
-                                            <li><a href="blog-2-col-mas.html">BLog 2 Col Masonary</a></li>
-                                            <li><a href="blog-3-col.html">Blog 3 Column</a></li>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
+                                                <li class="has-dropdown">
+                                                    <ul>
+                                                        {% for index, category in getProductCategories() %}
+                                                            <li>
+                                                                <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
                                         </ul>
                                     </li>
-                                    <li><a href="contact.html">Contact</a></li></li>
+                                    <li><a href="blog.html">Notre Blog</a></li>
+                                    <li><a href="contact.html">Contactez-nous</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -61,27 +38,37 @@
                         </div>
                         <div class="header__action">
                             <ul>
-                                <li><a href="#" class="search-toggle"><i class="ion-ios-search-strong"></i> Search</a></li>
-                                <li><a href="javascript:void(0);" class="cart"><i class="ion-bag"></i> Cart (<span id="cart-length">0</span>)</a>
+                                <li><a href="#" class="search-toggle"><i class="ion-ios-search-strong"></i> Search</a>
+                                </li>
+                                <li><a href="javascript:void(0);" class="cart"><i class="ion-bag"></i> Cart (<span
+                                                id="cart-length">0</span>)</a>
                                     <div class="mini-cart">
                                     </div>
                                 </li>
-                                <li> <a href="javascript:void(0);"><i class="far fa-bars"></i></a>
+                                <li><a href="javascript:void(0);"><i class="far fa-bars"></i></a>
                                     <ul class="extra-info">
                                         <li>
                                             {% if app.user %}
-                                            <div class="my-account">
-                                                <div class="extra-title">
-                                                    <h5>Bonjour, {{ app.user.fullname }}</h5>{{ app.user.roleAsLabel }}
+                                                <div class="my-account">
+                                                    <div class="extra-title">
+                                                        <h5>
+                                                            Bonjour, {{ app.user.fullname }}</h5>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="{{ path('front_user_account') }}">Mon compte</a>
+                                                        </li>
+                                                        {% if app.user.roles[0] == constant('App\\Entity\\User::ROLE_USER') %}
+                                                            <li><a href="{{ path('front_wishlist_index') }}">Favoris</a>
+                                                            </li>
+                                                            <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                            <li>
+                                                                <a href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
+                                                            </li>
+                                                        {% endif %}
+                                                        <li><a href="{{ path('front_logout') }}">Déconnexion</a></li>
+                                                    </ul>
                                                 </div>
-                                                <ul>
-                                                    <li><a href="{{ path('front_user_account') }}">Mon compte</a></li>
-                                                    <li><a href="{{ path('front_wishlist_index') }}">Favoris</a></li>
-                                                    <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
-                                                    <li><a href="{{ path('front_stripe_payment_intent') }}">Checkout</a></li>
-                                                    <li><a href="{{ path('front_logout') }}">Déconnexion</a></li>
-                                                </ul>
-                                            </div>
                                             {% else %}
                                                 <div class="my-account">
                                                     <div class="extra-title">
@@ -89,38 +76,39 @@
                                                     </div>
                                                     <ul>
                                                         <li><a href="{{ path('front_login') }}">Connexion</a></li>
+                                                        <li><a href="{{ path('front_user_new') }}">S'inscrire</a></li>
+                                                        <li><a href="{{ path('front_seller_new') }}">Devenez bailleur</a></li>
                                                         <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
-                                                        <li><a href="{{ path('front_user_new') }}">Création de compte</a></li>
                                                     </ul>
                                                 </div>
                                             {% endif %}
                                         </li>
-{#                                        <li>#}
-{#                                            <div class="lang">#}
-{#                                                <div class="extra-title">#}
-{#                                                    <h5>Language</h5>#}
-{#                                                </div>#}
-{#                                                <ul>#}
-{#                                                    <li><a href="#">English</a></li>#}
-{#                                                    <li><a href="#">France</a></li>#}
-{#                                                    <li><a href="#">Germany</a></li>#}
-{#                                                    <li><a href="#">Bangla</a></li>#}
-{#                                                </ul>#}
-{#                                            </div>#}
-{#                                        </li>#}
-{#                                        <li>#}
-{#                                            <div class="currency">#}
-{#                                                <div class="extra-title">#}
-{#                                                    <h5>currency</h5>#}
-{#                                                </div>#}
-{#                                                <ul>#}
-{#                                                    <li><a href="#">USD - US Dollar</a></li>#}
-{#                                                    <li><a href="#">EUR - Ruro</a></li>#}
-{#                                                    <li><a href="#">GBP - Britis Pound</a></li>#}
-{#                                                    <li><a href="#">INR - Indian Rupee</a></li>#}
-{#                                                </ul>#}
-{#                                            </div>#}
-{#                                        </li>#}
+                                        {#                                        <li> #}
+                                        {#                                            <div class="lang"> #}
+                                        {#                                                <div class="extra-title"> #}
+                                        {#                                                    <h5>Language</h5> #}
+                                        {#                                                </div> #}
+                                        {#                                                <ul> #}
+                                        {#                                                    <li><a href="#">English</a></li> #}
+                                        {#                                                    <li><a href="#">France</a></li> #}
+                                        {#                                                    <li><a href="#">Germany</a></li> #}
+                                        {#                                                    <li><a href="#">Bangla</a></li> #}
+                                        {#                                                </ul> #}
+                                        {#                                            </div> #}
+                                        {#                                        </li> #}
+                                        {#                                        <li> #}
+                                        {#                                            <div class="currency"> #}
+                                        {#                                                <div class="extra-title"> #}
+                                        {#                                                    <h5>currency</h5> #}
+                                        {#                                                </div> #}
+                                        {#                                                <ul> #}
+                                        {#                                                    <li><a href="#">USD - US Dollar</a></li> #}
+                                        {#                                                    <li><a href="#">EUR - Ruro</a></li> #}
+                                        {#                                                    <li><a href="#">GBP - Britis Pound</a></li> #}
+                                        {#                                                    <li><a href="#">INR - Indian Rupee</a></li> #}
+                                        {#                                                </ul> #}
+                                        {#                                            </div> #}
+                                        {#                                        </li> #}
                                     </ul>
                                 </li>
                             </ul>

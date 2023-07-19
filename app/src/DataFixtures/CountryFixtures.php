@@ -11,6 +11,7 @@ use Doctrine\Persistence\ObjectManager;
  */
 class CountryFixtures extends Fixture
 {
+    public const COUNTRY_FR = 'country-fr';
     /**
      * <@inheritDoc>
      */
@@ -281,6 +282,9 @@ class CountryFixtures extends Fixture
             $country->setLabel($countryLabel);
             $country->setCode($code);
             $country->setPosition($i++);
+            if ($code === "FR") {
+                $this->addReference(self::COUNTRY_FR, $country);
+            }
 
             $manager->persist($country);
         }

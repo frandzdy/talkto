@@ -77,7 +77,7 @@ class UserManager
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
         }
-
+        $this->checkCoord($user);
         $this->entityManager->flush();
 
         return true;
@@ -139,12 +139,12 @@ class UserManager
     }
 
     /**
-     * check si on a pas de lat alors on la récupère avec la ville
+     * Check si on n'a pas de lat alors, on la récupère avec la ville
      */
     public function checkCoord(User $user)
     {
         if (!$user->getLat() && $user->getCity()) {
-            $res = $this->adresseApi->searchAddress($user->getCity());
+            $res = $this->adresseApi->searchUserAddress($user);
             $user->setLat($res['lat']);
             $user->setLon($res['lon']);
             $this->saveUser();

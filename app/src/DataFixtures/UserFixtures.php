@@ -1,0 +1,58 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\Contributor;
+use App\Entity\User;
+use App\Enum\Civility;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+/**
+ * Intialisation d'un admin en back
+ *
+ *
+ */
+class UserFixtures extends Fixture implements DependentFixtureInterface
+{
+    /**
+     * Constructor.
+     */
+    public function __construct(private UserPasswordHasherInterface $passwordEncoder)
+    {
+    }
+
+    /**
+     * <@inheritDoc>
+     */
+    public function load(ObjectManager $manager)
+    {
+        $country = $this->getReference(CountryFixtures::COUNTRY_FR);
+        $user = new User();
+        $user->setEmail('support@yopmail.fr');
+        $user->setPassword($this->passwordEncoder->hashPassword($user, 'supportpass'));
+        $user->setRoles([User::ROLE_SUPPORT]);
+        $user->setLastname("Rented")
+            ->setFirstname('Support')
+            ->setAddress('')
+            ->setCity('')
+            ->setPhone('')
+            ->setZipCode('')
+            ->setCountry($country)
+            ->setGenre(Civility::MEN);
+
+        $manager->persist($user);
+
+        $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        // TODO: Implement getDependencies() method.
+        return [
+            CountryFixtures::class
+        ];
+    }
+}

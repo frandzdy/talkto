@@ -5,4 +5,4 @@ framework:
             sender: 'snakeater95@gmail.com'
             #            recipients: ['snakeater95@gmail.com']
         headers:
-            from: 'RENTED <contact@rented.fr>'
+            from: 'RENTED <support@ac-malin.fr.nf>'

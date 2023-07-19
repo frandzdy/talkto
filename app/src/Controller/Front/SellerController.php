@@ -18,14 +18,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SellerController extends AbstractController
 {
-    #[Route('/mon-compte-commercial', name: 'seller_account', methods: ['GET'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(): Response
-    {
-
-        return $this->render('front/user/seller/account.html.twig', ['user' => $this->getUser()]);
-    }
-
     #[Route('/compte-commercial/creation', name: 'seller_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -36,7 +28,7 @@ class SellerController extends AbstractController
     ): Response {
         if ($this->getUser()) {
 
-            return $this->redirectToRoute('front_seller_account');
+            return $this->redirectToRoute('front_user_account');
         }
         $user = $userManager->createUser(2);
 

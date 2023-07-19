@@ -1,0 +1,389 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block title %} {{ 'Visualisation fiche produit | ' ~ parent() }} {% endblock %}
+
+{% block metas %}
+    {{ parent() }}
+    <meta name="description"
+          content="Création de compte gratuit ou avec abonnements, choisissez vos centres d'intérêts, trouvez des matchs près de chez vous">
+    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+{% endblock %}
+
+{% set breadcrumbItems =
+    {
+        (productCategory.label): ''
+    } %}
+
+
+{% block content %}
+    <!-- shop area start -->
+    <section class="shop__area pt-100 pb-100" {{ stimulus_controller('category') }}>
+        <div class="container">
+            <form action="" method="get">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-4">
+                        <div class="shop__sidebar">
+                            <div class="sidebar__widget mb-55">
+                                <div class="sidebar__widget-title mb-25">
+                                    <h3>Catégories de produit</h3>
+                                </div>
+                                <div class="sidebar__widget-content">
+                                    <div class="categories">
+                                        <div id="accordion">
+                                            {% for index, category in getProductCategories() %}
+                                                <div class="card">
+                                                    <div class="card-header white-bg" id="accessories">
+                                                        <h5 class="mb-0">
+                                                            <a href="{{ path('front_product_category', {'productCategory': index}) }}">
+                                                                {% if index == productCategory.value %}
+                                                                    <b>{{ category }}</b>
+                                                                {% else %}
+                                                                    {{ category }}
+                                                                {% endif %}
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar__widget mb-55">
+                                <div class="sidebar__widget-title mb-30">
+                                    <h3>Filtré par prix</h3>
+                                </div>
+                                <div class="sidebar__widget-content">
+                                    <div class="price__slider">
+                                        <div id="slider-range"></div>
+                                        <div>
+                                            <label for="amount">Prix :</label>
+                                            <input type="text" id="amount" readonly>
+                                            <input type="hidden" id="amount-value" name="amount" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar__widget mb-55">
+                                <div class="sidebar__widget-title mb-30">
+                                    <h3>Filtré par distance</h3>
+                                </div>
+                                <div class="sidebar__widget-content">
+                                    <div class="price__slider">
+                                        <div id="slider-range-distance"></div>
+                                        <div>
+                                            <label for="amount">Km :</label>
+                                            <input type="text" id="distance" readonly>
+                                            <input type="hidden" name="distance" id="distance-value" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar__widget mb-55">
+                                <div class="sidebar__widget-title mb-30">
+                                    <h3></h3>
+                                </div>
+                                <div class="sidebar__widget-content">
+                                    <div class="price__slider">
+                                        <div>
+                                            <button formnovalidate type="submit">Filtrer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {#                    <div class="sidebar__widget mb-55"> #}
+                            {#                        <div class="sidebar__widget-title mb-30"> #}
+                            {#                            <h3>Any Size</h3> #}
+                            {#                        </div> #}
+                            {#                        <div class="sidebar__widget-content"> #}
+                            {#                            <div class="size"> #}
+                            {#                                <ul> #}
+                            {#                                    <li><a href="#">S</a></li> #}
+                            {#                                    <li><a href="#">M</a></li> #}
+                            {#                                    <li><a href="#">X</a></li> #}
+                            {#                                    <li><a href="#">L</a></li> #}
+                            {#                                    <li><a href="#">XXL</a></li> #}
+                            {#                                </ul> #}
+                            {#                            </div> #}
+                            {#                        </div> #}
+                            {#                    </div> #}
+                            {#                    <div class="sidebar__widget mb-60"> #}
+                            {#                        <div class="sidebar__widget-title mb-20"> #}
+                            {#                            <h3>Choose Color</h3> #}
+                            {#                        </div> #}
+                            {#                        <div class="sidebar__widget-content"> #}
+                            {#                            <div class="color__pick"> #}
+                            {#                                <form action="#"> #}
+                            {#                                    <ul> #}
+                            {#                                        <li><button type="submit" class="color color-1"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-2"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-3"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-4"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-5"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-6"></button></li> #}
+                            {#                                        <li><button type="submit" class="color color-7"></button></li> #}
+                            {#                                    </ul> #}
+                            {#                                </form> #}
+                            {#                            </div> #}
+                            {#                        </div> #}
+                            {#                    </div> #}
+                            {#                    <div class="sidebar__widget mb-50"> #}
+                            {#                        <div class="sidebar__widget-title mb-25"> #}
+                            {#                            <h3>Brand</h3> #}
+                            {#                        </div> #}
+                            {#                        <div class="sidebar__widget-content"> #}
+                            {#                            <div class="brand"> #}
+                            {#                                <ul> #}
+                            {#                                    <li><a href="#">Sony</a></li> #}
+                            {#                                    <li><a href="#">Panasonic</a></li> #}
+                            {#                                    <li><a href="#">Apple</a></li> #}
+                            {#                                    <li><a href="#">Samsung</a></li> #}
+                            {#                                </ul> #}
+                            {#                            </div> #}
+                            {#                        </div> #}
+                            {#                    </div> #}
+                            {#                    <div class="sidebar__widget"> #}
+                            {#                        <div class="sidebar__widget-title mb-30"> #}
+                            {#                            <h3>Featured Products</h3> #}
+                            {#                        </div> #}
+                            {#                        <div class="sidebar__widget-content"> #}
+                            {#                            <div class="features__product"> #}
+                            {#                                <ul> #}
+                            {#                                    <li class="mb-20"> #}
+                            {#                                        <div class="featires__product-wrapper d-flex"> #}
+                            {#                                            <div class="features__product-thumb mr-15"> #}
+                            {#                                                <a href="product-details.html"><img src="assets/img/shop/product/sm/pro-sm-1.jpg" alt="pro-sm-1"></a> #}
+                            {#                                            </div> #}
+                            {#                                            <div class="features__product-content"> #}
+                            {#                                                <h5><a href="product-details.html">Wooden container Bowl</a></h5> #}
+                            {#                                                <div class="price"> #}
+                            {#                                                    <span>$98</span> #}
+                            {#                                                    <span class="price-old">$128</span> #}
+                            {#                                                </div> #}
+                            {#                                            </div> #}
+                            {#                                        </div> #}
+                            {#                                    </li> #}
+                            {#                                    <li class="mb-20"> #}
+                            {#                                        <div class="featires__product-wrapper d-flex"> #}
+                            {#                                            <div class="features__product-thumb mr-15"> #}
+                            {#                                                <a href="product-details.html"><img src="assets/img/shop/product/sm/pro-sm-2.jpg" alt="pro-sm-2"></a> #}
+                            {#                                            </div> #}
+                            {#                                            <div class="features__product-content"> #}
+                            {#                                                <h5><a href="product-details.html">Wooden container Bowl</a></h5> #}
+                            {#                                                <div class="price"> #}
+                            {#                                                    <span>$98</span> #}
+                            {#                                                    <span class="price-old">$128</span> #}
+                            {#                                                </div> #}
+                            {#                                            </div> #}
+                            {#                                        </div> #}
+                            {#                                    </li> #}
+                            {#                                    <li class="mb-20"> #}
+                            {#                                        <div class="featires__product-wrapper d-flex"> #}
+                            {#                                            <div class="features__product-thumb mr-15"> #}
+                            {#                                                <a href="product-details.html"><img src="assets/img/shop/product/sm/pro-sm-3.jpg" alt="pro-sm-3"></a> #}
+                            {#                                            </div> #}
+                            {#                                            <div class="features__product-content"> #}
+                            {#                                                <h5><a href="product-details.html">Wooden container Bowl</a></h5> #}
+                            {#                                                <div class="price"> #}
+                            {#                                                    <span>$98</span> #}
+                            {#                                                    <span class="price-old">$128</span> #}
+                            {#                                                </div> #}
+                            {#                                            </div> #}
+                            {#                                        </div> #}
+                            {#                                    </li> #}
+                            {#                                </ul> #}
+                            {#                            </div> #}
+                            {#                        </div> #}
+                            {#                    </div> #}
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-9 col-md-8">
+                        <div class="shop__content-area">
+                            <div class="shop__header d-sm-flex justify-content-between align-items-center mb-40">
+                                <div class="shop__header-left">
+                                    <div class="show-text">
+                                        <span>{{ pagination.getTotalItemCount }} résultats</span>
+                                    </div>
+                                </div>
+                                <div class="shop__header-right d-flex align-items-center justify-content-between justify-content-sm-end">
+                                    <div class="sort-wrapper mr-30 pr-25 p-relative">
+                                        <select name="sortedBy">
+                                            <option value="1" selected>Trie par défaut</option>
+                                            <option value="2">Du moins chère au plus chère</option>
+                                            <option value="3">Du plus chère au moins chère</option>
+                                            <option value="4">Par ordre alphabétique croissant</option>
+                                            <option value="5">Par ordre alphabétique décroissant</option>
+                                        </select>
+                                    </div>
+                                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="pills-grid-tab" data-toggle="pill"
+                                               href="#pills-grid" role="tab" aria-controls="pills-grid"
+                                               aria-selected="true"><i class="fas fa-th"></i></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pills-list-tab" data-toggle="pill"
+                                               href="#pills-list"
+                                               role="tab" aria-controls="pills-list" aria-selected="false"><i
+                                                        class="fas fa-list-ul"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-grid" role="tabpanel"
+                                     aria-labelledby="pills-grid-tab">
+                                    <div class="row custom-row-10">
+                                        {% for product in pagination %}
+                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 custom-col-10">
+                                                <div class="product__wrapper mb-60">
+                                                    <div class="product__thumb">
+                                                        {% if product.pictures.count > 0 %}
+                                                            {% set pictureName = product.pictures.first.name %}
+                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                                 alt="{{ pictureName }}">
+                                                            <img class="product__thumb-2"
+                                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                                 alt="{{ pictureName }}">
+                                                        {% else %}
+                                                            <img src="" alt="">
+                                                            <img class="product__thumb-2" src="" alt="">
+                                                        {% endif %}
+                                                        <div class="product__action transition-3">
+                                                            <a href="{{ path('front_wishlist_add', {'token': product.token}) }}"
+                                                               class="post-confirm add-product-wishlist"
+                                                               data-button-text="Ajouter"
+                                                               data-title="Favoris"
+                                                               data-type="green"
+                                                               data-btn-class="btn-green"
+                                                               data-confirm-message="Souhaitez-vous ajouter ce produit à vos favoris ?"
+                                                               data-toggle="tooltip" data-placement="top"
+                                                               title="Ajouter à vos favoris">
+                                                                <i class="fal fa-heart"></i>
+                                                            </a>
+                                                            <!-- Button trigger modal -->
+                                                            <a href="{{ path('front_product_reservation', {'token': product.token}) }}"
+                                                               title="Réservez"
+                                                               data-modal-title="Réservation en cours"
+                                                               class="open-product-modal">
+                                                                <i class="fal fa-search"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product__content p-relative">
+                                                        <div class="product__content-inner">
+                                                            <h4>
+                                                                <a href="{{ path('front_product_show_detail', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'}) }}">
+                                                                    {{ product.title }}
+                                                                </a>
+                                                            </h4>
+                                                            <div class="product__price transition-3">
+                                                                <span>{{ product.amount }} €</span>
+                                                                {#                                                <span class="old-price">$96.00</span> #}
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-cart p-absolute transition-3">
+                                                            <a href="{{ path('front_product_reservation', {'token': product.token}) }}"
+                                                               title="Réservez"
+                                                               data-modal-title="Réservation en cours"
+                                                               class="open-product-modal"><i
+                                                                        class="fa fa-shopping-cart"></i> Réservez</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-list" role="tabpanel"
+                                     aria-labelledby="pills-list-tab">
+                                    {% for product in pagination %}
+                                        <div class="product__wrapper mb-40">
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-4">
+                                                    <div class="product__thumb">
+                                                        {% if product.pictures.count > 0 %}
+                                                            {% set pictureName = product.pictures.first.name %}
+                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                                 alt="{{ pictureName }}">
+                                                            <img class="product__thumb-2"
+                                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                                 alt="{{ pictureName }}">
+                                                        {% else %}
+                                                            <img src="" alt="">
+                                                            <img class="product__thumb-2" src="" alt="">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-8 col-lg-8">
+                                                    <div class="product__content p-relative">
+                                                        <div class="product__content-inner list">
+                                                            <h4><a href="product-details.html">{{ product.title }}</a>
+                                                            </h4>
+                                                            <div class="product__price-2 mb-10">
+                                                                <span>{{ product.amount }} €</span>
+{#                                                                <span class="old-price">$96.00</span>#}
+                                                            </div>
+                                                            <p>{{ product.description }}}</p>
+                                                            <div class="product__list mb-30">
+                                                                <ul>
+                                                                    <li><span>Light green crewneck sweatshirt.</span>
+                                                                    </li>
+                                                                    <li><span>Hand pockets.</span></li>
+                                                                    <li><span>Relaxed fit.</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-cart-list d-sm-flex align-items-center">
+                                                            <a href="#" class="add-cart-btn mr-10">+ Add to Cart</a>
+                                                            <div class="product__action-2 transition-3 mr-20">
+                                                                <a href="{{ path('front_wishlist_add', {'token': product.token}) }}"
+                                                                   class="post-confirm add-product-wishlist"
+                                                                   data-button-text="Ajouter"
+                                                                   data-title="Favoris"
+                                                                   data-type="green"
+                                                                   data-btn-class="btn-green"
+                                                                   data-confirm-message="Souhaitez-vous ajouter ce produit à vos favoris ?"
+                                                                   data-toggle="tooltip" data-placement="top"
+                                                                   title="Ajouter à vos favoris">
+                                                                    <i class="fal fa-heart"></i>
+                                                                </a>
+                                                                <!-- Button trigger modal -->
+                                                                <a href="{{ path('front_product_reservation', {'token': product.token}) }}"
+                                                                   title="Réservez"
+                                                                   data-modal-title="Réservation en cours"
+                                                                   class="open-product-modal">
+                                                                    <i class="fal fa-search"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <!-- shop modal start -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row mt-40">
+                                <div class="col-xl-12">
+                                    <div class="shop-pagination-wrapper d-md-flex justify-content-between align-items-center">
+                                        <div class="basic-pagination">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                        <div class="shop__header-left">
+                                            <div class="show-text bottom">
+                                                <span>{{ pagination.getTotalItemCount }} résultats</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- shop area end -->
+{% endblock %}

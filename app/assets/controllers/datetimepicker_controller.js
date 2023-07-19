@@ -1,9 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import flatpickr from "flatpickr";
 import {French} from 'flatpickr/dist/l10n/fr'
-import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
-
-import $ from "jquery";
 
 /**
  * Gestion des datepickers

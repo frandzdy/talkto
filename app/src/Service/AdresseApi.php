@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
@@ -24,14 +25,15 @@ s     */
     }
 
     /**
-     * Prends en parametre une adresse et effectue une recherche sur l'API gouv
+     * Prends-en paramètre une adresse et effectue une recherche sur l'API gouv
      * pour trouver les lat / long
      */
-    public function searchAddress(string $city): ?array
+    public function searchUserAddress(User $user): ?array
     {
         $parameters = [
-            'q' => $city,
-            'city' => $city
+            'q' => $user->getAddress(),
+            'postcode' => $user->getZipCode(),
+            'city' => $user->getCity()
         ];
 
         try {

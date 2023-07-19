@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\User;
+use App\Enum\ProductCategory;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Security\FrontAuthenticator;
@@ -24,8 +25,11 @@ class UserController extends AbstractController
 {
     #[Route('/mon-compte', name: 'user_account', options: ['expose' => true], methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
-    public function account(UserRepository $userRepository, SessionInterface $session, StripeManager $stripeManager): Response
-    {
+    public function account(
+        UserRepository $userRepository,
+        SessionInterface $session,
+        StripeManager $stripeManager
+    ): Response {
         $user = $this->getUser();
         $carts = $session->get('cart', [
             'products' => [],
@@ -46,9 +50,9 @@ class UserController extends AbstractController
             $collections['wishlists'] = $userRepository->getWishlists($user, 0);
         } else {
             $collections['wishlists'] = [
-              'page' => 0,
-              'totalPage' => 0,
-              'results' => [],
+                'page' => 0,
+                'totalPage' => 0,
+                'results' => [],
             ];
         }
         $urlActivationAccount = '';
@@ -58,7 +62,16 @@ class UserController extends AbstractController
             $urlActivation = true;
         }
 
-        return $this->render('front/user/byer/account.html.twig', compact('user', 'collections', 'carts', 'urlActivationAccount', 'urlActivation'));
+        return $this->render(
+            'front/user/byer/account.html.twig',
+            compact(
+                'user',
+                'collections',
+                'carts',
+                'urlActivationAccount',
+                'urlActivation'
+            )
+        );
     }
 
     #[Route('/creation-compte', name: 'user_new', methods: ['GET', 'POST'])]
@@ -67,10 +80,8 @@ class UserController extends AbstractController
         UserManager $userManager,
         MailerManager $mailer,
         Security $security
-    ): Response
-    {
+    ): Response {
         if ($this->getUser()) {
-
             return $this->redirectToRoute('front_user_account');
         }
         $user = $userManager->createUser();
@@ -106,10 +117,9 @@ class UserController extends AbstractController
     #[Route('/edition-compte', name: 'user_edit', methods: ['GET', 'POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function edit(
-        Request     $request,
+        Request $request,
         UserManager $userManager
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user, ['action' => $request->getRequestUri(), 'edit' => true]);
         $form->handleRequest($request);
@@ -154,11 +164,10 @@ class UserController extends AbstractController
     #[Route('/suppression/{token}', name: 'user_remove_connexion', options: ["expose" => true], methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function deleteConnexion(
-        Request                $request,
+        Request $request,
         EntityManagerInterface $entityManager,
-        string                 $token
-    ): Response
-    {
+        string $token
+    ): Response {
         try {
             $user = $this->getUser();
             $user->getMyMatchs()->filter(function (User $userMatch) use ($user, $token) {
@@ -180,10 +189,9 @@ class UserController extends AbstractController
     #[Route('/suppression/photo/{token}', name: 'user_remove_picture', methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function deletePicture(
-        string      $token,
+        string $token,
         UserManager $userManager
-    ): Response
-    {
+    ): Response {
         try {
             $userManager->deleteUserPicture($token, $this->getUser());
             $this->addFlash('success', 'Enregistrement avec succès.');
@@ -200,10 +208,9 @@ class UserController extends AbstractController
     #[Route('/ajout-photo/{token}', name: 'user_add_picture_to_principal', methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function addPictureToPrincipal(
-        string      $token,
+        string $token,
         UserManager $userManager
-    ): Response
-    {
+    ): Response {
         try {
             $userManager->addUserPictureToPrincipal($token, $this->getUser());
             $this->addFlash('success', 'Enregistrement avec succès.');
@@ -220,7 +227,6 @@ class UserController extends AbstractController
     #[Route('/creation-compte-valide', name: 'user_success_creation', methods: ['GET'])]
     public function userSuccessCreation(): Response
     {
-
         return $this->render('front/user/partials/creation-success.html.twig');
     }
 
@@ -230,12 +236,11 @@ class UserController extends AbstractController
     #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ["expose" => true], methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function saveUserCoord(
-        string          $lat,
-        string          $lon,
-        UserManager     $userManager,
+        string $lat,
+        string $lon,
+        UserManager $userManager,
         LoggerInterface $logger
-    ): Response
-    {
+    ): Response {
         try {
             $user = $this->getUser();
             /**

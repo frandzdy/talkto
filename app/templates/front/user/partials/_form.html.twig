@@ -2,12 +2,12 @@
 {% if user.picture is not null %}
     {% set pictureName = user.picture.name %}
 {% endif %}
-<div class="profile__edit-wrapper">
-    {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
+<div class="profile__edit-wrapper" {{ user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') ? 'data-turbo="false"' : '' }}>
+    {{ form_start(form) }}
     <div class="row">
         <div class="col-3 profile__basic-thumb valign-items-center">
-            <img src="{{ asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') }}"
-                 alt="{{ pictureName }}">
+            <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
+                 alt="{{ pictureName ?: 'https://bootdey.com/img/Content/avatar/avatar2.png' }}">
         </div>
         <div class="col-8" style="margin-top: 23px">
             {{ form_row(form.picture) }}
@@ -50,7 +50,7 @@
         <span class="log-rem f-left">
         </span>
         <span class="forgot-login f-right">
-            <a href="{{ path('front_seller_new') }}">Devenir loueur ?</a>
+            <a href="{{ path('front_seller_new') }}">Vous aussi devenez bailleur !</a>
         </span>
     </div>
     {% if not app.user %}
