@@ -28,7 +28,7 @@ jobs:
                     node-version: '20.x'
 
             -   name: PHP Syntax Checker (Lint)
-                uses: StephaneBour/actions-php-lint@${{ matrix.php-versions }}
+                uses: StephaneBour/actions-php-lint@8.1
                 with:
                     # Folder to check syntax
                     dir: 'app/src'
