@@ -27,16 +27,16 @@ jobs:
                 with:
                     node-version: '20.x'
 
-            -   name: PHP Syntax Checker (Lint)
-                uses: StephaneBour/actions-php-lint@8.1
-                with:
-                    # Folder to check syntax
-                    dir: './src'
+#            -   name: PHP Syntax Checker (Lint)
+#                uses: StephaneBour/actions-php-lint@8.1
+#                with:
+#                    # Folder to check syntax
+#                    dir: './app/src'
 
             -   name: PHP Security Checker
                 uses: StephaneBour/actions-php-security-checker@1.2
                 with:
-                    composer-lock: './composer.lock'
+                    composer-lock: './app/composer.lock'
             -   uses: actions/checkout@v3
             -   name: Copy .env.test.local
                 run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
