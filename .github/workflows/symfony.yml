@@ -31,12 +31,12 @@ jobs:
                 uses: StephaneBour/actions-php-lint@8.1
                 with:
                     # Folder to check syntax
-                    dir: 'app/src'
+                    dir: './src'
 
             -   name: PHP Security Checker
                 uses: StephaneBour/actions-php-security-checker@1.2
                 with:
-                    composer-lock: 'app/composer.lock'
+                    composer-lock: './composer.lock'
             -   uses: actions/checkout@v3
             -   name: Copy .env.test.local
                 run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
