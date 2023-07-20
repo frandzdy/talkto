@@ -8,7 +8,7 @@ on:
 
 jobs:
     symfony-tests:
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         strategy:
             matrix:
                 php-versions: [ '8.1', '8.2', '8.3' ]
