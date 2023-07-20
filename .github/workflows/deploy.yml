@@ -1,46 +1,46 @@
 name: CD Production
 
 on:
-  push:
-    branches: [ prod ]
-  pull_request:
-    branches: [ prod ]
+    push:
+        branches: [ prod ]
+    pull_request:
+        branches: [ prod ]
 
 jobs:
-  deploy-prod:
-    runs-on: ubuntu-latest
-    env:
-      SSHPASS: ${{ secrets.APP_PASS }}
-    steps:
-      -   uses: actions/checkout@v2
+    deploy-prod:
+        runs-on: ubuntu-latest
+        env:
+            SSHPASS: ${{ secrets.APP_PASS }}
+        steps:
+            -   uses: actions/checkout@v2
 
-      -   name: Setup Node
-          uses: actions/setup-node@v1
-          with:
-            node-version: '14.x'
+            -   name: Setup Node
+                uses: actions/setup-node@v1
+                with:
+                    node-version: '14.x'
 
-      -   name: PHP Syntax Checker (Lint)
-          uses: StephaneBour/actions-php-lint@8.0
-          with:
-            # Folder to check syntax
-            dir: './src'
+            -   name: PHP Syntax Checker (Lint)
+                uses: StephaneBour/actions-php-lint@8.0
+                with:
+                    # Folder to check syntax
+                    dir: './src'
 
-      -   name: PHP Security Checker
-          uses: StephaneBour/actions-php-security-checker@1.2
-          with:
-            composer-lock: './composer.lock'
+            -   name: PHP Security Checker
+                uses: StephaneBour/actions-php-security-checker@1.2
+                with:
+                    composer-lock: './composer.lock'
 
-      -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v2
 
-      -   name: APT UPDATE and INSTALL SSHPASS
-          run:
-            sudo apt update && sudo apt install sshpass
+            -   name: APT UPDATE and INSTALL SSHPASS
+                run:
+                    sudo apt update && sudo apt install sshpass
 
-      -   name: deploy en production
-          run:
-            sshpass -e ssh -o stricthostkeychecking=no ${{ secrets.APP_USER }}@${{ secrets.APP_HOST }}
-            "cd public_html/ &&
-            git pull &&
-            composer install --no-dev --optimize-autoloader &&
-            php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json &&
-            php bin/console d:m:m -n"
+            -   name: deploy en production
+                run:
+                    sshpass -e ssh -o stricthostkeychecking=no ${{ secrets.APP_USER }}@${{ secrets.APP_HOST }}
+                    "cd public_html/ &&
+                    git pull &&
+                    composer install --no-dev --optimize-autoloader &&
+                    php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json &&
+                    php bin/console d:m:m -n"
