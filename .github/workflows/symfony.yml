@@ -31,7 +31,7 @@ jobs:
                 uses: StephaneBour/actions-php-lint@8.0
                 with:
                     # Folder to check syntax
-                    dir: './app/src'
+                    dir: './src'
 
             -   name: PHP Security Checker
                 uses: StephaneBour/actions-php-security-checker@1.2
