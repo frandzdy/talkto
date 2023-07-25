@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Genre;
+use App\Enum\Civility;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\Reservation;

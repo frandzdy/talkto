@@ -625,13 +625,13 @@ p {
 
 .page{
 	&__title{
-		height: 530px;
+		height: 240px;
 		@include background();
 		@media #{$sm}{
-			height: 400px;
+			height: 140px;
 		}
 		@media #{$xs}{
-			height: 350px;
+			height: 80px;
 		}
 		&-inner{
 			& h1{

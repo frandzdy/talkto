@@ -2,12 +2,12 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Check;
+
+use App\Entity\Checkin;
 use App\Entity\TransactionLine;
 use App\Enum\CheckStatus;
-use App\Form\CheckType;
-use App\Repository\CheckRepository;
-use App\Repository\ReservationRepository;
+use App\Form\CheckinType;
+use App\Service\CheckManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,24 +17,48 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CheckController extends AbstractController
 {
-    #[Route('/check/{type}/{token}', name: 'check_create', requirements: ['type' => 'in|out'], methods: ['GET'])]
+    /**
+     * Gère la création du check in ou out
+     */
+    #[Route('/check/{type}/{token}', name: 'check_create', requirements: ['type' => 'in|out'], methods: ['GET', 'POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function check(
         string $type,
         string $token,
         EntityManagerInterface $em,
-        Request $request
-    ): Response
-    {
+        Request $request,
+        CheckManager $checkManager
+    ): Response {
         $transactionLine = $em->getRepository(TransactionLine::class)->findOneBy(['token' => $token]);
-        $check = (new Check())
-        ->setStatus(CheckStatus::IN)
-            ->setTransactionLine($transactionLine)
-        ;
-        $form = $this->createForm(CheckType::class, $check);
+        $hasAllReadyDoneCheckin = $em->getRepository(Checkin::class)->findOneBy(
+            [
+                'transactionLine' => $transactionLine->getId(),
+                'status' => $type === 'in' ? CheckStatus::IN->value : CheckStatus::OUT->value
+            ]
+        );
+        if ($hasAllReadyDoneCheckin) {
+            $this->addFlash('success', 'Check-' . $type . 'déjà enregistré !');
+
+            return $this->json(
+                [
+                    'success' => true,
+                    'redirectUrl' => $this->generateUrl('front_user_account')
+                ]
+            );
+        }
+        $checkin = $checkManager->createCheckin($this->getUser(), $type, $transactionLine);
+        $form = $this->createForm(CheckinType::class, $checkin, ['action' => $request->getUri()]);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $checkManager->saveCheckin($checkin, $checkin->uploadedPictures);
+            $this->addFlash('success', 'Check-' . $type . ' enregistré !');
 
+            return $this->json(
+                [
+                    'success' => true,
+                    'redirectUrl' => $this->generateUrl('front_user_account')
+                ]
+            );
         }
 
         return $this->render('front/check/create.html.twig', compact('form'));

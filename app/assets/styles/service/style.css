@@ -727,19 +727,19 @@ p {
 
 /* page title area */
 .page__title {
-  height: 530px;
+  height: 240px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
   .page__title {
-    height: 400px;
+    height: 160px;
   }
 }
 @media (max-width: 575px) {
   .page__title {
-    height: 350px;
+    height: 100px;
   }
 }
 .page__title-inner h1 {
@@ -1079,6 +1079,7 @@ p {
   color: #323232;
 }
 .header__action ul li:hover .mini-cart {
+  border-radius: 5px;
   visibility: visible;
   opacity: 1;
 }

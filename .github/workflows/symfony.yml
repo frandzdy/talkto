@@ -47,7 +47,7 @@ jobs:
                     path: vendor
                     key: ${{ runner.os }}-php-${{ hashFiles('**/app/composer.lock') }}
                     restore-keys: |
-                        ${{ runner.os }}-php-
+                        ${{ runner.os }}-php-${{ hashFiles('**/app/composer.lock') }}
             -   name: Install Dependencies
                 run: "
                     cd app/ &&

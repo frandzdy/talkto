@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     use TraitToken, TraitAuthor, TraitTimestamp;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

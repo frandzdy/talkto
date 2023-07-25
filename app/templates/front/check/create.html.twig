@@ -1,0 +1,24 @@
+{% import "front/macros/macros.html.twig" as macros %}
+
+<div class="profile__edit-wrapper" {{ stimulus_controller('checkin') }}>
+    {{ form_start(form) }}
+    <div class="profile__edit-input">
+    {{ form_row(form.comments) }}
+    </div>
+    <div class="profile__edit-input">
+        Ajouter des photos à votre {{ form.vars.value.status.label }}
+        <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
+                data-action="click->checkin#onFileAdd">
+            <i class="fas fa-plus "></i>
+        </button>
+    </div>
+    <div class="checkin-collection mt-3"
+         data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+        {% for picture in form.vars.value.uploadedPictures %}
+            {{ macros.pictureField(picture) }}
+        {% endfor %}
+    </div>
+    {{ form_rest(form) }}
+    <button class="os-btn w-100" formnovalidate>Enregistrer</button>
+    {{ form_end(form) }}
+</div>

@@ -2,7 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Check;
+
+use App\Entity\Checkin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,10 +19,10 @@ class CheckRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Check::class);
+        parent::__construct($registry, Checkin::class);
     }
 
-    public function save(Check $entity, bool $flush = false): void
+    public function save(Checkin $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +31,7 @@ class CheckRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Check $entity, bool $flush = false): void
+    public function remove(Checkin $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

@@ -27,7 +27,7 @@
                     'firstname',
                     TextType::class,
                     [
-                        'label' => 'Prénom *',
+                        'label' => false,
                         'label_attr' =>
                             [
                                 'class' => 'form-label'
@@ -43,7 +43,7 @@
                     'lastname',
                     TextType::class,
                     [
-                        'label' => 'Nom *',
+                        'label' => false,
                         'label_attr' =>
                             [
                                 'class' => 'form-label'
@@ -59,7 +59,7 @@
                     'email',
                     EmailType::class,
                     [
-                        'label' => 'E-mail *',
+                        'label' => false,
                         'label_attr' =>
                             [
                                 'class' => 'form-label'
@@ -75,24 +75,24 @@
                     'subject',
                     ChoiceType::class,
                     [
-                        'label' => 'Sujet de votre demande',
+                        'label' => false,
                         'attr' => ['class' => 'custom-select'],
                         'choices' => array_flip(ContactSubject::getAvailableContactSubjects()),
-                        'placeholder' => 'Sélectionnez un sujet'
+                        'placeholder' => '-- Sélectionnez un sujet --'
                     ]
                 )
                 ->add(
                     'message',
                     TextareaType::class,
                     [
-                        'label' => 'Laissez nous un message *',
+                        'label' => false,
                         'label_attr' =>
                             [
                                 'class' => 'form-label'
                             ],
                         'attr' =>
                             [
-                                'style' => 'height: 200px',
+                                'style' => 'height: 200px;resize:none;',
                                 'maxlength' => 255,
                                 'placeholder' => 'Laissez nous un message *',
                             ]

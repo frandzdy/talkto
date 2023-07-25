@@ -1,91 +1,4 @@
-{# <div class="col-md-12"> #}
-{#    <div class="country-select"> #}
-{#        <label>Country <span class="required">*</span></label> #}
-{#        <select> #}
-{#            <option value="volvo">bangladesh</option> #}
-{#            <option value="saab">Algeria</option> #}
-{#            <option value="mercedes">Afghanistan</option> #}
-{#            <option value="audi">Ghana</option> #}
-{#            <option value="audi2">Albania</option> #}
-{#            <option value="audi3">Bahrain</option> #}
-{#            <option value="audi4">Colombia</option> #}
-{#            <option value="audi5">Dominican Republic</option> #}
-{#        </select> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>First Name <span class="required">*</span></label> #}
-{#        <input type="text" placeholder=""/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Last Name <span class="required">*</span></label> #}
-{#        <input type="text" placeholder=""/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-12"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Company Name</label> #}
-{#        <input type="text" placeholder=""/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-12"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Address <span class="required">*</span></label> #}
-{#        <input type="text" placeholder="Street address"/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-12"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <input type="text" placeholder="Apartment, suite, unit etc. (optional)"/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-12"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Town / City <span class="required">*</span></label> #}
-{#        <input type="text" placeholder="Town / City"/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>State / County <span class="required">*</span></label> #}
-{#        <input type="text" placeholder=""/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Postcode / Zip <span class="required">*</span></label> #}
-{#        <input type="text" placeholder="Postcode / Zip"/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Email Address <span class="required">*</span></label> #}
-{#        <input type="email" placeholder=""/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-6"> #}
-{#    <div class="checkout-form-list"> #}
-{#        <label>Phone <span class="required">*</span></label> #}
-{#        <input type="text" placeholder="Postcode / Zip"/> #}
-{#    </div> #}
-{# </div> #}
-{# <div class="col-md-12"> #}
-{#    <div class="checkout-form-list create-acc"> #}
-{#        <input id="cbox" type="checkbox"/> #}
-{#        <label>Create an account?</label> #}
-{#    </div> #}
-{#    <div id="cbox_info" class="checkout-form-list create-account"> #}
-{#        <p>Create an account by entering the information below. If you are a returning #}
-{#            customer please login at the top of the page.</p> #}
-{#        <label>Account password <span class="required">*</span></label> #}
-{#        <input type="password" placeholder="password"/> #}
-{#    </div> #}
-{# </div> #}
-
-
+{{ form_start(form, {'attr': {'autocomplete':'off', 'id': 'user-reservation-form', 'data-user-target': 'userForm', 'data-action' : 'user#checkRecaptcha'}}) }}
 <div class="col-md-12">
     <div class="checkout-form-list">
         {{ form_widget(form.genre) }}
@@ -157,6 +70,11 @@
         </div>
     </div>
     <div class="col-md-12">
-        <button type="submit" class="os-btn os-btn-black" formnovalidate="formnovalidate">Valider</button>
+        <button type="submit" id="user-submit-btn" class="os-btn os-btn-black"
+                data-loading-img="{{ asset('build/images/img/pulse.gif') }}"
+                formnovalidate="formnovalidate">
+            Enregistrer
+        </button>
     </div>
 {% endif %}
+{{ form_end(form) }}

@@ -191,10 +191,18 @@ class ProductController extends AbstractController
     #[IsGranted('ROLE_SELLER')]
     public function productPictureDelete(string $token, EntityManagerInterface $em): JsonResponse
     {
-        if ($picture = $em->getRepository(Picture::class)->findOneBy(['token'])) {
+        if ($picture = $em->getRepository(Picture::class)->findOneBy(['token' => $token])) {
             $em->remove($picture);
             $em->flush();
-            return $this->json(['token' => $token]);
+            $this->addFlash('success', 'Image supprimé !');
+
+            return $this->json(
+                [
+                    'success' => true,
+                    'callback' => 'onDeleteProductPicture',
+                    'callbackData' => ['token' => $token]
+                ]
+            );
         }
 
         return $this->json(['token' => null], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -214,17 +222,26 @@ class ProductController extends AbstractController
         $amount = $request->query->get('amount', '0-500');
         $distance = $request->query->get('distance', '0-5');
         $sortedBy = $request->query->getInt('sortedBy', 1);
+
+        $user = $this->getUser();
+        if (!$user) {
+            $lat = $session->get('lat', 0);
+            $lon = $session->get('lon', 0);
+        } else {
+            $lat = $user->getLat();
+            $lon = $user->getLon();
+        }
         $filter = [
             'startAmount' => explode('-', $amount)[0],
             'endAmount' => explode('-', $amount)[1],
             'startDistance' => explode('-', $distance)[0],
             'endDistance' => explode('-', $distance)[1],
             'sortedBy' => $sortedBy,
-            'category' => $productCategory->value
+            'category' => $productCategory->value,
+            'lon' => $lon,
+            'lat' => $lat
         ];
-        $lat = $session->get('lat', 0);
-        $lon = $session->get('lon', 0);
-        $queryProducts = $em->getRepository(Product::class)->getFilteredProducts($filter, $lat, $lon, $this->getUser());
+        $queryProducts = $em->getRepository(Product::class)->getFilteredProducts($filter);
         $data = [
             'amount' => $amount,
             'distance' => $distance,
@@ -256,17 +273,24 @@ class ProductController extends AbstractController
         SessionInterface $session
     ): Response {
         $user = $this->getUser();
-        $lat = $session->get('lat', 0);
-        $lon = $session->get('lon', 1);
+        if ($user) {
+            $lat = $user->getLat();
+            $lon = $user->getLon();
+        } else {
+            $lat = $session->get('lat', 0);
+            $lon = $session->get('lon', 0);
+        }
         $sortedBy = $request->query->getInt('sortedBy', 1);
         $searchProducts = $request->query->get('searchProducts', null);
         $filter = [
             'searchIds' => $searchProducts,
             'startDistance' => 0,
             'endDistance' => 1000,
-            'sortedBy' => $sortedBy
+            'sortedBy' => $sortedBy,
+            'lon' => $lon,
+            'lat' => $lat
              ];
-        $querysearchProducts = $productRepository->searchProducts($filter, $lat, $lon, $user);
+        $querysearchProducts = $productRepository->searchProducts($filter);
         $data = [
             'sortedBy' => $sortedBy,
             'searchProducts' => $searchProducts

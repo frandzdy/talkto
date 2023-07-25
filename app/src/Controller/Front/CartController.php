@@ -30,7 +30,7 @@ class CartController extends AbstractController
             [
                 'response' => $this->renderView('front/cart/cart-widget.html.twig', compact('carts')),
                 'totalQuantity' => $carts['totalQuantity'],
-                'totalAmount' => $carts['totalAmount'] + ($carts['totalFees'] * 0.1),
+                'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
                 'totalFees' => $carts['totalFees']
             ]

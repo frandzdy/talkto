@@ -10,13 +10,13 @@ import 'toastr'
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
-    static targets = ['contactForm']
+    static targets = ['userForm']
 
     checkRecaptcha(event) {
         event.preventDefault();
         grecaptcha.ready(() => {
             grecaptcha.execute(googleRecaptchPkey, {action: 'submit'}).then((token) => {
-                let $btn = $('#contact-submit-btn');
+                let $btn = $('#user-submit-btn');
                 $btn
                     .html(
                         '<img style="width: 50px;" src="' + $btn.data('loading-img') + '" alt="Envoi en cours"> Envoi en cours'
@@ -27,10 +27,10 @@ export default class extends Controller {
                     Routing.generate('front_recaptcha_check', {'token': token})
                 ).done(async (data) => {
                     if (data.response) {
-                        const $form = $(this.contactFormTarget);
+                        const $form = $(this.userFormTarget);
                         $form.submit();
                     } else {
-                        $btn.html('Envoyer').removeAttr('disabled');
+                        $btn.html('Enregistrer').removeAttr('disabled');
                         toastr.error("Vous avez été identifié comme robot; si ce n'est pas le cas, veuillez réessayer.");
                     }
                 });

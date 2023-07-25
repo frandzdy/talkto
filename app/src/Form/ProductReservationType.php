@@ -36,7 +36,7 @@ class ProductReservationType extends AbstractType
             )->add('quantity', ChoiceType::class,
                 [
                     'label' => false,
-                    'placeholder' => '- Sélectionnez une quantité -',
+                    'placeholder' => '-- Sélectionnez une quantité --',
                     'attr' =>
                         [
                             'class' => 'text-center'

@@ -1,11 +1,10 @@
 {% import "front/macros/macros.html.twig" as macros %}
 
-
 <div class="row">
     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12">
         <div class="product__modal-box">
             <div class="tab-content mb-20" id="nav-tabContent">
-                {% if form.vars.value.pictures %}
+                {% if form.vars.value.pictures.count > 0 %}
                     {% for index, picture in form.vars.value.pictures %}
                         {% set active = '' %}
                         {% if index == 0 %}
@@ -21,7 +20,7 @@
             </div>
             <nav>
                 <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
-                    {% if form.vars.value.pictures %}
+                    {% if form.vars.value.pictures.count > 0 %}
                         {% for index, picture in form.vars.value.pictures %}
                             {% set active = '' %}
                             {% if index == 0 %}
@@ -30,14 +29,14 @@
                             <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab" href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}" aria-selected="true">
                                 <div class="product__nav-img w-img">
                                     <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
-                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}"
-                                       class="post-confirm"
-                                       data-button-text="Supprimer"
-                                       data-title="Supprimer"
-                                       data-confirm-message="Souhaitez-vous supprimer ce photo ?"
-                                    >
-                                        <i class="fal fa-times"></i>
-                                    </a>
+{#                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}"#}
+{#                                       class="post-confirm"#}
+{#                                       data-button-text="Supprimer"#}
+{#                                       data-title="Supprimer"#}
+{#                                       data-confirm-message="Souhaitez-vous supprimer ce photo ?"#}
+{#                                    >#}
+{#                                        <i class="fal fa-times"></i>#}
+{#                                    </a>#}
                                 </div>
                             </a>
                         {% endfor %}

@@ -28,19 +28,29 @@ class ProductAutocompleter implements EntityAutocompleterInterface
     public function createFilteredQueryBuilder(EntityRepository $repository, string $query): QueryBuilder
     {
         $user = $this->security->getUser();
-        $lat = $this->requestStack->getSession()->get('lat', 0);
-        $lon = $this->requestStack->getSession()->get('lon', 0);
+        if ($user) {
+            $lat = $user->getLat();
+            $lon = $user->getLon();
+        } else {
+            $lat = $this->requestStack->getSession()->get('lat', 0);
+            $lon = $this->requestStack->getSession()->get('lon', 0);
+        }
 
         $qb = $repository
             // the alias "food" can be anything
             ->createQueryBuilder('p')
-            ->select('p,
-                    ( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+            ->select(
+                'p,
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
-                       * sin(radians(a.lat)))) AS distance')
+                       * sin(radians(a.lat))))) AS distance'
+            )
             ->innerJoin('p.author', 'a')
-            ->andWhere('p.title LIKE :search OR p.description LIKE :search OR p.amount LIKE :search')
-            ->setParameter('search', '%'.$query.'%')
+            ->andWhere(
+                'p.title LIKE :search OR p.description LIKE :search OR p.amount LIKE :search 
+            OR a.lastname LIKE :search OR a.firstname LIKE :search OR a.city LIKE :search OR a.zipCode LIKE :search'
+            )
+            ->setParameter('search', '%' . $query . '%')
 
             // maybe do some custom filtering in all cases
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
@@ -50,16 +60,10 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->andWhere('a.isStripeAccountActive = :active')
             ->setParameter('active', true)
+            ->setParameter(':userLat', $lat ?: 48.866667)
+            ->setParameter(':userLon', $lon ?: 2.333333)
             ->orderBy('p.title, p.amount', 'ASC')
-            ;
-
-        if ($user) {
-            $qb->setParameter(':userLat', $user->getLat())
-                ->setParameter(':userLon', $user->getLon());
-        } else {
-            $qb->setParameter(':userLat', $lat != 0 ? $lat : 48.866667)
-                ->setParameter(':userLon', $lon != 0 ? $lon : 2.333333);
-        }
+            ->groupBy('p.id');
 
         return $qb;
     }

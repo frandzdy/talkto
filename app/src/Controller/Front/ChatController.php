@@ -2,13 +2,13 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Check;
+
 use App\Entity\Message;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\CheckStatus;
-use App\Form\CheckType;
+use App\Form\CheckinType;
 use App\Repository\CheckRepository;
 use App\Repository\ReservationRepository;
 use App\Service\ChatService;

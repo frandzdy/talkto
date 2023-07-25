@@ -74,42 +74,33 @@ class ProductRepository extends ServiceEntityRepository
 
     /**
      * @param array $filter
-     * @param mixed $lat 48.866667 (Paris)
-     * @param mixed $lon 2.333333
-     * @param User|null $user
      * @return QueryBuilder
      */
-    public function getFilteredProducts(array $filter, mixed $lat = 0, mixed $lon = 0, ?User $user = null): QueryBuilder
+    public function getFilteredProducts(array $filter): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
             ->select(
                 '
                     p,
-                    ( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
-                       * sin(radians(a.lat)))) AS distance'
+                       * sin(radians(a.lat))))) AS distance'
             )
             ->innerjoin('p.author', 'a')
-            ->where('p.status = :productStatus')
-            ->andWhere('a.isStripeAccountActive = true')
-            ->andWhere('p.category = :productCategory')
-            ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
-            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
-            ->setParameter(':startDistance', $filter['startDistance'])
-            ->setParameter(':endDistance', $filter['endDistance'])
-            ->setParameter(':startAmount', $filter['startAmount'])
-            ->setParameter(':endAmount', $filter['endAmount'])
-            ->setParameter(':productStatus', ProductStatus::VALIDATE)
-            ->setParameter(':productCategory', $filter['category'])
-            ;
+       ->where('p.status = :productStatus')
+        ->andWhere('a.isStripeAccountActive = true')
+        ->andWhere('p.category = :productCategory')
+        ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
+        ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+        ->setParameter(':startDistance', $filter['startDistance'])
+        ->setParameter(':endDistance', $filter['endDistance'])
+        ->setParameter(':startAmount', $filter['startAmount'])
+        ->setParameter(':endAmount', $filter['endAmount'])
+        ->setParameter(':productStatus', ProductStatus::VALIDATE)
+        ->setParameter(':productCategory', $filter['category'])
+        ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
+        ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        if ($user) {
-           $qb->setParameter(':userLat', $user->getLat())
-               ->setParameter(':userLon', $user->getLon());
-        } else {
-            $qb->setParameter(':userLat', $lat != 0 ? $lat : 48.866667)
-                ->setParameter(':userLon', $lon != 0 ? $lon : 2.333333);
-        }
         match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
@@ -121,7 +112,7 @@ class ProductRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function searchProducts(array $filter, mixed $lat = 0, mixed $lon = 0, ?User $user = null): QueryBuilder
+    public function searchProducts(array $filter): QueryBuilder
     {
         $searchIds = [$filter['searchIds']];
         if (is_array(explode(',', $filter['searchIds']))) {
@@ -131,9 +122,9 @@ class ProductRepository extends ServiceEntityRepository
             ->select(
                 '
                     p,
-                    ( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
-                       * sin(radians(a.lat)))) AS distance'
+                       * sin(radians(a.lat))))) AS distance'
             )
             ->innerjoin('p.author', 'a')
             ->where('p.status = :productStatus')
@@ -144,15 +135,8 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':startDistance', $filter['startDistance'])
             ->setParameter(':endDistance', $filter['endDistance'])
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
-        ;
-
-        if ($user) {
-            $qb->setParameter(':userLat', $user->getLat())
-                ->setParameter(':userLon', $user->getLon());
-        } else {
-            $qb->setParameter(':userLat', $lat != 0 ? $lat : 48.866667)
-                ->setParameter(':userLon', $lon != 0 ? $lon : 2.333333);
-        }
+            ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
+            ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
         match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),

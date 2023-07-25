@@ -2,7 +2,7 @@
     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12">
         <div class="product__modal-box">
             <div class="tab-content mb-20" id="nav-tabContent">
-                {% if product.pictures %}
+                {% if product.pictures.count > 0 %}
                     {% for index, picture in product.pictures %}
                         {% set active = '' %}
                         {% if index == 0 %}
@@ -18,7 +18,7 @@
             </div>
             <nav>
                 <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
-                    {% if product.pictures %}
+                    {% if product.pictures.count > 0 %}
                         {% for index, picture in product.pictures %}
                             {% set active = '' %}
                             {% if index == 0 %}

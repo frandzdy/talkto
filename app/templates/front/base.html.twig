@@ -101,12 +101,12 @@
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
-        const googleGtm = '{{ googleGtm }}';
-        const googleTagUa = '{{ googleTagUa }}';
+        let googleGtm = '{{ googleGtm }}';
+        let googleTagUa = '{{ googleTagUa }}';
         let dataLayer = [];
         let isLogged = false;
-        const policyUrl = '{{ absolute_url(path('front_policy')) }}';
-        const stripePublicKey = '{{ stripePublicKey }}';
+        let policyUrl = '{{ absolute_url(path('front_policy')) }}';
+        let stripePublicKey = '{{ stripePublicKey }}';
         let lat = {{ app.request.session.get('lat', 0) }};
         let lon = {{ app.request.session.get('lon', 0) }};
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
