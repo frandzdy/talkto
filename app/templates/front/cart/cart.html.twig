@@ -34,7 +34,7 @@
                                 {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="{{ path('front_product_show_detail', {'token': index}) }}">
+                                            <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
                                                      alt="{{ product.pictureName }}"/>
                                             </a>
@@ -62,6 +62,8 @@
                                                class="post-confirm"
                                                data-button-text="Supprimer"
                                                data-title="Supprimer"
+                                               title="Supprimer"
+                                               data-toggle="tooltip" data-placement="top"
                                                data-confirm-message="Souhaitez-vous supprimer ce produit ?"
                                             >
                                                 <i class="fa fa-times"></i></a></td>

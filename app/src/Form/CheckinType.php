@@ -1,66 +1,85 @@
 <?php
-    
-    namespace App\Form;
-    
-    
-    use App\Entity\Checkin;
-    use App\Entity\WebsiteContactSubject;
-    use Symfony\Component\Form\AbstractType;
-    use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-    use Symfony\Component\Form\Extension\Core\Type\FileType;
-    use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-    use Symfony\Component\Form\FormBuilderInterface;
-    use Symfony\Component\OptionsResolver\OptionsResolver;
 
-    class CheckinType extends AbstractType
+namespace App\Form;
+
+
+use App\Entity\Checkin;
+use App\Entity\WebsiteContactSubject;
+use App\Enum\CheckinValidateStatus;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class CheckinType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function buildForm(FormBuilderInterface $builder, array $options)
-        {
-            parent::buildForm($builder, $options);
-            
-            $builder
-                ->add('comments', TextareaType::class, [
-                    'label' => false,
+        parent::buildForm($builder, $options);
+
+        $builder
+            ->add(
+                'validateStatus',
+                EnumType::class,
+                [
+                    'class' => CheckinValidateStatus::class,
+                    'choice_label' => 'label',
+                    'label' => 'Statut du check',
+                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'attr' =>
+                        [
+                            'data-action' => 'checkin#onChangeValidateStatus'
+                        ]
+                ]
+            )
+            ->add(
+                'comments',
+                TextareaType::class,
+                [
+                    'label' => 'Décrivez le problème',
                     'label_attr' =>
                         [
                             'class' => 'form-label'
                         ],
                     'attr' =>
                         [
-                            'style' => 'height: 200px;resize:none;',
-                            'maxlength' => 255,
-                            'placeholder' => 'Ajouter un commentaire pour votre état du produit. Pourra être analyser en cas de contestation.',
+                            'style' => 'height: 200px;resize:none',
+                            'placeholder' => 'Ajouter un commentaire détails',
                         ]
-                ])
-                ->add('uploadedPictures', CollectionType::class, [
-                    'label' => false,
-                    'entry_type' => FileType::class,
-                    'entry_options' => [
-                        'label' => false,
-                        'attr' => [
-                            'accept' => 'image/*',
-                            'allow-delete' => true,
-                        ],
-                    ],
-                    'label_attr' => [
-                        'class' => 'w-max-content form-text text-muted',
-                    ],
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'required' => false,
-                ])
-                ;
-        }
-    
-        public function configureOptions(OptionsResolver $resolver): void
-        {
-            $resolver->setDefaults(
-                [
-                    'data_class' => Checkin::class,
                 ]
-            );
-        }
+            )
+            ->add('uploadedPictures', CollectionType::class, [
+                'label' => 'Photo(s) < 5Mo',
+                'entry_type' => FileType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'accept' => 'image/*',
+                        'lang' => 'fr'
+                    ],
+                ],
+                'label_attr' => [
+                    'class' => 'w-max-content form-text text-muted checkin-pictures',
+                    'style' => 'display: none'
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => false,
+            ]);
     }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => Checkin::class,
+            ]
+        );
+    }
+}

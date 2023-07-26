@@ -8,14 +8,14 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Check>
+ * @extends ServiceEntityRepository<Checkin>
  *
- * @method Check|null find($id, $lockMode = null, $lockVersion = null)
- * @method Check|null findOneBy(array $criteria, array $orderBy = null)
- * @method Check[]    findAll()
- * @method Check[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Checkin|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Checkin|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Checkin[]    findAll()
+ * @method Checkin[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CheckRepository extends ServiceEntityRepository
+class CheckinRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

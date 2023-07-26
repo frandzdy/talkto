@@ -3,19 +3,22 @@
 <div class="profile__edit-wrapper" {{ stimulus_controller('checkin') }}>
     {{ form_start(form) }}
     <div class="profile__edit-input">
+        {{ form_row(form.validateStatus) }}
+    </div>
+    <div class="profile__edit-input checkin-pictures" style="display: none">
     {{ form_row(form.comments) }}
     </div>
-    <div class="profile__edit-input">
-        Ajouter des photos à votre {{ form.vars.value.status.label }}
-        <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
+    <div class="profile__edit-input checkin-pictures" style="display: none">
+        Ajouter des photos à ligite
+        <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre litige"
                 data-action="click->checkin#onFileAdd">
             <i class="fas fa-plus "></i>
         </button>
     </div>
-    <div class="checkin-collection mt-3"
-         data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+    <div class="checkin-collection mt-3" style="display: none"
+         data-prototype="{{ macros.pictureCheckinField(form.uploadedPictures.vars.prototype)|e }}">
         {% for picture in form.vars.value.uploadedPictures %}
-            {{ macros.pictureField(picture) }}
+            {{ macros.pictureCheckinField(picture) }}
         {% endfor %}
     </div>
     {{ form_rest(form) }}

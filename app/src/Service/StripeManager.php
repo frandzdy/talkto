@@ -160,7 +160,6 @@ class StripeManager
                 'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference(),
                 'receipt_email' => $user->getEmail(),
-                'receipt_number' => $user->getPhone(),
                 'description' => sprintf('Location d\'un bien Rented : Ref %s', $transaction->getReference())
             ]
         );

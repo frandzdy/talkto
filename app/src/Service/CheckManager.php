@@ -6,7 +6,7 @@ use App\Entity\Checkin;
 use App\Entity\Picture;
 use App\Entity\TransactionLine;
 use App\Entity\User;
-use App\Enum\CheckStatus;
+use App\Enum\CheckinStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -25,7 +25,7 @@ class CheckManager
     public function createCheckin(User $user, string $type, TransactionLine $transactionLine): Checkin
     {
         return (new Checkin())
-            ->setStatus($type === 'in' ? CheckStatus::IN : CheckStatus::OUT)
+            ->setStatus($type === 'in' ? CheckinStatus::IN : CheckinStatus::OUT)
             ->setTransactionLine($transactionLine)
             ->setAuthor($user)
         ;
@@ -39,7 +39,7 @@ class CheckManager
         if ($pictureFileDatas) {
             foreach ($pictureFileDatas as $pictureFileData) {
                 if ($pictureFileData instanceof UploadedFile) {
-                    $fileName = $this->fileUploadManager->uploadFile('check'. $checkin->getStatus() == CheckStatus::IN ? 'in' : 'out', $pictureFileData);
+                    $fileName = $this->fileUploadManager->uploadFile('check'. $checkin->getStatus() == CheckinStatus::IN ? 'in' : 'out', $pictureFileData);
                     $pic = (new Picture())
                         ->setName($fileName);
                     $this->entityManager->persist($pic);

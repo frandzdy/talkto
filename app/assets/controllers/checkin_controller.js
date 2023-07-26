@@ -1,6 +1,7 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
+
 /**
  * Gestion des justificatifs
  */
@@ -13,12 +14,7 @@ export default class extends Controller {
             this.onFileAdd();
         }
 
-        let indexFile = 0;
-        $('.file-elt').each(function () {
-            ++indexFile
-            $(this).find('.file-index').html(indexFile);
-            $(this).find('.file-index').removeClass("d-none");
-        });
+        this.reindex()
     }
 
     /**
@@ -49,7 +45,8 @@ export default class extends Controller {
                     text: 'Supprimer',
                     btnClass: 'btn-red',
                     action: () => {
-                         elt.parentElement.parentElement.remove();
+                        elt.parentElement.remove();
+                        this.reindex()
                     }
                 },
                 close: {
@@ -68,6 +65,25 @@ export default class extends Controller {
                     $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
                 }
             });
+        }
+    }
+
+    reindex() {
+        let indexFile = 0;
+        $('.file-elt').each(function () {
+            ++indexFile
+            $(this).find('.file-index').html(indexFile);
+            $(this).find('.file-index').removeClass("d-none");
+        });
+    }
+
+    onChangeValidateStatus (event) {
+        if ($(event.currentTarget).val() == 2) {
+            $('.checkin-collection').slideDown();
+            $('.checkin-pictures').slideDown();
+        } else {
+            $('.checkin-collection').slideUp();
+            $('.checkin-pictures').slideUp();
         }
     }
 }

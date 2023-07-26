@@ -17,15 +17,15 @@
                                     <li class="active has-dropdown">
                                         <a href="javascript:void(0);">Catégories</a>
                                         <ul class="submenu transition-3">
-                                                <li class="has-dropdown">
-                                                    <ul>
-                                                        {% for index, category in getProductCategories() %}
-                                                            <li>
-                                                                <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </li>
+                                            <li class="has-dropdown">
+                                                <ul>
+                                                    {% for index, category in getProductCategories() %}
+                                                        <li>
+                                                            <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript:void(0);">Notre Blog</a></li>

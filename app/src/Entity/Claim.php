@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
-use App\Repository\CheckRepository;
+use App\Repository\CheckinRepository;
 use App\Repository\ClaimRepository;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;

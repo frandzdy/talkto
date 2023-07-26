@@ -18,6 +18,7 @@ export default class extends Controller {
     rejectLocalisation = false;
     localisationDone = false;
     connect() {
+        $('[data-toggle="tooltip"]').tooltip();
         this.handleBsCustomFileInput($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();

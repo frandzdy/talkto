@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
-use App\Enum\CheckStatus;
-use App\Repository\CheckRepository;
+use App\Enum\CheckinStatus;
+use App\Enum\CheckinValidateStatus;
+use App\Repository\CheckinRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CheckRepository::class)]
+#[ORM\Entity(repositoryClass: CheckinRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
 class Checkin
 {
@@ -24,8 +26,11 @@ class Checkin
     #[ORM\OneToOne(targetEntity: TransactionLine::class)]
     private TransactionLine $transactionLine;
 
-    #[ORM\Column(type: "smallint", enumType: CheckStatus::class)]
-    private CheckStatus $status;
+    #[ORM\Column(type: "smallint", enumType: CheckinStatus::class)]
+    private CheckinStatus $status;
+
+    #[ORM\Column(type: "smallint", enumType: CheckinValidateStatus::class)]
+    private CheckinValidateStatus $validateStatus;
 
     /**
      * @var ArrayCollection|Collection
@@ -43,7 +48,7 @@ class Checkin
     /**
      * @var string|null
      */
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank(message: "Information requise.")]
     private ?string $comments = null;
 
@@ -100,7 +105,7 @@ class Checkin
     /**
      * @return mixed
      */
-    public function getStatus(): CheckStatus
+    public function getStatus(): CheckinStatus
     {
         return $this->status;
     }
@@ -108,9 +113,27 @@ class Checkin
     /**
      * @param mixed $status
      */
-    public function setStatus(CheckStatus $status): self
+    public function setStatus(CheckinStatus $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValidateStatus(): CheckinValidateStatus
+    {
+        return $this->validateStatus;
+    }
+
+    /**
+     * @param mixed $validateStatus
+     */
+    public function setValidateStatus(CheckinStatus $validateStatus): self
+    {
+        $this->validateStatus = $validateStatus;
 
         return $this;
     }

@@ -9,3 +9,16 @@
         </button>
     </div>
 {% endmacro %}
+
+
+{% macro pictureCheckinField(formField) %}
+    <div class="manager file-elt mt-1 mb-1 d-flex w-100">
+        <div class="w-100">
+            <span>Photo litige(s) n° <span class="file-index d-none">__name__</span></span>
+            {{ form_row(formField) }}
+        </div>
+        <button type="button" class="btn" data-action="click->checkin#onFileDelete">
+            <i class="fa far fa-trash-alt text-danger"></i>
+        </button>
+    </div>
+{% endmacro %}

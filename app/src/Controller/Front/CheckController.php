@@ -5,7 +5,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Checkin;
 use App\Entity\TransactionLine;
-use App\Enum\CheckStatus;
+use App\Enum\CheckinStatus;
 use App\Form\CheckinType;
 use App\Service\CheckManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,9 +33,10 @@ class CheckController extends AbstractController
         $hasAllReadyDoneCheckin = $em->getRepository(Checkin::class)->findOneBy(
             [
                 'transactionLine' => $transactionLine->getId(),
-                'status' => $type === 'in' ? CheckStatus::IN->value : CheckStatus::OUT->value
+                'status' => $type === 'in' ? CheckinStatus::IN->value : CheckinStatus::OUT->value
             ]
         );
+
         if ($hasAllReadyDoneCheckin) {
             $this->addFlash('success', 'Check-' . $type . 'déjà enregistré !');
 
