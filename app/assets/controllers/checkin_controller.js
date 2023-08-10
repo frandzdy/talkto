@@ -34,7 +34,7 @@ export default class extends Controller {
      * A la suppression d'un widget fichier
      */
     onFileDelete(e) {
-        const elt = e.target;
+        const elt = e.currentTarget;
         $.confirm({
             title: 'Suppression d\'une photo',
             content: 'Souhaitez-vous supprimer ce photo ?',
@@ -79,11 +79,11 @@ export default class extends Controller {
 
     onChangeValidateStatus (event) {
         if ($(event.currentTarget).val() == 2) {
-            $('.checkin-collection').slideDown();
-            $('.checkin-pictures').slideDown();
+            $('.checkin-collection').show();
+            $('.checkin-pictures').show();
         } else {
-            $('.checkin-collection').slideUp();
-            $('.checkin-pictures').slideUp();
+            $('.checkin-collection').hide();
+            $('.checkin-pictures').hide();
         }
     }
 }

@@ -135,13 +135,12 @@ class ProductController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $pictureFileDatas = $form->get('uploadedPictures')->getData();
-
             $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, $product->getId() ? true : false);
 
             return $this->json(
                 [
                     'success' => true,
-                    'callback' => 'onProductChange'
+                    'redirectUrl' => $this->generateUrl('front_user_account')
                 ]
             );
         }
@@ -289,7 +288,7 @@ class ProductController extends AbstractController
             'sortedBy' => $sortedBy,
             'lon' => $lon,
             'lat' => $lat
-             ];
+        ];
         $querysearchProducts = $productRepository->searchProducts($filter);
         $data = [
             'sortedBy' => $sortedBy,

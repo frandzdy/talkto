@@ -152,7 +152,7 @@ class UserType extends AbstractType
                         ]
                 ]
             )->add(
-                'picture',
+                'uploadPicture',
                 FileType::class,
                 [
                     'label' => false,

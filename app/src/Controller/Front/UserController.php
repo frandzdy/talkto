@@ -90,7 +90,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pictureFileData = $form->get('picture')->getData();
+            $pictureFileData = $form->get('uploadPicture')->getData();
 
             $userManager->saveOrEditUser($form->getData(), $pictureFileData);
             // changer vers une route de success de création
@@ -125,7 +125,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pictureFileData = $form->get('picture')->getData();
+            $pictureFileData = $form->get('uploadPicture')->getData();
 
             $userManager->saveOrEditUser($form->getData(), $pictureFileData);
             $this->addFlash('success', 'Enregistrement effectué.');

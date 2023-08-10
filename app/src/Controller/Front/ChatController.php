@@ -38,10 +38,10 @@ class ChatController extends AbstractController
         $product = $transactionLine->getProduct();
         $messages = $em->getRepository(Message::class)->findBy(['reservation' => $reservation]);
         $user = $this->getUser();
-        $destinataireNotification = $user === $reservation->getAuthor() ? $transactionLine->getProduct()->getAuthor(
-        )->getEmail() : $reservation->getAuthor()->getEmail();
-        $rented = $reservation->getAuthor();
         $lessor = $transactionLine->getProduct()->getAuthor();
+        $rented = $reservation->getAuthor();
+        $receiverNotification = $user === $rented ? $lessor : $rented;
+        $senderNotification = $user === $rented ? $rented : $lessor;
         if (!$messages) {
             $support = $em->getRepository(User::class)->findOneBy(['roles' => User::ROLE_SUPPORT]);
             $support1 = $em->getRepository(User::class)->findOneBy(['id' => 1]);
@@ -56,29 +56,32 @@ class ChatController extends AbstractController
                 );
             $em->persist($message);
             $em->flush();
+            $mailerManager->sendMailNotification(
+                $lessor->getEmail(),
+                'front/emails/notification_message.html.twig',
+                [
+                    'message' => $message->getMessage(),
+                    'sender' => $rented,
+                    'receiver' => $lessor
+                ]
+            );
             // envoyer une notification pour le message
             $mailerManager->sendMailNotification(
-                $destinataireNotification,
+                $rented->getEmail(),
                 'front/emails/notification_message.html.twig',
                 [
                     'message' => $message->getMessage(),
-                    'sender' => $user
+                    'sender' => $lessor,
+                    'receiver' => $rented
                 ]
             );
-            $mailerManager->sendMailNotification(
-                $destinataireNotification,
-                'front/emails/notification_message.html.twig',
-                [
-                    'message' => $message->getMessage(),
-                    'sender' => $reservation->getAuthor()
-                ]
-            );
+
             $messages[] = [$message];
         }
         $submittedToken = $request->request->get('_token');
         $message = $request->request->get('message');
         $error = false;
-
+        $submit = false;
         if ($message && $this->isCsrfTokenValid('addMessage' . $user->getId(), $submittedToken)) {
             $message = (new Message())
                 ->setMessage($message)
@@ -88,21 +91,19 @@ class ChatController extends AbstractController
             $em->flush();
 
             $mailerManager->sendMailNotification(
-                $destinataireNotification,
+                $receiverNotification->getEmail(),
                 'front/emails/notification_message.html.twig',
                 [
                     'message' => $message->getMessage(),
-                    'sender' => $user
+                    'sender' => $senderNotification,
+                    'receiver' => $receiverNotification,
                 ]
             );
-
+            $submit = true;
             $messages = $em->getRepository(Message::class)->findBy(['reservation' => $reservation]);
         } elseif ($this->isCsrfTokenValid('addMessage' . $user->getId(), $submittedToken) && !$message) {
-            return $this->json(
-                [
-                    'error' => 'Message nécessaire.'
-                ]
-            );
+            $error = true;
+            $this->addFlash('error', 'Message nécessaire.');
         }
 
         return $this->render(
@@ -115,7 +116,8 @@ class ChatController extends AbstractController
                 'error',
                 'product',
                 'rented',
-                'lessor'
+                'lessor',
+                'submit'
             )
         );
     }

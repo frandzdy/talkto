@@ -49,7 +49,7 @@ export default class extends Controller {
                     text: 'Supprimer',
                     btnClass: 'btn-red',
                     action: () => {
-                         elt.parentElement.parentElement.remove();
+                         elt.parentElement.remove();
                     }
                 },
                 close: {

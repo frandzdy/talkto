@@ -2,12 +2,12 @@
 
 {% block body_html %}
     {% embed 'front/emails/_layout.html.twig' %}
-        {% block title %}Nouveau message de {{ user.fullname|capitalize }}{% endblock %}
-        {% block accroche %}Nouveau message de {{ user.fullname|capitalize }}{% endblock %}
+        {% block title %}Nouveau message de {{ sender.fullname|capitalize }}{% endblock %}
+        {% block accroche %}Nouveau message de {{ sender.fullname|capitalize }}{% endblock %}
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <p>Bonjour,</p>
+                    <p>Bonjour {{ receiver.fullname|capitalize }},</p>
                     <p>
                         Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :<br/>
                         <ul>
@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block body_text %}
-    Bonjour,\n
+    Bonjour {{ receiver.fullname|capitalize }},\n
     \n
     Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :\n
     \n

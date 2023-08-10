@@ -1,8 +1,3 @@
-{% set pictureName = '' %}
-{% if user.picture is not null %}
-    {% set pictureName = user.picture.name %}
-{% endif %}
-{% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
 <style>
     body {
         background-color: #f4f7f6;
@@ -299,9 +294,6 @@
                                 {% set pictureNameLessor = lessor.picture.name %}
                             {% endif %}
                             {% set urlUserImageLessor = pictureNameLessor ? asset('uploads/profile_picture/' ~ pictureNameLessor)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
-                            {% if lessor.id == user.id %}
-                                {% set urlUserImageLessor = urlUserImage %}
-                            {% endif %}
                             <img src="{{ urlUserImageLessor }}" alt="avatar">
                             <div class="about">
                                 <div class="name">{{ lessor.fullname|capitalize }}</div>
@@ -314,9 +306,6 @@
                                 {% set pictureNameRented = rented.picture.name %}
                             {% endif %}
                             {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
-                            {% if rented.id == user.id %}
-                                {% set urlUserImageRented = urlUserImage %}
-                            {% endif %}
                             <img src="{{ urlUserImageRented }}" alt="avatar">
                             <div class="about">
                                 <div class="name">{{ rented.fullname|capitalize }}</div>
@@ -329,6 +318,11 @@
                     <div class="chat-header clearfix">
                         <div class="row">
                             <div class="col-lg-6">
+                                {% set userImage = '' %}
+                                {% if user.picture is not null %}
+                                    {% set userImage = user.picture.name %}
+                                {% endif %}
+                                {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                     <img src="{{ urlUserImage }}" alt="avatar">
                                 </a>
@@ -354,8 +348,16 @@
                         <div class="chat-history" style="overflow: auto;max-height: 300px">
                             <ul class="m-b-0">
                                 {% for message in messages %}
-                                    {% if message.author.id is same as (user.id) %}
+                                    {% set pictureName = '' %}
+                                    {% if message.author.picture is not null %}
+                                        {% set pictureName = message.author.picture.name %}
+                                    {% endif %}
+                                    {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
 
+                                    {% if message.author.id is same as (user.id)
+                                        or message.author.roles[0] == constant('App\\Entity\\User::ROLE_SUPPORT')
+                                        or message.author.id == 1
+                                    %}
                                         <li class="clearfix">
                                             <div class="message-data text-right">
                                                 <span class="message-data-time">{{ message.CreatedAtFormatted }}</span>
@@ -367,7 +369,7 @@
                                         {# https://bootdey.com/img/Content/avatar/avatar7.png #}
                                     {% else %}
                                         <li class="clearfix">
-                                            <div class="message-data">
+                                            <div class="message-data pull-left">
                                                 <span class="message-data-time">{{ message.CreatedAtFormatted }}</span>
                                             </div>
                                             <div class="message my-message">{{ message.message }}</div>
@@ -394,3 +396,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    const errorChat = '{{ error }}';
+    const submitChat = '{{ submit }}';
+    if (!errorChat && submitChat) {
+        $('.chat-history').animate({scrollTop: $('.chat-history').prop('scrollHeight')}, 500);
+    }
+</script>

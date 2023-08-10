@@ -131,7 +131,7 @@ class Checkin
     /**
      * @param mixed $validateStatus
      */
-    public function setValidateStatus(CheckinStatus $validateStatus): self
+    public function setValidateStatus(CheckinValidateStatus $validateStatus): self
     {
         $this->validateStatus = $validateStatus;
 

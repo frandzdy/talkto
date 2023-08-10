@@ -7,6 +7,7 @@ use App\Entity\Picture;
 use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\CheckinStatus;
+use App\Enum\CheckinValidateStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,7 +16,8 @@ class CheckManager
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly FileUploadManager $fileUploadManager
+        private readonly FileUploadManager $fileUploadManager,
+        private readonly MailerManager $mailerManager
     ) {
     }
 
@@ -53,6 +55,10 @@ class CheckManager
             $this->entityManager->persist($checkin);
         }
 
+        if ($checkin->getValidateStatus() === CheckinValidateStatus::class) {
+            // envoyer une notification
+            // créer une réclamation pour le back office
+        }
         $this->entityManager->flush();
         
         return true;

@@ -2,6 +2,8 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Checkin;
+use App\Enum\CheckinStatus;
 use App\Repository\ReservationRepository;
 use App\Repository\TransactionLineRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

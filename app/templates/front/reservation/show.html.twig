@@ -65,7 +65,7 @@
                                             {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") %}
                                                 <a class="profile__info-btn open-front-modal"
                                                    href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
-                                                   title="Check-in"
+                                                   title="Checkin"
                                                    data-modal-title="Checkout">
                                                     Check-in
                                                 </a>
@@ -74,7 +74,7 @@
                                             {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") %}
                                                 <a class="profile__info-btn open-front-modal"
                                                    href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
-                                                   title="Check-out"
+                                                   title="Checkout"
                                                    data-modal-title="Checkout">
                                                     Checkout
                                                 </a>

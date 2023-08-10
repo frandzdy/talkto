@@ -2,6 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import 'toastr'
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
+import {Toast} from "../../public/build/app";
 
 /*
  * This is an example Stimulus controller!
@@ -246,6 +247,7 @@ export default class extends Controller {
                     }
 
                     if (response.success && response.redirectUrl) {
+                        toastr.success('Enregistrement effectué');
                         Turbo.visit(response.redirectUrl, {action: "replace"});
                         return false;
                     }
@@ -297,6 +299,8 @@ export default class extends Controller {
             }
             if (size === true) {
                 $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
+            } else {
+                $(this.modalTarget).find('.modal-dialog').removeClass('modal-lg');
             }
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);

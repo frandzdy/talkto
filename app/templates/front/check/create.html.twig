@@ -1,6 +1,6 @@
 {% import "front/macros/macros.html.twig" as macros %}
 
-<div class="profile__edit-wrapper" {{ stimulus_controller('checkin') }}>
+<div class="profile__edit-wrapper" {{ stimulus_controller('checkin') }} style="overflow: auto;max-height: 450px;">
     {{ form_start(form) }}
     <div class="profile__edit-input">
         {{ form_row(form.validateStatus) }}
@@ -9,7 +9,7 @@
     {{ form_row(form.comments) }}
     </div>
     <div class="profile__edit-input checkin-pictures" style="display: none">
-        Ajouter des photos à ligite
+        Ajouter des photos à votre litige
         <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre litige"
                 data-action="click->checkin#onFileAdd">
             <i class="fas fa-plus "></i>

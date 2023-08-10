@@ -37,22 +37,17 @@ class CheckController extends AbstractController
             ]
         );
 
-        if ($hasAllReadyDoneCheckin) {
-            $this->addFlash('success', 'Check-' . $type . 'déjà enregistré !');
-
-            return $this->json(
-                [
-                    'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_user_account')
-                ]
-            );
+        if (!$hasAllReadyDoneCheckin) {
+            $checkin = $checkManager->createCheckin($this->getUser(), $type, $transactionLine);
+        } else {
+            $checkin = $hasAllReadyDoneCheckin;
         }
-        $checkin = $checkManager->createCheckin($this->getUser(), $type, $transactionLine);
         $form = $this->createForm(CheckinType::class, $checkin, ['action' => $request->getUri()]);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+
             $checkManager->saveCheckin($checkin, $checkin->uploadedPictures);
-            $this->addFlash('success', 'Check-' . $type . ' enregistré !');
+            $this->addFlash('success', 'Check' . $type . ' enregistré !');
 
             return $this->json(
                 [
