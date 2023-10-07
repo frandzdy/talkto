@@ -90,3 +90,7 @@ button[id$="Denied"] {
 .custom-file-input ~ .custom-file-label:lang(en)::after {
   content: "Votre photo...";
 }
+
+.custom-file-label::after {
+  content: "Votre photo";
+}

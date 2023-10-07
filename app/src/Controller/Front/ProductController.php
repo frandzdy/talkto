@@ -140,7 +140,7 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_user_account')
+                    'callback' => 'onProductChange'
                 ]
             );
         }
@@ -186,20 +186,17 @@ class ProductController extends AbstractController
         );
     }
 
-    #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', methods: ['POST'])]
+    #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted('ROLE_SELLER')]
     public function productPictureDelete(string $token, EntityManagerInterface $em): JsonResponse
     {
         if ($picture = $em->getRepository(Picture::class)->findOneBy(['token' => $token])) {
             $em->remove($picture);
             $em->flush();
-            $this->addFlash('success', 'Image supprimé !');
 
             return $this->json(
                 [
                     'success' => true,
-                    'callback' => 'onDeleteProductPicture',
-                    'callbackData' => ['token' => $token]
                 ]
             );
         }

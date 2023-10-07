@@ -180,10 +180,3 @@
     </section>
     <!-- profile menu area end -->
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% for file in encore_entry_js_files('front_product') %}
-        <script src="{{ asset(file) }}"></script>
-    {% endfor %}
-{% endblock %}

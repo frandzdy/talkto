@@ -269,7 +269,7 @@
     }
 </style>
 
-<div class="container">
+<div class="container" {{ stimulus_controller('chat') }}>
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card chat-app">
@@ -345,7 +345,12 @@
                     </div>
                     <form action="{{ path("front_chat_index", {'token': token, 'transactionLineToken': transactionLineToken}) }}"
                           method="post">
-                        <div class="chat-history" style="overflow: auto;max-height: 300px">
+                        <div class="chat-history" data-chat-target="chat" style="display: flex;
+flex-direction: column-reverse;
+
+  /* ...probably usually along with: */
+
+overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                             <ul class="m-b-0">
                                 {% for message in messages %}
                                     {% set pictureName = '' %}

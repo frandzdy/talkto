@@ -1,6 +1,5 @@
 import {Controller} from '@hotwired/stimulus';
 import $ from "jquery";
-import bsCustomFileInput from "bs-custom-file-input";
 
 /**
  * Gestion des justificatifs
@@ -26,7 +25,6 @@ export default class extends Controller {
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
-        this.handleBsCustomFileInput(collectionHolder.find('[type="file"]'));
         collectionHolder.find('.file-index').removeClass("d-none");
     }
 

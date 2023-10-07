@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Product;
 use App\Enum\ProductCategory;
-use App\Enum\ProductStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -41,13 +40,14 @@ class ProductType extends AbstractType
                 ]
             )
             ->add('uploadedPictures', CollectionType::class, [
-                'label' => 'Photo(s) < 5Mo',
+                'label' => false,
                 'entry_type' => FileType::class,
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
                         'accept' => 'image/*',
                         'allow-delete' => true,
+                        'data-browse' => 'votre photo'
                     ],
                 ],
                 'label_attr' => [

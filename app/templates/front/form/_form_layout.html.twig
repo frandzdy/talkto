@@ -4,9 +4,6 @@
     {%- if type is defined and type == 'file' and attr['allow-delete'] is defined %}
         <div class="d-flex file-elt">
             {{- parent() -}}
-            <button type="button" class="btn" data-action="click->product#onFileDelete">
-                <i class="text-danger fas fa-trash"></i>
-            </button>
         </div>
     {% else %}
         {{- parent() -}}

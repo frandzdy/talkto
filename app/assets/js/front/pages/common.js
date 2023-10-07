@@ -1,22 +1,5 @@
 const container = $(document).find('#page-top');
 const modal = $(document).find('#front-modal');
-/**
- * Permet de custom les input file bootstrap
- */
-window.handleBsCustomFileInput = function () {
-    if (container) {
-        bsCustomFileInput.init();
-    }
-}
-
-handleBsCustomFileInput($('[type=file]'))
-
-$("input[type=file]").change(function () {
-    var fieldVal = $(this).val();
-    if (fieldVal != undefined || fieldVal != "") {
-        $(this).next(".custom-file-label").text(fieldVal);
-    }
-});
 
 /**
  * Permet de simuler un POST sur une URL

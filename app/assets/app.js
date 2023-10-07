@@ -19,12 +19,8 @@ import './bootstrap';
 // import Jquery
 import $ from 'jquery';
 global.$ = global.jQuery = $;
-import 'jquery-ui-bundle';
 
-//import * as Turbo from '@hotwired/turbo';
-
-import bsCustomFileInput from "bs-custom-file-input";
-window.bsCustomFileInput = bsCustomFileInput;
+import * as Turbo from '@hotwired/turbo';
 
 import toastr from 'toastr';
 toastr.options.preventDuplicates = true;
@@ -45,6 +41,7 @@ window.Routing = Routing;
 
 //require('./js/pages/common')
 require('./js/services/cookie')
+require('./js/front/pages/product')
 
 require('./js/services/vendor/modernizr-3.5.0.min.js')
 require('./js/services/vendor/jquery-3.6.0.min.js')
@@ -55,7 +52,7 @@ require('./js/services/slick.min.js')
 require('./js/services/jquery.fancybox.min.js')
 require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
-require('./js/services/jquery-ui-slider-range.js')
+require('./js/services/jquery-ui.min.js')
 import  '@stripe/stripe-js';
 
 import WOW from 'wow.js';
@@ -63,6 +60,3 @@ window.WOW = WOW
 
 require('./js/services/imagesloaded.pkgd.min.js')
 require('./js/services/main.js')
-
-$(function (){
-})

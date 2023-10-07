@@ -77,22 +77,28 @@
                 {{ form_row(form.category) }}
             </div>
             <div class="profile__edit-input">
-                Ajouter des photos à votre produit
+                Photos de produit &nbsp;
                 <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
                         data-action="click->product#onFileAdd">
                     <i class="fas fa-plus "></i>
                 </button>
             </div>
             <div class="manager-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
-                {% for picture in form.vars.value.uploadedPictures %}
-                    {{ macros.pictureField(picture) }}
+                {% for index, picture in form.vars.value.pictures  %}
+                    <div class="manager file-elt mt-1 mb-1 d-flex w-100">
+                        <div class="w-100">
+                            {{ picture.name }}
+                        </div>
+                        <button type="button" class="btn" data-action="click->product#onFileDelete"
+                            data-token="{{ picture.token }}">
+                            <i class="fa far fa-trash-alt text-danger"></i>
+                        </button>
+                    </div>
                 {% endfor %}
             </div>
             {{ form_rest(form) }}
-            {% if not app.user %}
-                <button class="os-btn w-100" formnovalidate>S'inscrire</button>
-                <div class="or-divide"><span>ou</span></div>
-                <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100">Se connecter</a>
+            {% if not form.vars.value.id %}
+                <button class="os-btn w-100" formnovalidate>Créer</button>
             {% else %}
                 <button class="os-btn w-100" formnovalidate>Modifier</button>
             {% endif %}

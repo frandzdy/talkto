@@ -2,7 +2,6 @@ import {Controller} from '@hotwired/stimulus';
 import 'toastr'
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
-import {Toast} from "../../public/build/app";
 
 /*
  * This is an example Stimulus controller!
@@ -305,6 +304,7 @@ export default class extends Controller {
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);
             this.handleBsCustomFileInput($(this.modalTarget).find('[type="file"]'));
+            $(this.modalTarget).find('.chat-history').animate({scrollTop: $(this.modalTarget).find('.chat-history').prop('scrollHeight')}, 500);
             $(this.modalTarget).modal('show');
 
         }).fail((error) => {

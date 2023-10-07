@@ -155,12 +155,13 @@ class UserType extends AbstractType
                 'uploadPicture',
                 FileType::class,
                 [
-                    'label' => false,
+                    'label' => 'Photo de profile',
                     'required' => false,
                     'mapped' => false,
                     'attr' =>
                         [
-                            'accept' => 'image/*'
+                            'accept' => 'image/*',
+                            'data-browse' => 'votre photo'
                         ]
                 ]
             );

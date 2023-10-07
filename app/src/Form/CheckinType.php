@@ -54,13 +54,14 @@ class CheckinType extends AbstractType
                 ]
             )
             ->add('uploadedPictures', CollectionType::class, [
-                'label' => 'Photo(s) < 5Mo',
+                'label' => 'Pièces jointes < 5Mo',
                 'entry_type' => FileType::class,
                 'entry_options' => [
-                    'label' => false,
+                    'label' => 'votre photo',
                     'attr' => [
                         'accept' => 'image/*',
-                        'lang' => 'fr'
+                        'lang' => 'fr',
+                        'data-browse' => 'votre photo'
                     ],
                 ],
                 'label_attr' => [

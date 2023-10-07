@@ -13,12 +13,7 @@ export default class extends Controller {
             this.onFileAdd();
         }
 
-        let indexFile = 0;
-        $('.file-elt').each(function () {
-            ++indexFile
-            $(this).find('.file-index').html(indexFile);
-            $(this).find('.file-index').removeClass("d-none");
-        });
+        this.reindex()
     }
 
     /**
@@ -26,7 +21,7 @@ export default class extends Controller {
      */
     onFileAdd(event) {
         const collectionHolder = $('.manager-collection');
-        const listIndex = collectionHolder.find('input').length + 1;
+        const listIndex = collectionHolder.find('.file-elt').length + 1;
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
@@ -38,25 +33,56 @@ export default class extends Controller {
      * A la suppression d'un widget fichier
      */
     onFileDelete(e) {
-        const elt = e.target;
-        $.confirm({
-            title: 'Suppression d\'une photo',
-            content: 'Souhaitez-vous supprimer ce photo ?',
-            type: 'red',
-            typeAnimated: true,
-            buttons: {
-                confirm: {
-                    text: 'Supprimer',
-                    btnClass: 'btn-red',
-                    action: () => {
-                         elt.parentElement.remove();
+        const elt = e.currentTarget;
+        const token = $(e.currentTarget).data('token')
+        console.log(token);
+        if (token) {
+            $.confirm({
+                title: 'Suppression d\'une photo',
+                content: 'Souhaitez-vous supprimer cette photo de ce produit ?',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        text: 'Supprimer',
+                        btnClass: 'btn-red',
+                        action: () => {
+                            $.post(Routing.generate('front_product_picture_delete', {'token': token}), null, function (data) {
+                                $('#nav-' + token + '-tab').remove();
+                                $('#nav-' + token).remove();
+                                elt.parentElement.remove();
+                                toastr.success('Image supprimé !')
+                            });
+                            this.reindex()
+                        }
+                    },
+                    close: {
+                        text: "Annuler"
                     }
-                },
-                close: {
-                    text: "Annuler"
                 }
-            }
-        });
+            });
+
+        } else {
+            $.confirm({
+                title: 'Suppression d\'une photo',
+                content: 'Souhaitez-vous supprimer cette photo ?',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        text: 'Supprimer',
+                        btnClass: 'btn-red',
+                        action: () => {
+                            elt.parentElement.parentElement.remove();
+                            this.reindex()
+                        }
+                    },
+                    close: {
+                        text: "Annuler"
+                    }
+                }
+            });
+        }
     }
 
     handleBsCustomFileInput(container) {
@@ -69,5 +95,14 @@ export default class extends Controller {
                 }
             });
         }
+    }
+
+    reindex() {
+        let indexFile = 0;
+        $('.file-elt').each(function () {
+            ++indexFile
+            $(this).find('.file-index').html(indexFile);
+            $(this).find('.file-index').removeClass("d-none");
+        });
     }
 }
