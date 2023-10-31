@@ -28,6 +28,18 @@ class ProductType extends AbstractType
                             'maxlength' => 255
                         ]
                 ])
+            ->add('shortDescription', TextareaType::class,
+                [
+                    'label' => 'Court description du produit',
+                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'attr' =>
+                        [
+                            'placeholder' => 'Détaillez de manière simple ...',
+                            'style' => 'height: 200px',
+                            'maxlength' => 255
+                        ]
+                ]
+            )
             ->add('description', CKEditorType::class,
                 [
                     'label' => 'Description',
@@ -35,9 +47,8 @@ class ProductType extends AbstractType
                     'label_attr' => ['class' => 'form-text text-muted'],
                     'attr' =>
                         [
-                            'placeholder' => 'Détaillez votre bien ...',
-                            'style' => 'height: 200px',
-                            'maxlength' => 255
+                            'placeholder' => 'Détaillez plus votre bien ...',
+                            'style' => 'height: 200px'
                         ]
                 ]
             )

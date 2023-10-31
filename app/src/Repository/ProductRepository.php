@@ -87,19 +87,22 @@ class ProductRepository extends ServiceEntityRepository
                        * sin(radians(a.lat))))) AS distance'
             )
             ->innerjoin('p.author', 'a')
-       ->where('p.status = :productStatus')
-        ->andWhere('a.isStripeAccountActive = true')
-        ->andWhere('p.category = :productCategory')
-        ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
-        ->andHaving('distance BETWEEN :startDistance AND :endDistance')
-        ->setParameter(':startDistance', $filter['startDistance'])
-        ->setParameter(':endDistance', $filter['endDistance'])
-        ->setParameter(':startAmount', $filter['startAmount'])
-        ->setParameter(':endAmount', $filter['endAmount'])
-        ->setParameter(':productStatus', ProductStatus::VALIDATE)
-        ->setParameter(':productCategory', $filter['category'])
-        ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
-        ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
+            ->addSelect('a')
+            ->leftjoin('p.pictures', 'pictures')
+            ->addSelect('pictures')
+            ->where('p.status = :productStatus')
+            ->andWhere('a.isStripeAccountActive = true')
+            ->andWhere('p.category = :productCategory')
+            ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
+            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->setParameter(':startDistance', $filter['startDistance'])
+            ->setParameter(':endDistance', $filter['endDistance'])
+            ->setParameter(':startAmount', $filter['startAmount'])
+            ->setParameter(':endAmount', $filter['endAmount'])
+            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+            ->setParameter(':productCategory', $filter['category'])
+            ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
+            ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
         match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
@@ -127,6 +130,9 @@ class ProductRepository extends ServiceEntityRepository
                        * sin(radians(a.lat))))) AS distance'
             )
             ->innerjoin('p.author', 'a')
+            ->leftJoin('p.pictures', 'pictures')
+            ->addSelect('pictures')
+            ->addSelect('a')
             ->where('p.status = :productStatus')
             ->andWhere('p.token IN (:searchIds)')
             ->andWhere('a.isStripeAccountActive = true')

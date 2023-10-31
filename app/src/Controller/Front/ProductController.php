@@ -29,13 +29,14 @@ class ProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return Response
      */
-    #[Route('/produit/{token}', name: 'product_show', methods: ['GET'])]
+    #[Route('/produit-previsualisation/{token}', name: 'product_show', methods: ['GET'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function show(string $token, ProductRepository $productRepository): Response
     {
+        $noteReview = 0;
         $product = $productRepository->findOneBy(['token' => $token]);
 
-        return $this->render('front/product/show.html.twig', compact('product'));
+        return $this->render('front/product/show_preview.html.twig', compact('product', 'noteReview'));
     }
 
     /**
@@ -45,12 +46,12 @@ class ProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return Response
      */
-    #[Route('/produit-detail/{token}', name: 'product_show_detail', methods: ['GET'])]
-    public function showDetail(string $token, ProductRepository $productRepository): Response
+    #[Route('/produit-previsualisation-details/{token}', name: 'product_show_detail', methods: ['GET'])]
+    public function showDetails(string $token, ProductRepository $productRepository): Response
     {
         $product = $productRepository->findOneBy(['token' => $token]);
 
-        return $this->render('front/product/show_detail.html.twig', compact('product'));
+        return $this->render('front/product/show_preview_detail.html.twig', compact('product'));
     }
 
     /**
@@ -63,6 +64,7 @@ class ProductController extends AbstractController
      * @return Response
      */
     #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
+    #[Route('/produit-reservation-details/{token}', name: 'product_reservation_show_detail', methods: ['GET', 'POST'])]
     public function productReservation(
         string $token,
         ProductRepository $productRepository,
@@ -116,7 +118,12 @@ class ProductController extends AbstractController
             );
         }
 
-        return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
+        if ($request->attributes->get('_route') === "app_product_reservation") {
+
+            return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
+        }
+
+        return $this->render('front/product/show_reservation_detail.html.twig', compact('product', 'quantityLeft', 'form'));
     }
 
     #[Route('/produit-ajout', name: 'product_new')]

@@ -4,6 +4,7 @@
         <a type="button" class="order__info-btn open-product-modal"
            href="{{ path('front_product_new') }}"
            data-modal-title="Ajouter un nouveau produit"
+           data-lg-size="true"
            title="Ajouter un nouveau produit">
             <i class="fa-regular fa-trash-can"></i> Ajouter
         </a>
@@ -31,11 +32,13 @@
                     <td class="text-center">
                         <a href="{{ path('front_product_show', {'token': product.token}) }}"
                            class="order__view-btn open-product-modal"
+                           data-lg-size="true"
                            data-modal-title="Prévisualiser le produit {{ product.title }}"
                            title="Prévisualiser le produit {{ product.title }}">Prévisualiser</a>
                         <br>
                         <a href="{{ path('front_product_edit', {'token': product.token}) }}"
                            class="order__info-btn open-product-modal"
+                           data-lg-size="true"
                            title="Modification du produit {{ product.title }}"
                            data-modal-title="Modification du produit {{ product.title }}"
                         >

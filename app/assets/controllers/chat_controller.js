@@ -1,6 +1,4 @@
 import {Controller} from '@hotwired/stimulus';
-import 'toastr'
-import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
 
 /*

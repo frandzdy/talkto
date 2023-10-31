@@ -1,12 +1,12 @@
 {% extends 'front/layout.html.twig' %}
 
-{% block title %} {{ 'Visualisation fiche produit | ' ~ parent() }} {% endblock %}
+{% block title %}Recherche produit{% endblock %}
 
 {% block metas %}
     {{ parent() }}
     <meta name="description"
           content="Création de compte gratuit ou avec abonnements, choisissez vos centres d'intérêts, trouvez des matchs près de chez vous">
-    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+    <meta name="title" content="Recherche produit">
 {% endblock %}
 
 {% block content %}
@@ -80,6 +80,7 @@
                                                            title="Réservez"
                                                            data-toggle="tooltip" data-placement="top"
                                                            data-modal-title="Réservation en cours"
+                                                           data-lg-size="true"
                                                            class="open-product-modal">
                                                             <i class="fal fa-search"></i>
                                                         </a>
@@ -88,7 +89,7 @@
                                                 <div class="product__content p-relative">
                                                     <div class="product__content-inner">
                                                         <h4>
-                                                            <a data-toggle="tooltip" data-placement="top" title="{{ product[0].title }}" href="{{ path('front_product_show_detail', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'}) }}">
+                                                            <a data-toggle="tooltip" data-placement="top" title="{{ product[0].title }}" href="{{ path('front_product_reservation_show_detail', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'}) }}">
                                                                 {{ product[0].title }}
                                                             </a>
                                                         </h4>
@@ -103,6 +104,7 @@
                                                            title="Réservez"
                                                            data-modal-title="Réservation en cours"
                                                            data-toggle="tooltip" data-placement="top"
+                                                           data-lg-size="true"
                                                            class="open-product-modal"><i
                                                                     class="fa fa-shopping-cart"></i> Réservez</a>
                                                     </div>
@@ -153,7 +155,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="add-cart-list d-sm-flex align-items-center">
-                                                        <a data-toggle="tooltip" data-placement="top" title="Réservez" href="#" class="add-cart-btn mr-10">+ Add to Cart</a>
+                                                        <a data-toggle="tooltip" data-placement="top" title="Réservez" href="#" class="add-cart-btn mr-10">+ Ajouter</a>
                                                         <div class="product__action-2 transition-3 mr-20">
                                                             <a href="{{ path('front_wishlist_add', {'token': product[0].token}) }}"
                                                                class="post-confirm add-product-wishlist"
@@ -171,6 +173,7 @@
                                                                title="Réservez"
                                                                data-modal-title="Réservation en cours"
                                                                data-toggle="tooltip" data-placement="top"
+                                                               data-lg-size="true"
                                                                class="open-product-modal">
                                                                 <i class="fal fa-search"></i>
                                                             </a>

@@ -50,7 +50,7 @@ class ChatController extends AbstractController
                 ->setAuthor($support ?: $support1)
                 ->setReservation($reservation)
                 ->setMessage(
-                    "Bienvenu de votre chat. 
+                    "Bienvenue dans votre chat. 
                     Vous pouvez contacter votre locataire ou bailleur, afin de convenir d'un rendez-vous.
                     L'équipe support Rented."
                 );

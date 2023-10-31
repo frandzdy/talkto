@@ -148,7 +148,8 @@
         pointer-events: none;
         border-bottom-color: #fff;
         border-width: 10px;
-        margin-left: -10px
+        margin-left: -10px;
+        float: right;
     }
 
     .chat .chat-history .my-message {
@@ -166,12 +167,13 @@
         pointer-events: none;
         border-bottom-color: #efefef;
         border-width: 10px;
-        margin-left: -10px
+        margin-left: -10px;
+        float: left;
     }
 
     .chat .chat-history .other-message {
         background: #e8f1f3;
-        text-align: right
+        text-align: start
     }
 
     .chat .chat-history .other-message:after {
@@ -364,7 +366,7 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                         or message.author.id == 1
                                     %}
                                         <li class="clearfix">
-                                            <div class="message-data text-right">
+                                            <div class="message-data pull-right">
                                                 <span class="message-data-time">{{ message.CreatedAtFormatted }}</span>
                                                 <img src="{{ urlUserImage }}"
                                                      alt="avatar">

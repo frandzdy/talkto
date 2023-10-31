@@ -47,7 +47,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             )
             ->innerJoin('p.author', 'a')
             ->andWhere(
-                'p.title LIKE :search OR p.description LIKE :search OR p.amount LIKE :search 
+                'p.title LIKE :search OR p.description LIKE :search OR p.shortDescription LIKE :search OR p.amount LIKE :search 
             OR a.lastname LIKE :search OR a.firstname LIKE :search OR a.city LIKE :search OR a.zipCode LIKE :search'
             )
             ->setParameter('search', '%' . $query . '%')

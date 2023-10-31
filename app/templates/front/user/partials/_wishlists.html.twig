@@ -23,6 +23,7 @@
                     <td class="text-center">
                         <a href="{{ path('front_product_show', {'token': wishlist.token}) }}"
                            class="order__title open-product-modal"
+                           data-lg-size="true"
                            data-modal-title="Réservation en cours {{ wishlist.product.title }}"
                            title="Réservez {{ wishlist.product.title }}">
                             {{ wishlist.product.title }}
@@ -32,6 +33,7 @@
                     <td class="text-center">
                         <a href="{{ path('front_product_reservation', {'token': wishlist.product.token}) }}"
                            class="order__view-btn open-product-modal"
+                           data-lg-size="true"
                            data-modal-title="Réservation en cours {{ wishlist.product.title }}"
                            title="Réservez {{ wishlist.product.title }}">
                             Réservez

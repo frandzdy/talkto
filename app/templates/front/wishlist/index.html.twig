@@ -1,12 +1,12 @@
 {% extends 'front/layout.html.twig' %}
 
-{% block title %} {{ 'Nouveau compte | ' ~ parent() }} {% endblock %}
+{% block title %}Vos favoris{% endblock %}
 
 {% block metas %}
     {{ parent() }}
     <meta name="description"
-          content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
-    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+          content="Retrouvez vos produits favoris afin de les réserver quand vous le souhaitez.">
+    <meta name="title" content="Vos favoris">
 {% endblock %}
 
 {% set breadcrumbTitle = 'Mes favoris' %}
@@ -42,13 +42,13 @@
                                         {% if wishlist.product.pictures.count > 0 %}
                                             {% set pictureName = wishlist.product.pictures.first.name %}
                                         {% endif %}
-                                        <a href="{{ path('front_product_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
                                                  alt="{{ pictureName }}"/>
                                         </a>
                                     </td>
                                     <td class="product-name">
-                                        <a href="{{ path('front_product_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
                                             {{ wishlist.product.title }}
                                         </a>
                                     </td>
@@ -57,6 +57,7 @@
                                         <a href="{{ path('front_product_reservation', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}"
                                            title="Réservez"
                                            data-modal-title="Réservation en cours"
+                                           data-lg-size="true"
                                            class="open-product-modal">
                                             <button class="os-btn os-btn-black">Réservez</button></a>
                                     </td>

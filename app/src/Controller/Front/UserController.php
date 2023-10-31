@@ -43,18 +43,15 @@ class UserController extends AbstractController
             'reservations' => $userRepository->getReservations($user, 0),
             'products' => $userRepository->getProducts($user, 0)
         ];
+
+        if (in_array(User::ROLE_SELLER, $user->getRoles())) {
+            $collections['rents'] = $userRepository->getRents($user, 0);
+        }
         /**
          * @var User $user
          */
-        if (!in_array(User::ROLE_SELLER, $user->getRoles())) {
-            $collections['wishlists'] = $userRepository->getWishlists($user, 0);
-        } else {
-            $collections['wishlists'] = [
-                'page' => 0,
-                'totalPage' => 0,
-                'results' => [],
-            ];
-        }
+        $collections['wishlists'] = $userRepository->getWishlists($user, 0);
+
         $urlActivationAccount = '';
         $urlActivation = false;
         if (!$user->getIsStripeAccountActive() && $user->getStripeAccountId()) {

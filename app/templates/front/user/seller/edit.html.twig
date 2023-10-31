@@ -1,15 +1,15 @@
 {% extends 'front/layout.html.twig' %}
 
-{% block title %} {{ 'Nouveau compte louer | ' ~ parent() }} {% endblock %}
+{% block title %}Nouveau compte loueur{% endblock %}
 
 {% block metas %}
     {{ parent() }}
     <meta name="description"
-          content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
-    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+          content="Création d'un compte bailleur afin proposer des produits.">
+    <meta name="title" content="Nouveau compte bailleur">
 {% endblock %}
 
-{% set breadcrumbTitle = app.user ? 'Mon compte' : 'Nouveau compte' %}
+{% set breadcrumbTitle = app.user ? 'Mon compte bailleur' : 'Nouveau compte' %}
 {% set breadcrumbItems =
     {
         breadcrumbTitle: ''
@@ -19,7 +19,7 @@
 {% block content %}
     {{ include('partials/_breadcrumbs.html.twig') }}
     <!-- login Area Strat-->
-    <section class="login-area pt-100 pb-100">
+    <section class="login-area pt-100 pb-100" {{ stimulus_controller('user') }}>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">

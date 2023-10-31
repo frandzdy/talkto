@@ -42,7 +42,7 @@
     </div>
     <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
         <div class="product__modal-content">
-            <h4><a href="{{ path('front_product_reservation_show_detail', {'token' : product.token}) }}">{{ product.title }}</a>
+            <h4><a href="{{ path('front_product_show_detail', {'token' : product.token}) }}">{{ product.title }}</a>
             </h4>
             <div class="rating rating-shop mb-15">
                 <ul>
@@ -53,37 +53,56 @@
                     <li><span><i class="fal fa-star"></i></span></li>
                 </ul>
                 <span class="rating-no ml-10">
-                    {{ rating|default(0) }} rating(s)
+                    0 avis(s) des clients
                 </span>
             </div>
             <div class="product__price-2 mb-25">
-                <span>{{ product.amount }} €</span>
-                {#                <span class="old-price">$96.00</span> #}
+                <span>{{ product.amount }}  €</span>
+{#                <span class="old-price">$96.00</span>#}
             </div>
             <div class="product__modal-des mb-30">
                 <p>{{ product.shortDescription }}</p>
             </div>
-            <div class="product__modal-form">
-                {{ form_start(form, {'attr': {'id':'productForm'}}) }}
-                    <div class="product__modal-select color size mb-20">
-                        <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
-                        <div class="product-quantity">
-                            <div class="">
-                                {{ form_row(form.date) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product__modal-input color mb-20">
-                        <label>Quantité <i class="fas fa-star-of-life"></i></label>
-                        {{ form_row(form.quantity) }}
-                    </div>
-                    <div class="pro-quan-area d-lg-flex align-items-center" style="flex-direction: row-reverse;">
-                        <div class="pro-cart-btn">
-                            <a href="#" class="os-btn os-btn-black os-btn-3 mr-10 add-product-cart">+ Ajouter</a>
-                        </div>
-                    </div>
-                {{ form_end(form) }}
-            </div>
+{#            <div class="product__modal-form">#}
+{#                <form action="#">#}
+{#                    <div class="product__modal-input size mb-20">#}
+{#                        <label>Size <i class="fas fa-star-of-life"></i></label>#}
+{#                        <select>#}
+{#                            <option>- Please select -</option>#}
+{#                            <option> S</option>#}
+{#                            <option> M</option>#}
+{#                            <option> L</option>#}
+{#                            <option> XL</option>#}
+{#                            <option> XXL</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <div class="product__modal-input color mb-20">#}
+{#                        <label>Color <i class="fas fa-star-of-life"></i></label>#}
+{#                        <select>#}
+{#                            <option>- Please select -</option>#}
+{#                            <option> Black</option>#}
+{#                            <option> Yellow</option>#}
+{#                            <option> Blue</option>#}
+{#                            <option> White</option>#}
+{#                            <option> Ocean Blue</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <div class="product__modal-required mb-5">#}
+{#                        <span>Repuired Fiields *</span>#}
+{#                    </div>#}
+{#                    <div class="pro-quan-area d-lg-flex align-items-center">#}
+{#                        <div class="product-quantity-title">#}
+{#                            <label>Quantité</label>#}
+{#                        </div>#}
+{#                        <div class="product-quantity">#}
+{#                            <div class="cart-plus-minus"><input type="text" value="1"/></div>#}
+{#                        </div>#}
+{#                        <div class="pro-cart-btn ml-20">#}
+{#                            <a href="#" class="os-btn os-btn-black os-btn-3 mr-10">+ Ajouter</a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
         </div>
     </div>
 </div>

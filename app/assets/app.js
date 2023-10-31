@@ -28,9 +28,14 @@ toastr.options.positionClass = 'toast-bottom-left';
 
 window.toastr = toastr;
 
+const debounce = require('lodash.debounce')
+window.debounce = debounce
 
 import 'jquery-confirm';
 
+import bsCustomFileInput from "bs-custom-file-input";
+
+bsCustomFileInput.init();
 //require('bootstrap/dist/js/bootstrap.bundle.min');
 
 const routes = require('../public/js/fos_js_routes.json');

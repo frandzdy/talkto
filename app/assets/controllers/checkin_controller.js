@@ -1,5 +1,4 @@
 import {Controller} from '@hotwired/stimulus';
-import $ from "jquery";
 
 /**
  * Gestion des justificatifs

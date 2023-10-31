@@ -16,7 +16,7 @@ class AuthController extends AbstractController
     #[Route("login", name: "login")]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->isGranted(User::ROLE_USER) || $this->isGranted(User::ROLE_SELLER)) {
+        if ($this->getUser()) {
             return $this->redirectToRoute('front_home');
         }
 

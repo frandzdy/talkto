@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AssertRented;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Index(columns: ["email", "firstname", "lastname", "created_at"], name: "ecommerce_user")]
 #[UniqueEntity(fields: ["email"], message: "E-mail déjà enregistré.")]
 #[ORM\HasLifecycleCallbacks()]

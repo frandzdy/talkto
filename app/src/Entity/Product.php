@@ -7,12 +7,13 @@ use App\Enum\ProductStatus;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ORM\Index(columns: ["status", "description", "title"], name: "ecommerce_products")]
+#[ORM\Index(columns: ["status", "short_description", "title", "category"], name: "ecommerce_products")]
 #[ORM\HasLifecycleCallbacks()]
 class Product
 {
@@ -34,6 +35,13 @@ class Product
      */
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Information requise.")]
+    private ?string $shortDescription = null;
+
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $description = null;
 
     /**
@@ -41,6 +49,10 @@ class Product
      */
     #[ORM\ManyToMany(targetEntity: Picture::class)]
     private Collection|ArrayCollection $pictures;
+
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]
+    private Collection $reviews;
 
     /**
      * @var UploadedFile[]
@@ -91,6 +103,7 @@ class Product
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,6 +119,18 @@ class Product
     public function setAmount(?float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }
@@ -250,6 +275,41 @@ class Product
     public function setCategory(ProductCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * @param Review $review
+     * @return $this
+     */
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Review $review
+     * @return $this
+     */
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            $this->reviews->removeElement($review);
+        }
 
         return $this;
     }

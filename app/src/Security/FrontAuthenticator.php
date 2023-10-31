@@ -67,6 +67,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
             return new RedirectResponse($accountLink->url);
         }
+        // si on se connecte depuis la page de paiement
         if (str_contains($request->headers->get('referer'), 'paiement')) {
             return new RedirectResponse($this->urlGenerator->generate('front_stripe_payment_intent'));
         }
@@ -86,6 +87,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
+        // si on se connecte depuis la page de paiement
         if (str_contains($request->headers->get('referer'), 'paiement')) {
 
             return $this->urlGenerator->generate(self::LOGIN_CART_ROUTE);

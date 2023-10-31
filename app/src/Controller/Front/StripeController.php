@@ -30,8 +30,7 @@ class StripeController extends AbstractController
         StripeManager          $stripeManager,
         UserManager            $userManager,
         AuthenticationUtils    $authenticationUtils,
-        Security               $security,
-        EntityManagerInterface $em
+        Security               $security
     ): Response {
         /**
          * On récupère l'utilisateur connecté
@@ -92,8 +91,7 @@ class StripeController extends AbstractController
         UserManager            $userManager,
         Request                $request,
         AuthenticationUtils    $authenticationUtils
-    ): Response
-    {
+    ): Response {
         $user = $userManager->createUser();
         $form = $this->createForm(LoginType::class, $user);
         $carts = $session->get('cart', [

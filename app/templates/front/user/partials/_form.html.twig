@@ -3,7 +3,7 @@
     {% set pictureName = user.picture.name %}
 {% endif %}
 <div class="profile__edit-wrapper" {{ user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') ? 'data-turbo="false"' : '' }}>
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha'} }) }}
     <div class="row">
         <div class="col-3 profile__basic-thumb valign-items-center">
             <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
@@ -27,6 +27,11 @@
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.address) }}
+        <div class="dropdown-menu w-100">
+            <div class="address">
+
+            </div>
+        </div>
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.additionalAddress) }}
@@ -48,8 +53,8 @@
     </div>
     {% if not app.user %}
         <div class="login-action mb-20 fix">
-        <span class="log-rem f-left"></span>
-        <span class="forgot-login f-right">
+            <span class="log-rem f-left"></span>
+            <span class="forgot-login f-right">
             <a href="{{ path('front_seller_new') }}">Vous aussi devenez bailleur !</a>
         </span>
         </div>

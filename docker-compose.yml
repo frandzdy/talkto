@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   db:
-    image: mariadb:10.8
+    image: mariadb:11.1.2
     container_name: talkto_db
     hostname: db
     restart: unless-stopped
@@ -25,7 +25,7 @@ services:
       - ./app:/var/www/app
     environment:
       APP_ENV: dev
-      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=mariadb-10.7.3&charset=utf8
+      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=mariadb-11.1.2&charset=utf8mb4
       MAILER_DSN: smtp://mailcatcher:25
     networks:
       - nw.talkto
@@ -36,7 +36,7 @@ services:
     tty: true
 
   nginx:
-    image: nginx:1.21
+    image: nginx:1.25.3
     container_name: talkto_nginx
     hostname: nginx
     volumes:
@@ -52,7 +52,7 @@ services:
     tty: true
 
   redis:
-    image: redis:6
+    image: redis:7.2.2
     container_name: talkto_redis
     hostname: redis
     networks:

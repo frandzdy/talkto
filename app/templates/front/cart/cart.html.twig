@@ -1,8 +1,6 @@
 {% extends 'front/layout.html.twig' %}
 
-{% block title %}
-    Panier - {{ parent() }}
-{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block metas %}
     {{ parent() }}
@@ -34,13 +32,13 @@
                                 {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_show_detail', {'token': index}) }}">
+                                            <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
                                                      alt="{{ product.pictureName }}"/>
                                             </a>
                                         </td>
                                         <td class="product-name"><a
-                                                    href="{{ path('front_product_show_detail', {'token': index}) }}">{{ product.title }}</a>
+                                                    href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">{{ product.title }}</a>
                                         </td>
                                         <td class="product-quantity">
                                             <input id="startDate" {{ stimulus_controller('datetimepicker') }}

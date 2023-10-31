@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 /**
  * Authentification du Front
  *
- * @Route("/", name="")
+ * @Route("/admin/gestion/", name="")
  */
 class AuthController extends AbstractController
 {

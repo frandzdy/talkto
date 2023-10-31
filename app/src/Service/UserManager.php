@@ -65,7 +65,6 @@ class UserManager
             !$user->getStripeCustomerId()
             && (
                 in_array(User::ROLE_USER, $user->getRoles())
-                || in_array(User::ROLE_GUESS, $user->getRoles())
             )
         ) {
             $customer = $this->stripeManager->createCustomer($user);
@@ -74,6 +73,8 @@ class UserManager
             !$user->getStripeAccountId()
             && in_array(User::ROLE_SELLER, $user->getRoles())
         ) {
+            $customer = $this->stripeManager->createCustomer($user);
+            $user->setStripeCustomerId($customer->id);
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
         }

@@ -69,6 +69,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     */
 
+    /**
+     * Retourne la liste des produits d'un bailleur
+     */
     public function getProducts(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Product::class)
@@ -94,6 +97,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ];
     }
 
+    /**
+     * Retourne la liste des réservations ou locations d'un utilisateur selon son profil
+     */
     public function getReservations(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Reservation::class)
@@ -124,12 +130,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ];
     }
 
+    /**
+     * Retourne la liste des favoris d'un utilisateur
+     */
     public function getWishlists(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Wishlist::class)
             ->createQueryBuilder('w')
             ->join('w.user', 'u')
             ->join('w.product', 'p')
+            ->join('p.author', 'author')
             ->where('u.id = :userId')
             ->setParameter('userId', $user->getId());
 
@@ -139,6 +149,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $qb->select('w')
             ->orderBy('w.createdAt', 'DESC')
+            ->setFirstResult($offset * 5)
+            ->setMaxResults(5);
+
+        return [
+            'results' => $qb->getQuery()->getResult(),
+            'totalPage' => ceil($count / 5),
+            'page' => $offset + 1,
+        ];
+    }
+
+    /**
+     * On récupère les locations uniquement pour les bailleurs
+     */
+    public function getRents(User $user, int $offset): array
+    {
+        $qb = $this->_em->getRepository(Reservation::class)
+            ->createQueryBuilder('r')
+            ->join('r.transaction', 't')
+            ->leftjoin('t.transactionLines', 'tl')
+            ->join('tl.product', 'p')
+            ->join('r.author', 'author')
+            ->where('author = :userId')
+            ->setParameter('userId', $user->getId());
+
+        $count = (clone $qb)->select('count(Distinct(r.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $qb->select('r')
+            ->orderBy('tl.startDate, tl.status', 'DESC')
             ->setFirstResult($offset * 5)
             ->setMaxResults(5);
 
