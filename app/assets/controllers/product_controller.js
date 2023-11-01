@@ -9,10 +9,9 @@ export default class extends Controller {
      * Initialise la liste des photos avec un element si elle est vide
      */
     connect() {
-        if ($('.manager-collection').children().length == 0) {
+        if ($('.picture-collection').children().length == 0) {
             this.onFileAdd();
         }
-
         this.reindex()
     }
 
@@ -20,8 +19,8 @@ export default class extends Controller {
      * Ajout d'un champ photo
      */
     onFileAdd(event) {
-        const collectionHolder = $('.manager-collection');
-        const listIndex = collectionHolder.find('.file-elt').length + 1;
+        const collectionHolder = $('.picture-collection');
+        const listIndex = collectionHolder.children().length + 1;
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
@@ -35,7 +34,6 @@ export default class extends Controller {
     onFileDelete(e) {
         const elt = e.currentTarget;
         const token = $(e.currentTarget).data('token')
-        console.log(token);
         if (token) {
             $.confirm({
                 title: 'Suppression d\'une photo',
@@ -73,7 +71,7 @@ export default class extends Controller {
                         text: 'Supprimer',
                         btnClass: 'btn-red',
                         action: () => {
-                            elt.parentElement.parentElement.remove();
+                            elt.parentElement.remove();
                             this.reindex()
                         }
                     },
@@ -88,7 +86,7 @@ export default class extends Controller {
     handleBsCustomFileInput(container) {
         if ($(container)) {
             bsCustomFileInput.init();
-            $(container).change(function () {
+            $(container).change(() => {
                 let fieldVal = $(this).val();
                 if (fieldVal != undefined || fieldVal != "") {
                     $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
@@ -99,7 +97,7 @@ export default class extends Controller {
 
     reindex() {
         let indexFile = 0;
-        $('.file-elt').each(function () {
+        $('.picture').each( () => {
             ++indexFile
             $(this).find('.file-index').html(indexFile);
             $(this).find('.file-index').removeClass("d-none");

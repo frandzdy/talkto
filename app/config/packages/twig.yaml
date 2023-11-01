@@ -4,6 +4,7 @@ twig:
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - 'front/form/_form_layout.html.twig'
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
     globals:
         googleGtm: '%google_gtm%'

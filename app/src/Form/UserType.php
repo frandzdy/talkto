@@ -62,7 +62,14 @@ class UserType extends AbstractType
                             'placeholder' => 'Adresse *',
                             'maxlength' => 255,
                             'autocomplete' => 'address-level1',
-                        ]
+                            'data-bs-toggle' => 'dropdown',
+                            'aria-haspopup' => 'true',
+                            'aria-expanded' => 'false',
+                            'class' => 'dropdown-toggle'
+                        ],
+                    'row_attr' => [
+                        'class' => 'dropdown'
+                    ]
                 ]
             )->add(
                 'additionalAddress',

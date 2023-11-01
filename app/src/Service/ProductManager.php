@@ -35,6 +35,7 @@ class ProductManager
         return (new Product())
             ->setAuthor($user)
             ->setStatus(ProductStatus::WAITING)
+            ->setQuantityAllReadyReserved(0)
         ;
     }
 

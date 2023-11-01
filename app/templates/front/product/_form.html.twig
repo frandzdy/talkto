@@ -80,15 +80,15 @@
                 {{ form_row(form.category) }}
             </div>
             <div class="profile__edit-input">
-                Photos de produit &nbsp;
+                Photos de votre produit &nbsp;
                 <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
                         data-action="click->product#onFileAdd">
                     <i class="fas fa-plus "></i>
                 </button>
             </div>
-            <div class="manager-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
-                {% for index, picture in form.vars.value.pictures  %}
-                    <div class="manager file-elt mt-1 mb-1 d-flex w-100">
+            <div class="picture-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+                {% for index, picture in form.vars.value.pictures %}
+                    <div class="picture file-elt mt-1 mb-1 d-flex w-100">
                         <div class="w-100">
                             {{ picture.name }}
                         </div>

@@ -18,17 +18,19 @@ import './bootstrap';
 // ajout des fichiers js
 // import Jquery
 import $ from 'jquery';
+
 global.$ = global.jQuery = $;
 
 import * as Turbo from '@hotwired/turbo';
 
 import toastr from 'toastr';
+
 toastr.options.preventDuplicates = true;
 toastr.options.positionClass = 'toast-bottom-left';
 
 window.toastr = toastr;
 
-const debounce = require('lodash.debounce')
+const {debounce} = require('lodash')
 window.debounce = debounce
 
 import 'jquery-confirm';
@@ -58,9 +60,10 @@ require('./js/services/jquery.fancybox.min.js')
 require('./js/services/isotope.pkgd.min.js')
 require('./js/services/owl.carousel.min.js')
 require('./js/services/jquery-ui.min.js')
-import  '@stripe/stripe-js';
+import '@stripe/stripe-js';
 
 import WOW from 'wow.js';
+
 window.WOW = WOW
 
 require('./js/services/imagesloaded.pkgd.min.js')

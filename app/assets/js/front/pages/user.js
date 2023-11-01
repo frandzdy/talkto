@@ -1,5 +1,5 @@
 export function getAllAddresses(address) {
-    return fetch('https://api-adresse.data.gouv.fr/search/?q=' + address.split(' ').join('+') + '&limit=15').then(function(res) {
+    return fetch('https://api-adresse.data.gouv.fr/search/?q=' + address.split(' ').join('+') + '&limit=10').then(function(res) {
         return res.json().then(function(json) {
             const addresses = [];
 
