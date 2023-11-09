@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,9 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class,
+            ->add(
+                'title',
+                TextType::class,
                 [
                     'label' => 'Titre du produit',
                     'label_attr' => ['class' => 'form-text text-muted'],
@@ -27,8 +30,10 @@ class ProductType extends AbstractType
                         [
                             'maxlength' => 255
                         ]
-                ])
-            ->add('shortDescription', TextareaType::class,
+                ]
+            )
+            ->add(
+                'shortDescription', TextareaType::class,
                 [
                     'label' => 'Court description du produit',
                     'label_attr' => ['class' => 'form-text text-muted'],
@@ -40,16 +45,18 @@ class ProductType extends AbstractType
                         ]
                 ]
             )
-            ->add('description', CKEditorType::class,
+            ->add(
+                'description', TextareaType::class,
                 [
                     'label' => 'Description',
-                    'config' => ['toolbar' => 'basic'],
                     'label_attr' => ['class' => 'form-text text-muted'],
                     'attr' =>
                         [
                             'placeholder' => 'Détaillez plus votre bien ...',
-                            'style' => 'height: 200px'
-                        ]
+                            'rows' => 'height: 400px',
+                            'data-controller' => 'editor'
+                        ],
+                    'purify_html' => true
                 ]
             )
             ->add('uploadedPictures', CollectionType::class, [
@@ -70,7 +77,8 @@ class ProductType extends AbstractType
                 'allow_delete' => true,
                 'required' => false,
             ])
-            ->add('caution', TextType::class,
+            ->add(
+                'caution', TextType::class,
                 [
                     'label' => 'Montant de la caution',
                     'label_attr' => ['class' => 'form-text text-muted'],
@@ -81,7 +89,8 @@ class ProductType extends AbstractType
                         ]
                 ]
             )
-            ->add('amount', TextType::class,
+            ->add(
+                'amount', TextType::class,
                 [
                     'label' => 'Prix / Mois',
                     'label_attr' => ['class' => 'form-text text-muted'],
@@ -91,7 +100,8 @@ class ProductType extends AbstractType
                             'maxlength' => 11,
                         ]
                 ]
-            )->add('quantity', TextType::class,
+            )->add(
+                'quantity', TextType::class,
                 [
                     'label' => 'Quantité',
                     'label_attr' => ['class' => 'form-text text-muted'],

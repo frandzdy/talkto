@@ -58,14 +58,12 @@
                                                         <li>
                                                             <a href="{{ path('front_user_account') }}">Mon compte</a>
                                                         </li>
-                                                        {% if app.user.roles[0] == constant('App\\Entity\\User::ROLE_USER') %}
-                                                            <li><a href="{{ path('front_wishlist_index') }}">Favoris</a>
-                                                            </li>
-                                                            <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
-                                                            <li>
-                                                                <a href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
-                                                            </li>
-                                                        {% endif %}
+                                                        <li><a href="{{ path('front_wishlist_index') }}">Favoris</a>
+                                                        </li>
+                                                        <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                        <li>
+                                                            <a href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
+                                                        </li>
                                                         <li><a href="{{ path('front_logout') }}">Déconnexion</a></li>
                                                     </ul>
                                                 </div>

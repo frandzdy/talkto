@@ -147,7 +147,7 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'callback' => 'onProductChange'
+                    'redirectUrl' => $this->generateUrl('front_user_account')
                 ]
             );
         }
@@ -182,13 +182,12 @@ class ProductController extends AbstractController
      * Retourne le html correspondant à liste des produits
      */
     #[Route('/produit-mise-a-jour-liste', name: 'product_update_list', options: ["expose" => true], methods: ['GET'])]
-    #[IsGranted("ROLE_SELLER")]
     public function productUpdateList(ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findBy(['user' => $this->getUser()]);
-
+        $products = $productRepository->findBy(['author' => $this->getUser()]);
+        $results['results'] = $products;
         return $this->render(
-            'front/user/partials/_list.html.twig',
+            'front/user/partials/_products.html.twig',
             compact('products')
         );
     }

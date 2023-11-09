@@ -1,7 +1,0 @@
-framework:
-    mailer:
-        dsn: '%env(MAILER_DNS)%'
-        envelope:
-            sender: 'contact@rented.fr'
-        headers:
-            from: 'Rented <contact@rented.fr>'

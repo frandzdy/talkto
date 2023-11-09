@@ -327,6 +327,9 @@ export default class extends Controller {
             $(this.modalProductTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalProductTarget);
             this.handleBsCustomFileInput($(this.modalProductTarget).find('[type="file"]'));
+            $(this.modalProductTarget).modal({
+                focus: false
+            })
             $(this.modalProductTarget).modal('show');
         }).fail((error) => {
             toastr.error("Une erreur est survenue.");

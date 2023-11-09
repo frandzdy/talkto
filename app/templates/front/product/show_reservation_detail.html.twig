@@ -162,8 +162,8 @@
                                          id="pro-details" role="tablist">
                                         <a class="nav-item nav-link active" id="des-tab" data-toggle="tab" href="#des"
                                            role="tab" aria-controls="des" aria-selected="true">Description</a>
-                                        <a class="nav-item nav-link" id="add-tab" data-toggle="tab" href="#add"
-                                           role="tab" aria-controls="add" aria-selected="false">Information complémentaire</a>
+                                        {#                                        <a class="nav-item nav-link" id="add-tab" data-toggle="tab" href="#add" #}
+                                        {#                                           role="tab" aria-controls="add" aria-selected="false">Information complémentaire</a> #}
                                         <a class="nav-item nav-link" id="review-tab" data-toggle="tab" href="#review"
                                            role="tab" aria-controls="review" aria-selected="false">Avis ()</a>
                                     </div>
@@ -171,205 +171,205 @@
                             </div>
                             <div class="tab-content" id="pro-detailsContent">
                                 <div class="tab-pane fade show active" id="des" role="tabpanel">
-                                    <div class="product__details-des">
-                                        {{ product.description }}
+                                    <div class="product__details-des wysiwyg">
+                                        {{ product.description|purify }}
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="add" role="tabpanel">
-                                    <div class="product__details-add">
-{#                                        <ul> #}
-                                {#                                            <li><span>Weight</span></li> #}
-                                {#                                            <li><span>.25 KG</span></li> #}
-                                {#                                            <li><span>Dimention</span></li> #}
-                                {#                                            <li><span>62 × 56 × 12 cm</span></li> #}
-                                {#                                            <li><span>Size</span></li> #}
-                                {#                                            <li><span>XL, XXL, LG, SM, MD</span></li> #}
-                                {#                                        </ul> #}
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="review" role="tabpanel">
-                            <div class="product__details-review">
-                                <div class="postbox__comments">
-                                    <div class="postbox__comment-title mb-30">
-                                        <h3>Avis (0)</h3>
-                                    </div>
-                                    <div class="latest-comments mb-30">
-                                        {#                                                <ul> #}
-                                        {#                                                    <li> #}
-                                        {#                                                        <div class="comments-box"> #}
-                                        {#                                                            <div class="comments-avatar"> #}
-                                        {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-1.png') }}" alt=""> #}
-                                        {#                                                            </div> #}
-                                        {#                                                            <div class="comments-text"> #}
-                                        {#                                                                <div class="avatar-name"> #}
-                                        {#                                                                    <h5>Siarhei Dzenisenka</h5> #}
-                                        {#                                                                    <span> - 3 months ago </span> #}
-                                        {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <div class="user-rating"> #}
-                                        {#                                                                    <ul> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                    </ul> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <p>Many desktop publishing packages and web page editors #}
-                                        {#                                                                    now use Lorem Ipsum as their default model text, and #}
-                                        {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
-                                        {#                                                                    many web sites still in their infancy. Various #}
-                                        {#                                                                    versions have evolved over the years, sometimes by #}
-                                        {#                                                                    accident, sometimes on purpose.</p> #}
-                                        {#                                                            </div> #}
-                                        {#                                                        </div> #}
-                                        {#                                                    </li> #}
-                                        {#                                                    <li class="children"> #}
-                                        {#                                                        <div class="comments-box"> #}
-                                        {#                                                            <div class="comments-avatar"> #}
-                                        {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-2.png') }}" alt=""> #}
-                                        {#                                                            </div> #}
-                                        {#                                                            <div class="comments-text"> #}
-                                        {#                                                                <div class="avatar-name"> #}
-                                        {#                                                                    <h5>Julias Roy</h5> #}
-                                        {#                                                                    <span> - 6 months ago </span> #}
-                                        {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <div class="user-rating"> #}
-                                        {#                                                                    <ul> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                    </ul> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <p>Many desktop publishing packages and web page editors #}
-                                        {#                                                                    now use Lorem Ipsum as their default model text, and #}
-                                        {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
-                                        {#                                                                    many web sites still in their infancy. </p> #}
-                                        {#                                                            </div> #}
-                                        {#                                                        </div> #}
-                                        {#                                                    </li> #}
-                                        {#                                                    <li> #}
-                                        {#                                                        <div class="comments-box"> #}
-                                        {#                                                            <div class="comments-avatar"> #}
-                                        {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-3.png') }}" alt=""> #}
-                                        {#                                                            </div> #}
-                                        {#                                                            <div class="comments-text"> #}
-                                        {#                                                                <div class="avatar-name"> #}
-                                        {#                                                                    <h5>Arista Williamson</h5> #}
-                                        {#                                                                    <span> - 6 months ago </span> #}
-                                        {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <div class="user-rating"> #}
-                                        {#                                                                    <ul> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
-                                        {#                                                                        </li> #}
-                                        {#                                                                    </ul> #}
-                                        {#                                                                </div> #}
-                                        {#                                                                <p>Many desktop publishing packages and web page editors #}
-                                        {#                                                                    now use Lorem Ipsum as their default model text, and #}
-                                        {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
-                                        {#                                                                    many web sites still in their infancy. Various #}
-                                        {#                                                                    versions have evolved over the years, sometimes by #}
-                                        {#                                                                    accident, sometimes on purpose.</p> #}
-                                        {#                                                            </div> #}
-                                        {#                                                        </div> #}
-                                        {#                                                    </li> #}
-                                        {#                                                </ul> #}
-                                    </div>
-                                </div>
-                                <div class="post-comments-form mb-100">
-                                    <div class="post-comments-title mb-30">
-                                        <h3>Your Review</h3>
-                                        <div class="post-rating">
-                                            <span>Your Rating :</span>
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fal fa-star"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fal fa-star"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fal fa-star"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fal fa-star"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fal fa-star"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+{#                                <div class="tab-pane fade" id="add" role="tabpanel">#}
+{#                                    <div class="product__details-add">#}
+                                        {#                                        <ul> #}
+                                        {#                                            <li><span>Weight</span></li> #}
+                                        {#                                            <li><span>.25 KG</span></li> #}
+                                        {#                                            <li><span>Dimention</span></li> #}
+                                        {#                                            <li><span>62 × 56 × 12 cm</span></li> #}
+                                        {#                                            <li><span>Size</span></li> #}
+                                        {#                                            <li><span>XL, XXL, LG, SM, MD</span></li> #}
+                                        {#                                        </ul> #}
+{#                                    </div>#}
+{#                                </div>#}
+                                <div class="tab-pane fade" id="review" role="tabpanel">
+                                    <div class="product__details-review">
+                                        <div class="postbox__comments">
+                                            <div class="postbox__comment-title mb-30">
+                                                <h3>Avis (0)</h3>
+                                            </div>
+                                            <div class="latest-comments mb-30">
+                                                {#                                                <ul> #}
+                                                {#                                                    <li> #}
+                                                {#                                                        <div class="comments-box"> #}
+                                                {#                                                            <div class="comments-avatar"> #}
+                                                {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-1.png') }}" alt=""> #}
+                                                {#                                                            </div> #}
+                                                {#                                                            <div class="comments-text"> #}
+                                                {#                                                                <div class="avatar-name"> #}
+                                                {#                                                                    <h5>Siarhei Dzenisenka</h5> #}
+                                                {#                                                                    <span> - 3 months ago </span> #}
+                                                {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <div class="user-rating"> #}
+                                                {#                                                                    <ul> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                    </ul> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <p>Many desktop publishing packages and web page editors #}
+                                                {#                                                                    now use Lorem Ipsum as their default model text, and #}
+                                                {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
+                                                {#                                                                    many web sites still in their infancy. Various #}
+                                                {#                                                                    versions have evolved over the years, sometimes by #}
+                                                {#                                                                    accident, sometimes on purpose.</p> #}
+                                                {#                                                            </div> #}
+                                                {#                                                        </div> #}
+                                                {#                                                    </li> #}
+                                                {#                                                    <li class="children"> #}
+                                                {#                                                        <div class="comments-box"> #}
+                                                {#                                                            <div class="comments-avatar"> #}
+                                                {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-2.png') }}" alt=""> #}
+                                                {#                                                            </div> #}
+                                                {#                                                            <div class="comments-text"> #}
+                                                {#                                                                <div class="avatar-name"> #}
+                                                {#                                                                    <h5>Julias Roy</h5> #}
+                                                {#                                                                    <span> - 6 months ago </span> #}
+                                                {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <div class="user-rating"> #}
+                                                {#                                                                    <ul> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                    </ul> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <p>Many desktop publishing packages and web page editors #}
+                                                {#                                                                    now use Lorem Ipsum as their default model text, and #}
+                                                {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
+                                                {#                                                                    many web sites still in their infancy. </p> #}
+                                                {#                                                            </div> #}
+                                                {#                                                        </div> #}
+                                                {#                                                    </li> #}
+                                                {#                                                    <li> #}
+                                                {#                                                        <div class="comments-box"> #}
+                                                {#                                                            <div class="comments-avatar"> #}
+                                                {#                                                                <img src="{{ asset('build/images/img/blog/comments/avater-3.png') }}" alt=""> #}
+                                                {#                                                            </div> #}
+                                                {#                                                            <div class="comments-text"> #}
+                                                {#                                                                <div class="avatar-name"> #}
+                                                {#                                                                    <h5>Arista Williamson</h5> #}
+                                                {#                                                                    <span> - 6 months ago </span> #}
+                                                {#                                                                    <a class="reply" href="#">Leave Reply</a> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <div class="user-rating"> #}
+                                                {#                                                                    <ul> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fas fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                        <li><a href="#"><i class="fal fa-star"></i></a> #}
+                                                {#                                                                        </li> #}
+                                                {#                                                                    </ul> #}
+                                                {#                                                                </div> #}
+                                                {#                                                                <p>Many desktop publishing packages and web page editors #}
+                                                {#                                                                    now use Lorem Ipsum as their default model text, and #}
+                                                {#                                                                    a search for <span>“lorem ipsum”</span> will uncover #}
+                                                {#                                                                    many web sites still in their infancy. Various #}
+                                                {#                                                                    versions have evolved over the years, sometimes by #}
+                                                {#                                                                    accident, sometimes on purpose.</p> #}
+                                                {#                                                            </div> #}
+                                                {#                                                        </div> #}
+                                                {#                                                    </li> #}
+                                                {#                                                </ul> #}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <form id="contacts-form" class="conatct-post-form" action="#">
-                                        <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-6">
-                                                <div class="contact-icon p-relative contacts-name">
-                                                    <input type="text" placeholder="Name">
+                                        <div class="post-comments-form mb-100">
+                                            <div class="post-comments-title mb-30">
+                                                <h3>Your Review</h3>
+                                                <div class="post-rating">
+                                                    <span>Your Rating :</span>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fal fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fal fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fal fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fal fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fal fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6">
-                                                <div class="contact-icon p-relative contacts-name">
-                                                    <input type="email" placeholder="Email">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <div class="contact-icon p-relative contacts-email">
-                                                    <input type="text" placeholder="Subject">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <div class="contact-icon p-relative contacts-message">
+                                            <form id="contacts-form" class="conatct-post-form" action="#">
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                                        <div class="contact-icon p-relative contacts-name">
+                                                            <input type="text" placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                                        <div class="contact-icon p-relative contacts-name">
+                                                            <input type="email" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-12">
+                                                        <div class="contact-icon p-relative contacts-email">
+                                                            <input type="text" placeholder="Subject">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-12">
+                                                        <div class="contact-icon p-relative contacts-message">
                                                                     <textarea name="comments" id="comments" cols="30"
                                                                               rows="10"
                                                                               placeholder="Comments"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-12">
+                                                        <button class="os-btn os-btn-black" type="submit">Post comment
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <button class="os-btn os-btn-black" type="submit">Post comment
-                                                </button>
-                                            </div>
+                                            </form>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
         </div>
     </section>
     <!-- shop details area end -->

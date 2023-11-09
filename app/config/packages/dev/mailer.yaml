@@ -1,8 +1,0 @@
-framework:
-    mailer:
-        dsn: '%env(MAILER_DNS)%'
-        envelope:
-            sender: 'snakeater95@gmail.com'
-            #            recipients: ['snakeater95@gmail.com']
-        headers:
-            from: 'RENTED <support@ac-malin.fr.nf>'

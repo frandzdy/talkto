@@ -1,4 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
+const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
+const { styles: ckeditorstyles } = require( '@ckeditor/ckeditor5-dev-utils' );
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -71,14 +73,35 @@ Encore
 		to: 'fonts/[path][name].[ext]',
 	})
 
-	.copyFiles([
-		{from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
-		{from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
-		{from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
-		{from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
-		{from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
-		{from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'}
-	])
+	.addPlugin( new CKEditorWebpackPlugin({
+		language: 'fr',
+		additionalLanguages: ['en'],
+		buildAllTranslationsToSeparateFiles: true
+	}))
+
+	// Use raw-loader for CKEditor 5 SVG files.
+	.addLoader({
+		test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+		loader: 'raw-loader'
+	})
+
+	// Configure other image loaders to exclude CKEditor 5 SVG files.
+	.configureLoaderRule('images', loader => {
+		loader.exclude = /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
+	})
+
+	// Configure PostCSS loader.
+	.addLoader({
+		test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+		loader: 'postcss-loader',
+		options: {
+			postcssOptions: ckeditorstyles.getPostCssConfig({
+				themeImporter: {
+					themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+				}
+			})
+		}
+	})
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

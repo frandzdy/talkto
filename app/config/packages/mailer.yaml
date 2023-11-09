@@ -2,6 +2,16 @@ framework:
     mailer:
         dsn: '%env(MAILER_DNS)%'
         envelope:
-            sender: 'contact@rented.fr'
+            sender: 'snakeater95@gmail.com'
+            #            recipients: ['snakeater95@gmail.com']
         headers:
-            from: 'SPAMI <contact@rented.fr>'
+            from: 'RENTED <support@ac-malin.fr.nf>'
+
+when@prod:
+    framework:
+        mailer:
+            dsn: '%env(MAILER_DNS)%'
+            envelope:
+                sender: 'contact@rented.fr'
+            headers:
+                from: 'SPAMI <contact@rented.fr>'

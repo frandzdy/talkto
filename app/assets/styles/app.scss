@@ -96,3 +96,16 @@ button[id$="Denied"] {
 .custom-file-label::after {
   content: "Votre photo";
 }
+
+:root {
+  --ck-z-default: 100;
+  --ck-z-modal: calc( var(--ck-z-default) + 999 );
+}
+
+.table-responsive {
+  background-color: white;
+}
+
+.ck-editor__editable {
+  min-height: 300px !important;
+}
