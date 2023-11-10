@@ -26,69 +26,50 @@
                             <div class="product__modal-nav mr-20">
                                 <nav>
                                     <div class="nav nav-tabs" id="product-details" role="tablist">
-                                        <a class="nav-item nav-link active" id="pro-one-tab" data-toggle="tab"
-                                           href="#pro-one" role="tab" aria-controls="pro-one" aria-selected="true">
-                                            <div class="product__nav-img w-img">
-                                                <img src="{{ asset('build/images/img/shop/product/details/details-sm-1.jpg') }}"
-                                                     alt="">
-                                            </div>
-                                        </a>
-                                        <a class="nav-item nav-link" id="pro-two-tab" data-toggle="tab" href="#pro-two"
-                                           role="tab" aria-controls="pro-two" aria-selected="false">
-                                            <div class="product__nav-img w-img">
-                                                <img src="{{ asset('build/images/img/shop/product/quick-view/quick-sm-2.jpg') }}"
-                                                     alt="">
-                                            </div>
-                                        </a>
-                                        <a class="nav-item nav-link" id="pro-three-tab" data-toggle="tab"
-                                           href="#pro-three" role="tab" aria-controls="pro-three" aria-selected="false">
-                                            <div class="product__nav-img w-img">
-                                                <img src="{{ asset('build/images/img/shop/product/quick-view/quick-sm-3.jpg') }}"
-                                                     alt="">
-                                            </div>
-                                        </a>
+                                        {% if product.pictures.count > 0 %}
+                                            {% for index, picture in product.pictures %}
+                                                {% set active = '' %}
+                                                {% if index == 0 %}
+                                                    {% set active = 'active' %}
+                                                {% endif %}
+                                                <a class="nav-item nav-link {{ active }}" id="pro-{{ picture.token }}-tab" data-toggle="tab"
+                                                   href="#pro-{{ picture.token }}" role="tab" aria-controls="pro-{{ picture.token }}" aria-selected="false">
+                                                    <div class="product__nav-img w-img">
+                                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
+                                                             alt="">
+                                                    </div>
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </nav>
                             </div>
                             <div class="tab-content mb-20" id="product-detailsContent">
-                                <div class="tab-pane fade show active" id="pro-one" role="tabpanel"
-                                     aria-labelledby="pro-one-tab">
-                                    <div class="product__modal-img product__thumb w-img">
-                                        <img src="{{ asset('build/images/img/shop/product/details/details-big-1.jpg') }}"
-                                             alt="">
-                                        <div class="product__sale ">
-                                            <span class="new">new</span>
-                                            <span class="percent">-16%</span>
+                                {% if product.pictures.count > 0 %}
+                                    {% for index, picture in product.pictures %}
+                                        {% set active = '' %}
+                                        {% if index == 0 %}
+                                            {% set active = 'show active' %}
+                                        {% endif %}
+                                        <div class="tab-pane fade {{ active }}" id="pro-{{ picture.token }}" role="tabpanel"
+                                             aria-labelledby="pro-{{ picture.token }}-tab">
+                                            <div class="product__modal-img product__thumb w-img">
+                                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}"
+                                                     alt="{{ picture.name }}">
+{#                                                <div class="product__sale ">#}
+{#                                                    <span class="new">new</span>#}
+{#                                                    <span class="percent">-16%</span>#}
+{#                                                </div>#}
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pro-two" role="tabpanel" aria-labelledby="pro-two-tab">
-                                    <div class="product__modal-img product__thumb w-img">
-                                        <img src="{{ asset('build/images/img/shop/product/details/details-big-2.jpg') }}"
-                                             alt="">
-                                        <div class="product__sale ">
-                                            <span class="new">new</span>
-                                            <span class="percent">-16%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pro-three" role="tabpanel"
-                                     aria-labelledby="pro-three-tab">
-                                    <div class="product__modal-img product__thumb w-img">
-                                        <img src="{{ asset('build/images/img/shop/product/details/details-big-3.jpg') }}"
-                                             alt="">
-                                        <div class="product__sale ">
-                                            <span class="new">new</span>
-                                            <span class="percent">-16%</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="product__modal-content product__modal-content-2">
-                            <h4><a href="#"> {{ Product.title }}</a></h4>
+                            <h4><a href="#"> {{ product.title }}</a></h4>
                             <div class="rating rating-shop mb-15">
                                 <ul>
                                     <li><span><i class="fas fa-star"></i></span></li>
@@ -109,7 +90,11 @@
                             <div class="product__modal-des mb-30">
                                 {{ product.shortDescription }}
                             </div>
-                            <div class="product__modal-form mb-30">}
+                            <div class="product__tag mb-25">
+                                <span>Catégorie :</span>
+                                <span><a href="{{ path('front_product_category', {'productCategory': product.category.value}) }}">{{ product.category.label }}</a></span>
+                            </div>
+                            <div class="product__modal-form mb-30">
                                 {{ form_start(form, {'attr': {'id':'productForm'}}) }}
                                 <div class="product__modal-select color size mb-20">
                                     <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
@@ -132,20 +117,16 @@
                                 </div>
                                 {{ form_end(form) }}
                             </div>
-                            <div class="product__tag mb-25">
-                                <span>Catégorie :</span>
-                                <span><a href="#">{{ product.category.label }}</a></span>
-                            </div>
-                            <div class="product__share">
-                                <span>Partage :</span>
-                                <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-behance"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
+{#                            <div class="product__share">#}
+{#                                <span>Partage :</span>#}
+{#                                <ul>#}
+{#                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>#}
+{#                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>#}
+{#                                    <li><a href="#"><i class="fab fa-behance"></i></a></li>#}
+{#                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>#}
+{#                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>#}
+{#                                </ul>#}
+{#                            </div>#}
                         </div>
                     </div>
                 </div>

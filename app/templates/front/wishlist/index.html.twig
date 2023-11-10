@@ -54,7 +54,7 @@
                                     </td>
                                     <td class="product-price"><span class="amount">{{ wishlist.product.amount }} €</span></td>
                                     <td class="product-quantity">
-                                        <a href="{{ path('front_product_reservation', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'})}}"
+                                        <a href="{{ path('front_product_reservation', {'token': wishlist.product.token })}}"
                                            title="Réservez"
                                            data-modal-title="Réservation en cours"
                                            data-lg-size="true"

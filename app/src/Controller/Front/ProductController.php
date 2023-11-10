@@ -110,6 +110,11 @@ class ProductController extends AbstractController
             $session->set('cart', $cart);
             $this->addFlash('success', 'Produit(s) ajouté(s)');
 
+            if ($request->attributes->get('_route') === "front_product_reservation_show_detail") {
+
+                return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
+            }
+
             return $this->json(
                 [
                     'success' => true,
@@ -118,7 +123,7 @@ class ProductController extends AbstractController
             );
         }
 
-        if ($request->attributes->get('_route') === "app_product_reservation") {
+        if ($request->attributes->get('_route') === "front_product_reservation") {
 
             return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
         }

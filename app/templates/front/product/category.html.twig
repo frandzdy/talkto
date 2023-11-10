@@ -294,7 +294,7 @@
                                                     <div class="product__content p-relative">
                                                         <div class="product__content-inner">
                                                             <h4>
-                                                                <a href="{{ path('front_product_reservation_show_detail', {'token': '9f94eb6c66e1f805a4a8dd9099347f7ad7f20ee349f5320755748b43727f000b'}) }}">
+                                                                <a href="{{ path('front_product_reservation_show_detail', {'token': product[0].token}) }}">
                                                                     {{ product[0].title }}
                                                                 </a>
                                                             </h4>
@@ -342,22 +342,14 @@
                                                     <div class="product__content p-relative">
                                                         <div class="product__content-inner list">
                                                             <h4>
-                                                                <a href="product-details.html">{{ product[0].title }}</a>
+                                                                <a href="{{ path('front_product_reservation', {'token': product[0].token}) }}">{{ product[0].title }}</a>
                                                             </h4>
                                                             <div class="product__price-2 mb-10">
                                                                 <span>{{ product[0].amount }} €</span>
                                                                 <!-- <span class="old-price">$96.00</span> -->
-                                                                <span class="old-price">{{ product.distance }} km</span>
+{#                                                                <span class="old-price">{{ product.distance }} km</span>#}
                                                             </div>
-                                                            <p>{{ product[0].shortDescription }}}</p>
-                                                            <div class="product__list mb-30">
-                                                                <ul>
-                                                                    <li><span>Light green crewneck sweatshirt.</span>
-                                                                    </li>
-                                                                    <li><span>Hand pockets.</span></li>
-                                                                    <li><span>Relaxed fit.</span></li>
-                                                                </ul>
-                                                            </div>
+                                                            <p>{{ product[0].shortDescription }}</p>
                                                         </div>
                                                         <div class="add-cart-list d-sm-flex align-items-center">
                                                             <a href="#" class="add-cart-btn mr-10">+ Ajouter</a>

@@ -23,7 +23,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class StripeController extends AbstractController
 {
     #[Route('/paiement', name: 'stripe_payment_intent', options: ['expose' => true], methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_USER")]
     public function paymentIntent(
         SessionInterface       $session,
         Request                $request,
@@ -85,7 +84,6 @@ class StripeController extends AbstractController
     }
 
     #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true], methods: ['POST'])]
-    #[IsGranted("ROLE_USER")]
     public function paymentUserLogin(
         SessionInterface       $session,
         UserManager            $userManager,
@@ -122,7 +120,6 @@ class StripeController extends AbstractController
     }
 
     #[Route('/paiement-user-creation', name: 'stripe_payment_user_create', options: ['expose' => true], methods: ['GET'])]
-    #[IsGranted("ROLE_USER")]
     public function checkPaymentUserCreate(UserManager $userManager): Response
     {
         $user = $userManager->createUser();
@@ -136,7 +133,6 @@ class StripeController extends AbstractController
     }
 
     #[Route('/valider', name: 'stripe_success', options: ['expose' => true], methods: ['POST', 'GET'])]
-    #[IsGranted("ROLE_USER")]
     public function success(StripeManager $stripeManager, Request $request, SessionInterface $session): Response
     {
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
@@ -177,7 +173,6 @@ class StripeController extends AbstractController
     }
 
     #[Route('/annuler', name: 'stripe_cancel')]
-    #[IsGranted("ROLE_USER")]
     public function cancel(): Response
     {
         return $this->render('front/stripe/cancel.html.twig');
