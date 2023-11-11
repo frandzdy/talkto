@@ -23,9 +23,6 @@
 
 {% block content %}
     {{ include('partials/_breadcrumbs.html.twig') }}
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
     <!-- login Area Strat-->
     <section class="login-area pt-100 pb-100">
         <div class="container">

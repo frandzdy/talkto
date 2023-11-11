@@ -1,0 +1,120 @@
+@import "pages/_login.scss";
+@import "pages/_nav.scss";
+@import "pages/_content.scss";
+@import "pages/_faq.scss";
+@import "pages/_customers.scss";
+
+/** Header */
+body {
+  --ck-z-default: 100;
+  --ck-z-modal: calc( var(--ck-z-default) + 999 );
+}
+
+a.navbar-brand img {
+  margin-right: 10px;
+}
+
+/** Pagination */
+
+.navigation {
+  ul.pagination {
+    justify-content: center;
+  }
+}
+
+/** * Astérix sur tout les champs label ayant la class require */
+.required:before {
+  padding-right: 5px;
+  content:" * ";
+}
+label[for^="company_leaderCivility_"]:before,
+label[for^="customer_account_creation_bo_company_leaderCivility_"]:before,
+label[for^="website_content_backgroundTitle_"]:before {
+  content:"";
+}
+
+#customer_account_creation_bo_company_leaderCivility {
+  position: relative;
+  left: -15px;
+}
+/** catalogue **/
+.catalog_qualification {
+  textarea {
+    min-height: 110px;
+  }
+  .sortable-element {
+    textarea {
+      min-height: 70px;
+    }
+  }
+}
+
+/** Sortable arrows **/
+.arrow-up, .arrow-down {
+  font-size: 20px;
+  text-align: center;
+}
+
+/** Orderable **/
+.orderable {
+  &__wrapper {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    display: inline-block;
+    z-index: 100;
+  }
+
+  &__cart {
+    font-size: 28px;
+    z-index: 10;
+  }
+
+  &__cross {
+    color: #fff;
+    font-size: 10px;
+    position: absolute;
+    top: 5px;
+    left: 16px;
+    z-index: 1;
+  }
+}
+
+/** Qualification */
+.preview-image {
+  img {
+    max-width: 100%;
+    max-height: 100%;
+
+    min-height: 100px;
+  }
+}
+
+select.form-control.is-invalid, .was-validated select.form-control:invalid {
+  background-position: right calc(1.375em + .21875rem) center;
+}
+
+.textarea-4 {
+  min-height: 85px;
+}
+
+.image-separator {
+  margin-bottom: 58px;
+}
+
+::placeholder { /* Firefox, Chrome, Opera */
+  color: lightgray !important;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: lightgray !important;;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: lightgray !important;;
+}
+
+#website_content_backgroundTitle {
+  position: relative;
+  left: -20px;
+}

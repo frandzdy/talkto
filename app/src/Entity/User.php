@@ -141,12 +141,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *  Mot de passe
      */
     #[ORM\Column(length: 255)]
+
     private string $password;
 
     /**
      * Mot de passe en clair de l'utilisateur
      */
     #[AssertRented\PasswordRequirements()]
+    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: "Information erronée.",
+        invisibleMessage: "Information erronée.",
+        mixedNumbersMessage: "Information erronée.",
+        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
     private ?string $plainPassword = null;
 
     /**

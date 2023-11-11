@@ -11,7 +11,7 @@ import bsCustomFileInput from "bs-custom-file-input";
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
-    static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
+    static targets = ['container', 'modal', 'alertSuccess'];
     cart = []
     rejectLocalisation = false;
     localisationDone = false;

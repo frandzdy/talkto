@@ -7,6 +7,7 @@ use App\Entity\Reservation;
 use App\Entity\User;
 use App\Entity\Wishlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -187,5 +188,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
+    }
+
+    /**
+     * Construit une requête de recherche
+     */
+    public function buildSearchQuery(array $filters = []): Query
+    {
+        $builder = $this
+            ->createQueryBuilder('u');
+
+        if (!empty($filters['term'])) {
+            $builder
+                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term')
+                ->setParameter('term', $filters['term'] . '%');
+        }
+
+        $builder->orderBy('u.lastname, u.firstname', 'ASC');
+
+        return $builder->getQuery();
     }
 }

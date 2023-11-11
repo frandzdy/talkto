@@ -1,0 +1,17 @@
+.back-modal{
+  .custom-file {
+    .custom-file-label {
+      justify-content: flex-start !important;
+    }
+  }
+  .modal-dialog {
+    min-height: 200px;
+    min-width: 800px;
+  }
+  .faq-image {
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}

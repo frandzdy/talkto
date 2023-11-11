@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(): Response
     {
         return $this->render('front/home/index.html.twig');
     }

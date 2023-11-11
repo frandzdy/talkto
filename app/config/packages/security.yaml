@@ -11,7 +11,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_contributor_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Contributor
                 property: email
         app_user_provider:
             entity:
@@ -25,14 +25,21 @@ security:
         back:
             pattern: ^/admin
             provider: app_contributor_provider
-            lazy: true
+            form_login:
+                login_path: back_login
+                check_path: back_login
+                default_target_path: back_home_dashboard
+                enable_csrf: true
             logout:
                 path: back_logout
                 target: back_login
-            custom_authenticator: App\Security\BackAuthenticator
+                clear_site_data:
+                    - cache
+                    - storage
+                    - executionContexts
+            # custom_authenticator: App\Security\BackAuthenticator
         front:
             pattern: ^/
-            lazy: true
             provider: app_user_provider
             logout:
                 path: front_logout

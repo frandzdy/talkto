@@ -22,54 +22,39 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * Authentification du Front
+ * Authentification du Back
  *
- * @Route("/admin/gestion/", name="")
  */
 class AuthController extends AbstractController
 {
     /**
-     * Authentification du Front
-     * @Route("login", name="login")
+     * Authentification du Back
      */
-    public function login(SessionInterface $session, Request $request, RouterInterface $router): Response
+    #[Route("/login", name: "login")]
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $teams = $request->get('teams');
-        $joinTeam = $request->get('joinTeam');
-        if ($this->getUser() && $teams === null && $joinTeam === null) {
-            return $this->redirectToRoute('front_homepage');
-        }
-        // si on est déjà connecté et que l'on vient d'une email afin de valider un compte
-        // invité
-        if ($this->getUser() && $teams !== null) {
-            return $this->redirectToRoute('front_customer_account_members');
-        }
-        // si on est déjà connecté et que l'on vient d'une email envoyer par le propriétaire
-        // afin de valider un compte d'autoriser un compte à rejoindre son entreprise
-        if ($this->getUser() && $joinTeam !== null) {
-            return $this->redirectToRoute('front_customer_account_show');
+        if ($this->getUser()) {
+            return $this->redirectToRoute('back_home_dashboard');
         }
 
-        $referer = $this->generateUrl('front_homepage');
-        // on regarde si le lien de provenance est une url de notre application
-        foreach ($router->getRouteCollection() as $name => $route) {
-            if (str_contains($route->getPath(), $request->headers->get('referer'))) {
-                $referer = $request->headers->get('referer');
-            }
-        }
-        // si on a le paramètre dans la route alors on rédirige vers la page mon-equipe
-        if (isset($teams)) {
-            $referer = 'mon-equipe';
-        }
-        // si on a le paramètre dans la route alors on rédirige vers la page espace client
-        if (isset($joinTeam)) {
-            $referer = 'profil';
-        }
-        // Stockage du referer pour la redirection post login
-        $session->set('login_referer', $referer);
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('front/auth/login.html.twig');
+        return $this->render(
+            'back/auth/login.html.twig',
+            [
+                'last_username' => $lastUsername,
+                'error' => $error
+            ]
+        );
+    }
+
+    #[Route("deconnexion", name: "logout")]
+    public function logout()
+    {
+
     }
 }

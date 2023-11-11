@@ -1,0 +1,62 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block page_title %}Utilisateurs{% endblock %}
+{% block title %}Utilisateurs - {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">Utilisateurs</h4>
+                    <div class="panel-heading-btn">
+                        <a href="{{ path('back_contributors_new') }}"
+                           class="btn btn-xs btn-primary open-back-modal"
+                           data-modal-title="Edition d'un utilisateur">
+                            <i class="fa fa-plus-circle"></i>&nbsp; Ajouter un utilisateur
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive mb-4">
+                        <table class="table table-striped m-b-0">
+                            <thead>
+                                <tr>
+                                    <th>Utilisateur</th>
+                                    <th>Email</th>
+                                    <th style="width: 150px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for contributor in contributors %}
+                                <tr>
+                                    <td>{{ contributor.fullname }}</td>
+                                    <td>{{ contributor.email }}</td>
+                                    <td class="pl-4">
+                                        <a href="{{ path('back_contributors_edit', {'id': contributor.id}) }}"
+                                           class="btn btn-xs btn-primary open-back-modal"
+                                           data-modal-title="Edition d'un utilisateur"
+                                        >
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                        {% if app.user.id != contributor.id and contributor.isDeletable()  %}
+                                            <a href="{{ path('back_contributors_delete', {'id': contributor.id}) }}"
+                                               class="btn btn-xs btn-danger post-confirm"
+                                               data-button-text="Suppression"
+                                               data-title="Suppression"
+                                               data-confirm-message="Souhaitez-vous supprimer cet élément ?"><i class="fa fa-trash"></i></a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(contributors) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

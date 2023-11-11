@@ -1,0 +1,31 @@
+#content {
+
+  textarea#website_content_content {
+    min-height: 300px;
+  }
+
+  textarea#website_faq_item_content {
+    min-height: 300px;
+  }
+
+  .ck-editor__editable_inline {
+    min-height: 300px;
+    max-height: 500px;
+    font-size: 16px;
+  }
+
+  .warning {
+    margin-top: 20px;
+  }
+
+  #website_content_displayableBlocks{
+    position: relative;
+    left: -20px;
+  }
+}
+
+#homepage-contact {
+  .ck-editor__editable_inline {
+    min-height: 0px;
+  }
+}

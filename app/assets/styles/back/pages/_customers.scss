@@ -1,0 +1,32 @@
+#content {
+  .left-position {
+    position: relative;
+    left:-15px;
+  }
+  tr.customer-row {
+    cursor: pointer;
+  }
+  .custom-control-inline {
+    position: relative;
+    margin-right: 20px;
+    input[type="radio"] {
+      &:checked + label:after {
+        display: block;
+      }
+      + label {
+        position: relative;
+        margin: 0 3px;
+        line-height: 25px;
+        vertical-align: middle;
+        display: inline-block;
+        text-align: right;
+        &:before {
+          content: "";
+        }
+      }
+    }
+  }
+}
+
+
+

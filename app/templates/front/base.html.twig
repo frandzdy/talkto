@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Rented | {% block title %}{% endblock %}</title>
-    <meta name="description" content="">
+    <title>Rented Back | {% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" sizes="75x75"/>
@@ -14,11 +13,9 @@
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#2d89ef">
     <meta name="turbo-cache-control" content="no-cache">
-    {% block metas %}
-        <meta name="keywords" content="">
-    {% endblock %}
     <!-- CSS here -->
     {% block stylesheets %}
+        {{ encore_entry_link_tags('front_app') }}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
@@ -27,7 +24,12 @@
         const googleTagUa = '{{ googleTagUa }}';
         const stripePublicKey = '{{ stripePublicKey }}';
         const policyUrl = '{{ absolute_url(path('front_policy')) }}';
-        let dataLayer = [];
+        let dataLayer = {
+            'user_id': '',
+            'lastname': '',
+            'firstname': '',
+            'email': '',
+        };
         let isLogged = false;
         let lat = {{ app.request.session.get('lat', 0) }};
         let lon = {{ app.request.session.get('lon', 0) }};
@@ -38,18 +40,23 @@
         const email = '{{ app.user.email }}';
         lat = '{{ app.user.lat|default(0) }}';
         lon = '{{ app.user.lon|default(0) }}';
-        dataLayer = [{
+        dataLayer = {
             'user_id': '{{ app.user.id }}',
             'lastname': '{{ app.user.lastname }}',
             'firstname': '{{ app.user.firstname }}',
             'email': '{{ app.user.email }}',
-        }];
+        };
         isLogged = true;
         {% endif %}
+        {% block gtag %}
+        var googleTagFunc = function () {
+            gtag('event', 'user-log', dataLayer)
+        };
+        {% endblock %}
     </script>
     <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
-
-    {% for file in encore_entry_js_files('app') %}
+    {{ encore_entry_script_tags('app') }}
+    {% for file in encore_entry_js_files('front_app') %}
         <script src="{{ asset(file) }}"></script>
     {% endfor %}
 </head>

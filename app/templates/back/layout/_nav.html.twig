@@ -1,0 +1,62 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+<ul class="nav">
+        <li class="{% if currentRoute starts with 'back_home_dashboard' %}active{% endif %}">
+            <a title="Clients" href="{{ path('back_home_dashboard') }}">
+                <i class="fas fa-chart-line"></i>
+                <span>Tableau de bord</span>
+            </a>
+        </li>
+        <li class="{% if currentRoute starts with 'back_lessors' %}active{% endif %}">
+            <a title="Clients" href="{{ path('back_lessors') }}">
+                <i class="fas fa-user-tie"></i>
+                <span>Bailleurs</span>
+            </a>
+        </li>
+{#    <li class="{% if currentRoute starts with 'back_company_index' %}active{% endif %}">#}
+{#        <a title="Clients" href="{{ path('back_company_index') }}">#}
+{#            <i class="fas fa-user-tie"></i>#}
+{#            <span>Clients</span>#}
+{#        </a>#}
+{#    </li>#}
+{#    <li class="{% if currentRoute starts with 'back_catalog_index' %}active{% endif %}">#}
+{#        <a title="Catalogue" href="{{ path('back_catalog_index') }}">#}
+{#            <i class="fa fa-folder-open"></i>#}
+{#            <span>Catalogue</span>#}
+{#        </a>#}
+{#    </li>#}
+{#    <li class="{% if currentRoute starts with 'back_faq_index' %}active{% endif %}">#}
+{#        <a title="Faq" href="{{ path('back_faq_index') }}">#}
+{#            <i class="fas fa-question"></i>#}
+{#            <span>Faq</span>#}
+{#        </a>#}
+{#    </li>#}
+{#    <li class="{% if currentRoute starts with 'back_contents_index' %}active{% endif %}">#}
+{#        <a title="Contenus" href="{{ path('back_contents_index') }}">#}
+{#            <i class="fas fa-sticky-note"></i>#}
+{#            <span>Contenus</span>#}
+{#        </a>#}
+{#    </li>#}
+{#    <li class="">#}
+{#        <a title="Menus" href="{{ path('back_menu_index') }}">#}
+{#            <i class="fa fa-bars"></i>#}
+{#            <span>Menus</span>#}
+{#        </a>#}
+{#    </li>#}
+    <li class="{% if currentRoute starts with 'back_contributors' %}active{% endif %}">
+        <a title="Utilisateurs" href="{{ path('back_contributors') }}">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span>Utilisateurs</span>
+        </a>
+    </li>
+{#    <li class="{% if currentRoute starts with 'back_parameters_edit' %}active{% endif %}">#}
+{#        <a title="Paramétrage" href="{{ path('back_parameters_edit') }}">#}
+{#            <i class="fa fa-cog" aria-hidden="true"></i>#}
+{#            <span>Paramétrage</span>#}
+{#        </a>#}
+{#    </li>#}
+    <!-- begin sidebar minify button -->
+    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
+                    class="fa fa-angle-double-left"></i></a></li>
+    <!-- end sidebar minify button -->
+</ul>
