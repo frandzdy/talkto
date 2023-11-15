@@ -4,6 +4,12 @@
 @import "pages/_faq.scss";
 @import "pages/_customers.scss";
 
+@import "../front/base/mixins";
+@import "../front/base/vars";
+@import "../front/base/variables";
+@import "../front/base/shop";
+@import "../front/service/ckeditor";
+
 /** Header */
 body {
   --ck-z-default: 100;
@@ -117,4 +123,12 @@ select.form-control.is-invalid, .was-validated select.form-control:invalid {
 #website_content_backgroundTitle {
   position: relative;
   left: -20px;
+}
+
+.closing-picture {
+  position: relative;
+  top: -28px;
+  right: 12px;
+  color: red;
+  z-index: 1000;
 }

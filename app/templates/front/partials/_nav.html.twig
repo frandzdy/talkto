@@ -1,0 +1,124 @@
+<!-- header area start -->
+<header>
+    <div id="header-sticky" class="header__area grey-bg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
+                    <div class="logo">
+                        <a href="{{ path('front_home') }}"><img src="{{ asset('build/images/img/logo/logo.png') }}"
+                                                                alt="logo"></a>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8">
+                    <div class="header__right p-relative d-flex justify-content-between align-items-center">
+                        <div class="main-menu d-none d-lg-block">
+                            <nav>
+                                <ul>
+                                    <li class="active has-dropdown">
+                                        <a href="javascript:void(0);">Catégories</a>
+                                        <ul class="submenu transition-3">
+                                            <li class="has-dropdown">
+                                                <ul>
+                                                    {% for index, category in getProductCategories() %}
+                                                        <li>
+                                                            <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript:void(0);">Notre Blog</a></li>
+                                    <li><a href="{{ path('front_contact') }}">Contactez-nous</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="mobile-menu-btn d-lg-none">
+                            <a href="javascript:void(0);" class="mobile-menu-toggle"><i class="fas fa-bars"></i></a>
+                        </div>
+                        <div class="header__action">
+                            <ul>
+                                <li><a href="javascript:void(0);" class="search-toggle"><i class="ion-ios-search-strong"></i></a>
+                                </li>
+                                <li><a href="javascript:void(0);" class="cart"><i class="ion-bag"></i> (<span
+                                                id="cart-length">0</span>)</a>
+                                    <div class="mini-cart">
+                                    </div>
+                                </li>
+                                <li><a href="javascript:void(0);"><i class="far fa-bars"></i></a>
+                                    <ul class="extra-info">
+                                        <li>
+                                            {% if app.user %}
+                                                <div class="my-account">
+                                                    <div class="extra-title">
+                                                        <h5>
+                                                            Bonjour, {{ app.user.fullname }}</h5>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="{{ path('front_user_account') }}">Mon compte</a>
+                                                        </li>
+                                                        <li><a href="{{ path('front_wishlist_index') }}">Favoris</a>
+                                                        </li>
+                                                        <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                        <li>
+                                                            <a href="{{ path('front_stripe_payment_intent') }}">Paiement</a>
+                                                        </li>
+                                                        {% if is_granted('IS_IMPERSONATOR') %}
+                                                            <li><a href="{{ impersonation_exit_path(path('back_home_dashboard') ) }}">Exit impersonation</a></li>
+                                                        {% else %}
+                                                            <li><a href="{{ path('front_logout') }}">Déconnexion</a></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            {% else %}
+                                                <div class="my-account">
+                                                    <div class="extra-title">
+                                                        <h5>Menu</h5>
+                                                    </div>
+                                                    <ul>
+                                                        <li><a href="{{ path('front_login') }}">Connexion</a></li>
+                                                        <li><a href="{{ path('front_user_new') }}">S'inscrire</a></li>
+                                                        <li><a href="{{ path('front_seller_new') }}">Devenez bailleur</a></li>
+                                                        <li><a href="{{ path('front_cart_index') }}">Panier</a></li>
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                        {#                                        <li> #}
+                                        {#                                            <div class="lang"> #}
+                                        {#                                                <div class="extra-title"> #}
+                                        {#                                                    <h5>Language</h5> #}
+                                        {#                                                </div> #}
+                                        {#                                                <ul> #}
+                                        {#                                                    <li><a href="#">English</a></li> #}
+                                        {#                                                    <li><a href="#">France</a></li> #}
+                                        {#                                                    <li><a href="#">Germany</a></li> #}
+                                        {#                                                    <li><a href="#">Bangla</a></li> #}
+                                        {#                                                </ul> #}
+                                        {#                                            </div> #}
+                                        {#                                        </li> #}
+                                        {#                                        <li> #}
+                                        {#                                            <div class="currency"> #}
+                                        {#                                                <div class="extra-title"> #}
+                                        {#                                                    <h5>currency</h5> #}
+                                        {#                                                </div> #}
+                                        {#                                                <ul> #}
+                                        {#                                                    <li><a href="#">USD - US Dollar</a></li> #}
+                                        {#                                                    <li><a href="#">EUR - Ruro</a></li> #}
+                                        {#                                                    <li><a href="#">GBP - Britis Pound</a></li> #}
+                                        {#                                                    <li><a href="#">INR - Indian Rupee</a></li> #}
+                                        {#                                                </ul> #}
+                                        {#                                            </div> #}
+                                        {#                                        </li> #}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header area end -->

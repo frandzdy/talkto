@@ -1,0 +1,64 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block title %}Produits - {{ parent() }}{% endblock %}
+{% block page_title %}Produits ({{ products.totalItemCount() }}){% endblock %}
+{% block action_buttons %}
+    <a title="Exporter" href="{{ path('back_product_extract') }}" class="btn btn-info">
+        Exporter
+    </a>
+{% endblock %}
+
+{% block form_filter %}
+    {{ form_start(filterForm, {'attr': {'novalidate':'novalidate', 'style' : 'position:relative;top:-12px;', 'data-controller': 'back-customer'}}) }}
+    <button type="submit" class="btn btn-success float-right">
+        <i class="fa fa-search"></i>&nbsp
+    </button>
+    {{ form_row(filterForm.term) }}
+    {{ form_end(filterForm) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row" {{ stimulus_controller('back-customer') }}>
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">Produits</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive mb-4">
+                        <table class="client-list table table-striped m-b-0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Titre</th>
+                                <th>Catégorie</th>
+                                <th>Quantité</th>
+                                <th>Quantité réservée</th>
+                                <th>Statut</th>
+                                <th>Bailleur</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in products %}
+                                <tr class="customer-row"
+                                    data-href="{{ path('back_product_show', {'id': product.id }) }}">
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.title }}</td>
+                                    <td>{{ product.category.label }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    <td>{{ product.quantityAllReadyReserved }}</td>
+                                    <td>{{ product.status.label }}</td>
+                                    <td>{{ product.author.fullname }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(products) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

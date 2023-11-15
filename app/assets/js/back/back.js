@@ -27,8 +27,10 @@ import bsCustomFileInput from "bs-custom-file-input";
 bsCustomFileInput.init();
 
 require('jquery-confirm');
-require('popper.js');
-require('bootstrap/dist/js/bootstrap');
+// require('popper.js');
+//require('bootstrap/dist/js/bootstrap');
+
+require('./../front/services/bootstrap.bundle.min.js')
 require('jquery-slimscroll');
 require('js-cookie');
 

@@ -2,13 +2,13 @@
 
 {% block body %}
     <div data-commun-target="container">
-        {% include 'partials/_nav.html.twig' %}
-        {% include 'partials/_header.html.twig' %}
-        {% include 'partials/_search.html.twig' %}
+        {% include 'front/partials/_nav.html.twig' %}
+        {% include 'front/partials/_header.html.twig' %}
+        {% include 'front/partials/_search.html.twig' %}
         <main>
         {% block content %}{% endblock %}
         </main>
-        {% include 'partials/_modal.html.twig' %}
-        {% include 'partials/_footer.html.twig' %}
+        {% include 'front/partials/_modal.html.twig' %}
+        {% include 'front/partials/_footer.html.twig' %}
     </div>
 {% endblock %}

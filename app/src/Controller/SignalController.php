@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\SignalType;
+use App\Form\Front\SignalType;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +38,7 @@ class SignalController extends AbstractController
         }
         
         return $this->render('signal/create.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }

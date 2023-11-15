@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\Civility;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -50,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(type="json")
      */
-    #[ORM\Column(type: "json")]
+    #[ORM\Column(type: Types::JSON)]
     private ?array $roles = [];
 
     /**

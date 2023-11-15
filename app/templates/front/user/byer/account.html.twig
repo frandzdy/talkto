@@ -8,7 +8,7 @@
     {{ parent() }}
     <meta name="description"
           content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
-    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Spami">
+    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Rented">
 {% endblock %}
 
 {% set breadcrumbItems =
@@ -137,7 +137,7 @@
                             {% if user.isStripeAccountActive and user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') %}
                                 <div class="tab-pane fade" id="nav-product" role="tabpanel"
                                      aria-labelledby="nav-product-tab">
-                                    {% include "partials/_block_pagination.html.twig" with {
+                                    {% include "front/partials/_block_pagination.html.twig" with {
                                         page: collections.products.page,
                                         totalPage: collections.products.totalPage,
                                         url: path('front_user_collection', {
@@ -155,7 +155,7 @@
                             {% if user.roles[0] is same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
                                 <div class="tab-pane fade" id="nav-reservation" role="tabpanel"
                                      aria-labelledby="nav-reservation-tab">
-                                    {% include "partials/_block_pagination.html.twig" with {
+                                    {% include "front/partials/_block_pagination.html.twig" with {
                                         page: collections.reservations.page,
                                         totalPage: collections.reservations.totalPage,
                                         url: path('front_user_collection', {
@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="nav-rents" role="tabpanel"
                                      aria-labelledby="nav-rents-tab">
-                                    {% include "partials/_block_pagination.html.twig" with {
+                                    {% include "front/partials/_block_pagination.html.twig" with {
                                         page: collections.rents.page,
                                         totalPage: collections.rents.totalPage,
                                         url: path('front_user_collection', {
@@ -188,7 +188,7 @@
                             {% else %}
                                 <div class="tab-pane fade" id="nav-reservation" role="tabpanel"
                                      aria-labelledby="nav-reservation-tab">
-                                    {% include "partials/_block_pagination.html.twig" with {
+                                    {% include "front/partials/_block_pagination.html.twig" with {
                                         page: collections.reservations.page,
                                         totalPage: collections.reservations.totalPage,
                                         url: path('front_user_collection', {
@@ -205,7 +205,7 @@
                             {% endif %}
                             <div class="tab-pane fade" id="nav-wishlist" role="tabpanel"
                                  aria-labelledby="nav-wishlist-tab">
-                                {% include "partials/_block_pagination.html.twig" with {
+                                {% include "front/partials/_block_pagination.html.twig" with {
                                     page: collections.wishlists.page,
                                     totalPage: collections.wishlists.totalPage,
                                     url: path('front_user_collection', {

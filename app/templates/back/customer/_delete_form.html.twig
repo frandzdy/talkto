@@ -1,0 +1,10 @@
+<div class="text-center col-12 pb-2">
+    <a title="Suppression" href="{{ path('back_customer_delete', {'id': customer.id}) }}"
+       class="btn btn-lg btn-default post-confirm"
+       data-button-text="Suppression"
+       data-title="Suppression"
+       data-confirm-message="Êtes-vous sûr(e) de vouloir supprimer le client {{ customer.fullname|upper }} ?">
+        <i class="fas fa-exclamation-triangle"></i>
+        Supprimer ce client
+    </a>
+</div>

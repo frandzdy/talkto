@@ -24,12 +24,7 @@
         const googleTagUa = '{{ googleTagUa }}';
         const stripePublicKey = '{{ stripePublicKey }}';
         const policyUrl = '{{ absolute_url(path('front_policy')) }}';
-        let dataLayer = {
-            'user_id': '',
-            'lastname': '',
-            'firstname': '',
-            'email': '',
-        };
+        let dataLayer = [];
         let isLogged = false;
         let lat = {{ app.request.session.get('lat', 0) }};
         let lon = {{ app.request.session.get('lon', 0) }};
@@ -40,19 +35,14 @@
         const email = '{{ app.user.email }}';
         lat = '{{ app.user.lat|default(0) }}';
         lon = '{{ app.user.lon|default(0) }}';
-        dataLayer = {
+        dataLayer = [{
             'user_id': '{{ app.user.id }}',
             'lastname': '{{ app.user.lastname }}',
             'firstname': '{{ app.user.firstname }}',
             'email': '{{ app.user.email }}',
-        };
+        }];
         isLogged = true;
         {% endif %}
-        {% block gtag %}
-        var googleTagFunc = function () {
-            gtag('event', 'user-log', dataLayer)
-        };
-        {% endblock %}
     </script>
     <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
     {{ encore_entry_script_tags('app') }}

@@ -14,4 +14,4 @@ when@prod:
             envelope:
                 sender: 'contact@rented.fr'
             headers:
-                from: 'SPAMI <contact@rented.fr>'
+                from: 'RENTED <contact@rented.fr>'

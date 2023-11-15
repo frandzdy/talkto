@@ -193,15 +193,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Construit une requête de recherche
      */
-    public function buildSearchQuery(array $filters = []): Query
+    public function buildSearchQuery(array $filters = [], bool $isLessor = false): Query
     {
         $builder = $this
             ->createQueryBuilder('u');
 
-        if (!empty($filters['term'])) {
+        if (!empty($filters['term']) && !$isLessor) {
             $builder
-                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term')
+                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.phone LIKE :term')
                 ->setParameter('term', $filters['term'] . '%');
+        } elseif (!empty($filters['term'])) {
+            $builder
+                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.stripeCustomerId LIKE :term OR u.phone LIKE :term')
+                ->setParameter('term', $filters['term'] . '%');
+        }
+        $builder->andWhere('u.roles IN (:role)');
+        if ($isLessor) {
+            $builder->setParameter('role', '["'.User::ROLE_SELLER.'"]');
+        } else {
+            $builder->setParameter('role', ['["'.User::ROLE_USER.'"]', '["'.User::ROLE_GUESS.'"]']);
         }
 
         $builder->orderBy('u.lastname, u.firstname', 'ASC');

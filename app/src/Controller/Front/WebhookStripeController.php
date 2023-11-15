@@ -92,7 +92,7 @@ class WebhookStripeController extends AbstractController
 
                 $mailer->sendMailNotification(
                     $transaction->getAuthor()->getEmail(),
-                    'front/emails/reservation_validation.html.twig',
+                    'emails/reservation_validation.html.twig',
                     [
                         'user' => $transaction->getAuthor(),
                     ]
@@ -101,7 +101,7 @@ class WebhookStripeController extends AbstractController
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
                     $mailer->sendMailNotification(
                         $transactionLine->getProduct()->getAuthor()->getEmail(),
-                        'front/emails/seller_reservation_validation.html.twig',
+                        'emails/seller_reservation_validation.html.twig',
                         [
                             'seller' => strtoupper($transactionLine->getProduct()->getAuthor()->getFirstname()),
                             'buyer' => strtoupper($transaction->getAuthor()->getFullname()),

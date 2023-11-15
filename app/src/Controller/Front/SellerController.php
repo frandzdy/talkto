@@ -2,9 +2,8 @@
 
 namespace App\Controller\Front;
 
-use App\Form\SellerType;
-use App\Form\UserType;
-use App\Security\FrontAuthenticator;
+use App\Form\Front\SellerType;
+use App\Form\Front\UserType;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
@@ -41,7 +40,7 @@ class SellerController extends AbstractController
             // changer vers une route de success de création
             $mailer->sendMailNotification(
                 $user->getEmail(),
-                'front/emails/create_seller.html.twig',
+                'emails/create_seller.html.twig',
                 [
                     'user' => $user,
                 ]

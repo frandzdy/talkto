@@ -3,7 +3,7 @@
 
 namespace App\Controller\Front;
 
-use App\Form\ContactType;
+use App\Form\Front\ContactType;
 use App\Model\ContactModel;
 use App\Service\ContactManager;
 use App\Service\MailerManager;
@@ -38,7 +38,7 @@ class ContactController extends AbstractController
             $mailerManager->sendMailNotification(
             // params
                 $emailContact,
-                'front/emails/contact.html.twig',
+                'emails/contact.html.twig',
                 $vars
             );
             $this->addFlash('success', 'Votre message a été envoyé.');

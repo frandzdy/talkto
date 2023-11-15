@@ -1,0 +1,49 @@
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title">Réservations</h4>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive mb-4">
+            <table class="user-company table table-striped m-b-0">
+                <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Statut</th>
+                    <th>Stripe payment intent id</th>
+                    <th>Montant Ttc</th>
+                    <th style="width: 50px;"></th>
+                    <th style="width: 50px;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>{{ reservation.transaction.reference|default('') }}</td>
+                        <td>{{ reservation.transaction.status.label|default('') }}</td>
+                        <td>{{ reservation.transaction.paymentIntentId|default('') }}</td>
+                        <td>{{ reservation.transaction.totalAmountTtc|default('') }}</td>
+                        <td class="pl-4">
+                            {#                                <a title="Voir la réservation" #}
+                            {#                                   href="{{ path('back_company_edit_user_company', {'user': account.user.id, 'company': account.company.id}) }}" #}
+                            {#                                   class="btn btn-xs btn-primary open-back-modal" #}
+                            {#                                   data-modal-title="Edition d'un utilisateur"> #}
+                            {#                                    <i class="fa fa-pencil-alt"></i> #}
+                            {#                                </a> #}
+                        </td>
+                        <td class="pl-4">
+                            {#                                <a title="Suppression" #}
+                            {#                                   href="{{ path('back_company_delete_user_company', {'customerCompany': customerCompany.id, 'customerAccount' : account.id}) }}" #}
+                            {#                                   class="btn btn-xs btn-danger post-confirm" #}
+                            {#                                   data-button-text="Suppression" #}
+                            {#                                   data-title="Suppression" #}
+                            {#                                   data-confirm-message="Souhaitez-vous supprimer cet élément ?"> #}
+                            {#                                    <i class="fa fa-trash"></i> #}
+                            {#                                </a> #}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

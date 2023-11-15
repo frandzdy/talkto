@@ -3,17 +3,14 @@
 namespace App\Controller\Front;
 
 use App\Entity\User;
-use App\Enum\ProductCategory;
-use App\Form\UserType;
+use App\Form\Front\UserType;
 use App\Repository\UserRepository;
-use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,7 +91,7 @@ class UserController extends AbstractController
             $param = [];
             $mailer->sendMailNotification(
                 $user->getEmail(),
-                'front/emails/create_account.html.twig',
+                'emails/create_account.html.twig',
                 [
                     'user' => $user,
                 ]

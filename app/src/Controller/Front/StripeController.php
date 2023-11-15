@@ -2,15 +2,10 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Transaction;
-use App\Enum\TransactionStatus;
-use App\Form\LoginType;
-use App\Form\UserPaymentType;
-use App\Repository\TransactionRepository;
-use App\Repository\UserRepository;
+use App\Form\Front\LoginType;
+use App\Form\Front\UserPaymentType;
 use App\Service\StripeManager;
 use App\Service\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;

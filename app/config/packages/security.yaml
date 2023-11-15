@@ -25,6 +25,7 @@ security:
         back:
             pattern: ^/admin
             provider: app_contributor_provider
+            switch_user: true
             form_login:
                 login_path: back_login
                 check_path: back_login
@@ -41,9 +42,11 @@ security:
         front:
             pattern: ^/
             provider: app_user_provider
+            switch_user: true
             logout:
                 path: front_logout
                 target: front_login
+                invalidate_session: false
                 clear_site_data:
                     - cache
                     - storage

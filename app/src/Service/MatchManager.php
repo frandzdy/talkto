@@ -91,10 +91,10 @@ class MatchManager
                 $match->removeMyMatch($userConnected);
                 // si l'utilisateur à l'option de recevoir des emails
                 if ($userConnected->getHasNotificationMatch()) {
-                    $this->mailerManager->sendMailNotification($userConnected->getEmail(), 'front/emails/match.html.twig', $varsUserConnected);
+                    $this->mailerManager->sendMailNotification($userConnected->getEmail(), 'emails/match.html.twig', $varsUserConnected);
                 }
                 if ($match->getHasNotificationMatch()) {
-                    $this->mailerManager->sendMailNotification($match->getEmail(), 'front/emails/match.html.twig', $varsMatch);
+                    $this->mailerManager->sendMailNotification($match->getEmail(), 'emails/match.html.twig', $varsMatch);
                 }
             }
             // si l'utilisateur connecté n'as pas d'abonnement alors on décompte un nb de Spam

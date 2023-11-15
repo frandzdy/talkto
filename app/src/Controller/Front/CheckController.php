@@ -6,7 +6,7 @@ namespace App\Controller\Front;
 use App\Entity\Checkin;
 use App\Entity\TransactionLine;
 use App\Enum\CheckinStatus;
-use App\Form\CheckinType;
+use App\Form\Front\CheckinType;
 use App\Service\CheckManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

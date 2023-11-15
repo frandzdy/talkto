@@ -34,7 +34,7 @@ export default class extends Controller {
         const elt = e.currentTarget;
         $.confirm({
             title: 'Suppression d\'une photo',
-            content: 'Souhaitez-vous supprimer ce photo ?',
+            content: 'Souhaitez-vous supprimer cette photo ?',
             type: 'red',
             typeAnimated: true,
             buttons: {

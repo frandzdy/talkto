@@ -1,0 +1,64 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block title %}Clients - {{ parent() }}{% endblock %}
+{% block page_title %}Clients ({{ renters.totalItemCount() }}){% endblock %}
+{% block action_buttons %}
+    <a title="Exporter" href="{{ path('back_customer_extract') }}" class="btn btn-info">
+        Exporter
+    </a>
+{% endblock %}
+
+{% block form_filter %}
+    {{ form_start(filterForm, {'attr': {'novalidate':'novalidate', 'style' : 'position:relative;top:-12px;', 'data-controller': 'back-customer'}}) }}
+    <button type="submit" class="btn btn-success float-right">
+        <i class="fa fa-search"></i>&nbsp
+    </button>
+    {{ form_row(filterForm.term) }}
+    {{ form_end(filterForm) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row" {{ stimulus_controller('back-customer') }}>
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">Clients</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive mb-4">
+                        <table class="client-list table table-striped m-b-0">
+                            <thead>
+                            <tr>
+                                <th>Civilité</th>
+                                <th>Nom / Prénom</th>
+                                <th>E-mail</th>
+                                <th>Adresse</th>
+                                <th>Téléphone</th>
+                                <th>Id client stripe</th>
+                                <th>Compte invité</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for renter in renters %}
+                                <tr class="customer-row"
+                                    data-href="{{ path('back_customer_show', {'id': renter.id }) }}">
+                                    <td>{{ renter.genre.label }}</td>
+                                    <td>{{ renter.fullname }}</td>
+                                    <td>{{ renter.email }}</td>
+                                    <td>{{ renter.fullAddress }}</td>
+                                    <td>{{ renter.phone }}</td>
+                                    <td>{{ renter.stripeCustomerId }}</td>
+                                    <td>{{ renter.isGuess ? 'Oui' : 'Non' }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(renters) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

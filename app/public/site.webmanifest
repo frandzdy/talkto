@@ -3,10 +3,10 @@
     // (see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
     "lang": "fr-FR",
     // the name of the web application as it is usually displayed to the user
-    "name": "Spami",
+    "name": "Rented",
     // a shorter variant of the app name to be displayed when there is not
     // enough space (e.g. as a label for an icon on the phone home screen).
-    "short_name": "SPAMI",
+    "short_name": "RENTED",
     // use it to explain what the application does
     "description": "Site de rencontre selon vos centres d'intérêts",
     "icons": [

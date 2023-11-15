@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Controller\Back\CustomerCompanyController;
+use App\Controller\Back\CustomerController;
 use App\Entity\Civility;
 use App\Entity\Country;
 use App\Entity\CustomerAccount;
@@ -63,8 +63,8 @@ class CustomerCompanyManager
             $this->em->persist($customerCompany);
         }
         $sageSucceeded = true;
-        $oldSiret = $this->requestStack->getSession()->get(CustomerCompanyController::COMPANY_SIRET, null);
-        $oldAddress = $this->requestStack->getSession()->get(CustomerCompanyController::COMPANY_ADDRESS, null);
+        $oldSiret = $this->requestStack->getSession()->get(CustomerController::COMPANY_SIRET, null);
+        $oldAddress = $this->requestStack->getSession()->get(CustomerController::COMPANY_ADDRESS, null);
 
         // mettre à jour les informations Sagecode
         // si on change le siret du compte et qu'il n'a pas encore de code Sage
@@ -105,8 +105,8 @@ class CustomerCompanyManager
             }
         }
         // on supprime la session
-        $this->requestStack->getSession()->remove(CustomerCompanyController::COMPANY_SIRET);
-        $this->requestStack->getSession()->remove(CustomerCompanyController::COMPANY_ADDRESS);
+        $this->requestStack->getSession()->remove(CustomerController::COMPANY_SIRET);
+        $this->requestStack->getSession()->remove(CustomerController::COMPANY_ADDRESS);
 
         $dataSage = $this->updateAccountInfoFromSageBO($customerCompany);
         if ($dataSage) {

@@ -14,8 +14,8 @@ import $ from "jquery";
 export default class extends Controller {
     static targets = ['container', 'modal'];
     connect() {
-        document.addEventListener('turbo:load', _ => {console.log('toto')
-            $.when($('#page-loader').addClass('d-none')).done(function() {
+        document.addEventListener('turbo:load', _ => {
+            $.when($('#page-loader').addClass('d-none')).done(() => {
                 $('#page-container').addClass('show');
             });
         })

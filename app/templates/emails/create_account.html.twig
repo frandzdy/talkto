@@ -1,0 +1,44 @@
+{% block subject %}Rented – Bienvenue sur Rented{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Bienvenue sur RENTED{% endblock %}
+        {% block accroche %}Bienvenue sur RENTED{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <p>
+                        <h1>Bonjour,</h1>
+                    </p>
+                    <p>
+                        {{ user.fullname }}
+                    </p>
+                    <p>
+                        Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Rented.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe RENTED<br/>
+                        <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.fullname }}\n
+    \n
+    Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Rented.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe RENTED\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

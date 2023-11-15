@@ -7,20 +7,13 @@ use App\Entity\Message;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Entity\User;
-use App\Enum\CheckinStatus;
-use App\Form\CheckinType;
-use App\Repository\CheckinRepository;
-use App\Repository\ReservationRepository;
-use App\Service\ChatService;
 use App\Service\MailerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\UX\Turbo\TurboBundle;
 
 class ChatController extends AbstractController
 {
@@ -58,7 +51,7 @@ class ChatController extends AbstractController
             $em->flush();
             $mailerManager->sendMailNotification(
                 $lessor->getEmail(),
-                'front/emails/notification_message.html.twig',
+                'emails/notification_message.html.twig',
                 [
                     'message' => $message->getMessage(),
                     'sender' => $rented,
@@ -68,7 +61,7 @@ class ChatController extends AbstractController
             // envoyer une notification pour le message
             $mailerManager->sendMailNotification(
                 $rented->getEmail(),
-                'front/emails/notification_message.html.twig',
+                'emails/notification_message.html.twig',
                 [
                     'message' => $message->getMessage(),
                     'sender' => $lessor,
@@ -92,7 +85,7 @@ class ChatController extends AbstractController
 
             $mailerManager->sendMailNotification(
                 $receiverNotification->getEmail(),
-                'front/emails/notification_message.html.twig',
+                'emails/notification_message.html.twig',
                 [
                     'message' => $message->getMessage(),
                     'sender' => $senderNotification,

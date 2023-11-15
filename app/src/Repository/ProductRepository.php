@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Enum\ProductCategory;
 use App\Enum\ProductStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -153,5 +154,25 @@ class ProductRepository extends ServiceEntityRepository
         };
 
         return $qb;
+    }
+
+    /**
+     * Construit une requête de recherche
+     */
+    public function buildSearchQuery(array $filters = [], bool $isLessor = false): Query
+    {
+        $builder = $this
+            ->createQueryBuilder('p')
+        ->join('p.author', 'a');
+
+        if (!empty($filters['term']) && !$isLessor) {
+            $builder
+                ->andWhere('p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term')
+                ->setParameter('term', $filters['term'] . '%');
+        }
+
+        $builder->orderBy('p.title, p.createdAt', 'ASC');
+
+        return $builder->getQuery();
     }
 }

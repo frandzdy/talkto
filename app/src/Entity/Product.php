@@ -100,6 +100,9 @@ class Product
     #[ORM\Column(type: "smallint", enumType: ProductCategory::class)]
     private ProductCategory $category;
 
+    # Uniquement pour envoyer ce message par email
+    public ?string $responseRejected = null;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();

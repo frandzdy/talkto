@@ -4,10 +4,9 @@ namespace App\Controller\Front;
 
 use App\Entity\Picture;
 use App\Entity\Product;
-use App\Entity\User;
 use App\Enum\ProductCategory;
-use App\Form\ProductType;
-use App\Form\ProductReservationType;
+use App\Form\Front\ProductReservationType;
+use App\Form\Front\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;

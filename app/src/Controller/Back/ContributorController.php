@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use App\Entity\Contributor;
-use App\Form\ContributorType;
+use App\Form\Front\ContributorType;
 use App\Service\ContributorManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -72,7 +72,7 @@ class ContributorController extends AbstractController
         return $this->render(
             'back/contributor/edit.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form
             ]
         );
     }

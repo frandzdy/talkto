@@ -1,0 +1,168 @@
+<?php
+
+namespace App\Controller\Back;
+
+use App\Entity\Product;
+use App\Enum\ProductStatus;
+use App\Exporter\LessorExporter;
+use App\Form\Back\ProductFilterType;
+use App\Form\Back\ProductType;
+use App\Repository\ProductRepository;
+use App\Service\CustomerCompanyManager;
+use App\Service\MailerManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+/**
+ * Gestion des bailleurs
+ */
+#[Route(path: '/products', name: 'product_')]
+class ProductController extends AbstractController
+{
+    public const PRODUCTS_PER_PAGE = 50;
+    public const PRODUCTS_TERM_FILTER = 'product.filter';
+
+    /**
+     * Liste des bailleurs
+     */
+    #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
+    public function index(
+        Request $request,
+        ProductRepository $productRepository,
+        PaginatorInterface $paginator
+    ): Response {
+        $filtersFormSession = $request->getSession()->get(self::PRODUCTS_TERM_FILTER, null);
+        if (!$filtersFormSession) {
+            $filters = ['term' => $request->query->get('term', '')];
+        } else {
+            $filters = $filtersFormSession;
+        }
+        $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
+
+        $filterForm = $this->createForm(ProductFilterType::class, $filters);
+        if ($filterForm->handleRequest($request)->isSubmitted() && $filterForm->isValid()) {
+            $filters = $filterForm->getData() ?? [];
+            $request->getSession()->set(self::PRODUCTS_TERM_FILTER, $filters);
+        }
+
+        $query = $productRepository->buildSearchQuery($filters, true);
+
+        $paginator = $paginator->paginate(
+            $query,
+            $page,
+            self::PRODUCTS_PER_PAGE,
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'p.createdAt',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+                PaginatorInterface::DISTINCT => false
+            ]
+        );
+
+        return $this->render(
+            'back/product/index.html.twig',
+            [
+                'products' => $paginator,
+                'filterForm' => $filterForm->createView()
+            ]
+        );
+    }
+
+    /**
+     * Affichage d'une fiche bailleur
+     */
+    #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
+    public function show(
+        Product $product,
+        Request $request,
+        EntityManagerInterface $em,
+        MailerManager $mailerManager
+    ): Response {
+        $form = $this->createForm(ProductType::class, $product);
+
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Enregistrement effectué.');
+            $em->flush();
+
+            if ($product->getStatus() === ProductStatus::VALIDATE) {
+                $mailerManager->sendMailNotification(
+                    $product->getAuthor()->getEmail(),
+                    'emails/product_validation.html.twig',
+                    [
+                        'product' => $product,
+                        'user' => $product->getAuthor()
+                    ]
+                );
+            } else {
+                dump($form->getData());
+                $mailerManager->sendMailNotification(
+                    $product->getAuthor()->getEmail(),
+                    'emails/product_rejected.html.twig',
+                    [
+                        'product' => $product,
+                        'user' => $product->getAuthor(),
+                        'responseRejected' =>'ds '
+                    ]
+                );
+            }
+
+            return $this->redirectToRoute('back_product_show', ['id' => $product->getId()]);
+        }
+
+        return $this->render('back/product/show.html.twig', [
+            'product' => $product,
+            'form' => $form
+        ]);
+    }
+
+    /**
+     * Supprime d'un bailleur
+     */
+    #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Product $product, CustomerCompanyManager $customerCompanyManager): RedirectResponse
+    {
+        try {
+            $customerCompanyManager->removeCompany($product);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('back_product_index');
+    }
+
+    /**
+     * Génère un export de tous les bailleurs
+     */
+    #[Route(path: '/extract-product/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
+    public function export(
+        ProductRepository $productRepository,
+        string $typeFile,
+        LessorExporter $lessorExporter
+    ): NotFoundHttpException|Response {
+        $products = $productRepository->findAll();
+        $callable = 'exportAs' . strtoupper($typeFile);
+
+        if (is_callable($callable, true, $callableNameFunction)) {
+            $result = $lessorExporter->$callableNameFunction($products);
+        } else {
+            throw $this->createNotFoundException('Exporter Method not found');
+        }
+
+        return new Response(
+            $result['file'],
+            200,
+            [
+                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_produits.' . $typeFile . '"'
+            ]
+        );
+    }
+}
