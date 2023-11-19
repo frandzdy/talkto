@@ -14,40 +14,39 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col" class="text-center">Produit ID</th>
-                <th scope="col" class="text-center">Nom</th>
-                <th scope="col" class="text-center">Prix/mois</th>
-                <th scope="col" class="text-center">Etat</th>
+                <th scope="col" class="text-center">Titre</th>
+                <th scope="col" class="text-center">Prix/jours</th>
+                <th scope="col" class="text-center">Statut</th>
                 <th scope="col" class="text-center">Action</th>
             </tr>
             </thead>
             <tbody id="product-list">
             {% for product in results.results %}
                 <tr>
-                    <td class="text-center order__id">#3520</td>
+                    <!--<td class="text-center order__id">#3520</td>-->
                     <td class="text-center"><a href="{{ path('front_product_show', {'token': product.token}) }}"
-                                               class="order__title">{{ product.title }}</a></td>
+                                               class="order__title">{{ product.title|capitalize }}</a></td>
                     <td class="text-center">{{ product.amount }} €</td>
                     <td class="text-center">{{ product.status.label }}</td>
                     <td class="text-center">
                         <a href="{{ path('front_product_show', {'token': product.token}) }}"
                            class="order__view-btn open-product-modal"
                            data-lg-size="true"
-                           data-modal-title="Prévisualiser le produit {{ product.title }}"
-                           title="Prévisualiser le produit {{ product.title }}">Prévisualiser</a>
+                           data-modal-title="Prévisualiser le produit {{ product.title|capitalize }}"
+                           title="Prévisualiser le produit {{ product.title|capitalize }}">Prévisualiser</a>
                         <br>
                         <a href="{{ path('front_product_edit', {'token': product.token}) }}"
                            class="order__info-btn open-product-modal"
                            data-lg-size="true"
-                           title="Modification du produit {{ product.title }}"
-                           data-modal-title="Modification du produit {{ product.title }}"
+                           title="Modification du produit {{ product.title|capitalize }}"
+                           data-modal-title="Modification du produit {{ product.title|capitalize }}"
                         >
                             Modifier
                         </a>
                         <br>
                         <a href="{{ path('front_product_delete', {'token': product.token}) }}"
                            class="order__view-btn post-confirm"
-                           data-confirm-message="Etes-vous sur de vouloir supprimer le produit {{ product.title }} ?"
+                           data-confirm-message="Êtes-vous sur de vouloir supprimer le produit {{ product.title }} ?"
                            data-title="Suppression du produit {{ product.title }}"
                            data-button-text="Supprimer"
                            title="Suppression du produit {{ product.title }}"

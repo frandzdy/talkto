@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use App\Entity\Reservation;
+use App\Entity\Transaction;
+use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ProductCategory;
 use App\Enum\ProductStatus;
@@ -174,5 +176,68 @@ class ProductRepository extends ServiceEntityRepository
         $builder->orderBy('p.title, p.createdAt', 'ASC');
 
         return $builder->getQuery();
+    }
+
+    public function getTrends(?int $lat, ?int $lon, ?ProductCategory $productCategory = null, ?int $maxResult = 6): ?array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                '
+                    p,
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                       * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
+                       * sin(radians(a.lat))))) AS distance'
+            )
+            ->join('p.author', 'a')
+            ->join('p.pictures', 'pictures')
+            ->addSelect('pictures')
+            ->addSelect('a')
+            ->where('p.status = :productStatus')
+            ->andWhere('a.isStripeAccountActive = true')
+            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+            ->setParameter(':startDistance', 0)
+            ->setParameter(':endDistance', 100)
+            ->setParameter(':userLat', $lat ?: 48.866667)
+            ->setParameter(':userLon', $lon ?: 2.333333)
+            ->orderBy('p.numberView', 'ASC')
+            ->setMaxResults($maxResult)
+            ;
+
+        if ($productCategory) {
+            $qb->andWhere('p.category = :productCategory')
+                ->setParameter('productCategory', $productCategory)
+            ;
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLastestProduct(?int $lat, ?int $lon): ?array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                '
+                    p,
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                       * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
+                       * sin(radians(a.lat))))) AS distance'
+            )
+            ->join('p.author', 'a')
+            ->join('p.pictures', 'pictures')
+            ->addSelect('pictures')
+            ->addSelect('a')
+            ->where('p.status = :productStatus')
+            ->andWhere('a.isStripeAccountActive = true')
+            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+            ->setParameter(':startDistance', 0)
+            ->setParameter(':endDistance', 100)
+            ->setParameter(':userLat', $lat ?: 48.866667)
+            ->setParameter(':userLon', $lon ?: 2.333333)
+            ->orderBy('p.createdAt', 'ASC')
+            ->setMaxResults(10)
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 }

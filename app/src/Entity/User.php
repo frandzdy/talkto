@@ -197,6 +197,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "boolean")]
     private ?bool $isGuess = false;
 
+    /**
+     * @var \DateTime|null
+     */
+    #[ORM\Column()]
+    private ?\DateTime $lastDateConnexion = null;
+
     public function getFullname(): ?string
     {
         return sprintf('%s %s', strtoupper($this->lastname), $this->firstname);
@@ -598,5 +604,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $availableRoles = self::getAvailableRoles();
 
         return $availableRoles[$this->getRoles()[0]] ?? '';
+    }
+
+    public function getLastDateConnexion(): ?\DateTime
+    {
+        return $this->lastDateConnexion;
+    }
+
+    public function setLastDateConnexion(?\DateTime $lastDateConnexion = null): self
+    {
+        $this->lastDateConnexion = $lastDateConnexion;
+
+        return $this;
     }
 }

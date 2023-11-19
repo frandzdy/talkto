@@ -11,7 +11,7 @@ import 'jquery-confirm/css/jquery-confirm.css';
 import 'flatpickr/dist/flatpickr.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import './../../styles/front/front.scss';
-
+import 'slick-carousel/slick/slick-theme.scss';
 // start the Stimulus application
 import '../../bootstrap';
 
@@ -55,7 +55,7 @@ require('./services/vendor/jquery-3.6.0.min.js')
 require('./services/vendor/waypoints.min.js')
 require('./services/bootstrap.bundle.min.js')
 require('./services/metisMenu.min.js')
-require('./services/slick.min.js')
+import 'slick-carousel'
 require('./services/jquery.fancybox.min.js')
 require('./services/isotope.pkgd.min.js')
 require('./services/owl.carousel.min.js')

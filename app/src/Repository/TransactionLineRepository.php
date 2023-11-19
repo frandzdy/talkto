@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\TransactionLine;
+use App\Enum\ProductStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +64,34 @@ class TransactionLineRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getTopSales(?int $lat, ?int $lon)
+    {
+        $qb = $this->createQueryBuilder('tl')
+            ->select(
+                '
+                    tl,
+                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                       * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
+                       * sin(radians(a.lat))))) AS distance,
+                       count(Distinct(p.id)) as nbSales
+                    '
+            )
+            ->join('tl.product', 'p')
+            ->addSelect('p')
+            ->join('p.author', 'a')
+            ->addSelect('a')
+            ->groupBy('p.id')
+            ->where('p.status = :productStatus')
+            ->andWhere('a.isStripeAccountActive = true')
+            ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+            ->setParameter(':startDistance', 0)
+            ->setParameter(':endDistance', 100)
+            ->setParameter(':userLat', $lat ?: 48.866667)
+            ->setParameter(':userLon', $lon ?: 2.333333)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

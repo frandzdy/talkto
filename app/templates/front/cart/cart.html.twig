@@ -33,7 +33,7 @@
                                     <tr>
                                         <td class="product-thumbnail">
                                             <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
-                                                <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
+                                                <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('cart') }}"
                                                      alt="{{ product.pictureName }}"/>
                                             </a>
                                         </td>

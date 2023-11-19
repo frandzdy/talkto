@@ -8,6 +8,7 @@ use App\Enum\ProductCategory;
 use App\Form\Front\ProductReservationType;
 use App\Form\Front\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\FileUploadManager;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -21,6 +22,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProductController extends AbstractController
 {
+    public const MAX_RESULT = 4;
+
     /**
      * Affiche un produit en prévisualisation
      *
@@ -34,6 +37,9 @@ class ProductController extends AbstractController
     {
         $noteReview = 0;
         $product = $productRepository->findOneBy(['token' => $token]);
+        if (!$product) {
+            throw $this->createNotFoundException('Ce produit n\'existant pas.');
+        }
 
         return $this->render('front/product/show_preview.html.twig', compact('product', 'noteReview'));
     }
@@ -49,6 +55,9 @@ class ProductController extends AbstractController
     public function showDetails(string $token, ProductRepository $productRepository): Response
     {
         $product = $productRepository->findOneBy(['token' => $token]);
+        if (!$product) {
+            throw $this->createNotFoundException('Ce produit n\'existant pas.');
+        }
 
         return $this->render('front/product/show_preview_detail.html.twig', compact('product'));
     }
@@ -69,9 +78,18 @@ class ProductController extends AbstractController
         ProductRepository $productRepository,
         Request $request,
         ProductManager $productManager,
-        SessionInterface $session
+        SessionInterface $session,
+        EntityManagerInterface $em
     ): Response {
+        $user = $this->getUser();
+        $lat = $user ? $user->getLat() : $session->get('lat');
+        $lon = $user ? $user->getLon() : $session->get('lon');
         $product = $productRepository->findOneBy(['token' => $token]);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Ce produit n\'existant pas.');
+        }
+
         $data = [
             'date' => null,
             'quantity' => null
@@ -81,6 +99,11 @@ class ProductController extends AbstractController
         for ($i = 1; $i <= $quantityLeft + 1; $i++) {
             $choicesValue[$i] = $i;
         }
+        // on compte une vue
+        $product->setNumberView($product->getNumberView() + 1);
+        $em->flush();
+        // on récupère les tendances selon la catégorie du produit affiché
+        $trends = $productRepository->getTrends($lat, $lon, $product->getCategory(), self::MAX_RESULT);
 
         $options = [
             'quantityLeft' => $quantityLeft,
@@ -127,7 +150,7 @@ class ProductController extends AbstractController
             return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
         }
 
-        return $this->render('front/product/show_reservation_detail.html.twig', compact('product', 'quantityLeft', 'form'));
+        return $this->render('front/product/show_reservation_detail.html.twig', compact('product', 'quantityLeft', 'form', 'trends'));
     }
 
     #[Route('/produit-ajout', name: 'product_new')]
@@ -198,20 +221,22 @@ class ProductController extends AbstractController
 
     #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted('ROLE_SELLER')]
-    public function productPictureDelete(string $token, EntityManagerInterface $em): JsonResponse
+    public function productPictureDelete(string $token, EntityManagerInterface $em, FileUploadManager $fileUploadManager): JsonResponse
     {
         if ($picture = $em->getRepository(Picture::class)->findOneBy(['token' => $token])) {
-            $em->remove($picture);
-            $em->flush();
+            if ($fileUploadManager->removeFile('product_picture', $picture->getName())) {
+                $em->remove($picture);
+                $em->flush();
 
-            return $this->json(
-                [
-                    'success' => true,
-                ]
-            );
+                return $this->json(
+                    [
+                        'success' => true,
+                    ]
+                );
+            }
         }
 
-        return $this->json(['token' => null], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->json(['token' => $token], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     #[Route('/produit/categorie/{productCategory}', name: 'product_category', options: ['expose' => true], methods: [

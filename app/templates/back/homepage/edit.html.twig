@@ -1,0 +1,56 @@
+{% extends 'back/layout.html.twig' %}
+{% import "front/macros/macros.html.twig" as macros %}
+
+{% block title %}Configuration de la Home page - {{ parent() }}{% endblock %}
+{% block page_title %}Configuration de la Home page {% endblock %}
+
+{% set breadcrumbItems = {
+    'Dashboard': path('back_home_dashboard'),
+    'Configuration de la Home page': ''
+} %}
+
+{% block action_buttons %}
+    <a title="Retour sur le contenu" href="{{ path('back_home_dashboard') }}"
+       class="btn btn-xs btn-primary">
+        <i class="fa fa-arrow-left"></i>&nbsp; Retour
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="row" {{ stimulus_controller('back-homepage') }}>
+        <div class="col-xl-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Configuration de la Home page</h4>
+                </div>
+                <div class="panel-body">
+                    {{ form_start(form) }}
+                    <div class="row col-12">
+                        <div class="col-xs-12 col-lg-12">
+                            Sliders
+                            <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
+                                    data-action="click->back-homepage#onSlidersAdd">
+                                <i class="fas fa-plus "></i>
+                            </button>
+                            <div class="sliders-collection mt-3" data-prototype="{{ form.sliders.vars.prototype|e('html_attr') }}">
+                                {% for index, slider in form.vars.value.sliders %}
+                                    <div class="picture file-elt mt-1 mb-1 d-flex w-100">
+                                        <div class="w-100">
+                                            {{ slider.title }}
+                                        </div>
+                                        <button type="button" class="btn" data-action="click->product#onProductDelete"
+                                                data-token="{{ slider.token }}">
+                                            <i class="fa far fa-trash-alt text-danger"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

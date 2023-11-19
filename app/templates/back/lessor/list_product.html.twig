@@ -7,10 +7,9 @@
             <table class="user-company table table-striped m-b-0">
                 <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Titre</th>
-                    <th>Catégorie</th>
-                    <th>Montant Ttc</th>
+                    <th>Montant TTC</th>
+                    <th>Caution</th>
                     <th>Statut</th>
                     <th style="width: 50px;"></th>
                     <th style="width: 50px;"></th>
@@ -19,28 +18,27 @@
                 <tbody>
                 {% for product in products %}
                     <tr>
-                        <td>{{ product.id|default('') }}</td>
                         <td>{{ product.title|default('') }}</td>
-                        <td>{{ product.category.label|default('') }}</td>
                         <td>{{ product.amount|default('') }} €</td>
+                        <td>{{ product.caution|default('') }} €</td>
                         <td>{{ product.status.label|default('') }}</td>
                         <td class="pl-4">
-                            {#                                <a title="Voir la réservation" #}
-                            {#                                   href="{{ path('back_company_edit_user_company', {'user': account.user.id, 'company': account.company.id}) }}" #}
-                            {#                                   class="btn btn-xs btn-primary open-back-modal" #}
-                            {#                                   data-modal-title="Edition d'un utilisateur"> #}
-                            {#                                    <i class="fa fa-pencil-alt"></i> #}
-                            {#                                </a> #}
+                            <a title="Voir le produit"
+                               href="{{ path('back_product_show', {'id': product.id}) }}"
+                               class="btn btn-xs btn-primary open-back-modal"
+                               data-modal-title="Voir le produit">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
                         </td>
                         <td class="pl-4">
-                            {#                                <a title="Suppression" #}
-                            {#                                   href="{{ path('back_company_delete_user_company', {'customerCompany': customerCompany.id, 'customerAccount' : account.id}) }}" #}
-                            {#                                   class="btn btn-xs btn-danger post-confirm" #}
-                            {#                                   data-button-text="Suppression" #}
-                            {#                                   data-title="Suppression" #}
-                            {#                                   data-confirm-message="Souhaitez-vous supprimer cet élément ?"> #}
-                            {#                                    <i class="fa fa-trash"></i> #}
-                            {#                                </a> #}
+                            <a title="Suppression"
+                               href="{{ path('back_product_delete', {'id' : product.id}) }}"
+                               class="btn btn-xs btn-danger post-confirm"
+                               data-button-text="Suppression"
+                               data-title="Suppression"
+                               data-confirm-message="Souhaitez-vous supprimer cet élément ?">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

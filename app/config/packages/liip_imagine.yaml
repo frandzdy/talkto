@@ -15,11 +15,26 @@ liip_imagine:
             filters:
                 scale:
                     dim: [ 316, 403 ]
+        product_details:
+            quality: 85
+            filters:
+                scale:
+                    dim: [ 600, 600 ]
+        product_modal:
+            quality: 85
+            filters:
+                scale:
+                    dim: [ 403, 403 ]
+        product_trends:
+            quality: 85
+            filters:
+                scale:
+                    dim: [ 324, 324 ]
         product_miniature:
             quality: 85
             filters:
                 scale:
-                    dim: [ 102, 130 ]
+                    dim: [ 102, 102 ]
         profil_collection:
             quality: 75
             filters:

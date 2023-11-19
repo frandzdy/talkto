@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Transaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,4 +65,25 @@ class TransactionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * Construit une requête de recherche
+     */
+    public function buildSearchQuery(array $filters = []): Query
+    {
+        $builder = $this
+            ->createQueryBuilder('t')
+            ->join('t.author', 'a')
+            ->join('t.transactionLines', 'tl');
+
+        if (!empty($filters['term'])) {
+            $builder
+                ->andWhere('t.reference LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term')
+                ->setParameter('term', $filters['term'] . '%');
+        }
+
+        $builder->orderBy('t.reference', 'ASC');
+
+        return $builder->getQuery();
+    }
 }

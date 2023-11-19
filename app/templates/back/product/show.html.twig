@@ -1,7 +1,7 @@
 {% extends 'back/layout.html.twig' %}
 
 {% block title %}{{ product.title|upper }} - {{ parent() }}{% endblock %}
-{% block page_title %}Fiche produit {{ product.title|upper }} {% endblock %}
+{% block page_title %}Fiche produit n° {{ product.id }} {% endblock %}
 
 {% set breadcrumbItems = {
     'Produits': path('back_product_index'),
@@ -9,7 +9,7 @@
 } %}
 
 {% block action_buttons %}
-    <a title="retour sur le contenu" href="{{ path('back_product_index') }}"
+    <a title="Retour sur le contenu" href="{{ path('back_product_index') }}"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -36,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >Propriétaire :</label>
-                                <div class="form-control"><a href="{{ path('back_customer_show', {'id': product.id}) }}">{{ product.author.fullname }}</a></div>
+                                <div class="form-control"><a href="{{ path('back_lessor_show', {'id': product.author.id }) }}">{{ product.author.fullname }}</a></div>
                             </div>
                             <div class="form-group">
                                 <label for="">Statut :</label>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <div class="row col-12">
-                        <div class="col-xs-12 col-lg-6">
+                        <div class="col-xs-12 col-lg-12">
                             <div class="form-group">
                                 <label for="">Description :</label>
                                 <div class="wysiwyg">{{ product.description|raw|purify }}</div>

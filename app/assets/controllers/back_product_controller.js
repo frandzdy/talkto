@@ -12,38 +12,39 @@ import $ from "jquery";
  */
 export default class extends Controller {
     connect() {
-        this.confirmPictureDelete()
     }
 
     /**
      * Redirection sur un tr de la fiche client
      */
-    confirmPictureDelete() {
-        $("img.closing-picture").each(function (index) {
-            $(this).on("click", function (e) {
-                e.stopPropagation()
-                e.preventDefault()
-                window.location.href = $(this).closest('tr').data('href');
-                $.confirm({
-                    title: 'Suppression d\'une photo',
-                    content: 'Souhaitez-vous supprimer cette photo ?',
-                    type: 'red',
-                    typeAnimated: true,
-                    buttons: {
-                        confirm: {
-                            text: 'Supprimer',
-                            btnClass: 'btn-red',
-                            action: () => {
-                                toastr.success('Suppression effectué.')
-                                window.location.reload(true)
-                            }
-                        },
-                        close: {
-                            text: "Annuler"
+    confirmPictureDelete(event) {
+        event.preventDefault()
+        const token = $(event.currentTarget).data('token')
+        if (token) {
+            $.confirm({
+                title: 'Suppression d\'une photo',
+                content: 'Souhaitez-vous supprimer cette photo de ce produit ?',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        text: 'Supprimer',
+                        btnClass: 'btn-red',
+                        action: () => {
+                            $.post(Routing.generate('front_product_picture_delete', {'token': token}), null, function (data) {
+                                $('#nav-' + token + '-tab').remove();
+                                $('#nav-' + token).remove();
+                                elt.parentElement.remove();
+                                toastr.success('Image supprimé !')
+                            });
+                            this.reindex()
                         }
+                    },
+                    close: {
+                        text: "Annuler"
                     }
-                });
-            });
-        });
+                }
+            })
+        }
     }
 }

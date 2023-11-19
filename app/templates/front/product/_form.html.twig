@@ -12,7 +12,7 @@
                         {% endif %}
                         <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel" aria-labelledby="nav-{{ picture.token }}-tab">
                             <div class="product__modal-img w-img">
-                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}" alt="">
+                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}" alt="">
                             </div>
                         </div>
                     {% endfor %}

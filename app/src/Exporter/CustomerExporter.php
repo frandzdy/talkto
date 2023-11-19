@@ -97,7 +97,7 @@ class CustomerExporter
             $sheet->setCellValue('G' . $i, ($customer->getIsGuess()) ? 'Oui' : 'Non');
             $sheet->setCellValue('H' . $i, $customer->getCreatedAt()->format('d-m-Y'));
             $sheet->setCellValue('I' . $i, $customer->getUpdatedAt()->format('d-m-Y'));
-            $sheet->setCellValue('J' . $i, $customer->getUpdatedAt()->format('d-m-Y'));
+            $sheet->setCellValue('J' . $i, $customer->getLastDateConnexion()->format('d-m-Y'));
             $i++;
         }
     }

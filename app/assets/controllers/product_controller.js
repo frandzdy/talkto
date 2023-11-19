@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
+import bigPicture from "bigpicture";
 /**
  * Gestion des justificatifs
  */

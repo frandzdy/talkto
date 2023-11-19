@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     use TraitToken, TraitAuthor, TraitTimestamp;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,7 +58,14 @@ class Product
     /**
      * @var UploadedFile[]
      */
-    #[Assert\All([new Assert\File(maxSize: 5242880, mimeTypes: "image/*", maxSizeMessage: "Document trop lourd.", mimeTypesMessage: "Format Image uniquement autorisé.")])]
+    #[Assert\All([
+        new Assert\File(
+            maxSize: 5242880,
+            mimeTypes: "image/*",
+            maxSizeMessage: "Document trop lourd.",
+            mimeTypesMessage: "Format Image uniquement autorisé."
+        )
+    ])]
     #[Assert\Count(max: 5, maxMessage: "5 fichiers maximums.")]
     public array $uploadedPictures = [];
 
@@ -102,6 +110,12 @@ class Product
 
     # Uniquement pour envoyer ce message par email
     public ?string $responseRejected = null;
+
+    #[ORM\ManyToOne(inversedBy: 'slides')]
+    private ?HomePage $homePage = null;
+
+    #[ORM\Column(type: Types::INTEGER, length: 11)]
+    private ?int $numberView = 0;
 
     public function __construct()
     {
@@ -315,5 +329,27 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getHomePage(): ?HomePage
+    {
+        return $this->homePage;
+    }
+
+    public function setHomePage(?HomePage $homePage): static
+    {
+        $this->homePage = $homePage;
+
+        return $this;
+    }
+
+    public function getNumberView(): ?int
+    {
+        return $this->numberView;
+    }
+
+    public function setNumberView(?int $numberView): void
+    {
+        $this->numberView = $numberView;
     }
 }

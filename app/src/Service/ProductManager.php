@@ -56,6 +56,8 @@ class ProductManager
             }
         }
 
+        $product->setStatus(ProductStatus::WAITING);
+
         if (!$update) {
             $this->entityManager->persist($product);
         }

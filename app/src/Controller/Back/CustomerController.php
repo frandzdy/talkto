@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\User;
 use App\Exporter\CustomerExporter;
 use App\Form\Back\UserFilterType;
+use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use App\Service\CustomerCompanyManager;
@@ -72,9 +73,10 @@ class CustomerController extends AbstractController
      * Modification d'une fiche client
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
-    public function show(User $customer, ReservationRepository $reservationRepository): Response
+    public function show(User $customer, ReservationRepository $reservationRepository, ProductRepository $productRepository): Response
     {
         $reservations = $reservationRepository->findBy(['author' => $customer->getId()]);
+
         return $this->render('back/customer/show.html.twig', [
             'customer' => $customer,
             'reservations' => $reservations

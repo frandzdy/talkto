@@ -120,10 +120,6 @@ export default class extends Controller {
 
     }
 
-    login() {
-
-    }
-
     updateCart() {
         this.cart = [];
         let listProducts = $('#cart-products').find('tr');
@@ -133,7 +129,6 @@ export default class extends Controller {
             let startDate = $(listProducts[i]).find('#startDate').val()
             this.cart.push({token: token, quantity: quantity, startDate: startDate})
         }
-        console.log(this.cart)
     }
 
     submitUpdateCart() {

@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\Product;
 use App\Enum\ProductStatus;
 use App\Exporter\LessorExporter;
+use App\Exporter\ProductExporter;
 use App\Form\Back\ProductFilterType;
 use App\Form\Back\ProductType;
 use App\Repository\ProductRepository;
@@ -145,13 +146,13 @@ class ProductController extends AbstractController
     public function export(
         ProductRepository $productRepository,
         string $typeFile,
-        LessorExporter $lessorExporter
+        ProductExporter $productExporter
     ): NotFoundHttpException|Response {
         $products = $productRepository->findAll();
         $callable = 'exportAs' . strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $lessorExporter->$callableNameFunction($products);
+            $result = $productExporter->$callableNameFunction($products);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

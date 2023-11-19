@@ -9,7 +9,7 @@
 } %}
 
 {% block action_buttons %}
-    <a title="retour sur le contenu" href="{{ path('back_customer_index') }}"
+    <a title="Retour sur le contenu" href="{{ path('back_customer_index') }}"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <!-- include list reservation-->
-               {{ include('back/customer/list_reservation.html.twig') }}
+               {{ include('back/customer/_list_reservation.html.twig') }}
                 <!-- end include -->
                 <!-- include delete button -->
                 {{ include('back/customer/_delete_form.html.twig') }}

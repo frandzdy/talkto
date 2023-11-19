@@ -7,6 +7,12 @@
             <span>Tableau de bord</span>
         </a>
     </li>
+    <li class="{% if currentRoute starts with 'back_homepage' %}active{% endif %}">
+        <a title="Clients" href="{{ path('back_homepage_edit') }}">
+            <i class="fas fa-home"></i>
+            <span>HomePage</span>
+        </a>
+    </li>
     <li class="{% if currentRoute starts with 'back_product' %}active{% endif %}">
         <a title="Clients" href="{{ path('back_product_index') }}">
             <i class="fas fa-box-open"></i>
@@ -23,6 +29,12 @@
         <a title="Clients" href="{{ path('back_customer_index') }}">
             <i class="fas fa-user"></i>
             <span>Clients</span>
+        </a>
+    </li>
+    <li class="{% if currentRoute starts with 'back_transaction' %}active{% endif %}">
+        <a title="Clients" href="{{ path('back_transaction_index') }}">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>Transactions</span>
         </a>
     </li>
     {# <i class="fas fa-money-bill-wave"></i> #}

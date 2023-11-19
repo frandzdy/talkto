@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Service\StripeManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +31,11 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'front_login';
     public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private StripeManager $stripeManager)
-    {
-    }
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private StripeManager $stripeManager,
+        private EntityManagerInterface $em
+    ) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -56,12 +59,14 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // contrôle si on est vendeur et que le compte stripe est actif
+        // contrôle si on est vendeur et que le compte stripe n'est pas actif
+        // alors, on le redirige vers stripe
         /**
          * @var User $user
          */
         $user = $token->getUser();
-
+        $user->setLastDateConnexion(new \DateTime());
+        $this->em->flush();
         if (in_array(User::ROLE_SELLER, $user->getRoles()) && !$user->getIsStripeAccountActive()) {
             $accountLink = $this->stripeManager->createAccountLink($user);
 
@@ -72,7 +77,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($this->urlGenerator->generate('front_stripe_payment_intent'));
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('front_home'));
+        return new RedirectResponse($this->getLoginUrl($request));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
@@ -89,7 +94,6 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
     {
         // si on se connecte depuis la page de paiement
         if (str_contains($request->headers->get('referer'), 'paiement')) {
-
             return $this->urlGenerator->generate(self::LOGIN_CART_ROUTE);
         }
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

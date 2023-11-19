@@ -2,20 +2,22 @@
     <div class="panel-heading">
         <h4 class="panel-title">Photo(s)</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" {{ stimulus_controller('bigpicture') }}>
         <div class="table-responsive mb-4">
             <div class="product__modal-box">
-                <div class="tab-content mb-20" id="nav-tabContent">
+                <div class="tab-content mb-20 bp-gallery" id="nav-tabContent">
                     {% if product.pictures.count > 0 %}
                         {% for index, picture in product.pictures %}
                             {% set active = '' %}
                             {% if index == 0 %}
                                 {% set active = 'active' %}
                             {% endif %}
-                            <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
+                            <div data-action="click->bigpicture#loadGalleryModal"
+                                 class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
                                  aria-labelledby="nav-{{ picture.token }}-tab">
                                 <div class="product__modal-img w-img">
-                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}"
+                                    <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
                                          alt="">
                                 </div>
                             </div>
@@ -30,17 +32,20 @@
                                 {% if index == 0 %}
                                     {% set active = 'active' %}
                                 {% endif %}
-                                <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab"
+                                <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab"
+                                   data-toggle="tab"
                                    href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                    aria-selected="true">
                                     <div class="product__nav-img w-img">
                                         <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
                                              alt="{{ picture.name }}">
-                                        <span class="closing-picture" @onClick="">x
-                                        <i class="fal fa-window-close"></i>
-                                        </span>
+
                                     </div>
                                 </a>
+                                <span data-action="click->back-product#confirmPictureDelete"
+                                      data-token="{{ picture.token }}">
+                                    <i class="fa far fa-trash-alt text-danger"></i>
+                                </span>
                             {% endfor %}
                         {% endif %}
                     </div>

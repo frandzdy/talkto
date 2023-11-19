@@ -48,7 +48,7 @@ class RecaptchaManager
                 return false;
             }
         } catch (\Exception $e) {
-            $this->logger->error('GOOGLE RECAPTCHA ERROR', $e->getMessage());
+            $this->logger->error('GOOGLE RECAPTCHA ERROR', ['message' => $e->getMessage()]);
 
             return false;
         }
