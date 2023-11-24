@@ -5,42 +5,66 @@ liip_imagine:
     twig:
         mode: lazy
     filter_sets:
+        # profil filters
         profil:
             quality: 85
             filters:
-              scale:
-                  dim: [ 453, 453 ]
-        product:
+                downscale:
+                    dim: [ 315, 315 ]
+        profil_miniature:
             quality: 85
             filters:
-                scale:
-                    dim: [ 316, 403 ]
-        product_details:
-            quality: 85
+                thumbnail: { size: [ 67, 67 ], mode: outbound }
+
+        ## home page filters
+        home_slider:
+            quality: 90
             filters:
-                scale:
-                    dim: [ 600, 600 ]
+                downscale:
+                    dim: [ 1920, 933 ]
+        home_under_slider:
+            quality: 90
+            filters:
+                downscale:
+                    dim: [ 376, 233 ]
+        home_mid:
+            quality: 90
+            filters:
+                downscale:
+                    dim: [ 950, 457 ]
+        home_latest:
+            quality: 90
+            filters:
+                downscale:
+                    dim: [ 240, 125 ]
+
+        # product filters
         product_modal:
             quality: 85
             filters:
-                scale:
-                    dim: [ 403, 403 ]
-        product_trends:
+                downscale:
+                    dim: [ 316, 403 ]
+        product_modal_miniature:
             quality: 85
             filters:
-                scale:
-                    dim: [ 324, 324 ]
+                downscale:
+                    dim: [ 102, 130 ]
+        product_trends_or_sale:
+            quality: 85
+            filters:
+                downscale:
+                    dim: [ 270, 344 ]
+        product_details:
+            quality: 85
+            filters:
+                downscale:
+                    dim: [ 470, 600 ]
+        product_miniature_details:
+            quality: 85
+            filters:
+                downscale:
+                    dim: [ 90, 115 ]
         product_miniature:
             quality: 85
             filters:
-                scale:
-                    dim: [ 102, 102 ]
-        profil_collection:
-            quality: 75
-            filters:
-                scale:
-                    dim: [ 453, 453 ]
-        miniature:
-            quality: 75
-            filters:
-                thumbnail  : { size : [67, 67], mode : outbound }
+                thumbnail: { size: [ 130, 130 ], mode: outbound }

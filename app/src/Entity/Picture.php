@@ -22,6 +22,9 @@
         #[ORM\Column(length: 255)]
         private ?string $name = null;
 
+        #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'pictures')]
+        private ?Product $product = null;
+
         /**
          * @return int|null
          */
@@ -46,6 +49,18 @@
         {
             $this->name = $name;
             
+            return $this;
+        }
+
+        public function getProduct(): ?Product
+        {
+            return $this->product;
+        }
+
+        public function setProduct(?Product $product): self
+        {
+            $this->product = $product;
+
             return $this;
         }
     }

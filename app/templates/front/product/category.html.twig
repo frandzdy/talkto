@@ -58,8 +58,10 @@
                                         <div id="slider-range"></div>
                                         <div>
                                             <label for="amount">Prix :</label>
-                                            <input type="text" style="width: 121px" id="amount" value="{{ data.amount }}" readonly>
-                                            <input type="hidden" name="amount" id="amount-value" value="{{ data.amount }}" readonly>
+                                            <input type="text" style="width: 121px" id="amount"
+                                                   value="{{ data.amount }}" readonly>
+                                            <input type="hidden" name="amount" id="amount-value"
+                                                   value="{{ data.amount }}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -73,8 +75,10 @@
                                         <div id="slider-range-distance"></div>
                                         <div>
                                             <label for="amount">Km :</label>
-                                            <input type="text" style="width: 121px" id="distance" value="{{ data.distance }}" readonly>
-                                            <input type="hidden" name="distance" id="distance-value" value="{{ data.distance }}" readonly>
+                                            <input type="text" style="width: 121px" id="distance"
+                                                   value="{{ data.distance }}" readonly>
+                                            <input type="hidden" name="distance" id="distance-value"
+                                                   value="{{ data.distance }}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -228,11 +232,21 @@
                                 <div class="shop__header-right d-flex align-items-center justify-content-between justify-content-sm-end">
                                     <div class="sort-wrapper mr-30 pr-25 p-relative">
                                         <select name="sortedBy" {{ stimulus_action('commun', 'onSortedBy', 'change') }}>
-                                            <option value="1" {{ data.sortedBy == 1 ? 'selected' : '' }}>Trie par défaut</option>
-                                            <option value="2" {{ data.sortedBy == 2 ? 'selected' : '' }}>Du moins chère au plus chère</option>
-                                            <option value="3" {{ data.sortedBy == 3 ? 'selected' : '' }}>Du plus chère au moins chère</option>
-                                            <option value="4" {{ data.sortedBy == 4 ? 'selected' : '' }}>Par ordre alphabétique croissant</option>
-                                            <option value="5" {{ data.sortedBy == 5 ? 'selected' : '' }}>Par ordre alphabétique décroissant</option>
+                                            <option value="1" {{ data.sortedBy == 1 ? 'selected' : '' }}>Trie par
+                                                défaut
+                                            </option>
+                                            <option value="2" {{ data.sortedBy == 2 ? 'selected' : '' }}>Du moins chère
+                                                au plus chère
+                                            </option>
+                                            <option value="3" {{ data.sortedBy == 3 ? 'selected' : '' }}>Du plus chère
+                                                au moins chère
+                                            </option>
+                                            <option value="4" {{ data.sortedBy == 4 ? 'selected' : '' }}>Par ordre
+                                                alphabétique croissant
+                                            </option>
+                                            <option value="5" {{ data.sortedBy == 5 ? 'selected' : '' }}>Par ordre
+                                                alphabétique décroissant
+                                            </option>
                                         </select>
                                     </div>
                                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -260,11 +274,14 @@
                                                     <div class="product__thumb">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
                                                                  alt="{{ pictureName }}">
-                                                            <img class="product__thumb-2"
-                                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
-                                                                 alt="{{ pictureName }}">
+                                                            {% if product[0].pictures.count > 1 %}
+                                                                {% set pictureName = product[0].pictures.next.name %}
+                                                                <img class="product__thumb-2"
+                                                                     src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                                                     alt="{{ pictureName }}">
+                                                            {% endif %}
                                                         {% else %}
                                                             <img src="" alt="">
                                                             <img class="product__thumb-2" src="" alt="">
@@ -327,11 +344,14 @@
                                                     <div class="product__thumb">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
                                                                  alt="{{ pictureName }}">
-                                                            <img class="product__thumb-2"
-                                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
-                                                                 alt="{{ pictureName }}">
+                                                            {% if product[0].pictures.count > 1 %}
+                                                                {% set pictureName = product[0].pictures.next.name %}
+                                                                <img class="product__thumb-2"
+                                                                     src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                                                     alt="{{ pictureName }}">
+                                                            {% endif %}
                                                         {% else %}
                                                             <img src="" alt="">
                                                             <img class="product__thumb-2" src="" alt="">
@@ -347,7 +367,7 @@
                                                             <div class="product__price-2 mb-10">
                                                                 <span>{{ product[0].amount }} €</span>
                                                                 <!-- <span class="old-price">$96.00</span> -->
-{#                                                                <span class="old-price">{{ product.distance }} km</span>#}
+                                                                {#                                                                <span class="old-price">{{ product.distance }} km</span> #}
                                                             </div>
                                                             <p>{{ product[0].shortDescription }}</p>
                                                         </div>

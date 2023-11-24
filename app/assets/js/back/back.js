@@ -13,6 +13,8 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
+import * as Turbo from '@hotwired/turbo';
+
 import toastr from 'toastr';
 
 toastr.options.preventDuplicates = true;

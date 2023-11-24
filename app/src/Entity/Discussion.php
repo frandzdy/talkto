@@ -53,7 +53,7 @@ class Discussion
     }
 
     /**
-     * @return Collection|user[]
+     * @return Collection|User[]
      */
     public function getUsers(): Collection
     {

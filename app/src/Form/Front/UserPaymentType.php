@@ -51,7 +51,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Téléphone *',
                                 'maxlength' => 20,
-                                'autocomplete' => 'tel',
                                 'disabled' => 'disabled'
                             ]
                     ]
@@ -66,7 +65,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Adresse *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'address-line1',
                                 'disabled' => 'disabled'
                             ]
                     ]
@@ -80,7 +78,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Appartement, étage, etc.',
                                 'maxlength' => 255,
-                                'autocomplete' => 'address-line2',
                                 'disabled' => 'disabled'
                             ],
                         'required' => false
@@ -94,7 +91,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Code postal *',
                                 'maxlength' => 5,
-                                'autocomplete' => 'postal-code',
                                 'disabled' => 'disabled'
                             ]
                     ]
@@ -106,7 +102,6 @@ class UserPaymentType extends AbstractType
                         'attr' =>
                             [
                                 'placeholder' => 'Ville *',
-                                'autocomplete' => 'city',
                                 'maxlength' => 255,
                                 'disabled' => 'disabled'
                             ]
@@ -131,7 +126,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Nom *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'family-name',
                                 'disabled' => 'disabled'
                             ]
                     ]
@@ -145,7 +139,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Prénom *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'given-name',
                                 'disabled' => 'disabled'
                             ]
                     ]
@@ -158,7 +151,6 @@ class UserPaymentType extends AbstractType
                         'attr' =>
                             [
                                 'placeholder' => 'E-mail *',
-                                'autocomplete' => 'email',
                                 'maxlength' => 255,
                                 'disabled' => 'disabled'
                             ]
@@ -189,7 +181,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Téléphone *',
                                 'maxlength' => 20,
-                                'autocomplete' => 'tel',
                             ]
                     ]
                 )
@@ -203,7 +194,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Adresse *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'address-line1',
                             ]
                     ]
                 )->add(
@@ -216,7 +206,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Appartement, étage, etc.',
                                 'maxlength' => 255,
-                                'autocomplete' => 'address-line2',
                             ],
                         'required' => false
                     ]
@@ -229,7 +218,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Code postal *',
                                 'maxlength' => 5,
-                                'autocomplete' => 'postal-code',
                             ]
                     ]
                 )->add(
@@ -240,7 +228,6 @@ class UserPaymentType extends AbstractType
                         'attr' =>
                             [
                                 'placeholder' => 'Ville *',
-                                'autocomplete' => 'address-level2',
                                 'maxlength' => 255,
                             ]
                     ]
@@ -263,7 +250,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Nom *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'family-name',
                             ]
                     ]
                 )
@@ -276,7 +262,6 @@ class UserPaymentType extends AbstractType
                             [
                                 'placeholder' => 'Prénom *',
                                 'maxlength' => 255,
-                                'autocomplete' => 'given-name',
                             ]
                     ]
                 )
@@ -288,7 +273,6 @@ class UserPaymentType extends AbstractType
                         'attr' =>
                             [
                                 'placeholder' => 'E-mail *',
-                                'autocomplete' => 'email',
                                 'maxlength' => 255,
                             ]
                     ]
@@ -297,19 +281,32 @@ class UserPaymentType extends AbstractType
                     RepeatedType::class,
                     [
                         'type' => PasswordType::class,
-                        'first_options' => [
+                        'options' =>
+                            [
+                                'toggle' => true,
+                            ],
+                        'first_options' =>
+                            [
                             'label' => 'Mot de passe',
-                            'label_attr' => ['class' => 'form-text text-muted'],
+                            'label_attr' =>
+                                [
+                                    'class' => 'form-text text-muted'
+                                ],
                             'hash_property_path' => 'password',
-                            'attr' => [
+                            'attr' =>
+                                [
                                 'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
                                 'autocomplete' => 'new-password',
                                 'maxlength' => 255
                             ],
                         ],
+
                         'second_options' => [
                             'label' => 'Confirmer votre mot de passe',
-                            'attr' => ['maxlength' => 255, 'autocomplete' => 'new-password'],
+                            'attr' =>
+                                [
+                                    'maxlength' => 255, 'autocomplete' => 'new-password'
+                                ],
                         ],
                         'mapped' => false,
                         'invalid_message' => 'Les 2 mots de passe doivent être identiques.',

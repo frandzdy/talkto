@@ -38,7 +38,7 @@
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="true">
                                                     <div class="product__nav-img w-img">
                                                         <img data-bp=""
-                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
+                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
                                                              alt="{{ picture.name }}">
                                                     </div>
                                                 </a>
@@ -60,7 +60,7 @@
                                              aria-labelledby="pro-{{ picture.token }}-tab">
                                             <div class="product__modal-img product__thumb w-img">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
-                                                     src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product') }}"
+                                                     src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
                                                      alt="{{ picture.name }}">
                                                 {#                                                <div class="product__sale "> #}
                                                 {#                                                    <span class="new">new</span> #}

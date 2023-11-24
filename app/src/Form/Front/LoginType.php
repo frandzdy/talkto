@@ -53,7 +53,8 @@
                             [
                                 new NotBlank(['message' => 'Information requises.']),
                                 new Email(['message' => 'Information requises.'])
-                            ]
+                            ],
+                        'toggle' => true,
                     ]
                 );
         }

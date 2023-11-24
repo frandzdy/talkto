@@ -46,11 +46,27 @@ class ContributorType extends AbstractType
                     'type' => PasswordType::class,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                     'required' => count($options['validation_groups']) > 1,
-                    'first_options' => [
-                        'label' => 'Mot de passe',
-                        'attr' => ['placeholder' => 'Au moins 8 caractères, lettres, 1 chiffre, 1 symbole', 'maxlength' => 255],
-                    ],
-                    'second_options' => ['label' => 'Confirmation du mot de passe', 'attr' => ['maxlength' => 255]],
+                    'options' =>
+                        [
+                            'toggle' => true,
+                        ],
+                    'first_options' =>
+                        [
+                            'label' => 'Mot de passe',
+                            'attr' =>
+                                [
+                                    'placeholder' => 'Au moins 8 caractères, lettres, 1 chiffre, 1 symbole',
+                                    'maxlength' => 255
+                                ],
+                        ],
+                    'second_options' =>
+                        [
+                            'label' => 'Confirmation du mot de passe',
+                            'attr' =>
+                                [
+                                    'maxlength' => 255
+                                ],
+                        ],
                     'constraints' => [new PasswordRequirements()],
                 ]
             );

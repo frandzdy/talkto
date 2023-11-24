@@ -19,38 +19,83 @@
 {% block content %}
     <div class="row" {{ stimulus_controller('back-homepage') }}>
         <div class="col-xl-12">
+            {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Configuration de la Home page</h4>
+                    <h4 class="panel-title">Sliders</h4>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            title="Ajouter des produits au slider"
+                            data-action="click->back-homepage#onSlidersAdd">
+                        Ajouter <i class="fas fa-plus "></i>
+                    </button>
                 </div>
                 <div class="panel-body">
-                    {{ form_start(form) }}
                     <div class="row col-12">
-                        <div class="col-xs-12 col-lg-12">
-                            Sliders
-                            <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
-                                    data-action="click->back-homepage#onSlidersAdd">
-                                <i class="fas fa-plus "></i>
-                            </button>
-                            <div class="sliders-collection mt-3" data-prototype="{{ form.sliders.vars.prototype|e('html_attr') }}">
-                                {% for index, slider in form.vars.value.sliders %}
-                                    <div class="picture file-elt mt-1 mb-1 d-flex w-100">
-                                        <div class="w-100">
-                                            {{ slider.title }}
-                                        </div>
-                                        <button type="button" class="btn" data-action="click->product#onProductDelete"
-                                                data-token="{{ slider.token }}">
-                                            <i class="fa far fa-trash-alt text-danger"></i>
-                                        </button>
-                                    </div>
-                                {% endfor %}
-                            </div>
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.sliders1) }}
+                            {{ form_errors(form.sliders1) }}
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.sliders2) }}
+                            {{ form_errors(form.sliders2) }}
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.sliders3) }}
+                            {{ form_errors(form.sliders3) }}
                         </div>
                     </div>
-                    {{ form_rest(form) }}
-                    {{ form_end(form) }}
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">Under Sliders</h4>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            title="Ajouter des photos à votre produit"
+                            data-action="click->back-homepage#onUnderSlidersAdd">
+                        Ajouter <i class="fas fa-plus "></i>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="row col-12">
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.underSliders1) }}
+                            {{ form_errors(form.underSliders1) }}
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.underSliders2) }}
+                            {{ form_errors(form.underSliders2) }}
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            {{ form_widget(form.underSliders3) }}
+                            {{ form_errors(form.underSliders3) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">Mids</h4>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            title="Ajouter des photos à votre produit"
+                            data-action="click->back-homepage#onMidsAdd">
+                        Ajouter <i class="fas fa-plus "></i>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="row col-12">
+                        <div class="col-xs-12 col-lg-6">
+                            {{ form_widget(form.mids1) }}
+                            {{ form_errors(form.mids1) }}
+                        </div>
+                        <div class="col-xs-12 col-lg-6">
+                            {{ form_widget(form.mids2) }}
+                            {{ form_errors(form.mids2) }}
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="actions mt-4 text-center col-12 pb-2">
+                <button type="submit" class="btn btn-primary" formnovalidate>Valider le produit</button>
+            </div>
+            {{ form_end(form) }}
         </div>
+    </div>
+    </div>
     </div>
 {% endblock %}

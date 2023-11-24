@@ -14,11 +14,9 @@ import $ from "jquery";
 export default class extends Controller {
     static targets = ['container', 'modal'];
     connect() {
-        document.addEventListener('turbo:load', _ => {
-            $.when($('#page-loader').addClass('d-none')).done(() => {
-                $('#page-container').addClass('show');
-            });
-        })
+        $.when($('#page-loader').addClass('d-none')).done(() => {
+            $('#page-container').addClass('show');
+        });
 
         $('[data-toggle="tooltip"]').tooltip();
         $(this.containerTarget)
@@ -227,6 +225,7 @@ export default class extends Controller {
                 console.log(fieldVal);
                 if (fieldVal != undefined || fieldVal != "") {
                     $(this).next(".custom-file-label").text(fieldVal);
+                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
                 }
             });
         }

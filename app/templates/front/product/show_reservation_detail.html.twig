@@ -38,7 +38,7 @@
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="false">
                                                     <div class="product__nav-img w-img">
                                                         <img width="102" height="130"
-                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
+                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
                                                              alt="{{ picture.name }}">
                                                     </div>
                                                 </a>
@@ -101,7 +101,7 @@
                                 <span><a href="{{ path('front_product_category', {'productCategory': product.category.value}) }}">{{ product.category.label }}</a></span>
                             </div>
                             <div class="product__modal-form mb-30">
-                                {{ form_start(form, {'attr': {'id':'productForm'}}) }}
+                                {{ form_start(form, {'attr': {'id':'productForm', 'autocomplete':'off'}}) }}
                                 <div class="product__modal-select color size mb-20">
                                     <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
                                     <div class="product-quantity">
@@ -386,11 +386,11 @@
                                     {% set picture = product.pictures.first %}
                                     {% set picture2 = product.pictures.next %}
                                     <img width="270" height="324"
-                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends') }}"
+                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
                                          alt="product-img">
                                     {% if picture2 %}
                                         <img width="270" height="324" class="product__thumb-2"
-                                             src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends') }}"
+                                             src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale') }}"
                                              alt="{{ picture2.name }}">
                                     {% endif %}
                                 {% endif %}

@@ -28,27 +28,27 @@ class Product
      * @var float|null
      */
     #[ORM\Column(scale: 2)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private ?float $amount = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private ?string $shortDescription = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private ?string $description = null;
 
     /**
      * @var ArrayCollection|Collection
      */
-    #[ORM\ManyToMany(targetEntity: Picture::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class)]
     private Collection|ArrayCollection $pictures;
 
 
@@ -58,22 +58,28 @@ class Product
     /**
      * @var UploadedFile[]
      */
-    #[Assert\All([
-        new Assert\File(
-            maxSize: 5242880,
-            mimeTypes: "image/*",
+    #[Assert\All(
+        new Assert\Image(
+            maxSize: '10M',
+            minWidth: '1920',
+            minHeight: '933',
+            detectCorrupted: true,
             maxSizeMessage: "Document trop lourd.",
-            mimeTypesMessage: "Format Image uniquement autorisé."
+            mimeTypesMessage: "Format Image uniquement autorisé.",
+            minWidthMessage: 'La largeur est de 1920 minimum ',
+            minHeightMessage: 'La hauteur est de 933 minimum ',
+            corruptedMessage: 'Fichier corrompue',
+            groups: ['creation']
         )
-    ])]
-    #[Assert\Count(max: 5, maxMessage: "5 fichiers maximums.")]
+    )]
+    #[Assert\Count(min: 1, max: 5, minMessage: "1 photo minimum", maxMessage: "5 photos maximums.", groups: ['creation'])]
     public array $uploadedPictures = [];
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private ?string $title = null;
 
     /**
@@ -86,14 +92,14 @@ class Product
      * @var float
      */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private float $caution;
 
     /**
      * @var int
      */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
     private int $quantity;
 
     /**
@@ -110,9 +116,6 @@ class Product
 
     # Uniquement pour envoyer ce message par email
     public ?string $responseRejected = null;
-
-    #[ORM\ManyToOne(inversedBy: 'slides')]
-    private ?HomePage $homePage = null;
 
     #[ORM\Column(type: Types::INTEGER, length: 11)]
     private ?int $numberView = 0;

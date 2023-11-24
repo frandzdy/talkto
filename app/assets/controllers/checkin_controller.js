@@ -53,18 +53,6 @@ export default class extends Controller {
         });
     }
 
-    handleBsCustomFileInput(container) {
-        if ($(container)) {
-            bsCustomFileInput.init();
-            $(container).change(function () {
-                let fieldVal = $(this).val();
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
-                }
-            });
-        }
-    }
-
     reindex() {
         let indexFile = 0;
         $('.file-elt').each(function () {

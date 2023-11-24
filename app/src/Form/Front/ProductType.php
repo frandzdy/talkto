@@ -66,7 +66,6 @@ class ProductType extends AbstractType
                     'attr' => [
                         'accept' => 'image/*',
                         'allow-delete' => true,
-                        'data-browse' => 'votre photo'
                     ],
                 ],
                 'label_attr' => [
@@ -74,7 +73,7 @@ class ProductType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'required' => false,
+                'by_reference' => false
             ])
             ->add(
                 'caution', TextType::class,
@@ -127,6 +126,7 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            'validation_groups' => ['creation']
         ]);
     }
 }

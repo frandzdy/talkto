@@ -37,7 +37,6 @@ export default class extends Controller {
                                 elt.parentElement.remove();
                                 toastr.success('Image supprimé !')
                             });
-                            this.reindex()
                         }
                     },
                     close: {

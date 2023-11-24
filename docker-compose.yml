@@ -25,7 +25,7 @@ services:
       - ./app:/var/www/app
     environment:
       APP_ENV: dev
-      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=mariadb-11.1.2&charset=utf8mb4
+      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=11.1.2-MariaDB&charset=utf8mb4
       MAILER_DSN: smtp://mailcatcher:25
     networks:
       - nw.talkto

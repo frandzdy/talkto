@@ -3,8 +3,12 @@
 namespace App\Form\Back;
 
 use App\Entity\HomePage;
+use App\Entity\Picture;
+use App\Entity\Product;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,58 +25,121 @@ class HomePageType extends AbstractType
     {
         $builder
             ->add(
-                'sliders',
-                CollectionType::class,
+                'sliders1',
+                EntityType::class,
                 [
-                    'entry_type' => ProductCollectionType::class,
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
-                            'placeholder' => 'Titre, description ou propriétaire',
-                            'style' => 'width: 56%;',
-                            'class' => 'float-right'
-                        ],
-                    'allow_add' => true,
-                    'allow_delete' => true
                 ]
             )
             ->add(
-                'slides',
-                CollectionType::class,
+                'sliders2',
+                EntityType::class,
                 [
-                    'entry_type' => ProductCollectionType::class,
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
-                            'placeholder' => 'Titre, description ou propriétaire',
-                            'style' => 'width: 56%;',
-                            'class' => 'float-right'
-                        ],
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'mapped' => false
                 ]
             )
             ->add(
-                'trends',
-                CollectionType::class,
+                'sliders3',
+                EntityType::class,
                 [
-                    'entry_type' => ProductCollectionType::class,
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
-                            'placeholder' => 'Titre, description ou propriétaire',
-                            'style' => 'width: 56%;',
-                            'class' => 'float-right'
-                        ],
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'mapped' => false
                 ]
             )
+            ->add(
+                'underSliders1',
+                EntityType::class,
+                [
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => false,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'underSliders2',
+                EntityType::class,
+                [
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => false,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'underSliders3',
+                EntityType::class,
+                [
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => false,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'mids1',
+                EntityType::class,
+                [
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => false,
+                    'required' => false,
+                ]
+            )->add(
+                'mids2',
+                EntityType::class,
+                [
+                    'class' => Product::class,
+                    'choice_label' => 'title',
+                    'placeholder' => '-- Sélectionner --',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => false,
+                    'required' => false,
+                ]
+            )
+//            ->add(
+//                'mids3',
+//                EntityType::class,
+//                [
+//                    'class' => Product::class,
+//                    'choice_label' => 'title',
+//                    'placeholder' => '-- Sélectionner --',
+//                    'expanded' => false,
+//                    'multiple' => false,
+//                    'label' => false,
+//                    'required' => false,
+//                ]
+//            )
         ;
     }
 

@@ -47,7 +47,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Téléphone *',
                             'maxlength' => 20,
-                            'autocomplete' => 'tel',
                         ]
                 ]
             )
@@ -61,7 +60,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Adresse *',
                             'maxlength' => 255,
-                            'autocomplete' => 'address-level1',
                             'data-bs-toggle' => 'dropdown',
                             'aria-haspopup' => 'true',
                             'aria-expanded' => 'false',
@@ -81,7 +79,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Appartement, étage, etc.',
                             'maxlength' => 255,
-                            'autocomplete' => 'address-level2',
                         ],
                     'required' => false
                 ]
@@ -94,7 +91,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Code postal *',
                             'maxlength' => 5,
-                            'autocomplete' => 'postal-code',
                         ]
                 ]
             )->add(
@@ -106,7 +102,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Ville *',
                             'maxlength' => 255,
-                            'autocomplete' => 'city',
                         ]
                 ]
             )
@@ -129,7 +124,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Nom *',
                             'maxlength' => 255,
-                            'autocomplete' => 'family-name',
                         ]
                 ]
             )
@@ -142,7 +136,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'Prénom *',
                             'maxlength' => 255,
-                            'autocomplete' => 'email',
                         ]
                 ]
             )
@@ -155,7 +148,6 @@ class UserType extends AbstractType
                         [
                             'placeholder' => 'E-mail *',
                             'maxlength' => 255,
-                            'autocomplete' => 'email',
                         ]
                 ]
             )->add(
@@ -178,15 +170,32 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'first_options' => [
+                    'options' =>
+                        [
+                        'toggle' => true,
+                    ],
+                    'first_options' =>
+                        [
                         'label' => 'Mot de passe',
-                        'label_attr' => ['class'=>'form-text text-muted'],
+                        'label_attr' =>
+                            [
+                                'class'=>'form-text text-muted'
+                            ],
                         'hash_property_path' => 'password',
-                        'attr' => ['placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
+                        'attr' =>
+                            [
+                                'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255,
+                                'autocomplete' => 'new-password',
+                            ],
                     ],
                     'second_options' => [
                         'label' => 'Confirmez votre mot de passe',
-                        'attr' => ['maxlength' => 255],
+                        'attr' =>
+                            [
+                                'maxlength' => 255,
+                                'autocomplete' => 'new-password'
+                            ],
+
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
@@ -202,15 +211,23 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
+                    'options' =>
+                        [
+                            'toggle' => true,
+                        ],
                     'first_options' => [
                         'label' => 'Mot de passe',
                         'label_attr' => ['class'=>'form-text text-muted'],
                         'hash_property_path' => 'password',
-                        'attr' => ['placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255],
+                        'attr' => [
+                            'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole', 'maxlength' => 255
+                        ],
+
                     ],
                     'second_options' => [
                         'label' => 'Confirmez votre mot de passe',
                         'attr' => ['maxlength' => 255],
+
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',

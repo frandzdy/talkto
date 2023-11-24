@@ -4,6 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\HomePage;
 use App\Form\Back\HomePageType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class HomePageController extends AbstractController
         $homePage = $em->getRepository(HomePage::class)->findOneBy(['id' => 1]);
 
         if (!$homePage) {
-            $homePage = new HomePage();
+            $homePage = (new HomePage())->setLabel('Homepage création');
             $em->persist($homePage);
             $em->flush();
         }
@@ -27,11 +28,12 @@ class HomePageController extends AbstractController
         $form = $this->createForm(HomePageType::class, $homePage);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Enregistrement effectué.');
-            $em->flush();
+        $this->addFlash('success', 'Enregistrement effectué.');
+        dump($homePage);
+        $em->flush();
 
-            return $this->redirectToRoute('back_homepage_edit', ['id' => $homePage->getId()]);
-        }
+        return $this->redirectToRoute('back_homepage_edit');
+    }
 
         return $this->render('back/homepage/edit.html.twig', ['form' => $form]);
     }

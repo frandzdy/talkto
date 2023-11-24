@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import $ from "jquery";
 import bsCustomFileInput from "bs-custom-file-input";
-import bigPicture from "bigpicture";
+
 /**
  * Gestion des justificatifs
  */
@@ -10,9 +10,7 @@ export default class extends Controller {
      * Initialise la liste des photos avec un element si elle est vide
      */
     connect() {
-        if ($('.picture-collection').children().length == 0) {
-            this.onFileAdd();
-        }
+
         this.reindex()
     }
 
@@ -87,12 +85,6 @@ export default class extends Controller {
     handleBsCustomFileInput(container) {
         if ($(container)) {
             bsCustomFileInput.init();
-            $(container).change(() => {
-                let fieldVal = $(this).val();
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
-                }
-            });
         }
     }
 
@@ -101,6 +93,9 @@ export default class extends Controller {
         $('.picture').each( () => {
             ++indexFile
             $(this).find('.file-index').html(indexFile);
+            $(this).find('.file-index').text(indexFile);
+            $(this).find('.file-index').innerText = indexFile;
+            $(this).find('.file-index').innerHTML = indexFile;
             $(this).find('.file-index').removeClass("d-none");
         });
     }

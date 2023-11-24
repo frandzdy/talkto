@@ -33,14 +33,24 @@ class ProductCollectionType extends AbstractType
                     'label' => false,
                     'class' => Product::class,
                     'choice_label' => 'title',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('p')
+                            ->innerjoin('p.author', 'a')
+                            ->addSelect('a')
+                            ->where('p.status = :productStatus')
+                            ->andWhere('a.isStripeAccountActive = true')
+                            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+                            ->orderBy('p.title')
+                            ;
+
+                    },
                     'attr' =>
                         [
-                            'placeholder' => '-- Sélectionner --',
                             'style' => 'width: 56%;',
                             'class' => 'float-right'
                         ],
+                    'placeholder' => '-- Sélectionner --',
                     'required' => true,
-                    'autocomplete' => true,
                     'expanded' => false,
                     'multiple' => false
                 ]

@@ -1,5 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import bsCustomFileInput from "bs-custom-file-input";
+import $ from "jquery";
 
 /*
  * This is an example Stimulus controller!
@@ -15,9 +16,10 @@ export default class extends Controller {
     cart = []
     rejectLocalisation = false;
     localisationDone = false;
+
     connect() {
         $('[data-toggle="tooltip"]').tooltip();
-        this.handleBsCustomFileInput($('[type=file]'))
+        this.handleBsCustomInputFile($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();
         $(this.containerTarget)
@@ -230,7 +232,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html($(response));
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
+                            this.handleBsCustomInputFile($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -258,13 +260,13 @@ export default class extends Controller {
                         toastr.success(response.message);
                     }
                 },
-                error: function (response) {
+                error: (response) => {
                     console.error(response.responseText);
                     if (response.status === 422) {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
+                            this.handleBsCustomInputFile($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -296,7 +298,7 @@ export default class extends Controller {
             }
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);
-            this.handleBsCustomFileInput($(this.modalTarget).find('[type="file"]'));
+            this.handleBsCustomInputFile($(this.modalTarget).find('[type="file"]'));
             $(this.modalTarget).find('.chat-history').animate({scrollTop: $(this.modalTarget).find('.chat-history').prop('scrollHeight')}, 500);
             $(this.modalTarget).modal('show');
 
@@ -321,7 +323,7 @@ export default class extends Controller {
             }
             $(this.modalProductTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalProductTarget);
-            this.handleBsCustomFileInput($(this.modalProductTarget).find('[type="file"]'));
+            this.handleBsCustomInputFile($(this.modalProductTarget).find('[type="file"]'));
             $(this.modalProductTarget).modal({
                 focus: false
             })
@@ -442,18 +444,12 @@ export default class extends Controller {
         }, 5000);
     }
 
-    handleBsCustomFileInput(container) {
-        if ($(container)) {
+    handleBsCustomInputFile(container) {
+        if (container) {
             bsCustomFileInput.init();
-            $(container).change(function () {
-                var fieldVal = $(this).val();
-                console.log(fieldVal);
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).next(".custom-file-label").text(fieldVal);
-                }
-            });
         }
-    }
+    };
+
 
     initPlugins() {
         ////////////////////////////////////////////////////
@@ -686,7 +682,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 10. Product Slider Js
         $('.product__slider ').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -721,7 +717,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 11. Product Slider 2 Js ( home page 2 )
         $('.product__slider-2 ').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -756,7 +752,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 12. Product Slider 3 Js ( home page 2 )
         $('.product__slider-3').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -791,7 +787,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 13. Product Slider 4 Js ( home page 4 )
         $('.product__slider-4').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -826,7 +822,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 14. Sale Slider Js
         $('.sale__area-slider ').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -861,7 +857,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 15. Sale Slider 2 Js  ( home page 2 )
         $('.sale__area-slider-2 ').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -896,7 +892,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 16. Client Slider Js
         $('.client__slider').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 0,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -931,7 +927,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 17. Blog Slider Js
         $('.blog__slider').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -962,7 +958,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 18. Product Offer SLider Js ( home 2 )
         $('.product__offer-slider').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -1116,7 +1112,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 27. product__slider-active Js ( home 7 )
         $('.product__slider-active').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -1147,7 +1143,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. testimonial__slider-active Js ( home 7 )
         $('.testimonial__slider-active').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -1178,7 +1174,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. blog__slider-active Js ( home 7 )
         $('.blog__slider-active').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -1209,7 +1205,7 @@ export default class extends Controller {
         ////////////////////////////////////////////////////
         // 28. brand__slider-active Js ( home 7 )
         $('.brand__slider-active').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             autoplay: false,
             autoplayTimeout: 3000,

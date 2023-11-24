@@ -130,19 +130,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Picture::class, cascade: ["persist", "remove"], orphanRemoval: true)]
     private ?Picture $picture = null;
 
-    #[Assert\File(maxSize: 5242880, mimeTypes: "image/*", maxSizeMessage: "Document trop lourd.", mimeTypesMessage: "Format Image uniquement autorisé.")]
-    private UploadedFile|null $uploadPicture = null;
+    #[Assert\Image(
+        maxSize: '10M',
+        minWidth: '1920',
+        minHeight: '933',
+        detectCorrupted: true,
+        maxSizeMessage: "Document trop lourd.",
+        mimeTypesMessage: "Format Image uniquement autorisé.",
+        minWidthMessage: 'La largeur minimum est de 1920',
+        minHeightMessage: 'La hauteur minimum est de 933',
+        corruptedMessage: 'Fichier corrompue'
+    )]
+    private ?UploadedFile $uploadPicture = null;
+
     /**
      * A propos de l'utilisateur [SELLER]
      */
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?string $description;
 
     /**
      *  Mot de passe
      */
     #[ORM\Column(length: 255)]
-
     private string $password;
 
     /**
@@ -188,19 +198,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var bool|null
      */
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column()]
     private ?bool $isStripeAccountActive = false;
 
     /**
      * @var bool|null
      */
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column()]
     private ?bool $isGuess = false;
 
     /**
      * @var \DateTime|null
      */
-    #[ORM\Column()]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $lastDateConnexion = null;
 
     public function getFullname(): ?string

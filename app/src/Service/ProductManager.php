@@ -78,6 +78,16 @@ class ProductManager
                 if ($picture === $pictureToRemove && $product->getPictures()->contains($pictureToRemove)) {
                     $product->removePicture($picture);
                     $this->fileUploadManager->removeFile('product_picture', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_modal', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_modal_miniature', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_trends_or_sale', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_details', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_miniature_details', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('product_miniature', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('home_slider', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('home_under_slider', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('home_mid', $picture->getName());
+                    $this->fileUploadManager->removeFileLiip('home_latest', $picture->getName());
                     $this->entityManager->remove($picture);
                 }
             }

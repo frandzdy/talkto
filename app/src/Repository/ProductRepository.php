@@ -178,7 +178,7 @@ class ProductRepository extends ServiceEntityRepository
         return $builder->getQuery();
     }
 
-    public function getTrends(?int $lat, ?int $lon, ?ProductCategory $productCategory = null, ?int $maxResult = 6): ?array
+    public function getTrends(?int $lat, ?int $lon, ?ProductCategory $productCategory = null, ?int $maxResult = 8): ?array
     {
         $qb = $this->createQueryBuilder('p')
             ->select(
@@ -212,7 +212,7 @@ class ProductRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getLastestProduct(?int $lat, ?int $lon): ?array
+    public function getLatestProducts(?int $lat, ?int $lon): ?array
     {
         $qb = $this->createQueryBuilder('p')
             ->select(

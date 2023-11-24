@@ -32,7 +32,7 @@
                                href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                aria-selected="true">
                                 <div class="product__nav-img w-img">
-                                    <img width="102" height="130" src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}"
+                                    <img width="102" height="130" src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
                                          alt="{{ picture.name }}">
                                 </div>
                             </a>
@@ -66,7 +66,7 @@
                 <p>{{ product.shortDescription }}</p>
             </div>
             <div class="product__modal-form">
-                {{ form_start(form, {'attr': {'id':'productForm'}}) }}
+                {{ form_start(form, {'attr': {'id':'productForm', 'autocomplete':'off'}}) }}
                     <div class="product__modal-select color size mb-20">
                         <label>Date de réservation <i class="fas fa-star-of-life"></i></label>
                         <div class="product-quantity">

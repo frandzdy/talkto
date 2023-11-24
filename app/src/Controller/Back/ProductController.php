@@ -2,6 +2,7 @@
 
 namespace App\Controller\Back;
 
+use App\Entity\Picture;
 use App\Entity\Product;
 use App\Enum\ProductStatus;
 use App\Exporter\LessorExporter;
@@ -11,10 +12,12 @@ use App\Form\Back\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\CustomerCompanyManager;
 use App\Service\MailerManager;
+use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -109,7 +112,7 @@ class ProductController extends AbstractController
                     [
                         'product' => $product,
                         'user' => $product->getAuthor(),
-                        'responseRejected' =>'ds '
+                        'responseRejected' => 'ds '
                     ]
                 );
             }
@@ -165,5 +168,22 @@ class ProductController extends AbstractController
                 'Content-Disposition' => 'attachment; filename="export_produits.' . $typeFile . '"'
             ]
         );
+    }
+
+    #[Route('/produit/image/suppression/{id}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
+    #[IsGranted('ROLE_CONTRIBUTOR')]
+    public function productPictureDelete(
+        Picture $picture,
+        ProductManager $productManager
+    ): JsonResponse {
+        if ($productManager->deleteProductPicture($picture->getProduct(), $picture)) {
+            return $this->json(
+                [
+                    'success' => true,
+                ]
+            );
+        }
+
+        return $this->json(['success' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

@@ -95,9 +95,7 @@ class UserManager
             $user->setPicture(null);
             $this->fileUploadManager->removeFile('profile_picture', $picture->getName());
             $this->fileUploadManager->removeFileLiip('profil', $picture->getName());
-            $this->fileUploadManager->removeFileLiip('profil_collection', $picture->getName());
-            $this->fileUploadManager->removeFileLiip('miniature', $picture->getName());
-            $this->fileUploadManager->removeFileLiip('match', $picture->getName());
+            $this->fileUploadManager->removeFileLiip('profil_miniature', $picture->getName());
 
             $this->entityManager->remove($picture);
             $this->entityManager->flush();

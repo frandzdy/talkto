@@ -130,139 +130,9 @@
     });
 
     ////////////////////////////////////////////////////
-    // 08. Hero Slider Js
-    function mainSlider() {
-        var BasicSlider = $('.slider-active');
-        BasicSlider.on('init', function (e, slick) {
-            var $firstAnimatingElements = $('.single-slider:first-child').find('[data-animation]');
-            doAnimations($firstAnimatingElements);
-        });
-        BasicSlider.on('beforeChange', function (e, slick, currentSlide, nextSlide) {
-            var $animatingElements = $('.single-slider[data-slick-index="' + nextSlide + '"]').find('[data-animation]');
-            doAnimations($animatingElements);
-        });
-        BasicSlider.slick({
-            autoplay: true,
-            autoplaySpeed: 8000,
-            dots: true,
-            fade: true,
-            arrows: false,
-            prevArrow: '<button type="button" class="slick-prev"><i class="fal fa-angle-left"></i></button>',
-            nextArrow: '<button type="button" class="slick-next"><i class="fal fa-angle-right"></i></button>',
-            responsive: [{
-                breakpoint: 767,
-                settings: {
-                    dots: false,
-                    arrows: false
-                }
-            }]
-        });
-
-        function doAnimations(elements) {
-            var animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-            elements.each(function () {
-                var $this = $(this);
-                var $animationDelay = $this.data('delay');
-                var $animationType = 'animated ' + $this.data('animation');
-                $this.css({
-                    'animation-delay': $animationDelay,
-                    '-webkit-animation-delay': $animationDelay
-                });
-                $this.addClass($animationType).one(animationEndEvents, function () {
-                    $this.removeClass($animationType);
-                });
-            });
-        }
-    }
-
-    mainSlider();
-
-    ////////////////////////////////////////////////////
-    // 08. Hero Slider Js
-    function mainSlider2() {
-        var BasicSlider = $('.slider-active-3');
-        BasicSlider.on('init', function (e, slick) {
-            var $firstAnimatingElements = $('.single-slider:first-child').find('[data-animation]');
-            doAnimations($firstAnimatingElements);
-        });
-        BasicSlider.on('beforeChange', function (e, slick, currentSlide, nextSlide) {
-            var $animatingElements = $('.single-slider[data-slick-index="' + nextSlide + '"]').find('[data-animation]');
-            doAnimations($animatingElements);
-        });
-        BasicSlider.slick({
-            autoplay: true,
-            autoplaySpeed: 8000,
-            dots: true,
-            fade: true,
-            arrows: true,
-            prevArrow: '<button type="button" class="slick-prev"><i class="fal fa-angle-left"></i></button>',
-            nextArrow: '<button type="button" class="slick-next"><i class="fal fa-angle-right"></i></button>',
-            responsive: [{
-                breakpoint: 767,
-                settings: {
-                    dots: false,
-                    arrows: false
-                }
-            }]
-        });
-
-        function doAnimations(elements) {
-            var animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-            elements.each(function () {
-                var $this = $(this);
-                var $animationDelay = $this.data('delay');
-                var $animationType = 'animated ' + $this.data('animation');
-                $this.css({
-                    'animation-delay': $animationDelay,
-                    '-webkit-animation-delay': $animationDelay
-                });
-                $this.addClass($animationType).one(animationEndEvents, function () {
-                    $this.removeClass($animationType);
-                });
-            });
-        }
-    }
-
-    mainSlider2();
-
-
-    ////////////////////////////////////////////////////
-    // 09. Testimonial Js
-    $('.testimonial__wrapper').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        dots: true,
-        asNavFor: '.testimonial__nav',
-
-    });
-    $('.testimonial__nav').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        asNavFor: '.testimonial__wrapper',
-        dots: false,
-        centerMode: true,
-        centerPadding: 0,
-        focusOnSelect: true,
-        arrows: false,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fas fa-angle-right"></i></button>',
-        responsive: [
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-
-    ////////////////////////////////////////////////////
     // 10. Product Slider Js
     $('.product__slider ').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -297,7 +167,7 @@
     ////////////////////////////////////////////////////
     // 11. Product Slider 2 Js ( home page 2 )
     $('.product__slider-2 ').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -332,7 +202,7 @@
     ////////////////////////////////////////////////////
     // 12. Product Slider 3 Js ( home page 2 )
     $('.product__slider-3').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -367,7 +237,7 @@
     ////////////////////////////////////////////////////
     // 13. Product Slider 4 Js ( home page 4 )
     $('.product__slider-4').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -402,7 +272,7 @@
     ////////////////////////////////////////////////////
     // 14. Sale Slider Js
     $('.sale__area-slider ').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -437,7 +307,7 @@
     ////////////////////////////////////////////////////
     // 15. Sale Slider 2 Js  ( home page 2 )
     $('.sale__area-slider-2 ').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -472,7 +342,7 @@
     ////////////////////////////////////////////////////
     // 16. Client Slider Js
     $('.client__slider').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 0,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -507,7 +377,7 @@
     ////////////////////////////////////////////////////
     // 17. Blog Slider Js
     $('.blog__slider').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -538,7 +408,7 @@
     ////////////////////////////////////////////////////
     // 18. Product Offer SLider Js ( home 2 )
     $('.product__offer-slider').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -664,7 +534,7 @@
     ////////////////////////////////////////////////////
     // 27. product__slider-active Js ( home 7 )
     $('.product__slider-active').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -695,7 +565,7 @@
     ////////////////////////////////////////////////////
     // 28. testimonial__slider-active Js ( home 7 )
     $('.testimonial__slider-active').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -726,7 +596,7 @@
     ////////////////////////////////////////////////////
     // 28. blog__slider-active Js ( home 7 )
     $('.blog__slider-active').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,
@@ -757,7 +627,7 @@
     ////////////////////////////////////////////////////
     // 28. brand__slider-active Js ( home 7 )
     $('.brand__slider-active').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 30,
         autoplay: false,
         autoplayTimeout: 3000,

@@ -8,7 +8,6 @@ use App\Enum\ProductCategory;
 use App\Form\Front\ProductReservationType;
 use App\Form\Front\ProductType;
 use App\Repository\ProductRepository;
-use App\Service\FileUploadManager;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -133,7 +132,6 @@ class ProductController extends AbstractController
             $this->addFlash('success', 'Produit(s) ajouté(s)');
 
             if ($request->attributes->get('_route') === "front_product_reservation_show_detail") {
-
                 return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
             }
 
@@ -146,11 +144,16 @@ class ProductController extends AbstractController
         }
 
         if ($request->attributes->get('_route') === "front_product_reservation") {
-
-            return $this->render('front/product/show_reservation.html.twig', compact('product', 'quantityLeft', 'form'));
+            return $this->render(
+                'front/product/show_reservation.html.twig',
+                compact('product', 'quantityLeft', 'form')
+            );
         }
 
-        return $this->render('front/product/show_reservation_detail.html.twig', compact('product', 'quantityLeft', 'form', 'trends'));
+        return $this->render(
+            'front/product/show_reservation_detail.html.twig',
+            compact('product', 'quantityLeft', 'form', 'trends')
+        );
     }
 
     #[Route('/produit-ajout', name: 'product_new')]
@@ -215,19 +218,19 @@ class ProductController extends AbstractController
         $results['results'] = $products;
         return $this->render(
             'front/user/partials/_products.html.twig',
-            compact('products')
+            compact('results')
         );
     }
 
     #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted('ROLE_SELLER')]
-    public function productPictureDelete(string $token, EntityManagerInterface $em, FileUploadManager $fileUploadManager): JsonResponse
-    {
+    public function productPictureDelete(
+        string $token,
+        EntityManagerInterface $em,
+        ProductManager $productManager
+    ): JsonResponse {
         if ($picture = $em->getRepository(Picture::class)->findOneBy(['token' => $token])) {
-            if ($fileUploadManager->removeFile('product_picture', $picture->getName())) {
-                $em->remove($picture);
-                $em->flush();
-
+            if ($productManager->deleteProductPicture($picture->getProduct(), $picture)) {
                 return $this->json(
                     [
                         'success' => true,
@@ -321,14 +324,14 @@ class ProductController extends AbstractController
             'lon' => $lon,
             'lat' => $lat
         ];
-        $querysearchProducts = $productRepository->searchProducts($filter);
+        $querySearchProducts = $productRepository->searchProducts($filter);
         $data = [
             'sortedBy' => $sortedBy,
             'searchProducts' => $searchProducts
         ];
 
         $searchProducts = $paginator->paginate(
-            $querysearchProducts, /* query NOT result */
+            $querySearchProducts, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/,
             ['wrap-queries' => true]

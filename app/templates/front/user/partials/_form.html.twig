@@ -3,7 +3,7 @@
     {% set pictureName = user.picture.name %}
 {% endif %}
 <div class="profile__edit-wrapper" {{ user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') ? 'data-turbo="false"' : '' }}>
-    {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha'} }) }}
+    {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha', 'autocomplete':'off'} }) }}
     <div class="row">
         <div class="col-3 profile__basic-thumb valign-items-center">
             <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"

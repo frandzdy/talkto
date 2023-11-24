@@ -41,8 +41,20 @@ class Checkin
     /**
      * @var UploadedFile[]
      */
-    #[Assert\All([new Assert\File(maxSize: 5242880, mimeTypes: "image/*", maxSizeMessage: "Document trop lourd.", mimeTypesMessage: "Format Image uniquement autorisé.")])]
-    #[Assert\Count(max: 5, maxMessage: "5 fichiers maximums.")]
+    #[Assert\All(
+        new Assert\Image(
+            maxSize: '10M',
+            minWidth: '1920',
+            minHeight: '933',
+            detectCorrupted: true,
+            maxSizeMessage: "Document trop lourd.",
+            mimeTypesMessage: "Format Image uniquement autorisé.",
+            minWidthMessage: 'La largeur est de 1920 minimum ',
+            minHeightMessage: 'La hauteur est de 933 minimum ',
+            corruptedMessage: 'Fichier corrompue'
+        )
+    )]
+    #[Assert\Count(min: 1, max: 5, minMessage: "1 photo minimum", maxMessage: "5 photos maximums.")]
     public array $uploadedPictures = [];
 
     /**
@@ -97,9 +109,9 @@ class Checkin
      */
     public function setStartDate(\DateTime $startDate): self
     {
-         $this->startDate = $startDate;
+        $this->startDate = $startDate;
 
-         return $this;
+        return $this;
     }
 
     /**
