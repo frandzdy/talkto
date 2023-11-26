@@ -1,25 +1,18 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Mention Légale{% endblock %}
+{% block title %}Charte d’utilisation des cookies et traceurs{% endblock %}
 
 {% block metas %}
     <meta name="description"
-          content="Les mentions légales RENTED.">
+          content="Charte d’utilisation des cookies et traceurs RENTED.">
 {% endblock %}
-
-{% set breadcrumbItems =
-    {
-        'Charte d’utilisation des cookies et traceurs': ''
-    }
-%}
 
 {% block content %}
     <section id="features">
         <div class="container px-5 my-3 bg-white shadow">
-            {{ include('front/partials/_breadcrumbs.html.twig') }}
             <div class="row">
                 <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('rights/_nav_list.html.twig') }}
+                    {{ include('front/rights/_nav_list.html.twig') }}
                 </div>
                 <div class="col-lg-9 mb-sm-12 mb-lg-0">
                     <div class="mb-5">

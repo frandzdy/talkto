@@ -4,13 +4,16 @@ namespace App\Controller\Front;
 
 use App\Entity\Picture;
 use App\Entity\Product;
+use App\Entity\Review;
 use App\Enum\ProductCategory;
 use App\Form\Front\ProductReservationType;
+use App\Form\Front\ProductReviewType;
 use App\Form\Front\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,9 +74,13 @@ class ProductController extends AbstractController
      * @return Response
      */
     #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
-    #[Route('/produit-reservation-details/{token}', name: 'product_reservation_show_detail', methods: ['GET', 'POST'])]
+    #[Route('/produit-reservation-details/{token}/{review}', name: 'product_reservation_show_detail', methods: [
+        'GET',
+        'POST'
+    ])]
     public function productReservation(
         string $token,
+        bool $review = false,
         ProductRepository $productRepository,
         Request $request,
         ProductManager $productManager,
@@ -112,6 +119,11 @@ class ProductController extends AbstractController
         ];
 
         $form = $this->createForm(ProductReservationType::class, $data, $options);
+        $formReview = $this->createForm(
+            ProductReviewType::class,
+            new Review(),
+            ['action' => $this->generateUrl('front_product_rating', ['token' => $token])]
+        );
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -152,7 +164,7 @@ class ProductController extends AbstractController
 
         return $this->render(
             'front/product/show_reservation_detail.html.twig',
-            compact('product', 'quantityLeft', 'form', 'trends')
+            compact('product', 'quantityLeft', 'form', 'trends', 'review', 'formReview')
         );
     }
 
@@ -172,7 +184,7 @@ class ProductController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $pictureFileDatas = $form->get('uploadedPictures')->getData();
-            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, $product->getId() ? true : false);
+            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, (bool)$product->getId());
 
             return $this->json(
                 [
@@ -190,7 +202,8 @@ class ProductController extends AbstractController
     public function delete(
         string $token,
         ProductRepository $productRepository,
-        ProductManager $productManager
+        ProductManager $productManager,
+        LoggerInterface $logger
     ): Response {
         $product = $productRepository->findOneBy(['token' => $token]);
 
@@ -202,7 +215,8 @@ class ProductController extends AbstractController
                 $this->addFlash('success', 'Produit supprimé !');
             }
         } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
+            $logger->error('[Product delete] :', ['product' => $product->getId()]);
+            $this->addFlash('error', 'Impossible de supprimer le produit');
         }
 
         return $this->redirectToRoute('front_user_account');
@@ -344,5 +358,26 @@ class ProductController extends AbstractController
                 'data' => $data
             ],
         );
+    }
+
+    #[Route('/avis/{token}', name: 'product_rating')]
+    public function rating(string $token, EntityManagerInterface $em, Request $request): Response
+    {
+        $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+        $review = new Review();
+        $form = $this->createForm(ProductReviewType::class, $review);
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $review->setProduct($product);
+            $em->persist($review);
+            $product->addReview($review);
+            $em->flush();
+
+            $this->addFlash('success', 'Enregistrement effectué.');
+        } else {
+            $this->addFlash('error', 'Une erreur est survenue.');
+            return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token, 'review' => true]);
+        }
+
+        return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
     }
 }

@@ -24,10 +24,6 @@ class StripeManager
 {
     private StripeClient $stripe;
 
-    const ABO_1 = 'Spammi';
-    const ABO_2 = 'Spammeur';
-    const ABO_3 = 'Spamlover';
-
     /**
      * StripeManager constructor.
      */
@@ -166,12 +162,9 @@ class StripeManager
     }
 
     /**
-     * @param PaymentIntent $paymentIntent
-     * @param Transaction $transaction
-     * @return array
-     * @throws \Stripe\Exception\ApiErrorException
+     * Transfert l'argent vers les différents bailleurs après la validation du paiement
      */
-    public function captureAndTransferPaymentIntent(PaymentIntent $paymentIntent, Transaction $transaction): array
+    public function transferPaymentIntentToLessor(PaymentIntent $paymentIntent, Transaction $transaction): void
     {
         foreach ($transaction->getTransactionLines() as $transactionLine) {
             /**
@@ -193,9 +186,9 @@ class StripeManager
                     'transfer_group' => $transaction->getReference(),
                 ]
             );
-        }
 
-        return [$transfer];
+            $transactionLine->setTransfertId($transfer->id);
+        }
     }
 
     /**
@@ -329,5 +322,15 @@ class StripeManager
         }
 
         return [$paymentIntent, $transaction];
+    }
+
+    /**
+     * Annule un transfert vers un compte connecté
+     */
+    public function cancelTranfert(string $transfertId, $amount) {
+        $this->stripe->transfers->createReversal(
+            $transfertId,
+            ['amount' => $amount]
+        );
     }
 }

@@ -76,29 +76,13 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * Affichage d'une fiche bailleur
+     * Affichage d'une transaction
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(Transaction $transaction): Response {
         return $this->render('back/transaction/show.html.twig', [
             'transaction' => $transaction
         ]);
-    }
-
-    /**
-     * Supprime d'un bailleur
-     */
-    #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(Transaction $transaction, CustomerCompanyManager $customerCompanyManager): RedirectResponse
-    {
-        try {
-            $customerCompanyManager->removeCompany($transaction);
-        } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-        }
-
-        return $this->redirectToRoute('back_transaction_index');
     }
 
     /**

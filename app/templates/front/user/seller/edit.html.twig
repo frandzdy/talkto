@@ -9,17 +9,10 @@
     <meta name="title" content="Nouveau compte bailleur">
 {% endblock %}
 
-{% set breadcrumbTitle = app.user ? 'Mon compte bailleur' : 'Nouveau compte bailleur' %}
-{% set breadcrumbItems =
-    {
-        (breadcrumbTitle): ''
-    }
-%}
-
 {% block content %}
-    {{ include('front/partials/_breadcrumbs.html.twig') }}
+
     <!-- login Area Strat-->
-    <section class="login-area pt-100 pb-100" {{ stimulus_controller('user') }}>
+    <section class="login-area pt-50 pb-100" {{ stimulus_controller('user') }}>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">

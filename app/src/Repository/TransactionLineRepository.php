@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\TransactionLine;
 use App\Enum\ProductStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -93,5 +94,28 @@ class TransactionLineRepository extends ServiceEntityRepository
         ;
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Vérifie si une transaction est en cours
+     */
+    public function productHaveTransactionInProgress(Product $product): bool
+    {
+        $qb = $this->createQueryBuilder('tl')
+            ->join('tl.product', 'p')
+            ->addSelect('p')
+            ->join('p.author', 'a')
+            ->addSelect('a')
+            ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
+            ->setParameter('dateNow', new \DateTime('now'))
+            ->andWhere('p.id = :productId')
+            ->setParameter('productId',$product->getId())
+            ;
+
+        $count = (clone $qb)->select('count(Distinct(tl.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count > 0;
     }
 }

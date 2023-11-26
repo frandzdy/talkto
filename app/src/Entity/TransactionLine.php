@@ -78,6 +78,12 @@ class TransactionLine
     #[ORM\Column(type: "smallint", enumType: TransactionLineStatus::class)]
     private TransactionLineStatus $status;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $transfertId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cancelTransfertId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -242,6 +248,30 @@ class TransactionLine
     public function setFees(?int $fees): self
     {
         $this->fees = $fees;
+
+        return $this;
+    }
+
+    public function getTransfertId(): ?string
+    {
+        return $this->transfertId;
+    }
+
+    public function setTransfertId(?string $transfertId): self
+    {
+        $this->transfertId = $transfertId;
+
+        return $this;
+    }
+
+    public function getCancelTransfertId(): ?string
+    {
+        return $this->cancelTransfertId;
+    }
+
+    public function setCancelTransfertId(?string $cancelTransfertId): self
+    {
+        $this->cancelTransfertId = $cancelTransfertId;
 
         return $this;
     }

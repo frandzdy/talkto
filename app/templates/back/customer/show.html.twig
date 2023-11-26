@@ -3,11 +3,6 @@
 {% block title %}Fiche de {{ customer.fullname|upper }} - {{ parent() }}{% endblock %}
 {% block page_title %}Fiche de {{ customer.fullname|upper }} {% endblock %}
 
-{% set breadcrumbItems = {
-    'Clients': path('back_customer_index'),
-    ('Fiche de ') ~ (customer.fullname|upper) : ''
-} %}
-
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_customer_index') }}"
        class="btn btn-xs btn-primary">

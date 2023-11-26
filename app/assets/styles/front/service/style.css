@@ -4789,7 +4789,7 @@ p.checkout-coupon input[type=text] {
   font-weight: 500;
 }
 
-.conatct-post-form input {
+.contact-post-form input {
   border: 1px solid #eaeaea;
   height: 55px;
   margin-bottom: 30px;
@@ -4797,14 +4797,14 @@ p.checkout-coupon input[type=text] {
   width: 100%;
   font-size: 14px;
 }
-.conatct-post-form input::placeholder {
+.contact-post-form input::placeholder {
   color: #848b8a;
 }
-.conatct-post-form input:focus {
+.contact-post-form input:focus {
   border-color: #bc8246;
 }
 
-.conatct-post-form textarea {
+.contact-post-form textarea {
   border: 1px solid #eaeaea;
   height: 175px;
   margin-bottom: 30px;
@@ -4813,10 +4813,10 @@ p.checkout-coupon input[type=text] {
   font-size: 14px;
   resize: none;
 }
-.conatct-post-form textarea::placeholder {
+.contact-post-form textarea::placeholder {
   color: #848b8a;
 }
-.conatct-post-form textarea:focus {
+.contact-post-form textarea:focus {
   border-color: #bc8246;
 }
 

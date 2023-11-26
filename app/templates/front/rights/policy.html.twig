@@ -1,29 +1,23 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Mention Légale{% endblock %}
+{% block title %}Politique de confidentialité{% endblock %}
 
 {% block metas %}
     <meta name="description"
           content="La politique de confidentialité RENTED.">
 {% endblock %}
 
-{% set breadcrumbItems =
-    {
-        'Politique des confidentialité': ''
-    } %}
-
 {% block content %}
     <section id="features">
         <div class="container px-5 my-3 bg-white shadow">
-            {{ include('front/partials/_breadcrumbs.html.twig') }}
             <div class="row">
                 <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('rights/_nav_list.html.twig') }}
+                    {{ include('front/rights/_nav_list.html.twig') }}
                 </div>
                 <div class="col-lg-9 mb-sm-12 mb-lg-0">
                     <div class="mb-5">
                         <div class="text-center">
-                            <h1>Politique des confidentialité</h1>
+                            <h1>Politique de confidentialité</h1>
                         </div>
                     </div>
                     <div class="cms__content"><p>Mise à jour&nbsp;: le 11/02/2022</p>

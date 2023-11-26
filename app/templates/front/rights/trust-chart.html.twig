@@ -1,24 +1,18 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Mention Légale{% endblock %}
+{% block title %}Charte de confiance{% endblock %}
 
 {% block metas %}
     <meta name="description"
-          content="Les mentions légales Rented.">
+          content="Charte de confiance Rented.">
 {% endblock %}
-
-{% set breadcrumbItems =
-    {
-        'Charte de confiance': ''
-    } %}
 
 {% block content %}
     <section id="features">
         <div class="container px-5 my-3 bg-white shadow">
-            {{ include('front/partials/_breadcrumbs.html.twig') }}
             <div class="row">
                 <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('rights/_nav_list.html.twig') }}
+                    {{ include('front/rights/_nav_list.html.twig') }}
                 </div>
                 <div class="col-lg-9 mb-sm-12 mb-lg-0">
                     <div class="mb-5">
@@ -26,7 +20,7 @@
                             <h1>Charte de confiance</h1>
                         </div>
                     </div>
-                    <div class="cms__content"><p>rented est une application géolocalisée et en temps réel, qui a été
+                    <div class="cms__content"><p>Rented est une application géolocalisée et en temps réel, qui a été
                             entièrement conçue pour proposer une expérience de qualité, agréable et sécurisée. Pour que
                             cette expérience soit à la hauteur de vos attentes, rented vous présente sa charte de
                             confiance, en 5 engagements.</p>

@@ -14,7 +14,14 @@
                         {{ user.fullname }}
                     </p>
                     <p>
-                        Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Rented.
+                        Bienvenue, nous vous remercions de vous être inscrit sur <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
+                    </p>
+                    <p>
+                        Avec votre compte, vous avez la possibilité de voir vos historiques de location, discuter avec votre bailleur
+                        et d'ajouter des produits en favoris par exemple.
+                    </p>
+                    <p>
+                        Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions n'hésitez pas à nous contacter via les moyens mis à votre disposition.
                     </p>
                     <p>
                         Cordialement,<br/>
@@ -33,7 +40,11 @@
     \n
     {{ user.fullname }}\n
     \n
-    Nous souhaitons la bienvenue et nous vous remercions de vous être inscrit sur Rented.\n
+    Bienvenue, nous vous remercions de vous être inscrit sur {{ app.request.schemeAndHttpHost }}.\n
+    \n
+    Avec votre compte, vous avez la possibilité de voir vos historiques de location et d'ajouter des produits en favoris par exemple.\n
+    \n
+    Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions n'hésitez pas à nous contacter via les moyens mis à votre disposition.\n
     \n
     Cordialement,\n
     \n

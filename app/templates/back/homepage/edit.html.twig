@@ -4,11 +4,6 @@
 {% block title %}Configuration de la Home page - {{ parent() }}{% endblock %}
 {% block page_title %}Configuration de la Home page {% endblock %}
 
-{% set breadcrumbItems = {
-    'Dashboard': path('back_home_dashboard'),
-    'Configuration de la Home page': ''
-} %}
-
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_home_dashboard') }}"
        class="btn btn-xs btn-primary">

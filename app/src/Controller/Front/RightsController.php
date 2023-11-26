@@ -29,6 +29,12 @@ class RightsController extends AbstractController
         return $this->render('front/rights/cgu.html.twig');
     }
 
+    #[Route('gestion-donnees-personnelles', name: 'personal_data', methods: ['GET'])]
+    public function personalData(): Response
+    {
+        return $this->render('front/rights/handle-personal-data.html.twig');
+    }
+
     #[Route('charte-de-confiance', name: 'trust_chart', methods: ['GET'])]
     public function trustChart(): Response
     {

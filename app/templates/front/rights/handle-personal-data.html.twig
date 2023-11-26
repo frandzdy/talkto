@@ -1,36 +1,28 @@
-{% extends 'layout.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Mention Légale{% endblock %}
+{% block title %}Gestion de vos données personnelles{% endblock %}
 
 {% block metas %}
     <meta name="description"
-          content="Les mentions légales Rented.">
+          content="Gestion de vos données personnelles Rented.">
 {% endblock %}
-
-{% set breadcrumbItems =
-    {
-        'Gestion des vos données personnelles': ''
-    }
-%}
 
 {% block content %}
     <section id="features">
         <div class="container px-5 my-3">
-            {{ include('front/partials/_breadcrumbs.html.twig') }}
             <div class="row">
                 <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('rights/_nav_list.html.twig') }}
+                    {{ include('front/rights/_nav_list.html.twig') }}
                 </div>
                 <div class="col-lg-9 mb-sm-12 mb-lg-0">
                     <div class="mb-5">
                         <div class="text-center">
-                            <h1>Gestion des vos données personnelles</h1>
+                            <h1>Gestion de vos données personnelles</h1>
                         </div>
                     </div>
                     <p class="">
                         Le présent site et l’application qu’il désigne sont exploités par la société
-                        Alsi
-                        WebTech,
+                        Alsi WebTech,
                         {# SAS au capital de 36 486,44 € #} immatriculée sous le
                         numéro {# 535 217 723 au RCS de PARIS #},
                         dont le siège social est situé 24 allée du cerf 95800 Courdimanche
@@ -42,7 +34,7 @@
                     </p>
                     <p>
                         Email à l’adresse : <a title="E-mail de contact"
-                                               href="mailto:contact@rented.fr">contact@rented.fr</a>
+                                               href="mailto:contact@rented.com">contact@rented.com</a>
                     </p>
                 </div>
             </div>

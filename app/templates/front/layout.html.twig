@@ -6,6 +6,11 @@
         {% include 'front/partials/_header.html.twig' %}
         {% include 'front/partials/_search.html.twig' %}
         <main>
+            <!-- scroll up area start -->
+            <div class="scroll-up" id="scroll" style="display: none;">
+                <a href="javascript:void(0);"><i class="fas fa-level-up-alt"></i></a>
+            </div>
+            <!-- scroll up area end -->
         {% block content %}{% endblock %}
         </main>
         {% include 'front/partials/_modal.html.twig' %}

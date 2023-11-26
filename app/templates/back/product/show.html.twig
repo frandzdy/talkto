@@ -3,11 +3,6 @@
 {% block title %}{{ product.title|upper }} - {{ parent() }}{% endblock %}
 {% block page_title %}Fiche produit n° {{ product.id }} {% endblock %}
 
-{% set breadcrumbItems = {
-    'Produits': path('back_product_index'),
-    ('Fiche produit ') ~ (product.title|upper) : ''
-} %}
-
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_product_index') }}"
        class="btn btn-xs btn-primary">

@@ -6,10 +6,10 @@
                 <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                     <div class="footer__widget mb-30">
                         <div class="footer__widget-title mb-25">
-                            <a href="index.html"><img src="{{ asset("build/images/img/logo/logo-2.png") }}" alt="logo"></a>
+                            <a href="{{ path('front_home') }}"><img src="{{ asset("build/images/img/logo/logo-2.png") }}" alt="logo"></a>
                         </div>
                         <div class="footer__widget-content">
-                            <p>Outstock is a premium Templates theme with advanced admin module. It’s extremely customizable, easy to use and fully responsive and retina ready.</p>
+                            <p>Rented est une plateforme de location d'objet entre particulier.</p>
                             <div class="footer__contact">
                                 <ul>
                                     <li>
@@ -17,7 +17,7 @@
                                             <i class="fal fa-map-marker-alt"></i>
                                         </div>
                                         <div class="text">
-                                            <span>Add: 1234 Heaven Stress, Beverly Hill, Melbourne, USA.</span>
+                                            <span>Adresse : 24 allée du cerf, 95800 Courdimanche, Val-d'Oise, FRANCE.</span>
                                         </div>
                                     </li>
                                     <li>
@@ -25,7 +25,7 @@
                                             <i class="fal fa-envelope-open-text"></i>
                                         </div>
                                         <div class="text">
-                                            <span>Email: Contact@basictheme.com</span>
+                                            <span>E-mail : <a href="mailto:contact@rented.com">contact@rented.com</a></span>
                                         </div>
                                     </li>
                                     <li>
@@ -33,7 +33,7 @@
                                             <i class="fal fa-phone-alt"></i>
                                         </div>
                                         <div class="text">
-                                            <span>Phone Number: (800) 123 456 789</span>
+                                            <span>Téléphone : (+33) 06 95 56 58 22</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -44,16 +44,16 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-12">
                     <div class="footer__widget mb-30">
                         <div class="footer__widget-title">
-                            <h5>information</h5>
+                            <h5>Information</h5>
                         </div>
                         <div class="footer__widget-content">
                             <div class="footer__links">
                                 <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Careers</a></li>
-                                    <li><a href="#">Delivery Inforamtion</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Terms & Condition</a></li>
+                                    <li><a href="{{ path('front_aboutus') }}">A propos de nous</a></li>
+                                    <li><a href="{{ path('front_legal_mention') }}">Mention légale</a></li>
+                                    <li><a href="#">Condition générale de location</a></li>
+                                    <li><a href="{{ path('front_cgu') }}">Condition générale utilisation</a></li>
+                                    <li><a href="{{ path('front_cookies') }}">Gestion des cookies</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -62,16 +62,15 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-12">
                     <div class="footer__widget mb-30">
                         <div class="footer__widget-title mb-25">
-                            <h5>Customer Service</h5>
+                            <h5>Service client</h5>
                         </div>
                         <div class="footer__widget-content">
                             <div class="footer__links">
                                 <ul>
-                                    <li><a href="#">Shipping Policy</a></li>
-                                    <li><a href="#">Help & Contact Us</a></li>
-                                    <li><a href="#">Returns & Refunds</a></li>
-                                    <li><a href="#">Online Stores</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="{{ path('front_trust_chart') }}">Charte de confiance</a></li>
+                                    <li><a href="{{ path('front_contact') }}">Aidez-nous & Contactez-nous</a></li>
+                                    <li><a href="{{ path('front_policy') }}">Politique de confidentialité</a></li>
+                                    <li><a href="{{ path('front_policy') }}">Gestion de vos données personnelles</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -85,20 +84,20 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-7">
                     <div class="footer__copyright">
-                        <p>Copyright © <a href="index.html">Outstock</a> all rights reserved. Powered by <a href="index.html">Theme_pure</a></p>
+                        <p>Copyright © <a href="{{ path('front_home') }}">Rented</a> all rights reserved.</p>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-5">
-                    <div class="footer__social f-right">
-                        <ul>
-                            <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
-                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fab fa-behance"></i></a></li>
-                            <li><a href="#"><i class="fas fa-share-alt"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
+{#                <div class="col-xl-6 col-lg-5">#}
+{#                    <div class="footer__social f-right">#}
+{#                        <ul>#}
+{#                            <li><a href="#"><i class="fab fa-dribbble"></i></a></li>#}
+{#                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>#}
+{#                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>#}
+{#                            <li><a href="#"><i class="fab fa-behance"></i></a></li>#}
+{#                            <li><a href="#"><i class="fas fa-share-alt"></i></a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
         </div>
     </div>

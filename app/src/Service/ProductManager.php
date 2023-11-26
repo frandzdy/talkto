@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class ProductManager
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $em,
         private readonly FileUploadManager      $fileUploadManager,
         private readonly LoggerInterface $logger,
         private readonly ReservationRepository $reservationRepository
@@ -50,7 +50,7 @@ class ProductManager
                     $fileName = $this->fileUploadManager->uploadFile('product_picture', $pictureFileData);
                     $pic = new Picture();
                     $pic->setName($fileName);
-                    $this->entityManager->persist($pic);
+                    $this->em->persist($pic);
                     $product->addPicture($pic);
                 }
             }
@@ -59,10 +59,10 @@ class ProductManager
         $product->setStatus(ProductStatus::WAITING);
 
         if (!$update) {
-            $this->entityManager->persist($product);
+            $this->em->persist($product);
         }
 
-        $this->entityManager->flush();
+        $this->em->flush();
         
         return true;
     }
@@ -88,11 +88,11 @@ class ProductManager
                     $this->fileUploadManager->removeFileLiip('home_under_slider', $picture->getName());
                     $this->fileUploadManager->removeFileLiip('home_mid', $picture->getName());
                     $this->fileUploadManager->removeFileLiip('home_latest', $picture->getName());
-                    $this->entityManager->remove($picture);
+                    $this->em->remove($picture);
                 }
             }
 
-            $this->entityManager->flush();
+            $this->em->flush();
 
             return true;
         } catch (\Exception $e) {
@@ -107,7 +107,7 @@ class ProductManager
      */
     public function saveProduct(): void
     {
-        $this->entityManager->flush();
+        $this->em->flush();
     }
     /**
      * Supprime un produit
@@ -117,8 +117,10 @@ class ProductManager
         /**
          *  Contrôle que le produit n'est plus en location et pas réserver.
          */
-        $this->entityManager->remove($product);
-        $this->saveProduct();
+        if (!$this->em->getRepository(TransactionLine::class)->productHaveTransactionInProgress($product)) {
+            $this->em->remove($product);
+            $this->saveProduct();
+        }
     }
 
     /**

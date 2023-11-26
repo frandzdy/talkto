@@ -5,19 +5,19 @@
 {% block metas %}
     {{ parent() }}
     <meta name="description"
-          content="Contactez Rented. Vous avez besoin d'aide', nous vous invitons à compléter notre formulaire de contact.">
+          content="Contactez Rented. Vous avez besoin d'aide, nous vous invitons à compléter notre formulaire de contact.">
     <meta name="title" content="Contactez-nous – Rented">
 {% endblock %}
 
 {% block content %}
 
     <!-- contact area start -->
-    <section class="contact__area pb-100 pt-95" {{ stimulus_controller('contact') }}>
+    <section class="contact__area pb->50 pt-95" {{ stimulus_controller('contact') }}>
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
                     <div class="contact__info">
-                        <h3>Trouvez nous ici.</h3>
+                        <h3>Trouvez-nous ici.</h3>
                         <ul class="mb-55">
                             <li class="d-flex mb-35">
                                 <div class="contact__info-icon mr-20">
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="contact__info-content">
                                     <h6>Adresse :</h6>
-                                    <span>24 allée du cerf, 95800, Courdimanche France.</span>
+                                    <span>24 allée du cerf, 95800, Courdimanche, Val-d'Oise, FRANCE.</span>
                                 </div>
                             </li>
                             <li class="d-flex mb-35">
@@ -34,7 +34,9 @@
                                 </div>
                                 <div class="contact__info-content">
                                     <h6>E-mail :</h6>
-                                    <span><a data-toggle="tooltip" data-placement="top" data-turbo="false" href="mailto:contact@rented.com?subject=Besoin d'aide ?" target="_blank" title="Envoyer nous un e-mail contact@rented.com">contact@rented.com</a></span>
+                                    <span><a data-toggle="tooltip" data-placement="top" data-turbo="false"
+                                             href="mailto:contact@rented.com?subject=Besoin d'aide ?" target="_blank"
+                                             title="Envoyer nous un e-mail contact@rented.com">contact@rented.com</a></span>
                                 </div>
                             </li>
                             <li class="d-flex mb-35">
@@ -42,12 +44,12 @@
                                     <i class="fal fa-phone-alt"></i>
                                 </div>
                                 <div class="contact__info-content">
-                                    <h6>Numéro de téléphone :</h6>
-                                    <span>(800) 123 456 789, (800) 987 654 321</span>
+                                    <h6>Téléphone :</h6>
+                                    <span><a href="tel:0695565822">(+33) 06 95 56 48 22</a></span>
                                 </div>
                             </li>
                         </ul>
-                        <p>Outstock is a premium Templates theme with advanced admin module. It’s extremely customizable, easy to use and fully responsive and retina ready. Vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+                        <p>Rented est une plateforme de location d'objet entre particulier.</p>
 
                         <div class="contact__social">
                             <ul>
@@ -72,7 +74,7 @@
     <!-- contact area end -->
 
     <!-- contact map area start -->
-    <section class="contact__map">
+    <section class="contact__map pt-50 pb-95">
         <div class="container-fluid p-0">
             <div class="row no-gutters">
                 <div class="col-xl-12">
@@ -86,33 +88,34 @@
     <!-- contact map area end -->
 
     <!-- subscribe area start -->
-    <section class="subscribe__area pb-100">
-        <div class="container">
-            <div class="subscribe__inner subscribe__inner-2 pt-95">
-                <div class="row">
-                    <div class="col-xl-8 offset-xl-2">
-                        <div class="subscribe__content text-center">
-                            <h2>Get Discount Info</h2>
-                            <p>Subscribe to the Outstock mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-                            <div class="subscribe__form">
-                                <form action="#">
-                                    <input type="email" placeholder="Subscribe to our newsletter...">
-                                    <button class="os-btn os-btn-2 os-btn-3">subscribe</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{#    <section class="subscribe__area pb-100">#}
+{#        <div class="container">#}
+{#            <div class="subscribe__inner subscribe__inner-2 pt-95">#}
+{#                <div class="row">#}
+{#                    <div class="col-xl-8 offset-xl-2">#}
+{#                        <div class="subscribe__content text-center">#}
+{#                            <h2>Get Discount Info</h2>#}
+{#                            <p>Subscribe to the Outstock mailing list to receive updates on new arrivals, special offers#}
+{#                                and other discount information.</p>#}
+{#                            <div class="subscribe__form">#}
+{#                                <form action="#">#}
+{#                                    <input type="email" placeholder="Subscribe to our newsletter...">#}
+{#                                    <button class="os-btn os-btn-2 os-btn-3">subscribe</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
     <!-- subscribe area end -->
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-		var googleRecaptchPkey = '{{ googleRecaptchPkey }}';
+        var googleRecaptchPkey = '{{ googleRecaptchPkey }}';
     </script>
     <script src="https://www.google.com/recaptcha/api.js?render={{ googleRecaptchPkey }}"></script>
 {% endblock %}

@@ -3,11 +3,6 @@
 {% block title %}Ref : {{ transaction.reference|default('') }} - {{ parent() }}{% endblock %}
 {% block page_title %}Transaction ref : {{ transaction.reference|default('') }} {% endblock %}
 
-{% set breadcrumbItems = {
-    'Transactions': path('back_transaction_index'),
-    ('Transaction ref : ') ~ (transaction.reference |upper) : ''
-} %}
-
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_transaction_index') }}"
        class="btn btn-xs btn-primary">

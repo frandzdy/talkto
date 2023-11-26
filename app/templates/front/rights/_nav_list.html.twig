@@ -5,10 +5,16 @@
             Conditions générales d'utilisation
         </a>
     </li>
+    <li class="list-group-item {{ app.request.get('_route') == "front_personal_data" ? 'active' : '' }}">
+        <a class="{{ app.request.get('_route') == "front_personal_data" ? 'text-white' : '' }}"
+           href="{{ path('front_personal_data') }}">
+            Gestion de vos données personnelles
+        </a>
+    </li>
     <li class="list-group-item {{ app.request.get('_route') == "front_policy" ? 'active' : '' }}">
         <a class="{{ app.request.get('_route') == "front_policy" ? 'text-white' : '' }}"
            href="{{ path('front_policy') }}">
-            Politique des confidentialité
+            Politique de confidentialité
         </a>
     </li>
     <li class="list-group-item {{ app.request.get('_route') == "front_legal_mention" ? 'active' : '' }}">

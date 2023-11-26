@@ -11,14 +11,11 @@
     <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Rented">
 {% endblock %}
 
-{% set breadcrumbItems =
-    {
-        'Mon compte': ''
-    } %}
 {% set pictureName = '' %}
 {% if user.picture is not null %}
     {% set pictureName = user.picture.name %}
 {% endif %}
+
 {% block content %}
     <!-- profile area start -->
     <section class="profile__area pt-120 pb-50 grey-bg">

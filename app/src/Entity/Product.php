@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use function Symfony\Component\Translation\t;
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Index(columns: ["status", "short_description", "title", "category"], name: "ecommerce_products")]
 #[ORM\HasLifecycleCallbacks()]
@@ -48,11 +50,11 @@ class Product
     /**
      * @var ArrayCollection|Collection
      */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection|ArrayCollection $pictures;
 
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $reviews;
 
     /**
@@ -332,6 +334,21 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getAverageNote(): int
+    {
+        $totalNote = 0;
+        foreach ($this->getReviews() as $review) {
+            $totalNote += $review->getNote();
+        }
+
+        if ($totalNote) {
+
+            return $totalNote / $this->getReviews()->count();
+        }
+
+        return 0;
     }
 
     public function getHomePage(): ?HomePage

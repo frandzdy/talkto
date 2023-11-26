@@ -23,6 +23,7 @@ export default class extends Controller {
                 if (star.className === starClassInactive) {
                     for (i; i >= 0; --i) {
                         stars[i].className = starClassActive;
+                        $('#review_note').val(i)
                     }
                 } else {
                     for (i; i < starsLength; ++i) {

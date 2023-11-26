@@ -74,7 +74,7 @@ class WebhookStripeController extends AbstractController
                 $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
                 $transaction->setStatus(TransactionStatus::VALIDATE);
                 // on fait un virement aux différents bailleurs
-                $stripeManager->captureAndTransferPaymentIntent($paymentIntent, $transaction);
+                $stripeManager->transferPaymentIntentToLessor($paymentIntent, $transaction);
                 // mettre à jour le nombre de produits restant pour chaque
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
                     /**
