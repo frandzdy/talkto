@@ -351,18 +351,6 @@ class Product
         return 0;
     }
 
-    public function getHomePage(): ?HomePage
-    {
-        return $this->homePage;
-    }
-
-    public function setHomePage(?HomePage $homePage): static
-    {
-        $this->homePage = $homePage;
-
-        return $this;
-    }
-
     public function getNumberView(): ?int
     {
         return $this->numberView;

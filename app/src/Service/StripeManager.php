@@ -267,12 +267,13 @@ class StripeManager
     }
 
     /**
-     * @param TransactionLine $transactionLine
-     * @return Refund
-     * @throws \Stripe\Exception\ApiErrorException
+     * Effectue un remboursement pour une ligne de transaction
      */
     public function refundTransactionLine(TransactionLine $transactionLine): Refund
     {
+        // On annule le transfert effectué au compte bailleur
+        $this->cancelTranfert($transactionLine->getTransfertId(), $transactionLine->getAmountTtc() - $transactionLine->getFees());
+        // On annule le paiement effectué par le locataire
         return $this->stripe->refunds->create(
             [
                 'payment_intent' => $transactionLine->getTransaction()->getPaymentIntentId(),

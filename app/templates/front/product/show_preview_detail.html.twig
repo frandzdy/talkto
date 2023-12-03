@@ -169,8 +169,8 @@
                             </div>
                             <div class="tab-content" id="pro-detailsContent">
                                 <div class="tab-pane fade show active" id="des" role="tabpanel">
-                                    <div class="product__details-des wysiwyg">
-                                        {{ product.description|purify }}
+                                    <div class="wysiwyg">
+                                        {{ product.description|raw|purify }}
                                     </div>
                                 </div>
                                 {#                                <div class="tab-pane fade" id="add" role="tabpanel"> #}

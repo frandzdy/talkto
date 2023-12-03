@@ -112,12 +112,19 @@
                                     <label>Quantité <i class="fas fa-star-of-life"></i></label>
                                     {{ form_row(form.quantity) }}
                                 </div>
-                                <div class="pro-quan-area d-lg-flex align-items-center"
+                                <div class="pro-quan-area d-lg-flex align-items-center add"
                                      style="flex-direction: row-reverse;">
                                     <div class="pro-cart-btn">
                                         <a href="#" class="os-btn os-btn-black os-btn-3 mr-10 add-product-cart">+
                                             Ajouter</a>
                                     </div>
+                                </div>
+                                <div class="pro-quan-area align-items-center d-none indispo"
+                                     style="flex-direction: row-reverse;">
+                                    <div class="pro-cart-btn">
+                                        <a href="#" class="os-btn os-btn-red os-btn-3 mr-10"><i class="bi bi-exclamation-triangle"></i>Indisponible</a>
+                                    </div>
+
                                 </div>
                                 {{ form_end(form) }}
                             </div>
@@ -277,7 +284,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                {{ form_start(formReview, {attr: {'class' : 'contact-post-form', 'id':'contacts-form')}}) }}
+                                                {{ form_start(formReview, {attr: {'class' : 'contact-post-form', 'id':'contacts-form'}}) }}
                                                 <div class="row">
                                                     <div class="col-xl-12">
                                                         <div class="contact-icon p-relative contacts-message">
@@ -296,7 +303,8 @@
                                             <div class="post-comments-form mb-100">
                                                 <div class="post-comments-title mb-30">
                                                     <div class="post-rating">
-                                                        <span>Vous devez être <a href="{{ path('front_login') }}">connecté</a> pour laisser un avis.</span>
+                                                    <span>Vous devez être <a
+                                                                href="{{ path('front_login') }}">connecté</a> pour laisser un avis.</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -490,6 +490,20 @@ p {
       }
     }
   }
+
+  &red {
+    color: $white;
+    background-color: $red-2;
+    border-color: $red-3;
+
+    &::after {
+      background-color: $theme-color;
+    }
+
+    &:hover {
+      border-color: $theme-color;
+    }
+  }
 }
 
 .os-btn-4 {

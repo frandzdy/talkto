@@ -90,8 +90,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->setParameter(':startDistance', 0)
             ->setParameter(':endDistance', 100)
             ->setParameter(':userLat', $lat ?: 48.866667)
-            ->setParameter(':userLon', $lon ?: 2.333333)
-        ;
+            ->setParameter(':userLon', $lon ?: 2.333333);
 
         return $qb->getQuery()->getResult();
     }
@@ -109,13 +108,29 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
             ->setParameter('dateNow', new \DateTime('now'))
             ->andWhere('p.id = :productId')
-            ->setParameter('productId',$product->getId())
-            ;
+            ->setParameter('productId', $product->getId());
 
         $count = (clone $qb)->select('count(Distinct(tl.id))')
             ->getQuery()
             ->getSingleScalarResult();
 
         return $count > 0;
+    }
+
+    /**
+     * Vérifie si une transaction est en cours
+     */
+    public function productCheckQuantityAvailable(Product $product, \DateTime $startDate): array
+    {
+        return $this->createQueryBuilder('tl')
+            ->select('tl')
+            ->join('tl.product', 'p')
+            ->addSelect('p')
+            ->where('tl.startDate <= :date AND tl.endDate >= :date')
+            ->setParameter('date', $startDate)
+            ->andWhere('p.id = :product')
+            ->setParameter('product', $product->getId())
+            ->getQuery()
+            ->getResult();
     }
 }

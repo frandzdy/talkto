@@ -3,19 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Product;
-use App\Entity\Reservation;
-use App\Entity\Transaction;
-use App\Entity\TransactionLine;
-use App\Entity\User;
 use App\Enum\ProductCategory;
 use App\Enum\ProductStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-
-use function PHPUnit\Framework\matches;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -98,11 +91,12 @@ class ProductRepository extends ServiceEntityRepository
             ->andWhere('p.category = :productCategory')
             ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->orHaving('distance IS NULL')
             ->setParameter(':startDistance', $filter['startDistance'])
             ->setParameter(':endDistance', $filter['endDistance'])
             ->setParameter(':startAmount', $filter['startAmount'])
             ->setParameter(':endAmount', $filter['endAmount'])
-            ->setParameter(':productStatus', ProductStatus::VALIDATE)
+            ->setParameter(':productStatus', ProductStatus::VALIDATE->value)
             ->setParameter(':productCategory', $filter['category'])
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);

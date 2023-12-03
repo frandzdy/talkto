@@ -3769,7 +3769,7 @@ p {
   font-size: 15px;
   color: #6f7172;
   padding: 10px 30px;
-  border-bottom: 1px solid #eaedff;
+  border-bottom: 1px solid #eaedff !important;
   font-weight: 400;
 }
 

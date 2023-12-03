@@ -189,14 +189,10 @@ class ProductManager
                     /**
                      * @var TransactionLine $transactionLine
                      */
-                    if ($transactionLine->getStartDate() != $transactionLine->getEndDate()) {
-                        $disabledDates[] = [
-                            'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
-                            'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
-                        ];
-                    } else {
-                        $disabledDates[] = ['from' => ($transactionLine->getStartDate())->format('Y-m-d')];
-                    }
+                    $disabledDates[] = [
+                        'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
+                        'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
+                    ];
                 }
             }
         }

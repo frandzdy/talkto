@@ -5,11 +5,13 @@ namespace App\Controller\Front;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\Review;
+use App\Entity\TransactionLine;
 use App\Enum\ProductCategory;
 use App\Form\Front\ProductReservationType;
 use App\Form\Front\ProductReviewType;
 use App\Form\Front\ProductType;
 use App\Repository\ProductRepository;
+use App\Repository\TransactionLineRepository;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -58,7 +60,7 @@ class ProductController extends AbstractController
     {
         $product = $productRepository->findOneBy(['token' => $token]);
         if (!$product) {
-            throw $this->createNotFoundException('Ce produit n\'existant pas.');
+            throw $this->createNotFoundException('Ce produit n\'existe pas.');
         }
 
         return $this->render('front/product/show_preview_detail.html.twig', compact('product'));
@@ -73,8 +75,11 @@ class ProductController extends AbstractController
      * @param $productManager $productManager
      * @return Response
      */
-    #[Route('/produit-reservation/{token}', name: 'product_reservation', methods: ['GET', 'POST'])]
-    #[Route('/produit-reservation-details/{token}/{review}', name: 'product_reservation_show_detail', methods: [
+    #[Route('/produit-reservation/{token}/{review}', name: 'product_reservation', defaults: ['review' => false], methods: [
+        'GET',
+        'POST'
+    ])]
+    #[Route('/produit-reservation-details/{token}/{review}', name: 'product_reservation_show_detail', defaults: ['review' => false], methods: [
         'GET',
         'POST'
     ])]
@@ -102,8 +107,10 @@ class ProductController extends AbstractController
         ];
         $choicesValue = [];
         $quantityLeft = $product->getQuantity() - $product->getQuantityAllReadyReserved();
-        for ($i = 1; $i <= $quantityLeft + 1; $i++) {
-            $choicesValue[$i] = $i;
+        if ($quantityLeft) {
+            for ($i = 1; $i <= $quantityLeft; $i++) {
+                $choicesValue[$i] = $i;
+            }
         }
         // on compte une vue
         $product->setNumberView($product->getNumberView() + 1);
@@ -115,7 +122,8 @@ class ProductController extends AbstractController
             'quantityLeft' => $quantityLeft,
             'action' => $request->getRequestUri(),
             'choicesValue' => $choicesValue,
-            'disabledDates' => $productManager->getDisabledDatesFormProduct($token)
+            'disabledDates' => $productManager->getDisabledDatesFormProduct($token),
+            'token' => $token
         ];
 
         $form = $this->createForm(ProductReservationType::class, $data, $options);
@@ -375,9 +383,29 @@ class ProductController extends AbstractController
             $this->addFlash('success', 'Enregistrement effectué.');
         } else {
             $this->addFlash('error', 'Une erreur est survenue.');
-            return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token, 'review' => true]);
+            return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token, 'review' => true]
+            );
         }
 
         return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
+    }
+
+    #[Route('/check-dates/{startDate}/{token}', name: 'product_check_dates', options: ["expose" => true], methods: ['GET'])]
+    public function checkDate(
+        \DateTime $startDate,
+        string $token,
+        EntityManagerInterface $em
+    ): JsonResponse {
+        $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
+        $transactionLines = $em->getRepository(TransactionLine::class)->productCheckQuantityAvailable($product, $startDate);
+        $totalReserved = 0;
+        foreach ($transactionLines as $transactionLine) {
+            $totalReserved += $transactionLine->getQuantity();
+        }
+        return $this->json(
+            [
+                'quantity' => $product->getQuantity() - $totalReserved,
+            ]
+        );
     }
 }

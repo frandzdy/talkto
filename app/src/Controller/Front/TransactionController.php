@@ -6,6 +6,7 @@ use App\Enum\TransactionLineStatus;
 use App\Repository\TransactionLineRepository;
 use App\Repository\TransactionRepository;
 use App\Service\StripeManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,8 @@ class TransactionController extends AbstractController
     public function transactionLineCanceled(
         string $token,
         TransactionLineRepository $transactionLineRepository,
-        StripeManager $stripeManager
+        StripeManager $stripeManager,
+        EntityManagerInterface $em
     ): Response {
         $transactionLine = $transactionLineRepository->findOneBy(['token' => $token]);
 
@@ -40,6 +42,7 @@ class TransactionController extends AbstractController
         } else {
             $transactionLine->setStatus(TransactionLineStatus::CANCELED);
             $this->addFlash('success', 'Votre demande de remboursement est pris en compte.');
+            $em->flush();
         }
 
         return $this->redirectToRoute('front_account_show');

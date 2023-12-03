@@ -3,6 +3,12 @@
   letter-spacing: 0.2px;
   color: #24353f;
 }
+.wysiwyg > li {
+  list-style: revert !important;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  margin-left: 23px;
+}
 .wysiwyg p {
   font-size: 16px;
   line-height: 150%;
@@ -52,7 +58,7 @@
   border: 1px solid #dee2e6;
 }
 .wysiwyg ul li:before {
-  content: "\a";
+  content: "\a" !important;
 }
 
 .wysiwyg figure.image {
@@ -98,6 +104,6 @@
     line-height: 140%;
   }
   .wysiwyg ul li:before {
-    content: "\a";
+    content: "\a" !important;
   }
 }
