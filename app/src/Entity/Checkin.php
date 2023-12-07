@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\CheckinType;
 use App\Enum\CheckinStatus;
-use App\Enum\CheckinValidateStatus;
 use App\Repository\CheckinRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,20 +23,20 @@ class Checkin
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: TransactionLine::class)]
+    #[ORM\ManyToOne(targetEntity: TransactionLine::class, inversedBy: 'checkins')]
     private TransactionLine $transactionLine;
 
-    #[ORM\Column(type: "smallint", enumType: CheckinStatus::class)]
-    private CheckinStatus $status;
+    #[ORM\Column(type: "smallint", enumType: CheckinType::class)]
+    private CheckinType $type;
 
-    #[ORM\Column(type: "smallint", enumType: CheckinValidateStatus::class)]
-    private CheckinValidateStatus $validateStatus;
+    #[ORM\Column(type: "smallint", enumType: CheckinStatus::class)]
+    private CheckinStatus $status = CheckinStatus::VALIDATE;
 
     /**
-     * @var ArrayCollection|Collection
+     * @var Collection
      */
     #[ORM\ManyToMany(targetEntity: Picture::class)]
-    private Collection|ArrayCollection $pictures;
+    private Collection $pictures;
 
     /**
      * @var UploadedFile[]
@@ -44,32 +44,30 @@ class Checkin
     #[Assert\All(
         new Assert\Image(
             maxSize: '10M',
-            minWidth: '1920',
-            minHeight: '933',
             detectCorrupted: true,
             maxSizeMessage: "Document trop lourd.",
             mimeTypesMessage: "Format Image uniquement autorisé.",
-            minWidthMessage: 'La largeur est de 1920 minimum ',
-            minHeightMessage: 'La hauteur est de 933 minimum ',
-            corruptedMessage: 'Fichier corrompue'
+            corruptedMessage: 'Fichier corrompue.'
         )
     )]
-    #[Assert\Count(min: 1, max: 5, minMessage: "1 photo minimum", maxMessage: "5 photos maximums.")]
     public array $uploadedPictures = [];
 
     /**
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotBlank(message: "Information requise.")]
     private ?string $comments = null;
 
     #[ORM\Column]
     private \DateTime $startDate;
 
+    #[ORM\OneToMany(mappedBy: 'checkin', targetEntity: Claim::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $claims;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->claims = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +115,24 @@ class Checkin
     /**
      * @return mixed
      */
+    public function getType(): CheckinType
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType(CheckinType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getStatus(): CheckinStatus
     {
         return $this->status;
@@ -128,24 +144,6 @@ class Checkin
     public function setStatus(CheckinStatus $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValidateStatus(): CheckinValidateStatus
-    {
-        return $this->validateStatus;
-    }
-
-    /**
-     * @param mixed $validateStatus
-     */
-    public function setValidateStatus(CheckinValidateStatus $validateStatus): self
-    {
-        $this->validateStatus = $validateStatus;
 
         return $this;
     }
@@ -199,6 +197,44 @@ class Checkin
     public function setComments(?string $comments): self
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getClaims(): Collection
+    {
+        return $this->claims;
+    }
+
+    /**
+     * @param Claim $claim
+     * @return $this
+     */
+
+    public function addClaim(Claim $claim): self
+    {
+        if (!$this->claims->contains($claim)) {
+            $this->claims[] = $claim;
+            $claim->setCheckin($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Claim $claim
+     * @return $this
+     */
+    public function removeClaim(Claim $claim): self
+    {
+        if ($this->claims->removeElement($claim)) {
+            if ($this === $claim->getCheckin()) {
+                $claim->setCheckin(null);
+            }
+        }
 
         return $this;
     }

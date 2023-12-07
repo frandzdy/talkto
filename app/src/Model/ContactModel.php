@@ -10,10 +10,9 @@
         use NotificationModelTrait;
     
         /**
-         * Sujet du formulaire de contactez-nous
-         *
-         * @Assert\NotBlank(message="Information requise.")
+         * Sujet du formulaire de, contactez-nous
          */
+        #[Assert\NotBlank(message: "Information requise.")]
         private int $subject;
     
         /**

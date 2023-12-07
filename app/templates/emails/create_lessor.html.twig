@@ -1,0 +1,57 @@
+{% block subject %}RENTED – Bienvenue sur RENTED{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Bienvenue sur RENTED{% endblock %}
+        {% block accroche %}Bienvenue sur RENTED{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h1>Bonjour {{ user.fullname|capitalize }},</h1>
+                    <p>
+                        Bienvenue et nous vous remercions de vous être inscrit sur
+                        <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
+                    </p>
+                    <p>
+                        Dans votre espace, vous pourrez ajouter vos produits, voir vos locations en cours, discuter avec
+                        vos locataires.
+                    </p>
+                    <p>
+                        Vous pouvez aussi louer des biens, les ajouter en favoris et voir reservations par exemple.
+                    </p>
+                    <p>
+                        Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions
+                        n'hésitez pas à nous contacter via les moyens mis à votre disposition.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe RENTED<br/>
+                        <a title="Site Rented"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre
+                        directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ user.fullname|capitalize }},\n
+    \n
+    Bienvenue et nous vous remercions de vous être inscrit sur {{ app.request.schemeAndHttpHost }}.\n
+    \n
+    Dans votre espace, vous pourrez ajouter vos produits, voir vos locations en cours, discuter avec vos locataires.\n
+    \n
+    Vous pouvez aussi louer des biens, les ajouter en favoris et voir reservations par exemple.\n
+    \n
+    Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions n'hésitez pas à nous contacter via les moyens mis à votre disposition.\n
+    \n
+    Cordialement,\n
+    L'équipe RENTED\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

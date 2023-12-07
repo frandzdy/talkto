@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Rented Pros BackOffice | {% block title %}{% endblock %}</title>
+    <title>Rented BackOffice | {% block title %}{% endblock %}</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" sizes="75x75"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#bc8246">
+    <meta name="apple-mobile-web-app-title" content="Rent-Hub">
+    <meta name="application-name" content="Rent-Hub">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#bc8246">
     {% block metas %}
-        <!-- Place favicon.ico in the root directory -->
-        <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" sizes="75x75"/>
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-        <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-        <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#2d89ef">
         <meta content="Rented - BackOffice" name="description"/>
     {% endblock %}
     <meta name="turbo-cache-control" content="no-cache">

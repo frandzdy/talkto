@@ -21,7 +21,7 @@
                         <td>{{ reservation.transaction.reference|default('') }}</td>
                         <td>{{ reservation.transaction.status.label|default('') }}</td>
                         <td>{{ reservation.transaction.paymentIntentId|default('') }}</td>
-                        <td>{{ reservation.transaction.totalAmountTtc|default('') }}</td>
+                        <td>{{ ((reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }}</td>
                         <td class="pl-4">
                             {#                                <a title="Voir la réservation" #}
                             {#                                   href="{{ path('back_company_edit_user_company', {'user': account.user.id, 'company': account.company.id}) }}" #}

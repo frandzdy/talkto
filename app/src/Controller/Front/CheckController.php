@@ -4,10 +4,12 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Checkin;
+use App\Entity\Reservation;
 use App\Entity\TransactionLine;
-use App\Enum\CheckinStatus;
+use App\Enum\CheckinType as CheckinTypeEnum;
 use App\Form\Front\CheckinType;
 use App\Service\CheckManager;
+use App\Service\MailerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,10 +32,11 @@ class CheckController extends AbstractController
         CheckManager $checkManager
     ): Response {
         $transactionLine = $em->getRepository(TransactionLine::class)->findOneBy(['token' => $token]);
+        $reservation = $em->getRepository(Reservation::class)->findOneBy(['transaction' => $transactionLine->getTransaction()]);
         $hasAllReadyDoneCheckin = $em->getRepository(Checkin::class)->findOneBy(
             [
                 'transactionLine' => $transactionLine->getId(),
-                'status' => $type === 'in' ? CheckinStatus::IN->value : CheckinStatus::OUT->value
+                'status' => $type === 'in' ? CheckinTypeEnum::IN->value : CheckinTypeEnum::OUT->value
             ]
         );
 
@@ -42,11 +45,10 @@ class CheckController extends AbstractController
         } else {
             $checkin = $hasAllReadyDoneCheckin;
         }
+
         $form = $this->createForm(CheckinType::class, $checkin, ['action' => $request->getUri()]);
-
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-
-            $checkManager->saveCheckin($checkin, $checkin->uploadedPictures);
+            $checkManager->saveCheckin($checkin, $reservation, $checkin->uploadedPictures);
             $this->addFlash('success', 'Check' . $type . ' enregistré !');
 
             return $this->json(

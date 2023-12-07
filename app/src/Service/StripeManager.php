@@ -18,6 +18,7 @@ use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\Refund;
 use Stripe\StripeClient;
+use Stripe\TransferReversal;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripeManager
@@ -111,9 +112,7 @@ class StripeManager
     }
 
     /**
-     * @param User $user
-     * @return Account
-     * @throws \Stripe\Exception\ApiErrorException
+     * Retourne un compte connecté Stripe
      */
     public function retrieveAccount(User $user): Account
     {
@@ -121,7 +120,7 @@ class StripeManager
     }
 
     /**
-     * Retourne un utilisateur
+     * Retourne un utilisateur client Stripe
      */
     public function retrieveCustomer($customerId): ?Customer
     {
@@ -192,9 +191,7 @@ class StripeManager
     }
 
     /**
-     * @param $products
-     * @param Transaction $transaction
-     * @return void
+     * Ajout ou mets à jour une ligne de transaction
      */
     public function addOrUpdateTransactionLine($products, Transaction $transaction): array
     {
@@ -244,8 +241,7 @@ class StripeManager
     }
 
     /**
-     * @param string $paymenIntentId
-     * @return PaymentIntent
+     * Retourne un paiement
      */
     public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
     {
@@ -253,41 +249,25 @@ class StripeManager
     }
 
     /**
-     * @param string $paymenIntentId
-     * @return PaymentIntent
-     */
-    public function updatePaymentIntent(string $paymenIntentId, array $carts): PaymentIntent
-    {
-        return $this->stripe->paymentIntents->update(
-            $paymenIntentId,
-            [
-                'amount' => $carts['totalAmount'] * 100
-            ]
-        );
-    }
-
-    /**
-     * Effectue un remboursement pour une ligne de transaction
+     * Effectue un remboursement complèt pour une ligne de transaction
      */
     public function refundTransactionLine(TransactionLine $transactionLine): Refund
     {
         // On annule le transfert effectué au compte bailleur
-        $this->cancelTranfert($transactionLine->getTransfertId(), $transactionLine->getAmountTtc() - $transactionLine->getFees());
+        $transfertReversal = $this->cancelTranfert($transactionLine->getTransfertId(), $transactionLine->getAmountTtc() - $transactionLine->getFees());
+        $transactionLine->setCancelTransfertId($transfertReversal->id)
+            ->setCancelAmount($transactionLine->getAmountTtc());
         // On annule le paiement effectué par le locataire
         return $this->stripe->refunds->create(
             [
                 'payment_intent' => $transactionLine->getTransaction()->getPaymentIntentId(),
-                'amount' => $transactionLine->getAmountTtc() - $transactionLine->getFees(),
+                'amount' => $transactionLine->getAmountTtc(),
             ]
         );
     }
 
     /**
      * Créer une transaction avec les informations du panier
-     *
-     * @param array $carts
-     * @param User $user
-     * @return PaymentIntent
      */
     public function createTransaction(array &$carts, User $user): array
     {
@@ -326,12 +306,13 @@ class StripeManager
     }
 
     /**
-     * Annule un transfert vers un compte connecté
+     * Annule un transfert vers un compte connecté partiellement ou complèt
      */
-    public function cancelTranfert(string $transfertId, $amount) {
-        $this->stripe->transfers->createReversal(
+    public function cancelTranfert(string $transfertId, $amount):TransferReversal
+    {
+        return $this->stripe->transfers->createReversal(
             $transfertId,
-            ['amount' => $amount]
+            ['amount' => $amount * 100]
         );
     }
 }

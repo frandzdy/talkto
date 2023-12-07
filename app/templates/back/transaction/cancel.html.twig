@@ -1,0 +1,9 @@
+{{ form_start(form, {'attr': {'novalidate':'novalidate', 'autocomplete':'off'}}) }}
+
+{{ form_row(form.amount) }}
+
+<div class="actions mt-4 text-center">
+    <input type="submit" value="Enregistrer" class="btn btn-primary" formnovalidate/>
+</div>
+
+{{ form_end(form) }}

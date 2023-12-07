@@ -29,7 +29,7 @@ class ContributorFixtures extends Fixture
         $contributor = new Contributor();
         $contributor->setEmail('zz_rented@yopmail.fr');
         $contributor->setPassword($this->passwordEncoder->hashPassword($contributor, 'contributorpass'));
-        $contributor->setRole(Contributor::ROLE_SUPERADMIN);
+        $contributor->setRole(Contributor::ROLE_SUPER_ADMIN);
         $contributor->setFullname("Super Administrateur");
 
         $manager->persist($contributor);

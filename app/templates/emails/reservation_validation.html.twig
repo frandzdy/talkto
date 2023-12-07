@@ -7,9 +7,7 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <p>
-                        <h1>Bonjour {{ user.firstname }},</h1>
-                    </p>
+                    <h1>Bonjour {{ user.firstname }},</h1>
                     <p>
                         Merci pour votre réservation.
                     </p>
@@ -17,7 +15,7 @@
                         Nous vous confirmons que votre réservation a bien été validé par nos services.
                     </p>
                     <p>
-                        Retrouvez les informations concernant votre commande et votre facture dans votre espace <b>mes réservations</b>.
+                        Retrouvez les informations concernant votre commande dans votre espace -> <a href="{{ path('front_user_account') }}" title="Mon compte">mes réservations</a>.
                     </p>
                     <p>
                         Sachez que votre bailleur reviendra vers vous pour vous donner les informations nécessaires afin que vous puissiez
@@ -45,7 +43,7 @@
     \n
     Nous vous confirmons que votre réservation a bien été validé par nos services.\n
     \n
-    Retrouvez les informations concernant votre commande dans votre espace "mes réservations".\n
+    Retrouvez les informations concernant votre commande dans votre espace "mes réservations" : {{ path('front_user_account') }}.\n
     \n
     Sachez que votre bailleur reviendra vers vous pour vous donner les informations nécessaires afin que vous puissiez récupérer vos locations.\n
     \n

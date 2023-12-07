@@ -1,51 +1,80 @@
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title">Transactions</h4>
+        <h4 class="panel-title">Ligne de transactions</h4>
     </div>
     <div class="panel-body">
         <div class="table-responsive mb-4">
             <table class="user-company table table-striped m-b-0">
                 <thead>
                 <tr>
-                    <th>Id Produit</th>
+                    <th>Id</th>
                     <th>Titre</th>
-                    <th>Date de début</th>
-                    <th>Date de fin</th>
-                    <th>Quantité</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Qt</th>
                     <th>Mont. TTC</th>
                     <th>Mont. T.V.A</th>
                     <th>Frais</th>
-                    <th>Statut</th>-
-                    <th>Propriétaire</th>
+                    <th>Remboursée</th>
+                    <th>Mont. remb.</th>
+                    <th>Statut</th>
+                    <th>Bailleur</th>
                     <th style="width: 50px;"></th>
                 </tr>
                 </thead>
                 <tbody>
+                {% set sumTtc = sumTtc|default(0) %}
+                {% set sumTva = sumTva|default(0) %}
+                {% set sumFees = sumFees|default(0) %}
+                {% set sumRefunds = sumRefunds|default(0) %}
                 {% for transactionLine in transaction.transactionLines %}
+                    {% set sumTtc = (sumTtc|default(0)) + (transactionLine.amountTtc + transactionLine.fees) / 100 %}
+                    {% set sumTva = (sumTva|default(0)) + transactionLine.amountTva / 100 %}
+                    {% set sumFees = (sumFees|default(0)) + (transactionLine.fees / 100) %}
+                    {% set sumRefunds = (sumRefunds|default(0)) + (transactionLine.cancelAmount|default(0) / 100) %}
                     <tr>
-                        <td><a href="{{ path('back_product_show', {id:  transactionLine.product.id}) }}">{{ transactionLine.product.id|default('') }}</a></td>
-                        <td><a href="{{ path('back_product_show', {id:  transactionLine.product.id}) }}">{{ transactionLine.product.title|default('') }}</a></td>
+                        <td>
+                            {{ transactionLine.id }}
+                        </td>
+                        <td>
+                            <a href="{{ path('back_product_show', {id:  transactionLine.product.id}) }}">{{ transactionLine.product.title|default('') }}</a>
+                        </td>
                         <td>{{ transactionLine.startDate|date('d-m-Y') }}</td>
                         <td>{{ transactionLine.endDate|date('d-m-Y') }}</td>
-                        <td>{{ transactionLine.quantity|default('') }}</td>
-                        <td>{{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default('') }}</td>
-                        <td>{{ (transactionLine.amountTva / 100)|number_format(2, ',')|default('') }}</td>
-                        <td>{{ (transactionLine.fees / 100)|number_format(2, ',')|default('') }}</td>
+                        <td>{{ transactionLine.quantity|default(0) }}</td>
+                        <td>{{ ((transactionLine.amountTtc + transactionLine.fees) / 100)|number_format(2, ',')|default(0) }}</td>
+                        <td>{{ (transactionLine.amountTva / 100)|number_format(2, ',')|default(0) }}</td>
+                        <td>{{ (transactionLine.fees / 100)|number_format(2, ',')|default(0) }}</td>
+                        <td>{{ transactionLine.cancelTransfertId ? 'Oui' : 'Non' }}</td>
+                        <td>{{ (transactionLine.cancelAmount / 100)|number_format(2, ',')|default(0) }}</td>
                         <td>{{ transactionLine.status.label|default('') }}</td>
-                        <td><a href="{{ path('back_lessor_show', {id: transactionLine.product.author.id}) }}">{{ transactionLine.product.author.fullname|default('') }}</a></td>
+                        <td>
+                            <a href="{{ path('back_lessor_show', {id: transactionLine.product.author.id}) }}">{{ transactionLine.product.author.fullname|default('') }}</a>
+                        </td>
                         <td class="pl-4">
-                            {#                                <a title="Suppression" #}
-                            {#                                   href="{{ path('back_company_delete_user_company', {'customerCompany': customerCompany.id, 'customerAccount' : account.id}) }}" #}
-                            {#                                   class="btn btn-xs btn-danger post-confirm" #}
-                            {#                                   data-button-text="Suppression" #}
-                            {#                                   data-title="Suppression" #}
-                            {#                                   data-confirm-message="Souhaitez-vous supprimer cet élément ?"> #}
-                            {#                                    <i class="fa fa-trash"></i> #}
-                            {#                                </a> #}
+                            {% if transactionLine.cancelTransfertId is same as (null) %}
+                                <a href="{{ path('back_transaction_cancel', {'transactionLine': transactionLine.id}) }}"
+                                   class="btn btn-xs btn-primary open-back-modal"
+                                   data-modal-title="Remboursement d'une location"
+                                >
+                                    <i class="fa fa-money-bill"></i>
+                                </a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
+                <tfooter>
+                    <td colspan="5">Totaux :</td>
+                    <td>{{ sumTtc|number_format(2, ',')|default(0) }}</td>
+                    <td>{{ sumTva|number_format(2, ',')|default(0) }}</td>
+                    <td>{{ sumFees|number_format(2, ',')|default(0) }}</td>
+                    <td></td>
+                    <td>{{ sumRefunds|number_format(2, ',')|default(0) }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tfooter>
             </table>
         </div>
     </div>

@@ -7,28 +7,28 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
+                    <h1>Bonjour {{ user.fullname|capitalize }},</h1>
                     <p>
-                        <h1>Bonjour,</h1>
+                        Bienvenue, nous vous remercions de vous être inscrit sur <a title="Site Rented"
+                                                                                    href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
                     </p>
                     <p>
-                        {{ user.fullname }}
-                    </p>
-                    <p>
-                        Bienvenue, nous vous remercions de vous être inscrit sur <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
-                    </p>
-                    <p>
-                        Avec votre compte, vous avez la possibilité de voir vos historiques de location, discuter avec votre bailleur
+                        Avec votre compte, vous avez la possibilité de voir vos historiques de location, discuter avec
+                        votre bailleur
                         et d'ajouter des produits en favoris par exemple.
                     </p>
                     <p>
-                        Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions n'hésitez pas à nous contacter via les moyens mis à votre disposition.
+                        Nous vous souhaitons une bonne navigation sur notre site, et si vous avez des questions
+                        n'hésitez pas à nous contacter via les moyens mis à votre disposition.
                     </p>
                     <p>
                         Cordialement,<br/>
                         L'équipe RENTED<br/>
-                        <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                        <a title="Site Rented"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
-                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre directement.</p>
                 </td>
             </tr>
         {% endblock %}
@@ -36,9 +36,7 @@
 {% endblock %}
 
 {% block body_text %}
-    Bonjour,\n
-    \n
-    {{ user.fullname }}\n
+    Bonjour {{ user.fullname|capitalize }},\n
     \n
     Bienvenue, nous vous remercions de vous être inscrit sur {{ app.request.schemeAndHttpHost }}.\n
     \n

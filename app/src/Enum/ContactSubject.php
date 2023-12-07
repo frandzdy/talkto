@@ -5,7 +5,7 @@ namespace App\Enum;
 /**
  * ContactSubject
  */
-final class ContactSubject
+enum ContactSubject: int
 {
     public const SUBJECT_BUG = 1;
     public const SUBJECT_IMPROVEMENT = 2;
@@ -36,5 +36,12 @@ final class ContactSubject
         
         return $arrayContactSubject[$key];
     }
-    
+
+    /**
+     * Affiche le label de l'item
+     */
+    public function label(): ?string
+    {
+        return self::getAvailableContactSubjects()[$this->value] ?? null;
+    }
 }

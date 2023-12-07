@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints\PasswordRequirements as AssertRented;
+use App\Validator\Constraints\PasswordRequirements;
 /**
  * Utilisateur de l'administration
  */
@@ -17,7 +17,7 @@ use App\Validator\Constraints\PasswordRequirements as AssertRented;
 #[UniqueEntity(fields: ['email'], message: 'E-mail déjà enregistré.')]
 class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
@@ -60,7 +60,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
      * Mot de passe en clair (non persisté)
      */
     #[Assert\NotBlank(message: 'Information requise.', groups: ['creation'])]
-    #[AssertRented\PasswordRequirements()]
+    #[PasswordRequirements()]
     public ?string $plainPassword = null;
 
     /**
@@ -115,7 +115,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return [
             self::ROLE_ADMIN => 'Administrateur',
-            self::ROLE_SUPERADMIN => 'Super Administrateur'
+            self::ROLE_SUPER_ADMIN => 'Super Administrateur'
         ];
     }
 
@@ -134,7 +134,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function isDeletable(): bool
     {
-        return $this->getRole() != self::ROLE_SUPERADMIN;
+        return $this->getRole() != self::ROLE_SUPER_ADMIN;
     }
 
     /**

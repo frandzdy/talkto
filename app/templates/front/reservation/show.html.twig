@@ -62,20 +62,22 @@
                                                     <br>
                                                 {% endif %}
                                             {% else %}
-                                                {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") %}
+                                                {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or !transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::IN'))|length %}
                                                     <a class="profile__info-btn open-front-modal"
                                                        href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
-                                                       title="Checkin"
-                                                       data-modal-title="Checkout">
+                                                       title="Check-in"
+                                                       data-modal-title="Check-in">
                                                         Check-in
+                                                        {{ dump(transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::IN'))) }}
+                                                        {{ dump(transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::OUT'))) }}
                                                     </a>
                                                     <br>
                                                 {% endif %}
-                                                {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") %}
+                                                {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") or !transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::OUT'))|length %}
                                                     <a class="profile__info-btn open-front-modal"
                                                        href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
-                                                       title="Checkout"
-                                                       data-modal-title="Checkout">
+                                                       title="Check-out"
+                                                       data-modal-title="Check-out">
                                                         Checkout
                                                     </a>
                                                     <br>
@@ -146,8 +148,12 @@
                                 <th></th>
                                 <th></th>
                                 <th>Total TTC</th>
-                                <td><strong><span
-                                                class="amount">{{ (reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100 }} €</span></strong>
+                                <td>
+                                    <strong>
+                                        <span class="amount">
+                                            {{ ((reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €
+                                        </span>
+                                    </strong>
                                 </td>
                                 <td></td>
                             </tr>

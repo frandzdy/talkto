@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Enum\TransactionLineStatus;
 use App\Repository\TransactionLineRepository;
 use App\Repository\TransactionRepository;
+use App\Service\MailerManager;
 use App\Service\StripeManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,8 @@ class TransactionController extends AbstractController
         string $token,
         TransactionLineRepository $transactionLineRepository,
         StripeManager $stripeManager,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        MailerManager $mailerManager
     ): Response {
         $transactionLine = $transactionLineRepository->findOneBy(['token' => $token]);
 
@@ -41,8 +43,24 @@ class TransactionController extends AbstractController
             $this->addFlash('error', 'Veuillez contrôler vos informations bancaire.');
         } else {
             $transactionLine->setStatus(TransactionLineStatus::CANCELED);
-            $this->addFlash('success', 'Votre demande de remboursement est pris en compte.');
+            $this->addFlash('success', 'Remboursement effectué.');
             $em->flush();
+            $mailerManager->sendMailNotification(
+                $transactionLine->getTransaction()->getAuthor()->getEmail(),
+                'emails/refunds.html.twig',
+                [
+                    'transactionLine' => $transactionLine,
+                    'user' => $transactionLine->getTransaction()->getAuthor()
+                ]
+            );
+            $mailerManager->sendMailNotification(
+                $transactionLine->getProduct()->getAuthor()->getEmail(),
+                'emails/lessor_refunds.html.twig',
+                [
+                    'transactionLine' => $transactionLine,
+                    'user' => $transactionLine->getProduct()->getAuthor()
+                ]
+            );
         }
 
         return $this->redirectToRoute('front_account_show');

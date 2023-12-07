@@ -9,17 +9,18 @@
                 <td style="padding-top:20px;">
                     <p>Bonjour {{ receiver.fullname|capitalize }},</p>
                     <p>
-                        Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :<br/>
-                        <ul>
-                            <li><strong>Message :</strong> {{ message }}</li>
-                        </ul>
+                        Vous avez reçu un nouveau message depuis le site <a href="{{ app.request.schemeAndHttpHost }}" title="Site Rented">{{ app.request.schemeAndHttpHost }}</a> :<br/>
                     </p>
-                    <p>Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque
-                        ces informations ne vous seront plus nécessaires, afin de respecter la règlementation générale
-                        sur
-                        la protection des données personnelles des personnes.</p>
+                    <ul>
+                        <li><strong>Message :</strong> {{ message }}</li>
+                    </ul>
                     <p>
-                        Cordialement,<br/ >
+                        Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque
+                        ces informations ne vous seront plus nécessaires, afin de respecter la règlementation générale
+                        sur la protection des données personnelles des personnes.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
                         L'équipe Rented<br/>
                         <a title="Site Rented"
                            href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>

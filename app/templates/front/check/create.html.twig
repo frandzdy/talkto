@@ -3,24 +3,40 @@
 <div class="profile__edit-wrapper" {{ stimulus_controller('checkin') }} style="overflow: auto;max-height: 450px;">
     {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
     <div class="profile__edit-input">
-        {{ form_row(form.validateStatus) }}
+        {{ form_row(form.status) }}
+        <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+            {{ form_row(form.comments) }}
+        </div>
     </div>
-    <div class="profile__edit-input checkin-pictures" style="display: none">
-    {{ form_row(form.comments) }}
-    </div>
-    <div class="profile__edit-input checkin-pictures" style="display: none">
+    <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
         Ajouter des photos à votre litige
         <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre litige"
                 data-action="click->checkin#onFileAdd">
             <i class="fas fa-plus "></i>
         </button>
     </div>
-    <div class="checkin-collection mt-3" style="display: none"
+    <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+        {{ form_errors(form.errorFile) }}
+    </div>
+    <div class="checkin-collection mt-3" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}
          data-prototype="{{ macros.pictureCheckinField(form.uploadedPictures.vars.prototype)|e }}">
-        {% for picture in form.vars.value.uploadedPictures %}
-            {{ macros.pictureCheckinField(picture) }}
+        {% for picture in form.vars.value.pictures %}
+            <div class="picture file-elt mt-1 mb-1 d-flex w-100">
+                <div class="w-100">
+                    <span>Photo litige(s) n° <span class="file-index d-none">{{ index }}</span></span>
+                    {{ picture.name }}
+                </div>
+                <button type="button" class="btn" data-action="click->checkin#onFileDelete"
+                        data-token="{{ picture.token }}">
+                    <i class="fa far fa-trash-alt text-danger"></i>
+                </button>
+            </div>
         {% endfor %}
     </div>
+    <small id="pictureHelp" class="form-text text-muted checkin-pictures"
+            {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+        Les photos permettent à nos équipes de statué sur le litige.
+    </small>
     {{ form_rest(form) }}
     <button class="os-btn w-100" formnovalidate>Enregistrer</button>
     {{ form_end(form) }}

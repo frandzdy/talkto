@@ -38,10 +38,10 @@
                             <tbody>
                             {% for transaction in transactions %}
                                 <tr class="customer-row"
-                                    data-href="{{ path('back_transaction_show', {'id': transaction.id }) }}">
+                                    data-href="{{ path('back_transaction_show', {'transaction': transaction.id }) }}">
                                     <td>{{ transaction.reference }}</td>
                                     <td>{{ transaction.author.fullname }}</td>
-                                    <td>{{ transaction.totalAmountTtc }} €</td>
+                                    <td>{{ ((transaction.totalAmountTtc + transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €</td>
                                     <td>{{ transaction.status.label }}</td>
                                 </tr>
                             {% endfor %}

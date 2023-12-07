@@ -4,67 +4,75 @@ liip_imagine:
     driver: "gd"
     twig:
         mode: lazy
+    default_filter_set_settings:
+        format: webp
+    # configure webp
+    webp:
+        generate: true
+    controller:
+        redirect_response_code: 302
+
     filter_sets:
         # profil filters
         profil:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 315, 315 ]
         profil_miniature:
-            quality: 85
+            quality: 100
             filters:
                 thumbnail: { size: [ 67, 67 ], mode: outbound }
 
         ## home page filters
         home_slider:
-            quality: 90
+            quality: 100
             filters:
                 downscale:
                     dim: [ 1920, 933 ]
         home_under_slider:
-            quality: 90
+            quality: 100
             filters:
                 downscale:
                     dim: [ 376, 233 ]
         home_mid:
-            quality: 90
+            quality: 100
             filters:
                 downscale:
                     dim: [ 950, 457 ]
         home_latest:
-            quality: 90
+            quality: 100
             filters:
                 downscale:
                     dim: [ 240, 125 ]
 
         # product filters
         product_modal:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 316, 403 ]
         product_modal_miniature:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 102, 130 ]
         product_trends_or_sale:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 270, 344 ]
         product_details:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 470, 600 ]
         product_miniature_details:
-            quality: 85
+            quality: 100
             filters:
                 downscale:
                     dim: [ 90, 115 ]
         product_miniature:
-            quality: 85
+            quality: 100
             filters:
                 thumbnail: { size: [ 130, 130 ], mode: outbound }

@@ -7,20 +7,21 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <p>Bonjour,</p>
+                    <h1>Bonjour,</h1>
                     <p>
                         Vous avez reçu un nouveau message depuis le site {{ app.request.schemeAndHttpHost }} :<br/>
-                        <ul>
-                            <li><strong>Nom :</strong> {{ contact.lastname }}</li>
-                            <li><strong>Prénom :</strong> {{ contact.firstname }}</li>
-                            <li><strong>E-mail :</strong> {{ contact.email }}</li>
-                            <li><strong>Message :</strong> {{ contact.message }}</li>
-                        </ul>
                     </p>
-                    <p>Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque
+                    <ul>
+                        <li><strong>Nom :</strong> {{ contact.lastname }}</li>
+                        <li><strong>Prénom :</strong> {{ contact.firstname }}</li>
+                        <li><strong>E-mail :</strong> {{ contact.email }}</li>
+                        <li><strong>Message :</strong> {{ contact.message }}</li>
+                    </ul>
+                    <p>
+                        Nous vous invitons à supprimer les informations personnelles de cette personne et ce mail lorsque
                         ces informations ne vous seront plus nécessaires, afin de respecter la règlementation générale
-                        sur
-                        la protection des données personnelles des personnes.</p>
+                        sur la protection des données personnelles des personnes.
+                    </p>
                     <p>
                         Cordialement,<br/ >
                         L'équipe Rented<br/>

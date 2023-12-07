@@ -22,8 +22,23 @@ class Claim
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Checkin::class, inversedBy: 'claims')]
+    private ?Checkin $checkin = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCheckin(): ?Checkin
+    {
+        return $this->checkin;
+    }
+
+    public function setCheckin(?Checkin $checkin): self
+    {
+        $this->checkin = $checkin;
+
+        return $this;
     }
 }

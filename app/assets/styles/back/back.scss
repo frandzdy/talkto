@@ -32,6 +32,7 @@ a.navbar-brand img {
 .required:before {
   padding-right: 5px;
   content:" * ";
+  color: red;
 }
 label[for^="company_leaderCivility_"]:before,
 label[for^="customer_account_creation_bo_company_leaderCivility_"]:before,

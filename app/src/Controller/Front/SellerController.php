@@ -40,7 +40,7 @@ class SellerController extends AbstractController
             // changer vers une route de success de création
             $mailer->sendMailNotification(
                 $user->getEmail(),
-                'emails/create_seller.html.twig',
+                'emails/create_lessor.html.twig',
                 [
                     'user' => $user,
                 ]

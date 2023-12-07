@@ -49,7 +49,7 @@ export default class extends Controller {
                 $('#product_reservation_quantity').append(option)
 
                 let dates = dateStr.split('au')
-                if (dates[1] != undefined) {
+                if (dates[1] !== undefined) {
                     $('.indispo').addClass('d-none')
                     $('.indispo').removeClass('d-lg-flex')
                     $('.add').removeClass('d-none')
@@ -80,7 +80,6 @@ export default class extends Controller {
             },
             onDayCreate:  (dObj, dStr, fp, dayElem) => {
                 // Utilize dayElem.dateObj, which is the corresponding Date
-                console.log('dayElem', dayElem.dateObj.toISOString().split('T')[0])
                 for (let i = 0; i < disabledDates.length; i++) {
                     let range = disabledDates[i];
                     if (this.toIsoDate(dayElem.dateObj) >= range.from && this.toIsoDate(dayElem.dateObj) <= range.to) {

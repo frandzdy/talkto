@@ -1,0 +1,58 @@
+{% block subject %}Rented – {{ checkin.type.label|capitalize }}{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}{{ checkin.type.label|capitalize }}{% endblock %}
+        {% block accroche %}Check {{ checkin.type.label|capitalize }}{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h1>Bonjour,</h1>
+                    <p>
+                        {{ user.fullname }}
+                    </p>
+                    <p>
+                        Nous vous annonçons que votre {{ checkin.type.label|capitalize }} a été {{ checkin.status.label }}.
+                        Vous pouvez retrouver toutes les informations sur <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
+                    </p>
+                    {% if checkin.status is not same as (constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %}
+                        <p>
+                            Notification lors du {{ checkin.type.label|capitalize }} :
+                        </p>
+                        <p>
+                            {{ checkin.type.comments }}
+                        </p>
+                    {% endif %}
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe RENTED<br/>
+                        <a title="Site Rented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    {{ user.fullname }}\n
+    \n
+    Nous vous annonçons que votre {{ checkin.type.label|capitalize }} a été {{ checkin.status.label }}.
+    Vous pouvez retrouver toutes les informations sur {{ app.request.schemeAndHttpHost }}.\n
+    \n
+    {% if checkin.status is not same as (constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %}
+        Notification lors du {{ checkin.type.label|capitalize }} :\n
+        \n
+        {{ checkin.type.comments }}\n
+        \n
+    {% endif %}
+    Cordialement,\n
+    \n
+    L'équipe RENTED\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

@@ -101,7 +101,7 @@ class WebhookStripeController extends AbstractController
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
                     $mailer->sendMailNotification(
                         $transactionLine->getProduct()->getAuthor()->getEmail(),
-                        'emails/seller_reservation_validation.html.twig',
+                        'emails/lessor_reservation_validation.html.twig',
                         [
                             'seller' => strtoupper($transactionLine->getProduct()->getAuthor()->getFirstname()),
                             'buyer' => strtoupper($transaction->getAuthor()->getFullname()),

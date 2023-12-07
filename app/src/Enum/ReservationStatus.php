@@ -8,13 +8,15 @@ namespace App\Enum;
 enum ReservationStatus: int
 {
     case PENDING = 1;
-    case FINISHED = 2;
-    case CANCELED = 3;
+    case IN_PROGRESS = 2;
+    case FINISHED = 3;
+    case CANCELED = 4;
 
     public static function getLabels(): array
     {
         return [
-            ReservationStatus::PENDING->value => 'Réservation en cours',
+            ReservationStatus::PENDING->value => 'Réservation en attente',
+            ReservationStatus::IN_PROGRESS->value => 'Réservation en cours',
             ReservationStatus::FINISHED->value => 'Réservation terminé',
             ReservationStatus::CANCELED->value => 'Réservation annulé',
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\CheckinType;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use App\Repository\ProductRepository;
@@ -83,6 +84,15 @@ class TransactionLine
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cancelTransfertId = null;
+
+    /**
+     * @var int
+     */
+    #[ORM\Column(length: 11, nullable: true)]
+    private ?int $cancelAmount = null;
+
+    #[ORM\OneToMany(mappedBy: 'transactionLine', targetEntity: Checkin::class, cascade: ['remove', 'persist'], orphanRemoval: true)]
+    private Collection $checkins;
 
     public function getId(): ?int
     {
@@ -284,5 +294,68 @@ class TransactionLine
     {
         return $this->getStatus()->value == TransactionLineStatus::WAITING->value
             && $this->getStartDate() > (new \DateTime('now'));
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCheckins(): Collection
+    {
+        return $this->checkins;
+    }
+
+    /**
+     * @param Checkin $checkin
+     * @return $this
+     */
+
+    public function addCheckIn(Checkin $checkin): self
+    {
+        if (!$this->checkins->contains($checkin)) {
+            $this->checkins[] = $checkin;
+            $checkin->setTransactionLine($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Checkin $checkin
+     * @return $this
+     */
+    public function removeCheckin(Checkin $checkin): self
+    {
+        if ($this->checkins->contains($checkin)) {
+            $this->checkins->removeElement($checkin);
+            if ($this === $checkin->getTransactionLine()) {
+                $checkin->setTransactionLine(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /*
+     * Retourne le checkin selon le type choisi
+     */
+    public function getCheck(CheckinType $checkinStatus): ?Collection
+    {
+        return $this->getCheckins()->filter(
+            function(Checkin $checkin) use ($checkinStatus) {
+                return $checkin->getType() === $checkinStatus;
+            }
+        );
+    }
+
+    public function getCancelAmount(): ?int
+    {
+        return $this->cancelAmount;
+    }
+
+    public function setCancelAmount(?int $cancelAmount): self
+    {
+        $this->cancelAmount = $cancelAmount;
+
+        return $this;
     }
 }

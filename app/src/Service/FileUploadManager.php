@@ -55,7 +55,25 @@
 //                return '';
 //            }
         }
-        
+
+        /**
+         * Déplace un fichier dans le dossier qui lui correspond et retourne son nouveau nom
+         */
+        public function uploadPrivateFile(string $directory, UploadedFile $file): string
+        {
+            //try {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $this->slugger->slug($originalFilename);
+            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
+            $file->move($this->getDirectoryPrivatePath($directory), $fileName);
+
+            return $fileName;
+//            } catch (\Exception $e) {
+//                $this->logger->error('Erreur upload fichier : ', ['message' => $e->getMessage()]);
+//                return '';
+//            }
+        }
+
         /**
          * Retourne le contenu d'un fichier
          */
@@ -79,6 +97,18 @@
             
             $path .= $this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default'];
             
+            return $path;
+        }
+
+        /**
+         * Retourne le nom du répertoire recherché
+         */
+        private function getDirectoryPrivatePath(string $directory): string
+        {
+            $path = $this->fileUploadParameters['base_path_private'];
+
+            $path .= $this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default'];
+
             return $path;
         }
 

@@ -2,21 +2,19 @@
 
 namespace App\Enum;
 
-use phpDocumentor\Reflection\Types\Self_;
-
 /**
- * Status du checkin
+ * Status de validation du check in ou out
  */
 enum CheckinStatus: int
 {
-    case IN = 1;
-    case OUT = 2;
+    case VALIDATE = 1;
+    case VALIDATE_WITH_WARNING = 2;
 
     public static function getAvailableCheckinStatus(): array
     {
         return [
-            self::IN->value => 'Checkin',
-            self::OUT->value => 'Checkout',
+            self::VALIDATE->value => 'Validé',
+            self::VALIDATE_WITH_WARNING->value => 'Validé avec signalement',
         ];
     }
 

@@ -3,13 +3,17 @@
 namespace App\Controller\Back;
 
 use App\Entity\Transaction;
+use App\Entity\TransactionLine;
 use App\Exporter\ProductExporter;
 use App\Exporter\TransactionExporter;
+use App\Form\Back\CancelTransactionLineType;
 use App\Form\Back\ProductFilterType;
+use App\Form\Front\ContributorType;
 use App\Repository\ProductRepository;
 use App\Repository\TransactionRepository;
 use App\Service\CustomerCompanyManager;
 use App\Service\MailerManager;
+use App\Service\StripeManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
@@ -78,7 +82,7 @@ class TransactionController extends AbstractController
     /**
      * Affichage d'une transaction
      */
-    #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
+    #[Route(path: '/{transaction<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(Transaction $transaction): Response {
         return $this->render('back/transaction/show.html.twig', [
             'transaction' => $transaction
@@ -111,5 +115,51 @@ class TransactionController extends AbstractController
                 'Content-Disposition' => 'attachment; filename="export_transactions.' . $typeFile . '"'
             ]
         );
+    }
+
+    #[Route('/annulation/{transactionLine}', name: 'cancel')]
+    public function transactionCancel(
+        TransactionLine $transactionLine,
+        Request $request,
+        StripeManager $stripeManager,
+        EntityManagerInterface $em,
+        MailerManager $mailerManager
+    ): Response
+    {
+        $data = [
+            'amount' => null
+        ];
+        $options = [
+            'action' => $request->getUri(),
+            'maxAmount' => $transactionLine->getAmountTtc() / 100
+        ];
+        $form = $this->createForm(CancelTransactionLineType::class, $data, $options);
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $transactionLine->setCancelTransfertId($stripeManager->cancelTranfert($transactionLine->getTransfertId(), $data['amount'])->id)
+            ->setCancelAmount($data['amount'] * 100);
+            $em->flush();
+            $mailerManager->sendMailNotification(
+                $transactionLine->getTransaction()->getAuthor()->getEmail(),
+                'emails/refunds.html.twig',
+                [
+                    'transactionLine' => $transactionLine,
+                    'user' => $transactionLine->getTransaction()->getAuthor()
+                ]
+            );
+            $mailerManager->sendMailNotification(
+                $transactionLine->getProduct()->getAuthor()->getEmail(),
+                'emails/lessor_refunds.html.twig',
+                [
+                    'transactionLine' => $transactionLine,
+                    'user' => $transactionLine->getProduct()->getAuthor()
+                ]
+            );
+            $this->addFlash('success', "Remboursement effectué.");
+
+            return $this->json(['success' => true, 'redirectUrl' => $this->generateUrl('back_transaction_show', ['transaction' => $transactionLine->getTransaction()->getId()])]);
+        }
+
+        return $this->render('back/transaction/cancel.html.twig', compact('form'));
     }
 }

@@ -51,7 +51,7 @@ class Product
      * @var ArrayCollection|Collection
      */
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
-    private Collection|ArrayCollection $pictures;
+    private Collection $pictures;
 
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
@@ -63,13 +63,9 @@ class Product
     #[Assert\All(
         new Assert\Image(
             maxSize: '10M',
-            minWidth: '1920',
-            minHeight: '933',
             detectCorrupted: true,
             maxSizeMessage: "Document trop lourd.",
             mimeTypesMessage: "Format Image uniquement autorisé.",
-            minWidthMessage: 'La largeur est de 1920 minimum ',
-            minHeightMessage: 'La hauteur est de 933 minimum ',
             corruptedMessage: 'Fichier corrompue',
             groups: ['creation']
         )

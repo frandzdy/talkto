@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Rented Back | {% block title %}{% endblock %}</title>
+    <title>Rented | {% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" sizes="75x75"/>
@@ -11,7 +11,14 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-    <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#2d89ef">
+    <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#bc8246">
+    <meta name="apple-mobile-web-app-title" content="Rent-Hub">
+    <meta name="application-name" content="Rent-Hub">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#bc8246">
+    {% block metas %}
+        <meta content="Rented" name="description"/>
+    {% endblock %}
     <meta name="turbo-cache-control" content="no-cache">
     <!-- CSS here -->
     {% block stylesheets %}

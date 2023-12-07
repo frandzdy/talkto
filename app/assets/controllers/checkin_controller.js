@@ -1,4 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
+import bsCustomFileInput from "bs-custom-file-input";
+import $ from "jquery";
 
 /**
  * Gestion des justificatifs
@@ -24,9 +26,15 @@ export default class extends Controller {
         if (listIndex <= 5) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
+        this.handleBsCustomFileInput(collectionHolder.find('[type="file"]'))
         collectionHolder.find('.file-index').removeClass("d-none");
     }
 
+    handleBsCustomFileInput(container) {
+        if ($(container)) {
+            bsCustomFileInput.init();
+        }
+    }
     /**
      * A la suppression d'un widget fichier
      */
@@ -62,7 +70,8 @@ export default class extends Controller {
         });
     }
 
-    onChangeValidateStatus (event) {
+
+    onChangeStatus (event) {
         if ($(event.currentTarget).val() == 2) {
             $('.checkin-collection').show();
             $('.checkin-pictures').show();

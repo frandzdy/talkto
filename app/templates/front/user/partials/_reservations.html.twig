@@ -21,7 +21,7 @@
                             {{ reservation.transaction.reference }}
                         </a>
                     </td>
-                    <td class="text-center">{{ (reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100 }} €</td>
+                    <td class="text-center">{{ ((reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €</td>
                     <td class="text-center">{{ reservation.status.label }}</td>
                     <td class="text-center">
                         <a href="{{ path('front_reservation_show', {'token': reservation.token}) }}"

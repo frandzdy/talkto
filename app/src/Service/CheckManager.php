@@ -3,11 +3,15 @@
 namespace App\Service;
 
 use App\Entity\Checkin;
+use App\Entity\Claim;
 use App\Entity\Picture;
+use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Entity\User;
+use App\Enum\CheckinType;
 use App\Enum\CheckinStatus;
-use App\Enum\CheckinValidateStatus;
+use App\Enum\ReservationStatus;
+use App\Enum\TransactionLineStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -27,7 +31,7 @@ class CheckManager
     public function createCheckin(User $user, string $type, TransactionLine $transactionLine): Checkin
     {
         return (new Checkin())
-            ->setStatus($type === 'in' ? CheckinStatus::IN : CheckinStatus::OUT)
+            ->setType($type === 'in' ? CheckinType::IN : CheckinType::OUT)
             ->setTransactionLine($transactionLine)
             ->setAuthor($user)
         ;
@@ -36,12 +40,12 @@ class CheckManager
     /**
      * Sauvegarde un check in ou out
      */
-    public function saveCheckin(Checkin $checkin, array $pictureFileDatas): bool
+    public function saveCheckin(Checkin $checkin, Reservation $reservation, array $pictureFileDatas): bool
     {
         if ($pictureFileDatas) {
             foreach ($pictureFileDatas as $pictureFileData) {
                 if ($pictureFileData instanceof UploadedFile) {
-                    $fileName = $this->fileUploadManager->uploadFile('check'. $checkin->getStatus() == CheckinStatus::IN ? 'in' : 'out', $pictureFileData);
+                    $fileName = $this->fileUploadManager->uploadPrivateFile('checkin', $pictureFileData);
                     $pic = (new Picture())
                         ->setName($fileName);
                     $this->entityManager->persist($pic);
@@ -50,15 +54,60 @@ class CheckManager
             }
         }
 
+        if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING) {
+            // créer une réclamation pour le back office
+            $claim = (new Claim())
+                ->setCheckin($checkin);
+            $checkin->addClaim($claim);
+        }
+        // si on a le type check in ou check out alors on indique qu'on a démarré la transactionLine
+        if ($checkin->getType() === CheckinType::IN) {
+            $checkin->getTransactionLine()->setStatus(TransactionLineStatus::IN_PROGESS);
+        } else {
+            $checkin->getTransactionLine()->setStatus(TransactionLineStatus::FINISHED);
+        }
+
+        $nbTransactionLine = $reservation->getTransaction()->getTransactionLines()->count();
+        $nbTransactionLineValidated = 0;
+        foreach ($reservation->getTransaction()->getTransactionLines() as $transactionLine) {
+            /**
+             * @var TransactionLine $transactionLine
+             */
+            if ($transactionLine->getStatus() === TransactionLineStatus::FINISHED) {
+                $nbTransactionLineValidated += 1;
+            }
+        }
+        // si on est sur le check out
+        if ($checkin->getType() === CheckinType::OUT) {
+            // si on a le nb de transaction validé et le mm que le nombre de réservation alors on cloture la réservation
+            if ($nbTransactionLineValidated === $nbTransactionLine) {
+                $reservation->setStatus(ReservationStatus::FINISHED);
+            }
+        }
+        // notif client
+        $this->mailerManager->sendMailNotification(
+            $checkin->getTransactionLine()->getTransaction()->getAuthor()->getEmail(),
+            'emails/checkin.html.twig',
+            [
+                'user' => $checkin->getTransactionLine()->getTransaction()->getAuthor(),
+                'checkin' => $checkin
+            ]
+        );
+        // notif le bailleur
+        $this->mailerManager->sendMailNotification(
+            $checkin->getTransactionLine()->getProduct()->getAuthor()->getEmail(),
+            'emails/checkin.html.twig',
+            [
+                'user' => $checkin->getTransactionLine()->getProduct()->getAuthor(),
+                'checkin' => $checkin
+            ]
+        );
+
         if (!$checkin->getId()) {
             $checkin->setStartDate(new \DateTime());
             $this->entityManager->persist($checkin);
         }
 
-        if ($checkin->getValidateStatus() === CheckinValidateStatus::class) {
-            // envoyer une notification
-            // créer une réclamation pour le back office
-        }
         $this->entityManager->flush();
         
         return true;

@@ -1,0 +1,79 @@
+{% block subject %}Rented – Nouvelle réservation{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Nouvelle réservation{% endblock %}
+        {% block accroche %}Nouvelle réservation{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h1>Bonjour {{ seller }},</h1>
+                    <p>
+                        Bonne nouvelle, vous avez une nouvelle réservation.
+                    </p>
+                    <p>
+                        Voici le détail de la réservation :
+                    </p>
+                    <ul>
+                        <li><strong>Produit</strong> : {{ title }}</li>
+                        <li><strong>Date de réservation</strong>
+                            : {{ startDate == endDate ? 'Le ' ~ startDate : 'Du ' ~ startDate ~ ' au ' ~ endDate }}
+                        </li>
+                        <li><strong>Quantité</strong> : {{ quantity }}</li>
+                        <li><strong>Locataire</strong> : {{ buyer }}</li>
+                        <li><strong>Montant TTC</strong> : {{ totalAmount }} €</li>
+                    </ul>
+                    <p>
+                        Voir la <a href="{{ link }}">Réservation</a>.
+                    </p>
+                    <p>
+                        Merci de contacter le locataire afin de convenir d'un rendez-vous via l'espace -> <a href="{{ path('front_user_account', {}, true) }}" title="Mon compte">mes locations</a>.
+                    </p>
+                    <p>
+                        Nous avons aussi notifié le locataire de votre future prise de contact.
+                    </p>
+                    <p>
+                        Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un
+                        service de qualité et sécurisé.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe RENTED<br/>
+                        <a title="Site Rented"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ seller }},\n
+    \n
+    Bonne nouvelle, vous avez une nouvelle réservation.\n
+    \n
+    Voici le détail de la réservation :\n
+        • Produit : {{ title }}\n
+        • Date de réservation : {{ startDate == endDate ? 'Le ' ~ startDate : 'Du ' ~ startDate ~ ' au ' ~ endDate }}\n
+        • Quantité : {{ quantity }}\n
+        • Locataire : {{ buyer }}\n
+        • Montant TTC : {{ totalAmount }} €\n
+    \n
+    Voir la réservation : {{ link }}\n
+    \n
+    Merci de contacter le locataire afin de convenir d'un rendez-vous via l'espace "mes locations" : {{ path('front_user_account', {}, true) }}.\n
+    \n
+    Nous avons aussi notifié le locataire de votre future prise de contact.\n
+    \n
+    Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe RENTED\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

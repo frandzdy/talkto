@@ -2,16 +2,22 @@
 
 namespace App\Form\Front;
 
+use App\Entity\Checkin;
 use App\Entity\Product;
+use App\Enum\CheckinStatus;
 use App\Enum\ProductCategory;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
@@ -58,6 +64,7 @@ class ProductType extends AbstractType
                     'purify_html' => true
                 ]
             )
+            ->add('errorFile', HiddenType::class, ['mapped' => false])
             ->add('uploadedPictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
@@ -120,6 +127,25 @@ class ProductType extends AbstractType
 
                 ]
             );
+        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
+    }
+
+    /**
+     * Contrôle les données avant de submit
+     */
+    public function postSubmit(FormEvent $event): void
+    {
+        $form = $event->getForm();
+        /**
+         * @var Product $product
+         */
+        $product = $event->getData();
+        if (!$product) {
+            return;
+        }
+        if (array_key_exists(1, $product->uploadedPictures) && \is_null($product->uploadedPictures[1])) {
+            $form->get('errorFile')->addError(new FormError('Information requise.'));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

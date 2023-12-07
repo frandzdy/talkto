@@ -20,17 +20,16 @@ parameters:
         url: 'https://api-adresse.data.gouv.fr/search/?'
     file_uploader_config:
         base_path: "%kernel.project_dir%/public/uploads/"
+        base_path_private: "%kernel.project_dir%/uploads/"
         base_path_liip: "%kernel.project_dir%/public/uploads/media/cache/"
         base_path_twig: '/uploads/profile_picture/'
         directories:
             profile_picture: "profile_picture/"
             product_picture: "product_picture/"
-            medias: "medias/"
-            ck_editor: "ck_editor/"
-            homepage: "homepage/"
-            testimonial: "testimonial/"
+            checkin: "checkin/"
             default: "default/"
     email_contact: "%env(EMAIL_CONTACT)%"
+
 services:
     # default configuration for services in *this* file
     _defaults:
