@@ -207,6 +207,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column()]
     private ?bool $isGuess = false;
 
+    #[ORM\Column()]
+    #[Assert\NotBlank(message: 'Information requise.')]
+    private bool $terms;
+
     /**
      * @var \DateTime|null
      */
@@ -624,6 +628,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastDateConnexion(?\DateTime $lastDateConnexion = null): self
     {
         $this->lastDateConnexion = $lastDateConnexion;
+
+        return $this;
+    }
+
+    public function getTerms(): bool
+    {
+        return $this->terms;
+    }
+
+    public function setTerms(bool $terms): self
+    {
+        $this->terms = $terms;
 
         return $this;
     }
