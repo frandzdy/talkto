@@ -1,0 +1,52 @@
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title">Photo(s) {{ type }}</h4>
+    </div>
+    <div class="panel-body" {{ stimulus_controller('bigpicture') }}>
+        <div class="table-responsive mb-4">
+            <div class="product__modal-box">
+                <div class="tab-content mb-20 bp-gallery" id="nav-tabContent">
+                    {% if checkin.pictures.count > 0 %}
+                        {% for index, picture in checkin.pictures %}
+                            {% set active = '' %}
+                            {% if index == 0 %}
+                                {% set active = 'active' %}
+                            {% endif %}
+                            <div data-action="click->bigpicture#loadGalleryModal"
+                                 class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
+                                 aria-labelledby="nav-{{ picture.token }}-tab">
+                                <div class="product__modal-img w-img">
+                                    <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                         alt="">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        {% if checkin.pictures.count > 0 %}
+                            {% for index, picture in checkin.pictures %}
+                                {% set active = '' %}
+                                {% if index == 0 %}
+                                    {% set active = 'active' %}
+                                {% endif %}
+                                <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab"
+                                   data-toggle="tab"
+                                   href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
+                                   aria-selected="true">
+                                    <div class="product__nav-img w-img">
+                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
+                                             alt="{{ picture.name }}">
+
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

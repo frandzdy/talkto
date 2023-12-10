@@ -16,7 +16,7 @@ class AdresseApi
 
     /**
      * AdresseApi constructor.
-s     */
+     * s     */
     public function __construct(protected array $apiGouvConfig, protected LoggerInterface $logger)
     {
         $this->guzzle = new Client([

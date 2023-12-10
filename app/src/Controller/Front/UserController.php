@@ -259,7 +259,7 @@ class UserController extends AbstractController
     /**
      * Pagination des blocs table de la fiche qualif
      */
-    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|products|wishlists'], methods: ["GET"])]
+    #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|rents|products|wishlists'], methods: ["GET"])]
     public function collection(string $name, int $page, EntityManagerInterface $em): Response
     {
         $func = "get" . ucwords($name);

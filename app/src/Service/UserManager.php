@@ -12,16 +12,16 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserManager
+readonly class UserManager
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
-        private FileUploadManager           $fileUploadManager,
-        private StripeManager               $stripeManager,
-        private PictureRepository           $pictureRepository,
-        private UserRepository              $userRepository,
-        private LoggerInterface             $logger,
-        private AdresseApi                  $adresseApi,
+        private EntityManagerInterface $entityManager,
+        private FileUploadManager $fileUploadManager,
+        private StripeManager $stripeManager,
+        private PictureRepository $pictureRepository,
+        private UserRepository $userRepository,
+        private LoggerInterface $logger,
+        private AdresseApi $adresseApi,
         private UserPasswordHasherInterface $passwordHasher
     ) {}
 
@@ -64,7 +64,7 @@ class UserManager
         if (
             !$user->getStripeCustomerId()
             && (
-                in_array(User::ROLE_USER, $user->getRoles())
+            in_array(User::ROLE_USER, $user->getRoles())
             )
         ) {
             $customer = $this->stripeManager->createCustomer($user);
@@ -130,7 +130,8 @@ class UserManager
         $dlat = $lat2 - $lat1;
         $dlng = $lng2 - $lng1;
         $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin(
-                $dlng / 2) * sin($dlng / 2);
+                $dlng / 2
+            ) * sin($dlng / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
         $km = $r * $c;
 

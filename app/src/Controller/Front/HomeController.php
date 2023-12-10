@@ -42,9 +42,8 @@ class HomeController extends AbstractController
     
     /**
      * Génère le sitemap du site.
-     *
-     * @Route("/sitemap.{_format}", name="sitemap", requirements={"_format" = "xml"})
      */
+    #[Route('//sitemap.{_format}', name: 'sitemap', requirements: ['_format'=> 'xml'])]
     public function siteMap()
     {
         return $this->render('home/sitemap.xml.twig');

@@ -8,7 +8,6 @@ use App\Form\Back\UserFilterType;
 use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
-use App\Service\CustomerCompanyManager;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,10 +87,10 @@ class CustomerController extends AbstractController
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $customer, CustomerCompanyManager $customerCompanyManager): RedirectResponse
+    public function delete(User $customer): RedirectResponse
     {
         try {
-            $customerCompanyManager->removeCompany($customer);
+            // $customerCompanyManager->removeCompany($customer);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }

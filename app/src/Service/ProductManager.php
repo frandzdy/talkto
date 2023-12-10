@@ -2,33 +2,28 @@
 
 namespace App\Service;
 
-use App\Enum\Civility;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ProductStatus;
-use App\Repository\PictureRepository;
 use App\Repository\ReservationRepository;
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ProductManager
+readonly class ProductManager
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly FileUploadManager      $fileUploadManager,
-        private readonly LoggerInterface $logger,
-        private readonly ReservationRepository $reservationRepository
+        private EntityManagerInterface $em,
+        private FileUploadManager      $fileUploadManager,
+        private LoggerInterface $logger,
+        private ReservationRepository $reservationRepository
     ) {}
 
     /**
-     * Retourne un user prêt pour la création soit byer soit seller
+     * Retourne un user prêt pour la création soit locataire, soit bailleur
      */
     public function createProduct(User $user): Product
     {
@@ -73,25 +68,8 @@ class ProductManager
     public function deleteProductPicture(Product $product, Picture $pictureToRemove): bool
     {
         try {
-            // on supprime le fichier du serveur du compte
-            foreach ($product->getPictures() as $picture) {
-                if ($picture === $pictureToRemove && $product->getPictures()->contains($pictureToRemove)) {
-                    $product->removePicture($picture);
-                    $this->fileUploadManager->removeFile('product_picture', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_modal', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_modal_miniature', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_trends_or_sale', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_details', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_miniature_details', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('product_miniature', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('home_slider', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('home_under_slider', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('home_mid', $picture->getName());
-                    $this->fileUploadManager->removeFileLiip('home_latest', $picture->getName());
-                    $this->em->remove($picture);
-                }
-            }
-
+            $product->removePicture($pictureToRemove);
+            $this->em->remove($pictureToRemove);
             $this->em->flush();
 
             return true;

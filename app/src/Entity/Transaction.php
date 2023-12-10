@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Enum\ProductStatus;
 use App\Enum\TransactionStatus;
-use App\Repository\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table()]
 #[ORM\Entity()]
 #[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_transaction")]
 #[ORM\HasLifecycleCallbacks()]

@@ -1,4 +1,4 @@
-{% block subject %}Rented – Remboursement d'une de vos locations {{ transactionLine.transaction.reference }}{% endblock %}
+{% block subject %}Re&#x0258nted – Remboursement d'une de vos locations {{ transactionLine.transaction.reference }}{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
@@ -34,13 +34,13 @@
                         </li>
                     </ul>
                     <p>
-                        Vous pouvez retrouver toutes les informations sur <a title="Site Rented"
-                                                                             href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
+                        Vous pouvez retrouver toutes les informations sur <a title="Site Re&#x0258nted"
+                                                                             href="{{ app.request.schemeAndHttpHost }}">Re&#x0258nted</a>.
                     </p>
                     <p>
                         Cordialement,<br/>
                         L'équipe RENTED<br/>
-                        <a title="Site Rented"
+                        <a title="Site Re&#x0258nted"
                            href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
                     <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y

@@ -13,27 +13,30 @@ use Twig\Environment;
 /**
  * Gestionnaire des envois de mails de l'application
  */
-class MailerManager
+readonly class MailerManager
 {
     /**
      * MailerManager constructor.
      */
-    public function __construct(private MailerInterface $mailer, private Environment $environment, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private MailerInterface $mailer,
+        private Environment $environment,
+        private LoggerInterface $logger
+    ) {
     }
 
     /**
      * Envoi un email
      */
     public function sendMailNotification(
-        array | string $to,
+        array|string $to,
         string $templateAlias,
         ?array $vars = array(),
         ?array $pathAttachmentFiles = array(),
         ?string $replyTo = null,
         ?array $bccs = array(),
         ?array $ccs = array()
-    ) {
+    ): void {
         $template = $this->environment->load($templateAlias);
 
         $subject = $template->renderBlock('subject', $vars);
@@ -41,7 +44,7 @@ class MailerManager
         $htmlBody = $template->renderBlock('body_html', $vars);
 
         $prepend = '';
-       
+
         $email = (new TemplatedEmail());
 
         if (is_array($to)) {

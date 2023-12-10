@@ -1,4 +1,4 @@
-{% block subject %}Rented – Bienvenue sur Rented{% endblock %}
+{% block subject %}Re&#x0258nted – Bienvenue sur Re&#x0258nted{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
@@ -9,8 +9,8 @@
                 <td style="padding-top:20px;">
                     <h1>Bonjour {{ user.fullname|capitalize }},</h1>
                     <p>
-                        Bienvenue, nous vous remercions de vous être inscrit sur <a title="Site Rented"
-                                                                                    href="{{ app.request.schemeAndHttpHost }}">Rented</a>.
+                        Bienvenue, nous vous remercions de vous être inscrit sur <a title="Site Re&#x0258nted"
+                                                                                    href="{{ app.request.schemeAndHttpHost }}">Re&#x0258nted</a>.
                     </p>
                     <p>
                         Avec votre compte, vous avez la possibilité de voir vos historiques de location, discuter avec
@@ -24,7 +24,7 @@
                     <p>
                         Cordialement,<br/>
                         L'équipe RENTED<br/>
-                        <a title="Site Rented"
+                        <a title="Site Re&#x0258nted"
                            href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
                     <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y

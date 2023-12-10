@@ -93,7 +93,7 @@
                         'attr' =>
                             [
                                 'style' => 'height: 200px;resize:none;',
-                                'maxlength' => 255,
+                                'maxlength' => 400,
                                 'placeholder' => 'Laissez nous un message *',
                             ]
                     ]

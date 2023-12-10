@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\Table()]
+#[ORM\Entity()]
 #[ORM\Index(columns: ["author_id", "created_at", "reservation_id"], name: "ecommerce_message")]
 #[ORM\HasLifecycleCallbacks()]
 class Message

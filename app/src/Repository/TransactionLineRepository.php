@@ -72,7 +72,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->select(
                 '
                     tl,
-                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                    ceil(( 6372 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
                        * sin(radians(a.lat))))) AS distance,
                        count(Distinct(p.id)) as nbSales

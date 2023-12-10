@@ -1,96 +1,77 @@
 <?php
 
-    namespace App\Entity;
+namespace App\Entity;
 
-    use App\Enum\ReservationStatus;
-    use App\Repository\ReservationRepository;
-    use Doctrine\ORM\Mapping as ORM;
+use App\Enum\ReservationStatus;
+use App\Repository\ReservationRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-    #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-    #[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_reservation")]
-    #[ORM\HasLifecycleCallbacks]
-    class Reservation
+#[ORM\Table()]
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+#[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_reservation")]
+#[ORM\HasLifecycleCallbacks]
+class Reservation
+{
+    use TraitToken, TraitAuthor, TraitTimestamp;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    /**
+     * @var Transaction
+     */
+    #[ORM\ManyToOne(targetEntity: Transaction::class)]
+    private Transaction $transaction;
+
+    /**
+     * @var ReservationStatus
+     */
+    #[ORM\Column(type: "smallint", enumType: ReservationStatus::class)]
+    private ReservationStatus $status;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
-        use TraitToken, TraitAuthor, TraitTimestamp;
-
-        #[ORM\Id]
-        #[ORM\GeneratedValue]
-        #[ORM\Column]
-        private ?int $id = null;
-
-        /**
-         * @var Transaction
-         */
-        #[ORM\ManyToOne(targetEntity: Transaction::class)]
-        private Transaction $transaction;
-
-        private $reclaim;
-
-        /**
-         * @var ReservationStatus
-         */
-        #[ORM\Column(type:"smallint", enumType: ReservationStatus::class)]
-        private ReservationStatus $status;
-
-        /**
-         * @return mixed
-         */
-        public function getId()
-        {
-            return $this->id;
-        }
-
-        /**
-         * @return Transaction
-         */
-        public function getTransaction(): Transaction
-        {
-            return $this->transaction;
-        }
-
-        /**
-         * @param Transaction $transaction
-         */
-        public function setTransaction(Transaction $transaction): self
-        {
-            $this->transaction = $transaction;
-
-            return $this;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getStatus(): ReservationStatus
-        {
-            return $this->status;
-        }
-
-        /**
-         * @param mixed $status
-         */
-        public function setStatus(ReservationStatus $status): self
-        {
-            $this->status = $status;
-
-            return $this;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getReclaim()
-        {
-            return $this->reclaim;
-        }
-
-        /**
-         * @param mixed $reclaim
-         */
-        public function setReclaim($reclaim): self
-        {
-            $this->reclaim = $reclaim;
-
-            return $this;
-        }
+        return $this->id;
     }
+
+    /**
+     * @return Transaction
+     */
+    public function getTransaction(): Transaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param Transaction $transaction
+     */
+    public function setTransaction(Transaction $transaction): self
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus(): ReservationStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus(ReservationStatus $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+}

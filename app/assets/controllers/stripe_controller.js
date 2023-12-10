@@ -38,7 +38,7 @@ export default class extends Controller {
                 radios: false,
                 spacedAccordionItems: true
             },
-            business: {"name": "Rented"}
+            business: {"name": "Reɘnted"}
         });
         paymentElement.mount('#payment-element')
         if (isLogged) {

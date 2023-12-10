@@ -162,7 +162,7 @@
                                                         <h4>
                                                             <a data-toggle="tooltip" data-placement="top"
                                                                title="{{ product[0].title }}"
-                                                               href="product-details.html">{{ product[0].title }}</a>
+                                                               href="{{ path('front_product_reservation_show_detail', {'token': product[0].id}) }}">{{ product[0].title }}</a>
                                                         </h4>
                                                         <div class="product__price-2 mb-10">
                                                             <span>{{ product[0].amount }} €</span>

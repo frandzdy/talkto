@@ -21,7 +21,7 @@ use Stripe\StripeClient;
 use Stripe\TransferReversal;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class StripeManager
+readonly class StripeManager
 {
     private StripeClient $stripe;
 
@@ -29,9 +29,9 @@ class StripeManager
      * StripeManager constructor.
      */
     public function __construct(
-        private readonly UrlGeneratorInterface $generator,
-        private readonly array $stripeParameters,
-        private readonly EntityManagerInterface $em
+        private UrlGeneratorInterface $generator,
+        private array $stripeParameters,
+        private EntityManagerInterface $em
     ) {
         $this->stripe = new StripeClient(
             [
@@ -155,7 +155,7 @@ class StripeManager
                 'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference(),
                 'receipt_email' => $user->getEmail(),
-                'description' => sprintf('Location d\'un bien Rented : Ref %s', $transaction->getReference())
+                'description' => sprintf('Location Reɘnted : Ref %s', $transaction->getReference())
             ]
         );
     }
@@ -185,8 +185,29 @@ class StripeManager
                     'transfer_group' => $transaction->getReference(),
                 ]
             );
-
             $transactionLine->setTransfertId($transfer->id);
+
+            $cautionIntent = $this->stripe->paymentIntents->create(
+                [
+                    'amount' => (int)$product->getCaution() * 100,
+                    'customer' => $transaction->getAuthor()->getStripeCustomerId(), // $customerId
+                    'currency' => 'eur',
+                    'automatic_payment_methods' => ['enabled' => true],
+                    'expand' => ['latest_charge'],
+                    'payment_method_options' =>
+                        [
+                            'card' =>
+                                [
+                                    'capture_method' => 'manuel',
+                                    'request_extended_authorization' => 'if_available'
+                                ]
+                        ],
+                    'confirm' => true,
+                    'receipt_email' => $transaction->getAuthor()->getEmail(),
+                    'description' => sprintf('Caution Reɘnted : Ref %s', $transaction->getReference())
+                ]
+            );
+            $transactionLine->setCautionId($cautionIntent->id);
         }
     }
 
@@ -254,7 +275,10 @@ class StripeManager
     public function refundTransactionLine(TransactionLine $transactionLine): Refund
     {
         // On annule le transfert effectué au compte bailleur
-        $transfertReversal = $this->cancelTranfert($transactionLine->getTransfertId(), $transactionLine->getAmountTtc() - $transactionLine->getFees());
+        $transfertReversal = $this->cancelTranfert(
+            $transactionLine->getTransfertId(),
+            $transactionLine->getAmountTtc() - $transactionLine->getFees()
+        );
         $transactionLine->setCancelTransfertId($transfertReversal->id)
             ->setCancelAmount($transactionLine->getAmountTtc());
         // On annule le paiement effectué par le locataire
@@ -308,11 +332,41 @@ class StripeManager
     /**
      * Annule un transfert vers un compte connecté partiellement ou complèt
      */
-    public function cancelTranfert(string $transfertId, $amount):TransferReversal
+    public function cancelTranfert(string $transfertId, $amount): TransferReversal
     {
         return $this->stripe->transfers->createReversal(
             $transfertId,
             ['amount' => $amount * 100]
         );
+    }
+
+    /**
+     * Annule un transfert vers un compte connecté partiellement ou complèt
+     */
+    public function caution(TransactionLine $transactionLine, $amount): PaymentIntent
+    {
+        $intent = $this->retrievePaymentIntent($transactionLine->getCautionId());
+
+        if ($intent->status === 'requires_capture') {
+            $intent->capture(
+                [
+                    'amount_to_capture' => $amount * 100
+                ]
+            );
+            if ($intent->status === 'succeeded') {
+                $transfer = $this->stripe->transfers->create(
+                    [
+                        'amount' => $amount * 100,
+                        'currency' => 'eur',
+                        'destination' => $transactionLine->getProduct()->getAuthor()->getStripeAccountId(),
+                        'source_transaction' => $intent->latest_charge,
+                        'transfer_group' => $transactionLine->getTransaction()->getReference(),
+                    ]
+                );
+                $transactionLine->setCaptureCautionId($intent->id);
+            }
+        }
+
+        return $intent;
     }
 }

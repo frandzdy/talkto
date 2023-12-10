@@ -85,12 +85,12 @@ class ProductController extends AbstractController
     ])]
     public function productReservation(
         string $token,
-        bool $review = false,
         ProductRepository $productRepository,
         Request $request,
         ProductManager $productManager,
         SessionInterface $session,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        bool $review = false
     ): Response {
         $user = $this->getUser();
         $lat = $user ? $user->getLat() : $session->get('lat');
@@ -187,8 +187,17 @@ class ProductController extends AbstractController
     ): Response {
         if (!$product = $productRepository->findOneBy(['token' => $token])) {
             $product = $productManager->createProduct($this->getUser());
+            $options = [
+                'action' => $request->getRequestUri(),
+                'validation_groups' => ['creation']
+            ];
+        } else {
+            $options = [
+                'action' => $request->getRequestUri(),
+                'validation_groups' => ['edit']
+            ];
         }
-        $form = $this->createForm(ProductType::class, $product, ['action' => $request->getRequestUri()]);
+        $form = $this->createForm(ProductType::class, $product, $options);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $pictureFileDatas = $form->get('uploadedPictures')->getData();
@@ -244,15 +253,17 @@ class ProductController extends AbstractController
         );
     }
 
-    #[Route('/produit/image/suppression/{token}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
+    #[Route('/produit/image/suppression/{token}/{productToken}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted('ROLE_SELLER')]
     public function productPictureDelete(
         string $token,
+        string $productToken,
         EntityManagerInterface $em,
         ProductManager $productManager
     ): JsonResponse {
         if ($picture = $em->getRepository(Picture::class)->findOneBy(['token' => $token])) {
-            if ($productManager->deleteProductPicture($picture->getProduct(), $picture)) {
+            $product = $em->getRepository(Product::class)->findOneBy(['token' => $productToken]);
+            if ($productManager->deleteProductPicture($product, $picture)) {
                 return $this->json(
                     [
                         'success' => true,

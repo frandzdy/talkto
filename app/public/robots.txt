@@ -1,6 +1,9 @@
 User-Agent: *
 Allow: /
-Disallow: /compte/creation
-Disallow: /compte/nouveau
+Disallow: /creation-compte
+Disallow: /edition-compte
+Disallow: /commercial/creation-compte
+Disallow: /commercial/edition-compte
+Disallow: /contactez-nous
 
-Sitemap: https://interest.app/sitemap.xml
+Sitemap: https://reented.com/sitemap.xml

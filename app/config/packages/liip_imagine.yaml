@@ -1,7 +1,7 @@
 # Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
 liip_imagine:
     # valid drivers options include "gd" or "gmagick" or "imagick"
-    driver: "gd"
+    driver: "gmagick"
     twig:
         mode: lazy
     default_filter_set_settings:
@@ -17,62 +17,81 @@ liip_imagine:
         profil:
             quality: 100
             filters:
+                auto_rotate: ~
                 downscale:
-                    dim: [ 315, 315 ]
+                    max: [ 315, 315 ]
         profil_miniature:
             quality: 100
             filters:
+                auto_rotate: ~
                 thumbnail: { size: [ 67, 67 ], mode: outbound }
 
         ## home page filters
         home_slider:
             quality: 100
             filters:
+                auto_rotate: ~
                 downscale:
-                    dim: [ 1920, 933 ]
+                    max: [ 1920, 933 ]
         home_under_slider:
             quality: 100
             filters:
+                auto_rotate: ~
                 downscale:
-                    dim: [ 376, 233 ]
+                    max: [ 376, 233 ]
         home_mid:
             quality: 100
             filters:
-                downscale:
-                    dim: [ 950, 457 ]
+                auto_rotate: ~
+                fixed:
+                    width: 950
+                    height: 457
         home_latest:
             quality: 100
             filters:
+                auto_rotate: ~
                 downscale:
-                    dim: [ 240, 125 ]
+                    max: [ 240, 125 ]
 
         # product filters
         product_modal:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 downscale:
-                    dim: [ 316, 403 ]
+                    max: [ 316, 403 ]
         product_modal_miniature:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 downscale:
-                    dim: [ 102, 130 ]
+                    max: [ 102, 130 ]
         product_trends_or_sale:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 downscale:
-                    dim: [ 270, 344 ]
+                    max: [ 270, 344 ]
         product_details:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 downscale:
-                    dim: [ 470, 600 ]
+                    max: [ 470, 600 ]
         product_miniature_details:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 downscale:
-                    dim: [ 90, 115 ]
+                    max: [ 90, 115 ]
         product_miniature:
             quality: 100
             filters:
+                auto_rotate: ~
+                #strip: ~
                 thumbnail: { size: [ 130, 130 ], mode: outbound }

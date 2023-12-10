@@ -5,7 +5,7 @@ namespace App\Service;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 
-class RecaptchaManager
+readonly class RecaptchaManager
 {
     /**
      * Client guzzle

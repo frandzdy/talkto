@@ -10,20 +10,20 @@ use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\CheckinType;
 use App\Enum\CheckinStatus;
+use App\Enum\ClaimStatus;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class CheckManager
+readonly class CheckManager
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FileUploadManager $fileUploadManager,
-        private readonly MailerManager $mailerManager
-    ) {
-    }
+        private EntityManagerInterface $entityManager,
+        private FileUploadManager $fileUploadManager,
+        private MailerManager $mailerManager
+    ) {}
 
     /**
      * Retourne un check in ou out
@@ -45,7 +45,7 @@ class CheckManager
         if ($pictureFileDatas) {
             foreach ($pictureFileDatas as $pictureFileData) {
                 if ($pictureFileData instanceof UploadedFile) {
-                    $fileName = $this->fileUploadManager->uploadPrivateFile('checkin', $pictureFileData);
+                    $fileName = $this->fileUploadManager->uploadFile('checkin', $pictureFileData);
                     $pic = (new Picture())
                         ->setName($fileName);
                     $this->entityManager->persist($pic);
@@ -57,7 +57,8 @@ class CheckManager
         if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING) {
             // créer une réclamation pour le back office
             $claim = (new Claim())
-                ->setCheckin($checkin);
+                ->setCheckin($checkin)
+                ->setStatus(ClaimStatus::PENDING);
             $checkin->addClaim($claim);
         }
         // si on a le type check in ou check out alors on indique qu'on a démarré la transactionLine

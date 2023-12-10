@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ClaimStatus;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use App\Repository\CheckinRepository;
@@ -11,7 +12,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: ClaimRepository::class)]
+#[ORM\Index(columns: ["status", "checkin_id"], name: "ecommerce_claim")]
 #[ORM\HasLifecycleCallbacks()]
 class Claim
 {
@@ -24,6 +27,9 @@ class Claim
 
     #[ORM\ManyToOne(targetEntity: Checkin::class, inversedBy: 'claims')]
     private ?Checkin $checkin = null;
+
+    #[ORM\Column(type: "smallint", enumType: ClaimStatus::class)]
+    private ClaimStatus $status;
 
     public function getId(): ?int
     {
@@ -38,6 +44,18 @@ class Claim
     public function setCheckin(?Checkin $checkin): self
     {
         $this->checkin = $checkin;
+
+        return $this;
+    }
+
+    public function getStatus(): ClaimStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(ClaimStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

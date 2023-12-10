@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Exporter\LessorExporter;
 use App\Form\Back\UserFilterType;
 use App\Repository\UserRepository;
-use App\Service\CustomerCompanyManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
@@ -90,10 +89,10 @@ class LessorController extends AbstractController
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $lessor, CustomerCompanyManager $customerCompanyManager): RedirectResponse
+    public function delete(User $lessor): RedirectResponse
     {
         try {
-            $customerCompanyManager->removeCompany($lessor);
+            //$customerCompanyManager->removeCompany($lessor);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }

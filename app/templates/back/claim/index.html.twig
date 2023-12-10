@@ -1,0 +1,58 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block title %}Réclamations - {{ parent() }}{% endblock %}
+{% block page_title %}Réclamations ({{ claims.totalItemCount() }}){% endblock %}
+{% block action_buttons %}
+    <a title="Exporter" href="{{ path('back_claim_extract') }}" class="btn btn-info">
+        Exporter
+    </a>
+{% endblock %}
+
+{% block form_filter %}
+    {{ form_start(filterForm, {'attr': {'novalidate':'novalidate', 'style' : 'position:relative;top:-12px;', 'data-controller': 'back-customer'}}) }}
+    <button type="submit" class="btn btn-success float-right">
+        <i class="fa fa-search"></i>&nbsp
+    </button>
+    {{ form_row(filterForm.term) }}
+    {{ form_end(filterForm) }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">Réclamations</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive mb-4">
+                        <table class="client-list table table-striped m-b-0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Statut</th>
+                                <th>Bailleur</th>
+                                <th>Locataire</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for claim in claims %}
+                                <tr class="customer-row"
+                                    data-href="{{ path('back_claim_show', {'claim': claim.id }) }}">
+                                    <td>{{ claim.id }}</td>
+                                    <td>{{ claim.status.label }}</td>
+                                    <td>{{ claim.checkin.transactionLine.product.author.fullname }}</td>
+                                    <td>{{ claim.checkin.transactionLine.transaction.author.fullname }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(claims) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

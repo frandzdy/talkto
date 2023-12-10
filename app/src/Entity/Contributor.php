@@ -10,10 +10,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints\PasswordRequirements;
-/**
- * Utilisateur de l'administration
- */
+
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
+#[ORM\Index(columns: ["fullname", "email"], name: "admin_contributor")]
 #[UniqueEntity(fields: ['email'], message: 'E-mail déjà enregistré.')]
 class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
 {

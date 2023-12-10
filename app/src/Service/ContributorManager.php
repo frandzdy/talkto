@@ -9,7 +9,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Gestionnaire d'utilisateurs BO
  */
-class ContributorManager
+readonly class ContributorManager
 {
     /**
      * Constructeur

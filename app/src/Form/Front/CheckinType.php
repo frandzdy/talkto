@@ -58,7 +58,6 @@ class CheckinType extends AbstractType
                     'required' => false
                 ]
             )
-            ->add('errorFile', HiddenType::class, ['mapped' => false])
             ->add('uploadedPictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
@@ -70,44 +69,12 @@ class CheckinType extends AbstractType
                     ],
                 ],
                 'label_attr' => [
-                    'class' => 'w-max-content form-text text-muted checkin-pictures',
+                    'class' => 'w-max-content form-text text-muted',
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => false,
             ]);
-        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
-    }
-
-    /**
-     * Contrôle les données avant de submit
-     */
-    public function postSubmit(FormEvent $event): void
-    {
-        $form = $event->getForm();
-        /**
-         * @var Checkin $checkin
-         */
-        $checkin = $event->getData();
-
-        if (!$checkin) {
-            return;
-        }
-
-        if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && !$checkin->getComments()) {
-            $form->get('comments')->addError(new FormError('Information requise.'));
-        }
-
-        if (
-            $checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING
-            && array_key_exists(
-                1,
-                $checkin->uploadedPictures
-            )
-            && \is_null($checkin->uploadedPictures[1])
-        ) {
-            $form->get('errorFile')->addError(new FormError('Information requise.'));
-        }
     }
 
     /**

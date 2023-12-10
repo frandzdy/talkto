@@ -43,7 +43,7 @@
                                     </div>
                                 </a>
                                 <span data-action="click->back-product#confirmPictureDelete"
-                                      data-token="{{ picture.token }}">
+                                      data-token="{{ picture.id }}" data-product-token="{{ product.id }}">
                                     <i class="fa far fa-trash-alt text-danger"></i>
                                 </span>
                             {% endfor %}

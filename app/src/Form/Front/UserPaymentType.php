@@ -287,25 +287,26 @@ class UserPaymentType extends AbstractType
                             ],
                         'first_options' =>
                             [
-                            'label' => 'Mot de passe',
-                            'label_attr' =>
-                                [
-                                    'class' => 'form-text text-muted'
-                                ],
-                            'hash_property_path' => 'password',
-                            'attr' =>
-                                [
-                                'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
-                                'autocomplete' => 'new-password',
-                                'maxlength' => 255
+                                'label' => 'Mot de passe',
+                                'label_attr' =>
+                                    [
+                                        'class' => 'form-text text-muted'
+                                    ],
+                                'hash_property_path' => 'password',
+                                'attr' =>
+                                    [
+                                        'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
+                                        'autocomplete' => 'new-password',
+                                        'maxlength' => 255
+                                    ],
                             ],
-                        ],
 
                         'second_options' => [
                             'label' => 'Confirmer votre mot de passe',
                             'attr' =>
                                 [
-                                    'maxlength' => 255, 'autocomplete' => 'new-password'
+                                    'maxlength' => 255,
+                                    'autocomplete' => 'new-password'
                                 ],
                         ],
                         'mapped' => false,
@@ -316,7 +317,8 @@ class UserPaymentType extends AbstractType
                             ]
                     ]
                 )
-                ->add('isGuess', CheckboxType::class,
+                ->add(
+                    'isGuess', CheckboxType::class,
                     [
                         'label' => 'Créer un compte ?',
                         'label_attr' =>
@@ -331,25 +333,22 @@ class UserPaymentType extends AbstractType
                 );
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+            $form = $event->getForm();
+            $user = $form->getData();
+            /**
+             * @var User $user
+             */
+            if (!$user->getCountry()) {
+                $form->get('country')->addError(new FormError('Information requise.'));
+            }
+            if ($user->getIsGuess() && !$form->get('plainPassword')->getData()) {
+                $form->get('plainPassword')->get('first')->addError(new FormError('Information requise.'));
+            }
+        });
     }
 
-    public function postSubmit(FormEvent $event)
-    {
-        $form = $event->getForm();
-        $user = $form->getData();
-        /**
-         * @var User $user
-         */
-        if (!$user->getCountry()) {
-            $form->get('country')->addError(new FormError('Information requise.'));
-        }
-        if ($user->getIsGuess() && !$form->get('plainPassword')->getData()) {
-            $form->get('plainPassword')->get('first')->addError(new FormError('Information requise.'));
-        }
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

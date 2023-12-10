@@ -127,25 +127,6 @@ class ProductType extends AbstractType
 
                 ]
             );
-        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
-    }
-
-    /**
-     * Contrôle les données avant de submit
-     */
-    public function postSubmit(FormEvent $event): void
-    {
-        $form = $event->getForm();
-        /**
-         * @var Product $product
-         */
-        $product = $event->getData();
-        if (!$product) {
-            return;
-        }
-        if (array_key_exists(1, $product->uploadedPictures) && \is_null($product->uploadedPictures[1])) {
-            $form->get('errorFile')->addError(new FormError('Information requise.'));
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

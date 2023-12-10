@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: HomePageRepository::class)]
 class HomePage
 {

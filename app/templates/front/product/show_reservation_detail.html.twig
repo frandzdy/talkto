@@ -31,8 +31,7 @@
                                                    href="#pro-{{ picture.token }}" role="tab"
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="false">
                                                     <div class="product__nav-img w-img">
-                                                        <img width="102" height="130"
-                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
+                                                        <img                                                              src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
                                                              alt="{{ picture.name }}">
                                                     </div>
                                                 </a>
@@ -55,7 +54,6 @@
                                             <div class="product__modal-img product__thumb w-img"
                                                  data-action="click->bigpicture#loadGallery">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
-                                                     width="470" height="600"
                                                      src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
                                                      alt="{{ picture.name }}">
                                                 {#                                                <div class="product__sale "> #}
@@ -88,8 +86,12 @@
                                 {#                                <span class="review rating-left"><a href="#">Add your Review</a></span> #}
                             </div>
                             <div class="product__price-2 mb-25">
-                                <span>{{ product.amount }} €</span>
-                                {# <span class="old-price">$96.00</span> #}
+                                <span>{{ product.amount }} € / jour</span>
+                                {#                <span class="old-price">$96.00</span> #}
+                            </div>
+                            <div class="product__price-2 mb-25">
+                                <span>Montant de la caution : {{ product.caution }} €</span>
+                                {#                <span class="old-price">$96.00</span> #}
                             </div>
                             <div class="product__modal-des mb-30">
                                 {{ product.shortDescription }}
@@ -342,11 +344,11 @@
                             <div class="product__thumb">
                                 {% if product.pictures.count > 0 %}
                                     {% set picture = product.pictures.first %}
-                                    {% set picture2 = product.pictures.next %}
                                     <img width="270" height="324"
                                          src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
                                          alt="product-img">
-                                    {% if picture2 %}
+                                    {% if product.pictures.count > 1 %}
+                                        {% set picture2 = product.pictures.next %}
                                         <img width="270" height="324" class="product__thumb-2"
                                              src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale') }}"
                                              alt="{{ picture2.name }}">

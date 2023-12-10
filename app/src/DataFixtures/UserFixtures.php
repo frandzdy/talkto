@@ -34,14 +34,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('support@yopmail.fr');
         $user->setPassword($this->passwordEncoder->hashPassword($user, 'supportpass'));
         $user->setRoles([User::ROLE_SUPPORT]);
-        $user->setLastname("Rented")
+        $user->setLastname("Re&#x0258nted")
             ->setFirstname('Support')
             ->setAddress('')
             ->setCity('')
             ->setPhone('')
             ->setZipCode('')
             ->setCountry($country)
-            ->setGenre(Civility::MEN);
+            ->setGenre(Civility::MEN)
+            ->setTerms(true);
 
         $manager->persist($user);
 

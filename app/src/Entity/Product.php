@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use function Symfony\Component\Translation\t;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Index(columns: ["status", "short_description", "title", "category"], name: "ecommerce_products")]
 #[ORM\HasLifecycleCallbacks()]
@@ -30,27 +31,27 @@ class Product
      * @var float|null
      */
     #[ORM\Column(scale: 2)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private ?float $amount = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private ?string $shortDescription = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private ?string $description = null;
 
     /**
-     * @var ArrayCollection|Collection
+     * @var Collection
      */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $pictures;
 
 
@@ -67,7 +68,7 @@ class Product
             maxSizeMessage: "Document trop lourd.",
             mimeTypesMessage: "Format Image uniquement autorisé.",
             corruptedMessage: 'Fichier corrompue',
-            groups: ['creation']
+            groups: ['creation', 'edit']
         )
     )]
     #[Assert\Count(min: 1, max: 5, minMessage: "1 photo minimum", maxMessage: "5 photos maximums.", groups: ['creation'])]
@@ -77,7 +78,7 @@ class Product
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private ?string $title = null;
 
     /**
@@ -90,14 +91,14 @@ class Product
      * @var float
      */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private float $caution;
 
     /**
      * @var int
      */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation'])]
+    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
     private int $quantity;
 
     /**

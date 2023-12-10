@@ -1,4 +1,4 @@
-{% block subject %}Rented – Réinitialisation du mot de passe{% endblock %}
+{% block subject %}Re&#x0258nted – Réinitialisation du mot de passe{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
@@ -12,13 +12,13 @@
                     Pour réinitialiser votre mot de passe, merci de suivre le lien.
                     </p>
                     <p>
-                        <a href="{{ url('front_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+                        <a href="{{ url('front_reset_password', {token: resetToken.token}) }}">{{ url('front_reset_password', {token: resetToken.token}) }}</a>
                     </p>
                     <p>Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
                     <p>
                         Cordialement,<br/>
-                        L'équipe Rented<br/>
-                        <a title="Site Rented"
+                        L'équipe Re&#x0258nted<br/>
+                        <a title="Site Re&#x0258nted"
                            href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
                     <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
@@ -38,7 +38,7 @@
     Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.\n
     \n
     Cordialement,\n
-    L'équipe Rented\n
+    L'équipe Re&#x0258nted\n
     {{ app.request.schemeAndHttpHost }}\n
     \n
     Ce message est généré automatiquement, merci de ne pas y répondre directement.\n

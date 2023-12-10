@@ -16,13 +16,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductReservationType extends AbstractType
 {
-    public function __construct(private EntityManagerInterface $em) {
-
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date', TextType::class,
+            ->add(
+                'date', TextType::class,
                 [
                     'label' => false,
                     'attr' =>
@@ -36,7 +38,8 @@ class ProductReservationType extends AbstractType
                         ],
                     'required' => true
                 ]
-            )->add('quantity', ChoiceType::class,
+            )->add(
+                'quantity', ChoiceType::class,
                 [
                     'label' => false,
                     'placeholder' => '-- Sélectionnez une quantité --',
@@ -48,65 +51,55 @@ class ProductReservationType extends AbstractType
                     'required' => true
                 ]
             );
-        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
-    }
-
-    /**
-     * @param FormEvent $event
-     * @return void
-     */
-    public function postSubmit(FormEvent $event): void
-    {
-        $form = $event->getForm();
-        if (!$form->get('quantity')->getData()) {
-            $form->get('quantity')->addError(new FormError('Information requise.'));
-        }
-        if (!$form->get('date')->getData()) {
-            $form->get('date')->addError(new FormError('Information requise.'));
-        }
-    }
-
-    /**
-     * @param FormEvent $event
-     * @return void
-     */
-    public function preSubmit(FormEvent $event): void
-    {
-        $array = $event->getData();
-        $form = $event->getForm();
-        $options = $event->getForm()->getConfig()->getOptions();
-        $date = explode('au', $array['date']);
-
-        $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $options['token']]);
-        $transactionLines = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable($product, new \DateTime($date[0]));
-        $totalReserved = 0;
-        foreach ($transactionLines as $transactionLine) {
-            $totalReserved = $transactionLine->getQuantity();
-        }
-
-        $choicesValue = [];
-        if ($quantityLeft = $product->getQuantity() - $totalReserved) {
-            for ($i = 1; $i <= $quantityLeft; $i++) {
-                $choicesValue[$i] = $i;
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+            $form = $event->getForm();
+            if (!$form->get('quantity')->getData()) {
+                $form->get('quantity')->addError(new FormError('Information requise.'));
             }
-        }
+            if (!$form->get('date')->getData()) {
+                $form->get('date')->addError(new FormError('Information requise.'));
+            }
+        });
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+            $array = $event->getData();
+            $form = $event->getForm();
+            $options = $event->getForm()->getConfig()->getOptions();
+            $date = explode('au', $array['date']);
 
-        $form->remove('quantity')
-            ->add('quantity', ChoiceType::class,
-                [
-                    'label' => false,
-                    'placeholder' => '-- Sélectionnez une quantité --',
-                    'attr' =>
-                        [
-                            'class' => 'text-center'
-                        ],
-                    'choices' => array_flip($choicesValue),
-                    'required' => true
-                ]
-            )
-        ;
+            $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $options['token']]);
+            $transactionLines = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable(
+                $product,
+                new \DateTime($date[0])
+            );
+            $totalReserved = 0;
+            foreach ($transactionLines as $transactionLine) {
+                $totalReserved = $transactionLine->getQuantity();
+            }
+
+            $choicesValue = [];
+            if ($quantityLeft = $product->getQuantity() - $totalReserved) {
+                for ($i = 1; $i <= $quantityLeft; $i++) {
+                    $choicesValue[$i] = $i;
+                }
+            }
+
+            $form->remove('quantity')
+                ->add(
+                    'quantity', ChoiceType::class,
+                    [
+                        'label' => false,
+                        'placeholder' => '-- Sélectionnez une quantité --',
+                        'attr' =>
+                            [
+                                'class' => 'text-center'
+                            ],
+                        'choices' => array_flip($choicesValue),
+                        'required' => true
+                    ]
+                );
+        });
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

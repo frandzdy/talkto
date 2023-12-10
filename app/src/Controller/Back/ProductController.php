@@ -5,12 +5,10 @@ namespace App\Controller\Back;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Enum\ProductStatus;
-use App\Exporter\LessorExporter;
 use App\Exporter\ProductExporter;
 use App\Form\Back\ProductFilterType;
 use App\Form\Back\ProductType;
 use App\Repository\ProductRepository;
-use App\Service\CustomerCompanyManager;
 use App\Service\MailerManager;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -131,10 +129,10 @@ class ProductController extends AbstractController
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Product $product, CustomerCompanyManager $customerCompanyManager): RedirectResponse
+    public function delete(Product $product): RedirectResponse
     {
         try {
-            $customerCompanyManager->removeCompany($product);
+            //$customerCompanyManager->removeCompany($product);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }
@@ -170,13 +168,14 @@ class ProductController extends AbstractController
         );
     }
 
-    #[Route('/produit/image/suppression/{id}', name: 'product_picture_delete', options: ['expose' => true], methods: ['POST'])]
+    #[Route('/image/suppression/{id}/{product}', name: 'picture_delete', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted('ROLE_CONTRIBUTOR')]
     public function productPictureDelete(
         Picture $picture,
+        Product $product,
         ProductManager $productManager
     ): JsonResponse {
-        if ($productManager->deleteProductPicture($picture->getProduct(), $picture)) {
+        if ($productManager->deleteProductPicture($product, $picture)) {
             return $this->json(
                 [
                     'success' => true,

@@ -12,7 +12,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: TransactionLineRepository::class)]
+#[ORM\Index(columns: ["start_date", "end_date", "token", "status"], name: "ecommerce_transaction_line")]
 #[ORM\HasLifecycleCallbacks()]
 class TransactionLine
 {
@@ -85,11 +87,17 @@ class TransactionLine
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cancelTransfertId = null;
 
-    /**
-     * @var int
-     */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cautionId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $captureCautionId = null;
+
     #[ORM\Column(length: 11, nullable: true)]
     private ?int $cancelAmount = null;
+
+    #[ORM\Column(length: 11, nullable: true)]
+    private ?string $cautionAmount = null;
 
     #[ORM\OneToMany(mappedBy: 'transactionLine', targetEntity: Checkin::class, cascade: ['remove', 'persist'], orphanRemoval: true)]
     private Collection $checkins;
@@ -355,6 +363,42 @@ class TransactionLine
     public function setCancelAmount(?int $cancelAmount): self
     {
         $this->cancelAmount = $cancelAmount;
+
+        return $this;
+    }
+
+    public function getCautionId(): ?string
+    {
+        return $this->cautionId;
+    }
+
+    public function setCautionId(?string $cautionId): self
+    {
+        $this->cautionId = $cautionId;
+
+        return $this;
+    }
+
+    public function getCautionAmount(): ?string
+    {
+        return $this->cautionAmount;
+    }
+
+    public function setCautionAmount(?string $cautionAmount): self
+    {
+        $this->cautionAmount = $cautionAmount;
+
+        return $this;
+    }
+
+    public function getCaptureCautionId(): ?string
+    {
+        return $this->captureCautionId;
+    }
+
+    public function setCaptureCautionId(?string $captureCautionId): self
+    {
+        $this->captureCautionId = $captureCautionId;
 
         return $this;
     }

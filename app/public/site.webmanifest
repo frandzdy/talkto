@@ -1,8 +1,6 @@
 {
-    "lang": "fr-FR",
-    "name": "Rent-Hub",
-    "short_name": "Rent-Hub",
-    "description": "Site de mise en relation entre particulier pour location de produit.",
+    "name": "Re&#x0258nted",
+    "short_name": "Re&#x0258nted",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,9 +11,14 @@
             "src": "/android-chrome-384x384.png",
             "sizes": "384x384",
             "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
-    "theme_color": "#bc8246",
-    "background_color": "#bc8246",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone"
 }

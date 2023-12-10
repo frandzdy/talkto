@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Claim;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,4 +64,50 @@ class ClaimRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    /**
+     * Construit une requête de recherche
+     */
+    public function buildSearchQuery(array $filters = []): Query
+    {
+        $builder = $this
+            ->createQueryBuilder('c');
+
+        if (!empty($filters['term'])) {
+            $builder
+                ->join('c.checkin', 'checkin')
+                ->addSelect('checkin')
+                ->join('checkin.author', 'author')
+                ->addSelect('author')
+                ->join('checkin.transactionLine', 'transactionLine')
+                ->addSelect('transactionLine')
+                ->join('transactionLine.transaction', 'transaction')
+                ->addSelect('transaction')
+                ->join('transactionLine.product', 'product')
+                ->addSelect('product')
+                ->andWhere('author.email LIKE :term OR author.fullname LIKE :term')
+                ->orWhere('transaction.reference LIKE :term OR product.title LIKE :term')
+                ->setParameter('term', $filters['term'] . '%');
+        }
+
+        $builder->orderBy('c.id');
+
+        return $builder->getQuery();
+    }
+
+    /**
+     * Retourne la liste des réclamations en cours
+     */
+    public function getClaims(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->join('c.checkin', 'checkin')
+            ->addSelect('checkin')
+            ->join('checkin.transactionLine', 'transactionLine')
+            ->addSelect('transactionLine')
+            //->where('c.status = :claimStatus')
+            //->setParameter('claimStatus', ClaimStatus::PENDING)
+            ->getQuery()
+            ->getResult();
+    }
 }

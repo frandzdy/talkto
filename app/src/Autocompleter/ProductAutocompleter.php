@@ -8,9 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\UX\Autocomplete\EntityAutocompleterInterface;
 
 #[AutoconfigureTag('ux.entity_autocompleter', ['alias' => 'product'])]
@@ -41,7 +39,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->createQueryBuilder('p')
             ->select(
                 'p,
-                    ceil(( 6371 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
+                    ceil(( 6372 * acos(cos(radians(:userLat)) * cos(radians(a.lat))
                        * cos(radians(a.lon) - radians(:userLon)) + sin(radians(:userLat))
                        * sin(radians(a.lat))))) AS distance'
             )

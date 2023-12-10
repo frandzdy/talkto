@@ -22,7 +22,7 @@
                 {% endif %}
             </div>
             <nav>
-                <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
+                <div class="nav nav-tabs justify-content-start" id="nav-tab" role="tablist">
                     {% if product.pictures.count > 0 %}
                         {% for index, picture in product.pictures %}
                             {% set active = '' %}
@@ -50,63 +50,29 @@
             </h4>
             <div class="rating rating-shop mb-15">
                 <ul>
-                    <li><span><i class="fas fa-star"></i></span></li>
-                    <li><span><i class="fas fa-star"></i></span></li>
-                    <li><span><i class="fas fa-star"></i></span></li>
-                    <li><span><i class="fas fa-star"></i></span></li>
-                    <li><span><i class="fal fa-star"></i></span></li>
+                    {% for i in range(0, 4) %}
+                        {% if i <= product.averageNote %}
+                            <li><span><i class="fas fa-star"></i></span></li>
+                        {% else %}
+                            <li><span><i class="fal fa-star"></i></span></li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
                 <span class="rating-no ml-10">
                     0 avis(s) des clients
                 </span>
             </div>
             <div class="product__price-2 mb-25">
-                <span>{{ product.amount }}  €</span>
+                <span>{{ product.amount }} € / jour</span>
+                {#                <span class="old-price">$96.00</span> #}
+            </div>
+            <div class="product__price-2 mb-25">
+                <span>Montant de la caution : {{ product.caution }} €</span>
                 {#                <span class="old-price">$96.00</span> #}
             </div>
             <div class="product__modal-des mb-30">
                 <p>{{ product.shortDescription }}</p>
             </div>
-            {#            <div class="product__modal-form"> #}
-            {#                <form action="#"> #}
-            {#                    <div class="product__modal-input size mb-20"> #}
-            {#                        <label>Size <i class="fas fa-star-of-life"></i></label> #}
-            {#                        <select> #}
-            {#                            <option>- Please select -</option> #}
-            {#                            <option> S</option> #}
-            {#                            <option> M</option> #}
-            {#                            <option> L</option> #}
-            {#                            <option> XL</option> #}
-            {#                            <option> XXL</option> #}
-            {#                        </select> #}
-            {#                    </div> #}
-            {#                    <div class="product__modal-input color mb-20"> #}
-            {#                        <label>Color <i class="fas fa-star-of-life"></i></label> #}
-            {#                        <select> #}
-            {#                            <option>- Please select -</option> #}
-            {#                            <option> Black</option> #}
-            {#                            <option> Yellow</option> #}
-            {#                            <option> Blue</option> #}
-            {#                            <option> White</option> #}
-            {#                            <option> Ocean Blue</option> #}
-            {#                        </select> #}
-            {#                    </div> #}
-            {#                    <div class="product__modal-required mb-5"> #}
-            {#                        <span>Repuired Fiields *</span> #}
-            {#                    </div> #}
-            {#                    <div class="pro-quan-area d-lg-flex align-items-center"> #}
-            {#                        <div class="product-quantity-title"> #}
-            {#                            <label>Quantité</label> #}
-            {#                        </div> #}
-            {#                        <div class="product-quantity"> #}
-            {#                            <div class="cart-plus-minus"><input type="text" value="1"/></div> #}
-            {#                        </div> #}
-            {#                        <div class="pro-cart-btn ml-20"> #}
-            {#                            <a href="#" class="os-btn os-btn-black os-btn-3 mr-10">+ Ajouter</a> #}
-            {#                        </div> #}
-            {#                    </div> #}
-            {#                </form> #}
-            {#            </div> #}
         </div>
     </div>
 </div>

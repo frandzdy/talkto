@@ -12,6 +12,6 @@ when@prod:
         mailer:
             dsn: '%env(MAILER_DNS)%'
             envelope:
-                sender: 'contact@rented.fr'
+                sender: 'contact@reented.com'
             headers:
-                from: 'RENTED <contact@rented.fr>'
+                from: 'RENTED <contact@reented.com>'

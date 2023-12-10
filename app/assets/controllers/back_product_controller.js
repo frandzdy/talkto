@@ -20,7 +20,8 @@ export default class extends Controller {
     confirmPictureDelete(event) {
         event.preventDefault()
         const token = $(event.currentTarget).data('token')
-        if (token) {
+        const productToken = $(event.currentTarget).data('productToken')
+        if (token && productToken) {
             $.confirm({
                 title: 'Suppression d\'une photo',
                 content: 'Souhaitez-vous supprimer cette photo de ce produit ?',
@@ -31,7 +32,7 @@ export default class extends Controller {
                         text: 'Supprimer',
                         btnClass: 'btn-red',
                         action: () => {
-                            $.post(Routing.generate('front_product_picture_delete', {'token': token}), null, function (data) {
+                            $.post(Routing.generate('back_product_picture_delete', {'id': token, 'product': productToken}), null, function (data) {
                                 $('#nav-' + token + '-tab').remove();
                                 $('#nav-' + token).remove();
                                 elt.parentElement.remove();

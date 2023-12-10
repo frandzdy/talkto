@@ -3,14 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Pays
- */
+#[ORM\Table()]
 #[ORM\Entity()]
 #[ORM\Index(columns: ["product_id", "user_id"], name: "ecommerce_wishlists")]
-#[ORM\Table()]
 #[ORM\HasLifecycleCallbacks]
 class Wishlist
 {

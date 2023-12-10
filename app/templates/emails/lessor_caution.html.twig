@@ -1,0 +1,81 @@
+{% block subject %}Re&#x0258nted – Versement d'une caution : {{ transactionLine.transaction.reference }}{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Versement d'une caution : {{ transactionLine.transaction.reference }}{% endblock %}
+        {% block accroche %}Versement d'une caution{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h1>Bonjour {{ user.fullname }},</h1>
+                    <p>
+                        Nous vous annonçons, que le montant de {{ (transactionLine.cautionAmount / 100)|number_format(2, ',')|default(0) }} €
+                        vous a été transféré de votre compte bancaire.
+                    </p>
+                    <p>
+                        Location concernée :
+                    </p>
+                    <ul>
+                        <li><strong>Référence :</strong> {{ transactionLine.transaction.reference }}</li>
+                        <li><strong>Produit :</strong> {{ transactionLine.product.title }}</li>
+                        <li><strong>Date de la réservation :</strong>
+                            {% if transactionLine.startDate|date('d/m/Y') != transactionLine.endDate|date('d/m/Y') %}
+                                {{ transactionLine.startDate|date('d/m/Y') }} au {{ transactionLine.endDate|date('d/m/Y') }}
+                            {% else %}
+                                {{ transactionLine.startDate|date('d/m/Y') }}
+                            {% endif %}
+                        </li>
+                        <li><strong>Montant de votre réservation
+                                :</strong> {{ ((transactionLine.amountTtc + transactionLine.fees) /100)|number_format(2, ',')|default(0) }}
+                            €
+                        </li>
+                        <li><strong>Montant de la caution
+                                :</strong> {{ (transactionLine.cautionAmount /100)|number_format(2, ',')|default(0) }} €
+                        </li>
+                    </ul>
+                    <p>
+                        Vous pouvez retrouver toutes les informations sur <a title="Site Re&#x0258nted"
+                                                                             href="{{ app.request.schemeAndHttpHost }}">Re&#x0258nted</a>.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe RENTED<br/>
+                        <a title="Site Re&#x0258nted"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ user.fullname }},\n
+    \n
+    Nous vous annonçons, que le montant de {{ (transactionLine.cancelAmount / 100)|number_format(2, ',')|default(0) }} €
+    vous a été transféré sur votre compte bancaire.\n
+    \n
+    Location concernée :\n
+    \n
+    •    Référence : {{ transactionLine.transaction.reference }}\n
+    •    Produit : {{ transactionLine.product.title }}\n
+    •    Date de la réservation :
+    {% if transactionLine.startDate|date('d/m/Y') != transactionLine.endDate|date('d/m/Y') %}
+        {{ transactionLine.startDate|date('d/m/Y') }} au {{ transactionLine.endDate|date('d/m/Y') }}\n
+    {% else %}
+        {{ transactionLine.startDate|date('d/m/Y') }}\n
+    {% endif %}
+    •    Montant de votre réservation : {{ ((transactionLine.amountTtc + transactionLine.fees) /100)|number_format(2, ',')|default(0) }} €\n
+    •    Montant de la caution : {{ (transactionLine.cautionAmount / 100)|number_format(2, ',')|default(0) }} €\n
+    \n
+    Vous pouvez retrouver toutes les informations sur {{ app.request.schemeAndHttpHost }}.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe RENTED\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

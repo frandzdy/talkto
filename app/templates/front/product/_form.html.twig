@@ -19,7 +19,7 @@
                 {% endif %}
             </div>
             <nav>
-                <div class="nav nav-tabs justify-content-between" id="nav-tab" role="tablist">
+                <div class="nav nav-tabs justify-content-start" id="nav-tab" role="tablist">
                     {% if form.vars.value.pictures.count > 0 %}
                         {% for index, picture in form.vars.value.pictures %}
                             {% set active = '' %}
@@ -85,8 +85,8 @@
                     Photos de votre produit <i class="fas fa-plus "></i>
                 </button>
             </div>
-            <div>
-                {{ form_errors(form.errorFile) }}
+            <div class="profile__edit-input">
+                {{ form_errors(form.uploadedPictures) }}
             </div>
             <div class="picture-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
                 {% for index, picture in form.vars.value.pictures %}
@@ -96,7 +96,7 @@
                             {{ picture.name }}
                         </div>
                         <button type="button" class="btn" data-action="click->product#onFileDelete"
-                            data-token="{{ picture.token }}">
+                            data-token="{{ picture.token }}" data-product-token="{{ form.vars.value.token }}">
                             <i class="fa far fa-trash-alt text-danger"></i>
                         </button>
                     </div>

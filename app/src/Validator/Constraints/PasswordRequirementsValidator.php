@@ -9,15 +9,13 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
  * Validateur de mot de passe pour l'application
- *
- * @Annotation
  */
 class PasswordRequirementsValidator extends ConstraintValidator
 {
     /**
      * Valide les données reçu lors de la validation du formulaire
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof PasswordRequirements) {
             throw new UnexpectedTypeException($constraint, PasswordRequirements::class);

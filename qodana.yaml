@@ -10,7 +10,7 @@ profile:
 
 #Enable inspections
 include:
-  - name: rented
+  - name: Re\u0258nted
     paths:
       - app/src
 

@@ -5,11 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Pays
- */
-#[ORM\Entity()]
 #[ORM\Table()]
+#[ORM\Entity()]
+#[ORM\Index(columns: ["position", "label", "code"], name: "ecommerce_country")]
 class Country
 {
     use TraitPositionable;

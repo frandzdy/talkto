@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AssertRented;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Index(columns: ["email", "firstname", "lastname", "created_at"], name: "ecommerce_user")]
 #[UniqueEntity(fields: ["email"], message: "E-mail déjà enregistré.")]
@@ -132,13 +133,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\Image(
         maxSize: '10M',
-        minWidth: '1920',
-        minHeight: '933',
         detectCorrupted: true,
         maxSizeMessage: "Document trop lourd.",
         mimeTypesMessage: "Format Image uniquement autorisé.",
-        minWidthMessage: 'La largeur minimum est de 1920',
-        minHeightMessage: 'La hauteur minimum est de 933',
         corruptedMessage: 'Fichier corrompue'
     )]
     private ?UploadedFile $uploadPicture = null;

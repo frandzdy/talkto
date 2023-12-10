@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SellerController extends AbstractController
 {
-    #[Route('/compte-commercial/creation', name: 'seller_new', methods: ['GET', 'POST'])]
+    #[Route('/commercial/creation-compte', name: 'seller_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         UserManager $userManager,
@@ -57,14 +57,12 @@ class SellerController extends AbstractController
         ]);
     }
 
-    #[Route('/compte-commercial/edition', name: 'seller_edit', methods: ['GET', 'POST'])]
+    #[Route('/commercial/edition-compte', name: 'seller_edit', methods: ['GET', 'POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function edit(
         Request     $request,
-        UserManager $userManager,
-        StripeManager $stripeManager
-    ): Response
-    {
+        UserManager $userManager
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(SellerType::class, $user, ['action' => $request->getRequestUri(), 'edit' => true]);
         $form->handleRequest($request);
@@ -93,7 +91,7 @@ class SellerController extends AbstractController
     /**
      * Supprime le compte d'un vendeur
      */
-    #[Route('/mon-compte-commercial/supprimer', name: 'seller_delete', methods: ['POST'])]
+    #[Route('/commercial/supprimer-compte', name: 'seller_delete', methods: ['POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function delete(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -106,7 +104,7 @@ class SellerController extends AbstractController
     /**
      * Affiche le message de succès pour la création d'un compte
      */
-    #[Route('/compte-commercial/creation-valide', name: 'seller_success_creation', methods: ['GET'])]
+    #[Route('/commercial/creation-valide', name: 'seller_success_creation', methods: ['GET'])]
     public function successCreation(): Response
     {
 

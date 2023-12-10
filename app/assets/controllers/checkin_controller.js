@@ -69,15 +69,4 @@ export default class extends Controller {
             $(this).find('.file-index').removeClass("d-none");
         });
     }
-
-
-    onChangeStatus (event) {
-        if ($(event.currentTarget).val() == 2) {
-            $('.checkin-collection').show();
-            $('.checkin-pictures').show();
-        } else {
-            $('.checkin-collection').hide();
-            $('.checkin-pictures').hide();
-        }
-    }
 }

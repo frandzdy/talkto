@@ -62,18 +62,16 @@
                                                     <br>
                                                 {% endif %}
                                             {% else %}
-                                                {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or !transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::IN'))|length %}
+                                                {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::IN'))|length == 0 %}
                                                     <a class="profile__info-btn open-front-modal"
                                                        href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
                                                        title="Check-in"
                                                        data-modal-title="Check-in">
                                                         Check-in
-                                                        {{ dump(transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::IN'))) }}
-                                                        {{ dump(transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::OUT'))) }}
                                                     </a>
                                                     <br>
                                                 {% endif %}
-                                                {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") or !transactionLine.getCheck(constant('App\\Enum\\CheckinStatus::OUT'))|length %}
+                                                {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::OUT'))|length == 0 %}
                                                     <a class="profile__info-btn open-front-modal"
                                                        href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
                                                        title="Check-out"

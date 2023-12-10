@@ -171,7 +171,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->leftjoin('t.transactionLines', 'tl')
             ->join('tl.product', 'p')
             ->join('r.author', 'author')
-            ->where('author = :userId')
+            ->where('author.id = :userId')
             ->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(r.id))')

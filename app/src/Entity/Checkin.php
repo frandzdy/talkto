@@ -12,8 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Table()]
 #[ORM\Entity(repositoryClass: CheckinRepository::class)]
-#[ORM\HasLifecycleCallbacks()]
+#[ORM\Index(columns: ["status", "type", "start_date"], name: "ecommerce_checkin")]
 class Checkin
 {
     use TraitToken, TraitAuthor;
@@ -35,7 +36,7 @@ class Checkin
     /**
      * @var Collection
      */
-    #[ORM\ManyToMany(targetEntity: Picture::class)]
+    #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $pictures;
 
     /**
@@ -56,6 +57,7 @@ class Checkin
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private ?string $comments = null;
 
     #[ORM\Column]

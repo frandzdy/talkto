@@ -8,7 +8,7 @@
     {{ parent() }}
     <meta name="description"
           content="Création de compte gratuit ou avec abonnements, choississez vos centres d'intérêts, trouvez des matchs près de chez vous">
-    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Rented">
+    <meta name="title" content="Gestion de votre compte - Gestion de l'abonnement - Paramétrage compte – Re&#x0258nted">
 {% endblock %}
 
 {% set pictureName = '' %}
@@ -76,39 +76,40 @@
                                  role="tablist">
                                 <button class="nav-link active" id="nav-account-tab" data-toggle="tab"
                                         data-target="#nav-account" type="button" role="tab" aria-controls="nav-account"
-                                        aria-selected="true"><i class="fa fa-user"></i> Mon compte
+                                        aria-selected="true">
+                                    <i class="fa fa-user"></i>
+                                    Mon compte
                                 </button>
                                 {% if user.isStripeAccountActive and user.roles[0] == constant('App\\Entity\\User::ROLE_SELLER') %}
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab"
                                             data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false">
-                                        <i
-                                                class="fa fa-bags-shopping"></i>Mes biens
+                                        <i class="fa fa-bags-shopping text-info"></i>
+                                        Mes biens
                                     </button>
                                 {% endif %}
-                                {% set title = 'Mes locations' %}
                                 {% if user.roles[0] is same as constant('App\\Entity\\User::ROLE_SELLER') %}
-                                    {% set title = 'Mes réservations' %}
-
                                     <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
                                             data-target="#nav-reservation"
                                             type="button" role="tab" aria-controls="nav-reservation"
-                                            aria-selected="false"><i
-                                                class="fa fa-calendar-check"></i>Mes réservations
-                                    </button>
-                                    <button class="nav-link" id="nav-rented-tab" data-toggle="tab"
-                                            data-target="#nav-wishlist"
-                                            type="button" role="tab" aria-controls="nav-wishlist"
                                             aria-selected="false">
-                                        <i class="fas fa-heart" style="color: #ffc8c8;"></i>
+                                        <i class="fa fa-calendar text-primary"></i>
+                                        Mes réservations
+                                    </button>
+                                    <button class="nav-link" id="nav-rents-tab" data-toggle="tab"
+                                            data-target="#nav-rents"
+                                            type="button" role="tab" aria-controls="nav-rents"
+                                            aria-selected="false">
+                                        <i class="fa fa-calendar-check text-warning"></i>
                                         Mes locations
                                     </button>
                                 {% else %}
-                                    <button class="nav-link" id="nav-rented-tab" data-toggle="tab"
+                                    <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
                                             data-target="#nav-reservation"
                                             type="button" role="tab" aria-controls="nav-reservation"
-                                            aria-selected="false"><i
-                                                class="fa fa-calendar-check"></i>Mes locations
+                                            aria-selected="false">
+                                        <i class="fa fa-calendar-check text-warning"></i>
+                                        Mes locations
                                     </button>
                                 {% endif %}
                                 <button class="nav-link" id="nav-wishlist-tab" data-toggle="tab"
@@ -118,8 +119,9 @@
                                     <i class="fas fa-heart" style="color: #ffc8c8;"></i>
                                     Mes favoris
                                 </button>
-                                <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out"></i>
-                                    Déconnexion</a>
+                                <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out text-danger"></i>
+                                    Déconnexion
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -162,7 +164,7 @@
                                     } %}
                                     <div class="card-body pb-0 position-relative">
                                         <div class="table-responsive scrollbar mx-ncard">
-                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': title} only %}
+                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': 'Mes réservations'} only %}
                                         </div>
                                     </div>
                                 </div>
@@ -172,13 +174,13 @@
                                         page: collections.rents.page,
                                         totalPage: collections.rents.totalPage,
                                         url: path('front_user_collection', {
-                                            'name': 'reservations',
+                                            'name': 'rents',
                                             'page': "_PAGE_"
                                         })
                                     } %}
                                     <div class="card-body pb-0 position-relative">
                                         <div class="table-responsive scrollbar mx-ncard">
-                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': title} only %}
+                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': 'Mes locations'} only %}
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +197,7 @@
                                     } %}
                                     <div class="card-body pb-0 position-relative">
                                         <div class="table-responsive scrollbar mx-ncard">
-                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': title} only %}
+                                            {% include "front/user/partials/_reservations.html.twig" with {'results': collections.reservations|default([]), 'title': 'Mes locations'} only %}
                                         </div>
                                     </div>
                                 </div>

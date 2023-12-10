@@ -4,23 +4,23 @@
     {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
     <div class="profile__edit-input">
         {{ form_row(form.status) }}
-        <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+        <div class="profile__edit-input">
             {{ form_row(form.comments) }}
         </div>
     </div>
-    <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+    <div class="profile__edit-input">
         Ajouter des photos à votre litige
         <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre litige"
                 data-action="click->checkin#onFileAdd">
             <i class="fas fa-plus "></i>
         </button>
     </div>
-    <div class="profile__edit-input checkin-pictures" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
-        {{ form_errors(form.errorFile) }}
+    <div class="profile__edit-input">
+        {{ form_errors(form.uploadedPictures) }}
     </div>
     <div class="checkin-collection mt-3" {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}
          data-prototype="{{ macros.pictureCheckinField(form.uploadedPictures.vars.prototype)|e }}">
-        {% for picture in form.vars.value.pictures %}
+        {% for index, picture in form.vars.value.pictures %}
             <div class="picture file-elt mt-1 mb-1 d-flex w-100">
                 <div class="w-100">
                     <span>Photo litige(s) n° <span class="file-index d-none">{{ index }}</span></span>
@@ -33,11 +33,9 @@
             </div>
         {% endfor %}
     </div>
-    <small id="pictureHelp" class="form-text text-muted checkin-pictures"
-            {% if form.vars.value.status is not same as(constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %} style="display: none" {% endif %}>
+    <small id="pictureHelp" class="form-text text-muted">
         Les photos permettent à nos équipes de statué sur le litige.
     </small>
-    {{ form_rest(form) }}
     <button class="os-btn w-100" formnovalidate>Enregistrer</button>
     {{ form_end(form) }}
 </div>
