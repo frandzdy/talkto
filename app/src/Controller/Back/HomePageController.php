@@ -29,7 +29,6 @@ class HomePageController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
         $this->addFlash('success', 'Enregistrement effectué.');
-        dump($homePage);
         $em->flush();
 
         return $this->redirectToRoute('back_homepage_edit');

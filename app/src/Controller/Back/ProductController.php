@@ -103,7 +103,6 @@ class ProductController extends AbstractController
                     ]
                 );
             } else {
-                dump($form->getData());
                 $mailerManager->sendMailNotification(
                     $product->getAuthor()->getEmail(),
                     'emails/product_rejected.html.twig',

@@ -31,12 +31,6 @@ class HomeController extends AbstractController
         $latestProducts = $em->getRepository(Product::class)->getLatestProducts($lat, $lon);
         $topSales = $em->getRepository(TransactionLine::class)->getTopSales($lat, $lon);
 
-        dump($homePage);
-        dump($trends);
-        dump($topSales);
-        dump($trends);
-        dump($latestProducts);
-
         return $this->render('front/home/index.html.twig', compact('homePage', 'trends', 'latestProducts', 'topSales'));
     }
     
