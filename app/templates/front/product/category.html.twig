@@ -306,7 +306,7 @@
                                                             <div class="product__price transition-3">
                                                                 <span>{{ product[0].amount }} €</span>
                                                                 <!-- <span class="old-price">$96.00</span> -->
-                                                                <span class="old-price">{{ product.distance > 0 ? product.distance : '' }} km</span>
+                                                                <span class="old-price">{{ product.distance > 0 ? product.distance ~ 'Km' : 'Proche' }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="add-cart p-absolute transition-3">

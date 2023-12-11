@@ -3125,7 +3125,7 @@ p {
 }
 .product__price span.old-price {
   color: #8c8c8c;
-  text-decoration: line-through;
+  /*text-decoration: line-through;*/
 }
 .product__price-2 span {
   font-size: 14px;
@@ -3135,7 +3135,7 @@ p {
 }
 .product__price-2 span.old-price {
   color: #8c8c8c;
-  text-decoration: line-through;
+  /*text-decoration: line-through;*/
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .product__list {
