@@ -21,10 +21,7 @@ tarteaucitron.init({
 
 	"readmoreLink": policyUrl /* Change the default readmore link */
 });
-tarteaucitron.user.gtagUa = googleGtm;
-tarteaucitron.user.gtagMore = function () {
-	dataLayer/* add here your optionnal gtag() */
-};
+tarteaucitron.user.gtagUa = googleTag;
+// tarteaucitron.user.gtagCrossdomain = ['example.com', 'example2.com'];
+tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-tarteaucitron.user.googletagmanagerId = googleTagUa;
-(tarteaucitron.job = tarteaucitron.job || []).push('googletagmanager');

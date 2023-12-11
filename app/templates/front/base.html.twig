@@ -44,14 +44,17 @@
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
-        const googleGtm = '{{ googleGtm }}';
+        const googleTag = '{{ googleTag }}';
         const googleTagUa = '{{ googleTagUa }}';
         const stripePublicKey = '{{ stripePublicKey }}';
         const policyUrl = '{{ absolute_url(path('front_policy')) }}';
-        let dataLayer = [];
         let isLogged = false;
         let lat = {{ app.request.session.get('lat', 0) }};
         let lon = {{ app.request.session.get('lon', 0) }};
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ googleTag }}');
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         const userId = '{{ app.user.token }}';
         const lastname = '{{ app.user.lastname }}';
@@ -59,12 +62,6 @@
         const email = '{{ app.user.email }}';
         lat = '{{ app.user.lat|default(0) }}';
         lon = '{{ app.user.lon|default(0) }}';
-        dataLayer = [{
-            'user_id': '{{ app.user.id }}',
-            'lastname': '{{ app.user.lastname }}',
-            'firstname': '{{ app.user.firstname }}',
-            'email': '{{ app.user.email }}',
-        }];
         isLogged = true;
         {% endif %}
     </script>

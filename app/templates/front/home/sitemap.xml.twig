@@ -7,7 +7,7 @@
         <url>
             <loc>{{ url.loc }}</loc>
             {% if url.lastmod is defined %}
-                <lastmod>{{ url.lastmod|date('d-m-Y-H-i-s') }}</lastmod>
+                <lastmod>{{ url.lastmod|date('Y-m-d') }}</lastmod>
             {% endif %}
         </url>
     {% endfor %}
