@@ -4,7 +4,7 @@
             {% for index, cart in carts.products %}
                 <li>
                     <div class="cart-img f-left">
-                        <a data-toggle="tooltip" data-placement="top" title="{{ cart.title }}"
+                        <a title="{{ cart.title }}"
                            href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                             <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
                                  alt="{{ cart.title }}"/>

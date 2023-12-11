@@ -26,7 +26,7 @@
                                 {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
+                                            <a title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
                                                      alt="{{ product.title }}"/>
                                             </a>

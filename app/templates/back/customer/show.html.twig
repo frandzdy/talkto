@@ -5,7 +5,6 @@
 
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_customer_index') }}"
-       data-toggle="tooltip" data-placement="top"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -26,8 +25,7 @@
                         <div class="col-lg-5 text-right">
                             <a class="btn btn-outline-primary"
                                href="{{ path('back_customer_authenticate', {'id': customer.id}) }}"
-                               title="Se connecter avec ce client"
-                               data-toggle="tooltip" data-placement="top">
+                               title="Se connecter avec ce client">
                                 <i class="fa fa-user"></i> Se connecter avec ce client
                             </a>
                             <div>
@@ -50,7 +48,6 @@
                                 <label for="">E-mail : </label>
                                 <span>
                                     <a href="mailto:{{ customer.email }}"
-                                         data-toggle="tooltip" data-placement="top"
                                          title="E-mail">{{ customer.email }}
                                     </a>
                                 </span>
@@ -65,7 +62,6 @@
                                 <label for="">Téléphone :</label>
                                 <span>
                                     <a href="tel:{{ customer.phone }}"
-                                       data-toggle="tooltip" data-placement="top"
                                        title="Téléphone">
                                         {{ customer.phone }}
                                     </a>
