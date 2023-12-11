@@ -563,7 +563,6 @@ export default class extends Controller {
             });
             BasicSlider.slick({
                 autoplay: true,
-                mobileFirst: true,
                 swipe: true,
                 autoplaySpeed: 8000,
                 dots: true,
@@ -574,8 +573,10 @@ export default class extends Controller {
                 responsive: [{
                     breakpoint: 767,
                     settings: {
-                        dots: false,
-                        arrows: false
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
                     }
                 }]
             });
@@ -613,7 +614,6 @@ export default class extends Controller {
             });
             BasicSlider.slick({
                 autoplay: true,
-                mobileFirst: true,
                 swipe: true,
                 autoplaySpeed: 8000,
                 dots: true,
@@ -624,8 +624,10 @@ export default class extends Controller {
                 responsive: [{
                     breakpoint: 767,
                     settings: {
-                        dots: false,
-                        arrows: false
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
                     }
                 }]
             });
