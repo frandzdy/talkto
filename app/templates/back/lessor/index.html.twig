@@ -3,7 +3,8 @@
 {% block title %}Bailleurs - {{ parent() }}{% endblock %}
 {% block page_title %}Bailleurs ({{ lessors.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
-    <a title="Exporter" href="{{ path('back_lessor_extract') }}" class="btn btn-info">
+    <a title="Exporter" href="{{ path('back_lessor_extract') }}" class="btn btn-info" data-toggle="tooltip"
+       data-placement="top">
         Exporter
     </a>
 {% endblock %}

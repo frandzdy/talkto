@@ -72,9 +72,14 @@ class ProductReservationType extends AbstractType
                 new \DateTime($date[0])
             );
             $totalReserved = 0;
-            foreach ($transactionLines as $transactionLine) {
-                $totalReserved = $transactionLine->getQuantity();
+            if ($transactionLines) {
+                foreach ($transactionLines as $transactionLine) {
+                    $totalReserved = $transactionLine->getQuantity();
+                }
+            } else {
+                $totalReserved = $product->getQuantity();
             }
+
 
             $choicesValue = [];
             if ($quantityLeft = $product->getQuantity() - $totalReserved) {

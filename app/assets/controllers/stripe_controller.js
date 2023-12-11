@@ -38,7 +38,7 @@ export default class extends Controller {
                 radios: false,
                 spacedAccordionItems: true
             },
-            business: {"name": "Reɘnted"}
+            business: {"name": "Reented"}
         });
         paymentElement.mount('#payment-element')
         if (isLogged) {
@@ -58,8 +58,6 @@ export default class extends Controller {
             if ($('#caution-policy').is(':checked')) {
                 caution = true
             }
-            console.log(caution)
-            console.log(policy)
             if (!caution || !policy) {
                 if (!caution) {
                     this.cautionCheckbox.addClass('is-invalid');

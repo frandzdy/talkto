@@ -276,7 +276,7 @@ export default class extends Controller {
                 }
             });
         } catch (e) {
-            console.log(e);
+            toastr.error("Une erreur est survenue.");
         }
     }
 
@@ -563,6 +563,8 @@ export default class extends Controller {
             });
             BasicSlider.slick({
                 autoplay: true,
+                mobileFirst: true,
+                swipe: true,
                 autoplaySpeed: 8000,
                 dots: true,
                 fade: true,
@@ -611,6 +613,8 @@ export default class extends Controller {
             });
             BasicSlider.slick({
                 autoplay: true,
+                mobileFirst: true,
+                swipe: true,
                 autoplaySpeed: 8000,
                 dots: true,
                 fade: true,
@@ -688,7 +692,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -723,7 +727,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -758,7 +762,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -793,7 +797,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -828,7 +832,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -863,7 +867,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {
@@ -898,7 +902,7 @@ export default class extends Controller {
             autoplayTimeout: 3000,
             smartSpeed: 500,
             items: 6,
-            navText: ['<button><i class="fa fa-angle-left"></i>PREV</button>', '<button>NEXT<i class="fa fa-angle-right"></i></button>'],
+            navText: ['<button><i class="fa fa-angle-left"></i>Précedent</button>', '<button>Suivant<i class="fa fa-angle-right"></i></button>'],
             nav: false,
             dots: false,
             responsive: {

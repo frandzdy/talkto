@@ -3,7 +3,8 @@
 {% block title %}Clients - {{ parent() }}{% endblock %}
 {% block page_title %}Clients ({{ renters.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
-    <a title="Exporter" href="{{ path('back_customer_extract') }}" class="btn btn-info">
+    <a title="Exporter" href="{{ path('back_customer_extract') }}" data-toggle="tooltip" data-placement="top"
+       class="btn btn-info">
         Exporter
     </a>
 {% endblock %}

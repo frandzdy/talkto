@@ -2,12 +2,6 @@
 
 {% block title %}Panier{% endblock %}
 
-{% block metas %}
-    {{ parent() }}
-    <meta name="description" content="Panier de vos locations !">
-    <meta name="description" content="Cart of your rent !">
-{% endblock %}
-
 {% block content %}
 
     <section class="cart-area pt-50 pb-100">
@@ -34,7 +28,7 @@
                                         <td class="product-thumbnail">
                                             <a data-toggle="tooltip" data-placement="top" title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
-                                                     alt="{{ product.pictureName }}"/>
+                                                     alt="{{ product.title }}"/>
                                             </a>
                                         </td>
                                         <td class="product-name"><a

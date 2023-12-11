@@ -7,7 +7,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="{{ cart.title }}"
                            href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                             <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
-                                 alt="{{ cart.pictureName }}"/>
+                                 alt="{{ cart.title }}"/>
                         </a>
                     </div>
                     <div class="cart-content f-left text-left">

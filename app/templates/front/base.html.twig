@@ -12,13 +12,30 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#bc8246">
-    <meta name="apple-mobile-web-app-title" content="Rent-Hub">
-    <meta name="application-name" content="Rent-Hub">
+    <meta name="apple-mobile-web-app-title" content="Reented">
+    <meta name="application-name" content="Reented">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#bc8246">
-    {% block metas %}
-        <meta content="Reented" name="description"/>
-    {% endblock %}
+
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ app.request.schemeAndHttpHost }}" />
+    <meta content="Explorez la facilité de la location de produits adaptée à vos besoins locaux sur Reented.
+     Notre plateforme connecte les utilisateurs au sein de zones spécifiques, simplifiant la recherche et la location
+     d'équipements, d'outils et d'articles d'extérieur auprès de personnes de confiance dans votre quartier.
+     Favorisant une économie collaborative, Reented offre une expérience de location locale,
+     avec une gamme variée de produits facilement accessibles à proximité. Rejoignez-nous dès aujourd'hui pour profiter
+     d'une location sans tracas et contribuer à une communauté de partage dynamique!"
+          name="description"/>
+    <meta content="Location produits locaux, Location quartier, Louer à proximité, Plateforme économie collaborative, Location localisée, Location équipement événement, Outils à louer, Équipement extérieur à louer, Location entre particuliers, Marketplace locale, Partage communautaire, Location courte durée, Location facile, Réseau de location fiable, Location proximité, Location quartier pratique, Location durable, Location accessible, Locations entre particuliers sécurisées"
+          name="keywords">
+    <meta content="Discover the convenience of renting products tailored to your local needs on Reented.
+    Our platform connects users within specific areas, simplifying the search and rental of equipment, tools,
+    and outdoor items from trustworthy individuals in your neighborhood. Embracing a collaborative economy,
+    Reented offers a seamless local rental experience, featuring a diverse range of products easily accessible nearby.
+    Join us today to enjoy hassle-free rentals and contribute to a vibrant sharing community!"
+          name="description">
+    <meta content="Local product rentals, Neighborhood rentals, Rent nearby, Collaborative economy platform, Location-based renting, Event equipment rental, Tools for rent, Outdoor gear for rent, Peer-to-peer rentals, Local marketplace, Community sharing, Short-term rentals, Easy local renting, Trusted rental network, Rent from locals, Proximity-based rentals, Convenient neighborhood rentals, Sustainable renting, Accessible local renting, Secure peer rentals" name="keywords">
+
     <meta name="turbo-cache-control" content="no-cache">
     <!-- CSS here -->
     {% block stylesheets %}
@@ -62,10 +79,10 @@
 
 {% block javascripts %}
     {% for flash_message in app.session.flashBag.get('error') %}
-        <script>toastr.error("{{ flash_message }}")</script>
+    <script>toastr.error("{{ flash_message }}")</script>
     {% endfor %}
     {% for flash_message in app.session.flashBag.get('success') %}
-        <script>toastr.success("{{ flash_message }}")</script>
+    <script>toastr.success("{{ flash_message }}")</script>
     {% endfor %}
 {% endblock %}
 </body>

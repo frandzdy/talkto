@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Entity\TransactionLine;
 use App\Enum\ProductCategory;
 use App\Repository\UserRepository;
+use App\Service\SiteMapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,8 +39,11 @@ class HomeController extends AbstractController
      * Génère le sitemap du site.
      */
     #[Route('//sitemap.{_format}', name: 'sitemap', requirements: ['_format'=> 'xml'])]
-    public function siteMap()
+    public function siteMap(SiteMapManager $siteMapManager)
     {
-        return $this->render('home/sitemap.xml.twig');
+        return $this->render(
+            'front/home/sitemap.xml.twig',
+            ['urls' => $siteMapManager->generateUrls()]
+        );
     }
 }

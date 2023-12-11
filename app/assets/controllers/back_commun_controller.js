@@ -149,7 +149,7 @@ export default class extends Controller {
                 }
             });
         } catch (e) {
-            console.log(e);
+            toastr.error("Une erreur est survenue.");
         }
     }
 
@@ -222,7 +222,6 @@ export default class extends Controller {
             bsCustomFileInput.init();
             $(container).change(function () {
                 var fieldVal = $(this).val();
-                console.log(fieldVal);
                 if (fieldVal != undefined || fieldVal != "") {
                     $(this).next(".custom-file-label").text(fieldVal);
                     $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);

@@ -325,7 +325,7 @@
                                     {% set userImage = user.picture.name %}
                                 {% endif %}
                                 {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                <a href="javascript:void(0);" rel="nofollow" data-toggle="modal" data-target="#view_info">
                                     <img src="{{ urlUserImage }}" alt="avatar">
                                 </a>
                                 <div class="chat-about">
@@ -334,13 +334,13 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 hidden-sm text-right">
-                                <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                <a href="javascript:void(0);" rel="nofollow" class="btn btn-outline-secondary"><i
                                             class="fa fa-camera"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-primary"><i
+                                <a href="javascript:void(0);" rel="nofollow" class="btn btn-outline-primary"><i
                                             class="fa fa-image"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-info"><i
+                                <a href="javascript:void(0);" rel="nofollow" class="btn btn-outline-info"><i
                                             class="fa fa-cogs"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-warning"><i
+                                <a href="javascript:void(0);" rel="nofollow" class="btn btn-outline-warning"><i
                                             class="fa fa-question"></i></a>
                             </div>
                         </div>

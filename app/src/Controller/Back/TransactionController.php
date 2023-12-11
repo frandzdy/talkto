@@ -134,7 +134,7 @@ class TransactionController extends AbstractController
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $refund = $form->getData();
             $transactionLine->setCancelTransfertId(
-                $stripeManager->cancelTranfert($transactionLine->getTransfertId(), $data['amount'])->id
+                $stripeManager->cancelTranfert($transactionLine->getTransfertId(), $refund['amount'])->id
             )
                 ->setCancelAmount($refund['amount'] * 100);
             $em->flush();

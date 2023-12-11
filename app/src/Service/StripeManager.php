@@ -155,7 +155,7 @@ readonly class StripeManager
                 'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference(),
                 'receipt_email' => $user->getEmail(),
-                'description' => sprintf('Location Reɘnted : Ref %s', $transaction->getReference())
+                'description' => sprintf('Location Reented : Ref %s', $transaction->getReference())
             ]
         );
     }
@@ -186,28 +186,28 @@ readonly class StripeManager
                 ]
             );
             $transactionLine->setTransfertId($transfer->id);
-
-            $cautionIntent = $this->stripe->paymentIntents->create(
-                [
-                    'amount' => (int)$product->getCaution() * 100,
-                    'customer' => $transaction->getAuthor()->getStripeCustomerId(), // $customerId
-                    'currency' => 'eur',
-                    'automatic_payment_methods' => ['enabled' => true],
-                    'expand' => ['latest_charge'],
-                    'payment_method_options' =>
-                        [
-                            'card' =>
-                                [
-                                    'capture_method' => 'manuel',
-                                    'request_extended_authorization' => 'if_available'
-                                ]
-                        ],
-                    'confirm' => true,
-                    'receipt_email' => $transaction->getAuthor()->getEmail(),
-                    'description' => sprintf('Caution Reɘnted : Ref %s', $transaction->getReference())
-                ]
-            );
-            $transactionLine->setCautionId($cautionIntent->id);
+            //  on prend la caution sur chaque paiement
+//            $cautionIntent = $this->stripe->paymentIntents->create(
+//                [
+//                    'amount' => (int)$product->getCaution() * 100,
+//                    'customer' => $transaction->getAuthor()->getStripeCustomerId(), // $customerId
+//                    'currency' => 'eur',
+//                    'automatic_payment_methods' => ['enabled' => true],
+//                    'expand' => ['latest_charge'],
+//                    'payment_method_options' =>
+//                        [
+//                            'card' =>
+//                                [
+//                                    'capture_method' => 'manuel',
+//                                    'request_extended_authorization' => 'if_available'
+//                                ]
+//                        ],
+//                    'confirm' => true,
+//                    'receipt_email' => $transaction->getAuthor()->getEmail(),
+//                    'description' => sprintf('Caution Reented : Ref %s', $transaction->getReference())
+//                ]
+//            );
+//            $transactionLine->setCautionId($cautionIntent->id);
         }
     }
 

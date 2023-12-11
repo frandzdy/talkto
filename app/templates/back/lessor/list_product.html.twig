@@ -24,6 +24,7 @@
                         <td>{{ product.status.label|default('') }}</td>
                         <td class="pl-4">
                             <a title="Voir le produit"
+                               data-toggle="tooltip" data-placement="top"
                                href="{{ path('back_product_show', {'id': product.id}) }}"
                                class="btn btn-xs btn-primary open-back-modal"
                                data-modal-title="Voir le produit">
@@ -32,6 +33,7 @@
                         </td>
                         <td class="pl-4">
                             <a title="Suppression"
+                               data-toggle="tooltip" data-placement="top"
                                href="{{ path('back_product_delete', {'id' : product.id}) }}"
                                class="btn btn-xs btn-danger post-confirm"
                                data-button-text="Suppression"

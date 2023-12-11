@@ -31,7 +31,6 @@ export default class extends Controller {
     }
 
     onDeleteProduct(event) {
-        console.log("coucou")
         const elt = e.currentTarget;
         $.confirm({
             title: 'Suppression d\'un produit',

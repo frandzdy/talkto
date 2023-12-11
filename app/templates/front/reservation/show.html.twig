@@ -24,7 +24,8 @@
                                 {% endif %}
                                 <tr class="cart_item">
                                     <td class="product-thumbnail">
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': transactionLine.product.token }) }}">
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': transactionLine.product.token }) }}"
+                                           title=" {{ pictureName }}">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
                                                  alt="{{ pictureName }}"/>
                                         </a>
@@ -53,6 +54,7 @@
                                                     or transactionLine.status.value == constant('App\\Enum\\TransactionLineStatus::VALIDATE').value %}
                                                     <a class="profile__info-btn post-confirm"
                                                        data-button-text="Annuler"
+                                                       data-toggle="tooltip" data-placement="top"
                                                        data-title="Annulation"
                                                        data-confirm-message="Souhaitez-vous faire ouvrir un litige ?"
                                                        href="{{ path('front_claim_create', {'token': transactionLine.token}) }}"
@@ -64,6 +66,7 @@
                                             {% else %}
                                                 {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::IN'))|length == 0 %}
                                                     <a class="profile__info-btn open-front-modal"
+                                                       data-toggle="tooltip" data-placement="top"
                                                        href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
                                                        title="Check-in"
                                                        data-modal-title="Check-in">
@@ -73,6 +76,7 @@
                                                 {% endif %}
                                                 {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::OUT'))|length == 0 %}
                                                     <a class="profile__info-btn open-front-modal"
+                                                       data-toggle="tooltip" data-placement="top"
                                                        href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
                                                        title="Check-out"
                                                        data-modal-title="Check-out">
@@ -84,6 +88,7 @@
                                             {% if transactionLine.canBeCancel %}
                                                 <a class="profile__info-btn post-confirm"
                                                    data-button-text="Annuler"
+                                                   data-toggle="tooltip" data-placement="top"
                                                    data-title="Annulation"
                                                    data-confirm-message="Souhaitez-vous annuler cette réservation ?"
                                                    href="{{ path('front_transaction_line_delete', {'token': transactionLine.token}) }}"
@@ -92,9 +97,10 @@
                                             {% endif %}
                                             <a class="profile__info-btn open-front-modal" type="button"
                                                data-lg-size="true"
+                                               data-toggle="tooltip" data-placement="top"
                                                href="{{ url('front_chat_index', {'token': reservation.token, 'transactionLineToken': transactionLine.token}, true) }}"
                                                data-modal-title="Chat"
-                                            >
+                                               title="Chat">
                                                 Chat
                                             </a>
                                         {% endif %}

@@ -410,12 +410,25 @@ class ProductController extends AbstractController
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $transactionLines = $em->getRepository(TransactionLine::class)->productCheckQuantityAvailable($product, $startDate);
         $totalReserved = 0;
-        foreach ($transactionLines as $transactionLine) {
-            $totalReserved += $transactionLine->getQuantity();
+        if ($transactionLines) {
+            foreach ($transactionLines as $transactionLine) {
+                $totalReserved += $transactionLine->getQuantity();
+            }
+            $hasReservation = true;
+        } else {
+            $hasReservation = false;
+            $totalReserved = $product->getQuantity();
         }
+
+        if (!$hasReservation) {
+            $quantity = $product->getQuantity();
+        } else {
+            $quantity = $product->getQuantity() - $totalReserved;
+        }
+
         return $this->json(
             [
-                'quantity' => $product->getQuantity() - $totalReserved,
+                'quantity' => $quantity,
             ]
         );
     }

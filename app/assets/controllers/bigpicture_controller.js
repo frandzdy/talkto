@@ -12,7 +12,6 @@ export default class extends Controller {
     }
 
     loadGallery(e) {
-        console.log('toto')
         e.preventDefault()
         BigPicture({
             el: e.currentTarget,
@@ -29,7 +28,6 @@ export default class extends Controller {
     }
 
     loadGalleryModal(e) {
-        console.log('toto Modal')
         e.preventDefault()
         BigPicture({
             el: e.currentTarget,

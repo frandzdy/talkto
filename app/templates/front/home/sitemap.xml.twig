@@ -3,7 +3,12 @@
     <url>
         <loc>{{ absolute_url(path('front_home')) }}</loc>
     </url>
-    <url>
-        <loc>{{ absolute_url(path('front_user_account')) }}</loc>
-    </url>
+    {% for url in urls %}
+        <url>
+            <loc>{{ url.loc }}</loc>
+            {% if url.lastmod is defined %}
+                <lastmod>{{ url.lastmod }}</lastmod>
+            {% endif %}
+        </url>
+    {% endfor %}
 </urlset>

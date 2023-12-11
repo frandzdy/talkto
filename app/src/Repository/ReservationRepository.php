@@ -87,11 +87,11 @@ class ReservationRepository extends ServiceEntityRepository
             ->join('t.transactionLines', 'tl')
             ->join('tl.product', 'p')
             ->where('p.token = :token')
-            ->andWhere('r.status = :reservationStatus')
+            ->andWhere('r.status IN (:reservationStatus)')
             ->andWhere('tl.status IN (:transactionLineStatus)')
             ->andWhere('tl.endDate <= :endDate')
             ->setParameter('token', $token)
-            ->setParameter('reservationStatus', ReservationStatus::PENDING->value)
+            ->setParameter('reservationStatus', [ReservationStatus::PENDING->value, ReservationStatus::IN_PROGRESS->value])
             ->setParameter(
                 'transactionLineStatus',
                 [TransactionLineStatus::WAITING->value, TransactionLineStatus::IN_PROGESS->value]

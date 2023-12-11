@@ -1,17 +1,6 @@
 {% extends 'front/layout.html.twig' %}
 
-{% block title %}
-    Accueil, inscription et souscription à un abonnement, Découvrez et partager vos passions,
-    centre d'intérêts ou activités favorites
-{% endblock %}
-
-{% block metas %}
-    {{ parent() }}
-    <meta name="description" content="Découvrez les gens que vous avez croisez lors de vos activités favorites,
-    trouvez les gens qui on les centre d'intérêts en commun avec vous!">
-    <meta name="description" content="Discover the people you’ve crossed paths during your favorite activity,
-    find people which have a activity in commun with you!">
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block content %}
 
@@ -31,8 +20,7 @@
                 <ul id="mobile-menu-active">
                     <li class="mega-menu active has-dropdown">
                         <a>Catégories</a>
-                        <ul class="submenu transition-3"
-                            data-background="{{ asset("build/images/img/bg/mega-menu-bg.jpg") }}">
+                        <ul class="submenu transition-3">
                             {% for index, category in getProductCategories() %}
                                 <li>
                                     <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
@@ -174,7 +162,7 @@
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders2.token}) }}"
                                            class="w-img">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                 alt="{{ pictureName }}">
+                                                 alt="{{ homePage.underSliders2.title }}">
                                         </a>
                                     </div>
                                     <div class="banner__content p-absolute transition-3">
@@ -203,7 +191,7 @@
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders3.token}) }}"
                                            class="w-img">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                 alt="{{ pictureName }}"></a>
+                                                 alt="{{ homePage.underSliders3.title }}"></a>
                                     </div>
                                     <div class="banner__content p-absolute transition-3">
                                         <h5>
@@ -253,12 +241,12 @@
                                                 {% set pictureName = trend[0].pictures.first.name %}
                                             {% endif %}
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                 alt="{{ pictureName }}">
+                                                 alt="{{ trend[0].title }}">
                                             {% if trend[0].pictures.count > 1 %}
                                                 {% set pictureName = trend[0].pictures.next.name %}
                                                 <img class="product__thumb-2"
                                                      src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                     alt="{{ pictureName }}">
+                                                     alt="{{ trend[0].title }}">
                                             {% endif %}
                                             <div class="product__action transition-3">
                                                 <a href="{{ path('front_wishlist_add', {'token': trend[0].token}) }}"
@@ -275,6 +263,7 @@
                                                 <!-- Button trigger modal -->
                                                 <a href="{{ path('front_product_reservation', {'token': trend[0].token}) }}"
                                                    title="Réservez"
+                                                   data-toggle="tooltip" data-placement="top"
                                                    data-modal-title="Réservation en cours"
                                                    class="open-product-modal"
                                                    data-lg-size="true">
@@ -335,7 +324,7 @@
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids1.token}) }}"
                                        class="w-img">
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
-                                             alt="{{ pictureName }}">
+                                             alt="{{ homePage.mids1.title }}">
                                     </a>
                                 </div>
                                 <div class="banner__content-2 p-absolute transition-3">
@@ -365,7 +354,7 @@
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids2.token}) }}"
                                        class="w-img">
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
-                                             alt="{{ pictureName }}"></a>
+                                             alt="{{ homePage.mids2.title }}"></a>
                                 </div>
                                 <div class="banner__content-2 banner__content-2-right p-absolute transition-3">
                                     <span>{{ homePage.mids2.category.label }}</span>
@@ -421,7 +410,7 @@
                                                 {% set pictureName = topSale[0].product.pictures.next.name %}
                                                 <img class="product__thumb-2"
                                                      src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                     alt="{{ pictureName }}">
+                                                     alt="{{ topSale[0].product.title }}">
                                             {% endif %}
                                             <div class="product__action transition-3">
                                                 <a href="{{ path('front_wishlist_add', {'token': topSale[0].product.token}) }}"
@@ -438,6 +427,7 @@
                                                 <!-- Button trigger modal -->
                                                 <a href="{{ path('front_product_reservation', {'token': topSale[0].product.token}) }}"
                                                    title="Réservez"
+                                                   data-toggle="tooltip" data-placement="top"
                                                    data-modal-title="Réservation en cours"
                                                    class="open-product-modal"
                                                    data-lg-size="true">
@@ -493,7 +483,7 @@
                                 <div class="client__thumb">
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': latestProduct[0].token}) }}">
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_latest') }}"
-                                             alt="{{ pictureName }}"></a>
+                                             alt="{{ latestProduct[0].title }}"></a>
                                 </div>
                             {% endfor %}
                         </div>

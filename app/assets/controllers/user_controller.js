@@ -49,7 +49,6 @@ export default class extends Controller {
                             zoneAddressDiv.append(li)
 
                             for(let index in response) {
-                                console.log(response[index])
                                 const li = document.createElement('li')
                                 li.setAttribute("data-street", response[index].street);
                                 li.setAttribute("data-zipCode", response[index].postcode);

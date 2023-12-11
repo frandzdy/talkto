@@ -42,43 +42,45 @@ export default class extends Controller {
                 // return inRange;
             }],
             onChange: function (selectedDates, dateStr, instance) {
-                $("#product_reservation_quantity option").each(function() {
+                $("#product_reservation_quantity option").each(function () {
                     $(this).remove();
                 });
                 let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
                 $('#product_reservation_quantity').append(option)
 
                 let dates = dateStr.split('au')
-                if (dates[1] !== undefined) {
-                    $('.indispo').addClass('d-none')
-                    $('.indispo').removeClass('d-lg-flex')
-                    $('.add').removeClass('d-none')
-                    $('.add').addClass('d-lg-flex')
-                    $.get(Routing.generate('front_product_check_dates', {
-                        'startDate': dates[0],
-                        'token': token
-                    }), null, function (data) {
-                        if (data['quantity']) {
-                            for(let i = 1; i <= data['quantity']; i++) {
-                                var option = $("<option value='"+i+"'></option>").text(i);   // Create with jQuery
-                                $('#product_reservation_quantity').append(option)
-                            }
-                        } else {
-                            $('.add').addClass('d-none')
-                            $('.add').removeClass('d-lg-flex')
-                            $('.indispo').removeClass('d-none')
-                            $('.indispo').addClass('d-lg-flex')
-                            $("#product_reservation_quantity option").each(function() {
-                                $(this).remove();
-                            });
-                            let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
+
+                $('.indispo').addClass('d-none')
+                $('.indispo').removeClass('d-lg-flex')
+                $('.add').removeClass('d-none')
+                $('.add').addClass('d-lg-flex')
+
+                $.get(Routing.generate('front_product_check_dates', {
+                    'startDate': dates[0],
+                    'token': token
+                }), null, function (data) {
+                    if (data['quantity']) {
+                        for (let i = 1; i <= data['quantity']; i++) {
+                            var option = $("<option value='" + i + "'></option>").text(i);   // Create with jQuery
                             $('#product_reservation_quantity').append(option)
                         }
-                        // générer une option a metre dans le select
-                    });
-                }
+                    } else {
+                        $('.add').addClass('d-none')
+                        $('.add').removeClass('d-lg-flex')
+                        $('.indispo').removeClass('d-none')
+                        $('.indispo').addClass('d-lg-flex')
+
+                        $("#product_reservation_quantity option").each(function () {
+                            $(this).remove();
+                        });
+
+                        let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
+                        $('#product_reservation_quantity').append(option)
+                    }
+                    // générer une option a metre dans le select
+                });
             },
-            onDayCreate:  (dObj, dStr, fp, dayElem) => {
+            onDayCreate: (dObj, dStr, fp, dayElem) => {
                 // Utilize dayElem.dateObj, which is the corresponding Date
                 for (let i = 0; i < disabledDates.length; i++) {
                     let range = disabledDates[i];
@@ -94,6 +96,6 @@ export default class extends Controller {
 
     toIsoDate(date) {
         const z = n => ('0' + n).slice(-2)
-        return date.getFullYear() + '-' + z(date.getMonth()+1) + '-' + z(date.getDate())
+        return date.getFullYear() + '-' + z(date.getMonth() + 1) + '-' + z(date.getDate())
     }
 }

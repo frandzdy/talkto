@@ -5,6 +5,7 @@
 
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_lessor_index') }}"
+       data-toggle="tooltip" data-placement="top"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -23,7 +24,9 @@
                             <h2>Informations générales</h2>
                         </div>
                         <div class="col-lg-5 text-right">
-                            <a class="btn btn-outline-primary" href="{{ path('back_lessor_authenticate', {'id': lessor.id}) }}">
+                            <a class="btn btn-outline-primary"
+                               data-toggle="tooltip" data-placement="top"
+                               href="{{ path('back_lessor_authenticate', {'id': lessor.id}) }}" title="Se connecter avec ce client">
                                 <i class="fa fa-user"></i> Se connecter avec ce client
                             </a>
                             <div>
@@ -43,7 +46,12 @@
                             </div>
                             <div>
                                 <label for="">E-mail : </label>
-                                <span><a href="mailto:{{ lessor.email }}">{{ lessor.email }}</a></span>
+                                <span>
+                                    <a href="mailto:{{ lessor.email }}" data-toggle="tooltip" data-placement="top"
+                                         title="E-mail">
+                                        {{ lessor.email }}
+                                    </a>
+                                </span>
                             </div>
                             <div>
                                 <label for="">Adresse :</label>
@@ -53,7 +61,12 @@
                         <div class="col-xs-12 col-lg-6">
                             <div>
                                 <label for="">Téléphone :</label>
-                                <span><a href="tel:+33{{ lessor.phone }}">{{ lessor.phone }}</a></span>
+                                <span>
+                                    <a href="tel:{{ lessor.phone }}" title="Téléphone"
+                                       data-toggle="tooltip" data-placement="top">
+                                        {{ lessor.phone }}
+                                    </a>
+                                </span>
                             </div>
                             <div>
                                 <label for="">Compte stripe Id :</label>

@@ -88,7 +88,6 @@ window.openModal = function (title, href, size) {
 		$(modal).modal('show');
 
 	}).fail((error) => {
-		console.log({error});
 		toastr.error("Une erreur est survenue.");
 	});
 }

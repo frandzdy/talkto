@@ -18,7 +18,7 @@
                                 <div class="product__modal-img w-img">
                                     <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                          src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
-                                         alt="">
+                                         alt="{{ picture.name }}">
                                 </div>
                             </div>
                         {% endfor %}

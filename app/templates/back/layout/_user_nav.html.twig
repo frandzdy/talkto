@@ -1,6 +1,6 @@
 <ul class="nav">
     <li class="nav-profile">
-        <a href="javascript:;" data-toggle="nav-profile">
+        <a href="javascript:void(0);" title="Ouvre le menu" data-toggle="nav-profile" rel="nofollow">
             <div class="cover with-shadow"></div>
             <div class="image image-icon bg-black text-grey-darker">
                 <i class="fa fa-user"></i>
@@ -13,7 +13,13 @@
     </li>
     <li>
         <ul class="nav nav-profile">
-            <li><a title="Déconnexion" href="{{ path('back_logout') }}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a></li>
+            <li>
+                <a title="Déconnexion"
+                   data-toggle="tooltip" data-placement="top" href="{{ path('back_logout') }}">
+                    <i class="fa fa-sign-out-alt"></i>
+                    Déconnexion
+                </a>
+            </li>
         </ul>
     </li>
 </ul>

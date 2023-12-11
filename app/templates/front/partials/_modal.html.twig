@@ -1,10 +1,10 @@
 <!-- Feedback Modal-->
-<div id="front-modal" class="modal" tabindex="-1" role="dialog" data-commun-target="modal">
+<div id="front-modal" class="modal fade" tabindex="-1" role="dialog" title="Front modal" data-commun-target="modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header ">
                 <h5 class="modal-title font-alt" id="feedbackModalLabel">{{ title|default('') }}</h5>
-                <button type="button" class="profile__edit-close-btn" data-dismiss="modal">
+                <button type="button" class="profile__edit-close-btn" data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-times"></i></button>
             </div>
             <div class="wrapper">
@@ -15,15 +15,15 @@
 
 <!-- shop modal start -->
 <!-- Modal -->
-<div class="modal fade" id="productModalId" tabindex="-1" role="dialog" aria-hidden="true" data-commun-target="modalProduct">
+<div class="modal fade" id="productModalId" tabindex="-1" role="dialog" title="Front Product modal"  data-commun-target="modalProduct">
     <div class="modal-dialog modal-dialog-centered product-modal" role="document">
         <div class="modal-content">
             <div class="product__modal-wrapper p-relative">
                 <div class="modal-header ">
                     <h5 class="modal-title font-alt" id="feedbackModalLabel">{{ title|default('') }}</h5>
-                        <i class="fa fa-times"></i></button>
+                        <button aria-label="Close"><i class="fa fa-times"></i></button>
                     <div class="product__modal-close p-absolute">
-                        <button   data-dismiss="modal"><i class="fal fa-times"></i></button>
+                        <button data-dismiss="modal" aria-label="Close"><i class="fal fa-times"></i></button>
                     </div>
                 </div>
                 <div class="wrapper product__modal-inner">

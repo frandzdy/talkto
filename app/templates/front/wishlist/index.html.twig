@@ -2,13 +2,6 @@
 
 {% block title %}Vos favoris{% endblock %}
 
-{% block metas %}
-    {{ parent() }}
-    <meta name="description"
-          content="Retrouvez vos produits favoris afin de les réserver quand vous le souhaitez.">
-    <meta name="title" content="Vos favoris">
-{% endblock %}
-
 {% block content %}
 
     <!-- Cart Area Strat-->
@@ -61,6 +54,7 @@
                                            data-confirm-message="Êtes-vous sur de vouloir supprimer le produit {{ wishlist.product.title }} de vos favoris ?"
                                            data-title="Suppression du produit {{ wishlist.product.title }} de vos favoris"
                                            data-button-text="Supprimer"
+                                           data-toggle="tooltip" data-placement="top"
                                            title="Suppression du produit {{ wishlist.product.title }}"
                                         >
                                             <i class="fa fa-times"></i>
