@@ -1,4 +1,4 @@
-{% block subject %}Re&#x0258nted – Réinitialisation du mot de passe{% endblock %}
+{% block subject %}Reented – Réinitialisation du mot de passe{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
@@ -17,8 +17,8 @@
                     <p>Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
                     <p>
                         Cordialement,<br/>
-                        L'équipe Re&#x0258nted<br/>
-                        <a title="Site Re&#x0258nted"
+                        L'équipe Reented<br/>
+                        <a title="Site Reented"
                            href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
                     <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
@@ -38,7 +38,7 @@
     Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.\n
     \n
     Cordialement,\n
-    L'équipe Re&#x0258nted\n
+    L'équipe Reented\n
     {{ app.request.schemeAndHttpHost }}\n
     \n
     Ce message est généré automatiquement, merci de ne pas y répondre directement.\n

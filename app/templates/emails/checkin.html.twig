@@ -1,4 +1,4 @@
-{% block subject %}Re&#x0258nted – {{ checkin.type.label|capitalize }}{% endblock %}
+{% block subject %}Reented – {{ checkin.type.label|capitalize }}{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
@@ -13,7 +13,7 @@
                     </p>
                     <p>
                         Nous vous annonçons que votre {{ checkin.type.label|capitalize }} a été {{ checkin.status.label }}.
-                        Vous pouvez retrouver toutes les informations sur <a title="Site Re&#x0258nted" href="{{ app.request.schemeAndHttpHost }}">Re&#x0258nted</a>.
+                        Vous pouvez retrouver toutes les informations sur <a title="Site Reented" href="{{ app.request.schemeAndHttpHost }}">Reented</a>.
                     </p>
                     {% if checkin.status is not same as (constant('App\\Enum\\CheckinStatus::VALIDATE_WITH_WARNING')) %}
                         <p>
@@ -26,7 +26,7 @@
                     <p>
                         Cordialement,<br/>
                         L'équipe RENTED<br/>
-                        <a title="Site Re&#x0258nted" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                        <a title="Site Reented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
                     </p>
                     <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
                 </td>
