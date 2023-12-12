@@ -61,7 +61,7 @@ jobs:
                 uses: ramsey/composer-install@v2
                 with:
                     dependency-versions: ${{ matrix.dependencies }}
-
+                    working_direcotry: "app/"
             -   name: Setup Node
                 uses: actions/setup-node@v1
                 with:
