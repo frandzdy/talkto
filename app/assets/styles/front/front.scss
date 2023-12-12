@@ -1,5 +1,7 @@
 //@import "~bootstrap/scss/bootstrap.scss";
 
+
+@import "service/ckeditor";
 @import "service/animate.min.css";
 @import "service/bootstrap.min.css";
 @import "service/default.css";
@@ -33,8 +35,6 @@
 @import "base/subscribe";
 @import "base/testimonial";
 //@import "base/default";
-
-@import "service/ckeditor";
 @import "pages/user";
 @import "pages/product";
 

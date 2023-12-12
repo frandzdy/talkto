@@ -1,3 +1,5 @@
+
+@import "../front/service/ckeditor";
 @import "pages/_login.scss";
 @import "pages/_nav.scss";
 @import "pages/_content.scss";
@@ -8,7 +10,6 @@
 @import "../front/base/vars";
 @import "../front/base/variables";
 @import "../front/base/shop";
-@import "../front/service/ckeditor";
 
 /** Header */
 body {

@@ -25,8 +25,7 @@
                         </div>
                         <div class="col-lg-5 text-right">
                             <a class="btn btn-outline-primary"
-                               data-toggle="tooltip" data-placement="top"
-                               href="{{ path('back_lessor_authenticate', {'id': lessor.id}) }}" title="Se connecter avec ce client">
+                               href="{{ impersonation_path(lessor.email) }}" title="Se connecter avec ce client">
                                 <i class="fa fa-user"></i> Se connecter avec ce client
                             </a>
                             <div>

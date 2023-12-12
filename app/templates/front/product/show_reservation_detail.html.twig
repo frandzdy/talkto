@@ -74,7 +74,7 @@
                                     {% endfor %}
                                 </ul>
                                 <span class="rating-no ml-10 rating-left">
-                                    {{ product.reviews.count|default(0) }} avis(s) des clients
+                                    {{ product.reviews.count|default(0) }} avis(s) clients
                                 </span>
                                 {#                                <span class="review rating-left"><a href="#">Add your Review</a></span> #}
                             </div>
@@ -177,7 +177,7 @@
                                     {% set reviewTabActive = '' %}
                                 {% endif %}
                                 <div class="tab-pane fade {{ desTabActive }}" id="des" role="tabpanel">
-                                    <div class="product__details-des wysiwyg">
+                                    <div class="ck-content">
                                         {{ product.description|purify }}
                                     </div>
                                 </div>

@@ -14,14 +14,12 @@
                         <div class="error__number">
                             <h1>404</h1>
                         </div>
-                        <span>component not found</span>
-                        <h2>Nothing To See Here!</h2>
-                        <p>The page are looking for has been moved or doesn’t exist anymore, if you like you can return to our homepage. If the problem persists, please send us an email to <span class="highlight comment">basictheme@gmail.com</span></p>
-
-                        <div class="error__search">
-                            <input type="text" placeholder="Enter Your Text...">
-                            <button type="submit" class="os-btn os-btn-3 os-btn-black">Search</button>
-                        </div>
+                        <span>Page introuvable</span>
+                        <h2>Allez oust, il n'y a rien a voir!</h2>
+                        <p>
+                            La page que vous cherchez a été supprimé ou n'existe plus, si vous souhaitez vous pouvez revenir à la page d'<a href="{{ path('front_home') }}" title="Accueil">accueil</a>.
+                            Si le problème continue, merci de nous contactez via notre <span class="highlight comment">formulaire de <a href="{{ path('front_contact') }}">contact</a></span>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -6,8 +6,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
+  //margin: 0;
+  //padding: 0;
   box-sizing: border-box;
 }
 
@@ -134,7 +134,7 @@ ul {
 }
 
 li {
-  list-style: none;
+  //list-style: none;
 }
 
 p {
@@ -851,7 +851,7 @@ p {
   text-align: center;
   font-size: 15px;
   color: $white;
-  list-style-type: none;
+  //list-style-type: none;
   background: $theme-color;
   margin-right: 20px;
   border: 1px solid $theme-color;
