@@ -7,7 +7,7 @@ twig:
 
     globals:
         googleTag: '%google_tag%'
-        googleTagUa: '%google_ua%'
+        googleGTM: '%google_gtm%'
         googleRecaptchPkey: '%google_recaptcha_pkey%'
         uploadsDirectoryImg: '%base_path_twig%'
         stripePublicKey: '%public_key%'

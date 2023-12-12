@@ -114,7 +114,7 @@
                                 <th></th>
                                 <th>Sous total HT</th>
                                 <td>
-                                    <span class="amount">{{ (reservation.transaction.totalAmountTtc - reservation.transaction.totalAmountTva) / 100 }} €</span>
+                                    <span class="amount">{{ (reservation.transaction.totalAmountTtc - reservation.transaction.totalAmountTva - reservation.transaction.totalFees) / 100 }} €</span>
                                 </td>
                                 <td></td>
                             </tr>
@@ -155,7 +155,7 @@
                                 <td>
                                     <strong>
                                         <span class="amount">
-                                            {{ ((reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €
+                                            {{ (reservation.transaction.totalAmountTtc / 100)|number_format(2, ',')|default(0) }} €
                                         </span>
                                     </strong>
                                 </td>

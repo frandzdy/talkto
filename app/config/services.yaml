@@ -7,6 +7,7 @@ parameters:
     .container.dumper.inline_factories: true
     debug.container.dump: false
     google_tag: '%env(GOOGLE_TAG)%'
+    google_gtm: '%env(GOOGLE_GTM)%'
 
     google_recaptcha_pkey: '%env(resolve:GG_RECAPTCHA_PKEY)%'
     google_recaptcha_skey: '%env(resolve:GG_RECAPTCHA_SKEY)%'

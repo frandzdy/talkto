@@ -4,9 +4,168 @@
 {% block title %}Tableau de bord - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-12">
-        Tableau de bord
+{#    'dayGuesses' => \count($dayGuesses),#}
+{#    'allGuesses' => \count($allGuesses),#}
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-teal">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Profits du jour</div>
+                    <div class="stats-number">{{ stats.dayProfits }} €</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 70.1%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (70.1%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-blue">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">CA du jour</div>
+                    <div class="stats-number">{{ stats.dayCa }} €</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 40.5%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (40.5%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-indigo">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Profits</div>
+                    <div class="stats-number">{{ stats.allProfits }} €</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 76.3%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (76.3%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-gray-900">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">CA</div>
+                    <div class="stats-number">{{ stats.allCa }} €</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 54.9%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (54.9%)</div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-teal">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Commande Total</div>
+                    <div class="stats-number">{{ stats.nbTransaction }}</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 70.1%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (70.1%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-blue">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Bailleurs aujourd'hui</div>
+                    <div class="stats-number">{{ stats.daySellers }}</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 40.5%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (40.5%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-indigo">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Bailleurs</div>
+                    <div class="stats-number">{{ stats.allSellers }}</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 76.3%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (76.3%)</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-gray-900">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Locataire aujourd'hui</div>
+                    <div class="stats-number">{{ stats.dayRentes }}</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 54.9%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (54.9%)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="widget widget-stats bg-teal">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>
+                <div class="stats-content">
+                    <div class="stats-title">Locataire</div>
+                    <div class="stats-number">{{ stats.allRentes }}</div>
+                    <div class="stats-progress progress">
+                        <div class="progress-bar" style="width: 70.1%;"></div>
+                    </div>
+                    <div class="stats-desc">Better than last week (70.1%)</div>
+                </div>
+            </div>
+        </div>
+{#        <div class="col-xl-3 col-md-6">#}
+{#            <div class="widget widget-stats bg-blue">#}
+{#                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>#}
+{#                <div class="stats-content">#}
+{#                    <div class="stats-title">TODAY'S PROFIT</div>#}
+{#                    <div class="stats-number">180,200</div>#}
+{#                    <div class="stats-progress progress">#}
+{#                        <div class="progress-bar" style="width: 40.5%;"></div>#}
+{#                    </div>#}
+{#                    <div class="stats-desc">Better than last week (40.5%)</div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-xl-3 col-md-6">#}
+{#            <div class="widget widget-stats bg-indigo">#}
+{#                <div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>#}
+{#                <div class="stats-content">#}
+{#                    <div class="stats-title">NEW ORDERS</div>#}
+{#                    <div class="stats-number">38,900</div>#}
+{#                    <div class="stats-progress progress">#}
+{#                        <div class="progress-bar" style="width: 76.3%;"></div>#}
+{#                    </div>#}
+{#                    <div class="stats-desc">Better than last week (76.3%)</div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="col-xl-3 col-md-6">#}
+{#            <div class="widget widget-stats bg-gray-900">#}
+{#                <div class="stats-icon stats-icon-lg"><i class="fa fa-comment-alt fa-fw"></i></div>#}
+{#                <div class="stats-content">#}
+{#                    <div class="stats-title">NEW COMMENTS</div>#}
+{#                    <div class="stats-number">3,988</div>#}
+{#                    <div class="stats-progress progress">#}
+{#                        <div class="progress-bar" style="width: 54.9%;"></div>#}
+{#                    </div>#}
+{#                    <div class="stats-desc">Better than last week (54.9%)</div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
 {% endblock %}

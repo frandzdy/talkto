@@ -22,7 +22,7 @@
                             {% endif %}
                         </li>
                         <li><strong>Montant de votre réservation
-                                :</strong> {{ ((transactionLine.amountTtc + transactionLine.fees) /100)|number_format(2, ',')|default(0) }}
+                                :</strong> {{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }}
                             €
                         </li>
                         <li><strong>Montant remboursé
@@ -61,7 +61,7 @@
     {% else %}
         {{ transactionLine.startDate|date('d/m/Y') }}\n
     {% endif %}
-    •    Montant de votre réservation : {{ ((transactionLine.amountTtc + transactionLine.fees) /100)|number_format(2, ',')|default(0) }} €\n
+    •    Montant de votre réservation : {{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }} €\n
     •    Montant remboursé : {{ (transactionLine.cancelAmount / 100)|number_format(2, ',')|default(0) }} €\n
     \n
     Vous pouvez retrouver toutes les informations sur {{ app.request.schemeAndHttpHost }}.\n

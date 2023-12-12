@@ -39,7 +39,7 @@
     </li>
     <li class="{% if currentRoute starts with 'back_claim' %}active{% endif %}">
         <a title="Réclamations" href="{{ path('back_claim_index') }}">
-            <i class="fas fa-exclamation-triangle {{ numberClaims()|length ? 'text-danger' : '' }}"></i>
+            <i class="fas fa-exclamation-triangle {{ numberClaims() > 0 ? 'text-danger' : '' }}"></i>
             <span>Réclamations ({{ numberClaims() }})</span>
         </a>
     </li>

@@ -76,13 +76,19 @@ class ProductReservationType extends AbstractType
                 foreach ($transactionLines as $transactionLine) {
                     $totalReserved = $transactionLine->getQuantity();
                 }
+                $hasReservation = true;
             } else {
+                $hasReservation = false;
                 $totalReserved = $product->getQuantity();
             }
 
-
+            if ($hasReservation) {
+                $quantity = $product->getQuantity() - $totalReserved;
+            } else {
+                $quantity = $product->getQuantity();
+            }
             $choicesValue = [];
-            if ($quantityLeft = $product->getQuantity() - $totalReserved) {
+            if ($quantityLeft = $quantity) {
                 for ($i = 1; $i <= $quantityLeft; $i++) {
                     $choicesValue[$i] = $i;
                 }

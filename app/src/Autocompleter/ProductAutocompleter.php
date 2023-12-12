@@ -6,9 +6,9 @@ use App\Entity\Product;
 use App\Enum\ProductStatus;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Security;
 use Symfony\UX\Autocomplete\EntityAutocompleterInterface;
 
 #[AutoconfigureTag('ux.entity_autocompleter', ['alias' => 'product'])]

@@ -133,4 +133,25 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Vérifie les statistiques financiers des transactions
+     */
+    public function getStatTransactionLine(\DateTime $date = null): array
+    {
+
+        $qb = $this->createQueryBuilder('tl')
+            ->select('SUM(tl.fees) as profit,
+            SUM(tl.amountTtc + tl.fees) as ca');
+
+        if ($date) {
+            $qb->join('tl.transaction', 't')
+                ->where('t.createdAt = :date')
+                ->setParameter('date', $date)
+            ;
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }
