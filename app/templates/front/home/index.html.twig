@@ -59,7 +59,7 @@
                                            data-delay=".4s">{{ homePage.sliders1.shortDescription|u.truncate(10, '...', false) }}</p>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders1.token}) }}"
                                            class="os-btn os-btn-2" data-animation="fadeInUp"
-                                           data-delay=".6s">Réservez</a>
+                                           data-delay=".6s" title="Réservez">Réservez</a>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                            data-delay=".4s">{{ homePage.sliders2.shortDescription|u.truncate(10, '...', false) }}</p>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders2.token}) }}"
                                            class="os-btn os-btn-2" data-animation="fadeInUp"
-                                           data-delay=".6s">Réservez</a>
+                                           data-delay=".6s" title="Réservez">Réservez</a>
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                            data-delay=".4s">{{ homePage.sliders3.shortDescription|u.truncate(10, '...', false) }}</p>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders3.token}) }}"
                                            class="os-btn os-btn-2" data-animation="fadeInUp"
-                                           data-delay=".6s">Réservez</a>
+                                           data-delay=".6s" title="Réservez">Réservez</a>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                             </a>
                                         </h5>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders1.token}) }}"
-                                           class="link-btn">
+                                           class="link-btn" title="Réservez">
                                             Réservez
                                         </a>
                                     </div>
@@ -173,7 +173,7 @@
                                             </a>
                                         </h5>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders2.token}) }}"
-                                           class="link-btn">
+                                           class="link-btn" title="Réservez">
                                             Réservez
                                         </a>
                                     </div>
@@ -201,7 +201,7 @@
                                             </a>
                                         </h5>
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders3.token}) }}"
-                                           class="link-btn">
+                                           class="link-btn" title="Réservez">
                                             Réservez
                                         </a>
                                     </div>
@@ -288,8 +288,9 @@
                                                    title="Réservez"
                                                    data-modal-title="Réservation en cours"
                                                    class="open-product-modal"
-                                                   data-lg-size="true"><i
-                                                            class="fa fa-shopping-cart"></i> Réservez</a>
+                                                   data-lg-size="true">
+                                                    <i class="fa fa-shopping-cart"></i> Réservez
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -336,7 +337,7 @@
                                     </h4>
                                     <p>{{ homePage.mids1.shortDescription|u.truncate(20, '...', false) }}</p>
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids1.token}) }}"
-                                       class="os-btn os-btn-2">
+                                       class="os-btn os-btn-2" title="Réservez">
                                         Réservez /
                                         <span>{{ homePage.mids1.amount|number_format(2, ',')|default(0) }} €</span></a>
                                 </div>
@@ -365,7 +366,7 @@
                                     </h4>
                                     <p>{{ homePage.mids2.shortDescription|u.truncate(20, '...', false) }}</p>
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids2.token}) }}"
-                                       class="os-btn os-btn-2">
+                                       class="os-btn os-btn-2" title="Réservez">
                                         Réservez /
                                         <span>{{ homePage.mids2.amount|number_format(2, ',')|default(0) }} €</span>
                                     </a>

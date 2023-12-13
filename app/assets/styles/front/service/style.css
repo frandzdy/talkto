@@ -166,8 +166,8 @@ ul {
   padding: 0px;
 }
 
-li {
-  /*list-style: none;*/
+.footer__links li {
+  list-style: none;
 }
 
 p {
