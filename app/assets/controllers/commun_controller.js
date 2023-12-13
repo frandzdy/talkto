@@ -22,6 +22,7 @@ export default class extends Controller {
         this.handleBsCustomInputFile($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();
+
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
                 event.preventDefault();
@@ -568,17 +569,9 @@ export default class extends Controller {
                 dots: true,
                 fade: true,
                 arrows: false,
+                mobileFirst: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
                 prevArrow: '<button type="button" class="slick-prev"><i class="fal fa-angle-left"></i></button>',
                 nextArrow: '<button type="button" class="slick-next"><i class="fal fa-angle-right"></i></button>',
-                responsive: [{
-                    breakpoint: 767,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        infinite: true,
-                        dots: true
-                    }
-                }]
             });
 
             function doAnimations(elements) {
@@ -599,7 +592,6 @@ export default class extends Controller {
         }
 
         mainSlider();
-
         ////////////////////////////////////////////////////
         // 08. Hero Slider Js
         function mainSlider2() {
@@ -626,6 +618,15 @@ export default class extends Controller {
                     settings: {
                         slidesToShow: 3,
                         slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: false,
+                        centerMode: true,
+                        slidesToShow: 1,
                         infinite: true,
                         dots: true
                     }

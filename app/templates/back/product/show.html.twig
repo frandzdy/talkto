@@ -5,7 +5,6 @@
 
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_product_index') }}"
-       data-toggle="tooltip" data-placement="top"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -34,7 +33,6 @@
                                 <label for="" >Propriétaire :</label>
                                 <div class="form-control">
                                     <a href="{{ path('back_lessor_show', {'id': product.author.id }) }}"
-                                       data-toggle="tooltip" data-placement="top"
                                        title="Bailleur">
                                         {{ product.author.fullname }}
                                     </a>

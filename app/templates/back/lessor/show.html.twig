@@ -5,7 +5,6 @@
 
 {% block action_buttons %}
     <a title="Retour sur le contenu" href="{{ path('back_lessor_index') }}"
-       data-toggle="tooltip" data-placement="top"
        class="btn btn-xs btn-primary">
         <i class="fa fa-arrow-left"></i>&nbsp; Retour
     </a>
@@ -61,8 +60,7 @@
                             <div>
                                 <label for="">Téléphone :</label>
                                 <span>
-                                    <a href="tel:{{ lessor.phone }}" title="Téléphone"
-                                       data-toggle="tooltip" data-placement="top">
+                                    <a href="tel:{{ lessor.phone }}" title="Téléphone">
                                         {{ lessor.phone }}
                                     </a>
                                 </span>
