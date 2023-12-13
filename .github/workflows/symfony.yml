@@ -24,7 +24,7 @@ jobs:
                     tools: php-cs-fixer, phpstan, cs2pr, phpcs
 
             - name: Run phpcs
-              run: phpcs -q --report=checkstyle src | cs2pr
+              run: phpcs -q --report=checkstyle --ignore=./app/src/Enum --standard=PSR12 --exclude=Generic.Files.LineLength ./app/src | cs2pr
 
             -   name: Setup Node
                 uses: actions/setup-node@v1
