@@ -5,6 +5,7 @@ namespace App\Form\Front;
 use App\Entity\Product;
 use App\Entity\TransactionLine;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -69,7 +70,7 @@ class ProductReservationType extends AbstractType
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $options['token']]);
             $transactionLines = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable(
                 $product,
-                new \DateTime($date[0])
+                new DatePoint($date[0])
             );
             $totalReserved = 0;
             if ($transactionLines) {

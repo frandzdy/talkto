@@ -7,6 +7,7 @@ use App\Entity\TransactionLine;
 use App\Enum\ProductStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Clock\DatePoint;
 
 /**
  * @extends ServiceEntityRepository<TransactionLine>
@@ -106,7 +107,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->join('p.author', 'a')
             ->addSelect('a')
             ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
-            ->setParameter('dateNow', new \DateTime('now'))
+            ->setParameter('dateNow', new DatePoint())
             ->andWhere('p.id = :productId')
             ->setParameter('productId', $product->getId());
 
@@ -120,7 +121,7 @@ class TransactionLineRepository extends ServiceEntityRepository
     /**
      * Vérifie si une transaction est en cours
      */
-    public function productCheckQuantityAvailable(Product $product, \DateTime $startDate): array
+    public function productCheckQuantityAvailable(Product $product, DatePoint $startDate): array
     {
         return $this->createQueryBuilder('tl')
             ->select('tl')
@@ -137,7 +138,7 @@ class TransactionLineRepository extends ServiceEntityRepository
     /**
      * Vérifie les statistiques financiers des transactions
      */
-    public function getStatTransactionLine(\DateTime $date = null): array
+    public function getStatTransactionLine(DatePoint $date = null): array
     {
 
         $qb = $this->createQueryBuilder('tl')

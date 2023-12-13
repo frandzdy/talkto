@@ -20,7 +20,9 @@ use function Symfony\Component\Translation\t;
 #[ORM\HasLifecycleCallbacks()]
 class Product
 {
-    use TraitToken, TraitAuthor, TraitTimestamp;
+    use TraitToken;
+    use TraitAuthor;
+    use TraitTimestamp;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -166,18 +168,10 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPictures(): Collection
     {
         return $this->pictures;
     }
-
-    /**
-     * @param Picture $picture
-     * @return $this
-     */
 
     public function addPicture(Picture $picture): self
     {
@@ -188,10 +182,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @param Picture $picture
-     * @return $this
-     */
     public function removePicture(Picture $picture): self
     {
         if ($this->pictures->contains($picture)) {
@@ -225,17 +215,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getCaution(): float
     {
         return $this->caution;
     }
 
-    /**
-     * @param float $caution
-     */
     public function setCaution(float $caution): self
     {
         $this->caution = $caution;
@@ -243,17 +227,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    /**
-     * @param int|null $quantity
-     */
     public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
@@ -261,18 +239,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getQuantityAllReadyReserved(): ?int
     {
         return $this->quantityAllReadyReserved;
     }
 
-    /**
-     * @param int|null $quantityAllReadyReserved
-     * @return $this
-     */
     public function setQuantityAllReadyReserved(?int $quantityAllReadyReserved): self
     {
         $this->quantityAllReadyReserved = $quantityAllReadyReserved;
@@ -280,17 +251,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return ProductCategory
-     */
     public function getCategory(): ProductCategory
     {
         return $this->category;
     }
 
-    /**
-     * @param ProductCategory $category
-     */
     public function setCategory(ProductCategory $category): self
     {
         $this->category = $category;
@@ -298,18 +263,10 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getReviews(): Collection
     {
         return $this->reviews;
     }
-
-    /**
-     * @param Review $review
-     * @return $this
-     */
 
     public function addReview(Review $review): self
     {
@@ -320,10 +277,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @param Review $review
-     * @return $this
-     */
     public function removeReview(Review $review): self
     {
         if ($this->reviews->contains($review)) {

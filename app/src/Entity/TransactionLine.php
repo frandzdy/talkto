@@ -3,11 +3,8 @@
 namespace App\Entity;
 
 use App\Enum\CheckinType;
-use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
-use App\Repository\ProductRepository;
 use App\Repository\TransactionLineRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

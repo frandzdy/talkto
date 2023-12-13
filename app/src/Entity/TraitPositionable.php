@@ -12,18 +12,11 @@ trait TraitPositionable
     #[ORM\Column(type: "smallint")]
     private int $position;
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     * @return TraitPositionable|Country
-     */
     public function setPosition(int $position): self
     {
         $this->position = $position;

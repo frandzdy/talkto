@@ -22,6 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class CompanyController
+ *
  * @package App\Controller\Back
  */
 #[Route(path: '/customers', name: 'customer_')]
@@ -56,7 +57,11 @@ class CustomerController extends AbstractController
             $query,
             $page,
             self::CUSTOMERS_PER_PAGE,
-            [PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname', PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC', PaginatorInterface::DISTINCT => false]
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+                PaginatorInterface::DISTINCT => false
+            ]
         );
 
         return $this->render(
@@ -72,8 +77,10 @@ class CustomerController extends AbstractController
      * Modification d'une fiche client
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
-    public function show(User $customer, ReservationRepository $reservationRepository, ProductRepository $productRepository): Response
-    {
+    public function show(
+        User $customer,
+        ReservationRepository $reservationRepository
+    ): Response {
         $reservations = $reservationRepository->findBy(['author' => $customer->getId()]);
 
         return $this->render('back/customer/show.html.twig', [
@@ -83,7 +90,7 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * Supprime l'entreprise
+     * Supprime le client
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -102,9 +109,14 @@ class CustomerController extends AbstractController
      * Génère un export de toutes les entreprises et de ses utilisateurs rattachés
      */
     #[Route(path: '/extract-customer/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
-    public function export(UserRepository $userRepository, string $typeFile, CustomerExporter $customerExporter): NotFoundHttpException|Response
-    {
-        $customers = $userRepository->findBy(['roles' => [User::ROLE_USER, User::ROLE_GUESS]]);
+    public function export(
+        UserRepository $userRepository,
+        string $typeFile,
+        CustomerExporter $customerExporter
+    ): NotFoundHttpException|Response {
+        $customers = $userRepository->findBy(
+            ['roles' => ['["' . User::ROLE_USER . '"]', '["' . User::ROLE_GUESS . '"]']]
+        );
         $callable = 'exportAs' . strtoupper($typeFile);
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $customerExporter->$callableNameFunction($customers);

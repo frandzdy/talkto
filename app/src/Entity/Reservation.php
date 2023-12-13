@@ -12,7 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Reservation
 {
-    use TraitToken, TraitAuthor, TraitTimestamp;
+    use TraitToken;
+    use TraitAuthor;
+    use TraitTimestamp;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,25 +33,16 @@ class Reservation
     #[ORM\Column(type: "smallint", enumType: ReservationStatus::class)]
     private ReservationStatus $status;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Transaction
-     */
     public function getTransaction(): Transaction
     {
         return $this->transaction;
     }
 
-    /**
-     * @param Transaction $transaction
-     */
     public function setTransaction(Transaction $transaction): self
     {
         $this->transaction = $transaction;
@@ -57,17 +50,11 @@ class Reservation
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatus(): ReservationStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param mixed $status
-     */
     public function setStatus(ReservationStatus $status): self
     {
         $this->status = $status;

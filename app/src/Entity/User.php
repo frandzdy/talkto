@@ -20,7 +20,8 @@ use App\Validator\Constraints as AssertRented;
 #[ORM\HasLifecycleCallbacks()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use TraitTimestamp, TraitToken, TraitIntro;
+    use TraitTimestamp;
+    use TraitToken;
 
     const ROLE_USER = 'ROLE_USER';
     const ROLE_GUESS = 'ROLE_GUESS';
@@ -67,9 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Le prénom de l'utilisateur
-     *
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Information requise.")
      */
     #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank(message: "Information requise.")]
@@ -77,9 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Le genre de l'utilisateur
-     *
-     * @ORM\Column(type="smallint", nullable=false, enumType=Civility::class)
-     * @Assert\NotBlank(message="Information requise.")
      */
     #[ORM\Column(type: "smallint", enumType: Civility::class)]
     #[Assert\NotBlank(message: "Information requise.")]
@@ -179,21 +174,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lon = null;
 
     /**
-     * @var string|null
+     * Stripe Customer Id [SELLER, GUESS]
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeCustomerId = null;
 
     # $stripeAccountId [SELLER]
     /**
-     * @var string|null
+     * Stripe Account Id [SELLER]
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeAccountId = null;
 
-    # si le compte est actif [SELLER]
     /**
-     * @var bool|null
+     * Si le compte est actif [SELLER]
      */
     #[ORM\Column()]
     private ?bool $isStripeAccountActive = false;
@@ -204,12 +198,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column()]
     private ?bool $isGuess = false;
 
+    /**
+     * Terms de l'application
+     */
     #[ORM\Column()]
     #[Assert\NotBlank(message: 'Information requise.')]
     private bool $terms;
 
     /**
-     * @var \DateTime|null
+     * Dernière date de connexion
      */
     #[ORM\Column(nullable: true)]
     private ?\DateTime $lastDateConnexion = null;
@@ -234,14 +231,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string)$this->email;
     }
 
     public function getUserIdentifier(): string
@@ -303,9 +292,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Picture|null
-     */
     public function getPicture(): ?Picture
     {
         return $this->picture;
@@ -357,21 +343,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): string
     {
-        // TODO: Implement eraseCredentials() method.
         return '';
     }
 
-    /**
-     * @return float|null
-     */
     public function getLat(): ?float
     {
         return $this->lat;
     }
 
-    /**
-     * @param float|null $lat
-     */
     public function setLat(?float $lat): self
     {
         $this->lat = $lat;
@@ -379,17 +358,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getLon(): ?float
     {
         return $this->lon;
     }
 
-    /**
-     * @param float|null $lon
-     */
     public function setLon(?float $lon): self
     {
         $this->lon = $lon;
@@ -397,17 +370,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStripeCustomerId(): ?string
     {
         return $this->stripeCustomerId;
     }
 
-    /**
-     * @param mixed $stripeCustomerId
-     */
     public function setStripeCustomerId(?string $stripeCustomerId): self
     {
         $this->stripeCustomerId = $stripeCustomerId;
@@ -415,17 +382,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCity(): ?string
     {
         return $this->city;
     }
 
-    /**
-     * @param string|null $city
-     */
     public function setCity(?string $city): self
     {
         $this->city = $city;
@@ -433,17 +394,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @param string|null $address
-     */
     public function setAddress(string $address): self
     {
         $this->address = $address;
@@ -451,17 +406,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAdditionalAddress(): ?string
     {
         return $this->additionalAddress;
     }
 
-    /**
-     * @param string|null $additionalAddress
-     */
     public function setAdditionalAddress(?string $additionalAddress): self
     {
         $this->additionalAddress = $additionalAddress;
@@ -469,17 +418,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getZipCode(): string
     {
         return $this->zipCode;
     }
 
-    /**
-     * @param string $zipCode
-     */
     public function setZipCode(string $zipCode): self
     {
         $this->zipCode = $zipCode;
@@ -487,18 +430,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPhone(): string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     * @return $this
-     */
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
@@ -506,17 +442,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Country|null
-     */
     public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    /**
-     * @param Country|null $country
-     */
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
@@ -524,9 +454,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFullAddress(): ?string
     {
         return vsprintf(
@@ -540,17 +467,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         );
     }
 
-    /**
-     * @return string|null
-     */
     public function getStripeAccountId(): ?string
     {
         return $this->stripeAccountId;
     }
 
-    /**
-     * @param mixed $stripeAccountId
-     */
     public function setStripeAccountId(?string $stripeAccountId): self
     {
         $this->stripeAccountId = $stripeAccountId;
@@ -558,17 +479,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getIsStripeAccountActive(): ?bool
     {
         return $this->isStripeAccountActive;
     }
 
-    /**
-     * @param mixed $stripeAccountActive
-     */
     public function setIsStripeAccountActive(?bool $stripeAccountActive): self
     {
         $this->isStripeAccountActive = $stripeAccountActive;
@@ -576,18 +491,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
     public function getIsGuess(): ?bool
     {
         return $this->isGuess;
     }
 
-    /**
-     * @param bool|null $isGuess
-     * @return $this
-     */
     public function setIsGuess(?bool $isGuess): self
     {
         $this->isGuess = $isGuess;

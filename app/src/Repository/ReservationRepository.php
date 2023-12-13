@@ -9,6 +9,7 @@ use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Clock\DatePoint;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -80,7 +81,7 @@ class ReservationRepository extends ServiceEntityRepository
      */
     public function getAvailableProducts(string $token): array
     {
-        $maxDate = (new \DateTime('now'))->modify('+1 year');
+        $maxDate = new DatePoint('+1 year');
 
         return $this->createQueryBuilder('r')
             ->join('r.transaction', 't')

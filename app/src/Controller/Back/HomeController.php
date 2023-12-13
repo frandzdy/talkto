@@ -6,6 +6,7 @@ use App\Entity\TransactionLine;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,63 +16,32 @@ class HomeController extends AbstractController
     #[Route(path: '', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(EntityManagerInterface $em): Response
     {
-        $stats = [];
         $allProfits = $em->getRepository(TransactionLine::class)->getStatTransactionLine();
-        $dayProfits = $em->getRepository(TransactionLine::class)->getStatTransactionLine(new \DateTime());
+        $dayProfits = $em->getRepository(TransactionLine::class)->getStatTransactionLine(new DatePoint());
         $nbTransaction = $em->getRepository(TransactionLine::class)->findAll();
-        $daySellers = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'createdAt' => new \DateTime(),
-                    'roles' => User::ROLE_SELLER
-                ]
-            );
-        $allSellers = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'roles' => User::ROLE_SELLER
-                ]
-            );
-        $dayGuesses = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'createdAt' => new \DateTime(),
-                    'roles' => User::ROLE_GUESS
-                ]
-            );
-        $allGuesses = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'roles' => User::ROLE_GUESS
-                ]
-            );
-        $dayRentes = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'createdAt' => new \DateTime(),
-                    'roles' => User::ROLE_USER
-                ]
-            );
-        $allRentes = $em->getRepository(User::class)
-            ->findBy(
-                [
-                    'roles' => User::ROLE_USER
-                ]
-            );
+
+        $allSellers = $em->getRepository(User::class)->statsUsers(User::ROLE_SELLER);
+        $daySellers = $em->getRepository(User::class)->statsUsers(User::ROLE_SELLER, new DatePoint());
+
+        $allGuesses = $em->getRepository(User::class)->statsUsers(User::ROLE_GUESS);
+        $dayGuesses = $em->getRepository(User::class)->statsUsers(User::ROLE_GUESS, new DatePoint());
+
+        $allRentes = $em->getRepository(User::class)->statsUsers(User::ROLE_USER);
+        $dayRentes = $em->getRepository(User::class)->statsUsers(User::ROLE_USER, new DatePoint());
+
         $stats = [
-            'allProfits' => $allProfits[0]['profit'] ? number_format($allProfits[0]['profit'] / 100, 2, ',', ' ') : 0,
-            'allCa' => $allProfits[0]['ca'] ? number_format($allProfits[0]['ca'] / 100, 2, ',', ' ') : 0,
-            'dayProfits' => $dayProfits[0]['profit'] ? number_format($dayProfits[0]['profit'] / 100, 2, ',', ' ') : 0,
-            'dayCa' => $dayProfits[0]['ca'] ? number_format($dayProfits[0]['ca'] / 100, 2, ',', ' ') : 0,
+            'allProfits' => current($allProfits)['profit'] ? number_format(current($allProfits)['profit'] / 100, 2, ',', ' ') : 0,
+            'allCa' => current($allProfits)['ca'] ? number_format(current($allProfits)['ca'] / 100, 2, ',', ' ') : 0,
+            'dayProfits' => current($dayProfits)['profit'] ? number_format(current($dayProfits)['profit'] / 100, 2, ',', ' ') : 0,
+            'dayCa' => current($dayProfits)['ca'] ? number_format(current($dayProfits)['ca'] / 100, 2, ',', ' ') : 0,
             'nbTransaction' => \count($nbTransaction),
-            'daySellers' => \count($daySellers),
-            'allSellers' => \count($allSellers),
-            'dayGuesses' => \count($dayGuesses),
-            'allGuesses' => \count($allGuesses),
-            'dayRentes' => \count($dayRentes),
-            'allRentes' => \count($allRentes)
+            'daySellers' => current($daySellers)['nbUsers'],
+            'allSellers' => current($allSellers)['nbUsers'],
+            'dayGuesses' => current($dayGuesses)['nbUsers'],
+            'allGuesses' => current($allGuesses)['nbUsers'],
+            'dayRentes' => current($dayRentes)['nbUsers'],
+            'allRentes' => current($allRentes)['nbUsers']
         ];
-        dump($stats);
 
         return $this->render('back/home/dashboard.html.twig', compact('stats'));
     }

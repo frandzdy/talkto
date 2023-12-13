@@ -17,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ["status", "type", "start_date"], name: "ecommerce_checkin")]
 class Checkin
 {
-    use TraitToken, TraitAuthor;
+    use TraitToken;
+    use TraitAuthor;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -77,17 +78,11 @@ class Checkin
         return $this->id;
     }
 
-    /**
-     * @return TransactionLine
-     */
     public function getTransactionLine(): TransactionLine
     {
         return $this->transactionLine;
     }
 
-    /**
-     * @param TransactionLine $transactionLine
-     */
     public function setTransactionLine(TransactionLine $transactionLine): self
     {
         $this->transactionLine = $transactionLine;
@@ -95,18 +90,11 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartDate(): \DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * @param \DateTime $startDate
-     * @return $this
-     */
     public function setStartDate(\DateTime $startDate): self
     {
         $this->startDate = $startDate;
@@ -114,17 +102,11 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getType(): CheckinType
     {
         return $this->type;
     }
 
-    /**
-     * @param mixed $type
-     */
     public function setType(CheckinType $type): self
     {
         $this->type = $type;
@@ -132,17 +114,11 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatus(): CheckinStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param mixed $status
-     */
     public function setStatus(CheckinStatus $status): self
     {
         $this->status = $status;
@@ -150,18 +126,10 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPictures(): Collection
     {
         return $this->pictures;
     }
-
-    /**
-     * @param Picture $picture
-     * @return $this
-     */
 
     public function addPicture(Picture $picture): self
     {
@@ -172,10 +140,6 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @param Picture $picture
-     * @return $this
-     */
     public function removePicture(Picture $picture): self
     {
         if ($this->pictures->contains($picture)) {
@@ -185,17 +149,11 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getComments(): ?string
     {
         return $this->comments;
     }
 
-    /**
-     * @param string|null $comments
-     */
     public function setComments(?string $comments): self
     {
         $this->comments = $comments;
@@ -203,18 +161,10 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getClaims(): Collection
     {
         return $this->claims;
     }
-
-    /**
-     * @param Claim $claim
-     * @return $this
-     */
 
     public function addClaim(Claim $claim): self
     {
@@ -226,10 +176,6 @@ class Checkin
         return $this;
     }
 
-    /**
-     * @param Claim $claim
-     * @return $this
-     */
     public function removeClaim(Claim $claim): self
     {
         if ($this->claims->removeElement($claim)) {

@@ -56,7 +56,11 @@ class LessorController extends AbstractController
             $query,
             $page,
             self::LESSORS_PER_PAGE,
-            [PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname', PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC', PaginatorInterface::DISTINCT => false]
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+                PaginatorInterface::DISTINCT => false
+            ]
         );
 
         return $this->render(
@@ -104,13 +108,16 @@ class LessorController extends AbstractController
      * Génère un export de tous les bailleurs
      */
     #[Route(path: '/extract-lessor/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
-    public function export(UserRepository $userRepository, string $typeFile, LessorExporter $lessorExporter): NotFoundHttpException|Response
-    {
-        $customers = $userRepository->findBy(['roles' => User::ROLE_SELLER]);
+    public function export(
+        UserRepository $userRepository,
+        string $typeFile,
+        LessorExporter $lessorExporter
+    ): NotFoundHttpException|Response {
+        $lessors = $userRepository->findBy(['roles' => '["' . User::ROLE_SELLER . '"]']);
         $callable = 'exportAs' . strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $lessorExporter->$callableNameFunction($customers);
+            $result = $lessorExporter->$callableNameFunction($lessors);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

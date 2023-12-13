@@ -62,14 +62,14 @@
                         <div class="col-xs-12 col-lg-6">
                             <div class="form-group">
                                 <label for="">Montant HT :</label>
-                                <div class="form-control">{{ ((claim.checkin.transactionLine.transaction.totalAmountTtc - claim.checkin.transactionLine.transaction.totalAmountTva - claim.checkin.transactionLine.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €</div>
+                                <div class="form-control">{{ ((claim.checkin.transactionLine.transaction.totalAmountTtc - claim.checkin.transactionLine.transaction.totalAmountTva) / 100)|number_format(2, ',')|default(0) }} €</div>
                             </div>
                             <div class="form-group">
                                 <label for="" >Montant T.V.A :</label>
                                 <div class="form-control">{{ (claim.checkin.transactionLine.transaction.totalAmountTva / 100)|number_format(2, ',')|default(0) }} €</div>
                             </div>
                             <div class="form-group">
-                                <label for="" >Montant frais de service :</label>
+                                <label for="" >Frais de service :</label>
                                 <div class="form-control">{{ (claim.checkin.transactionLine.transaction.totalFees / 100)|number_format(2, ',')|default(0) }} €</div>
                             </div>
                             <div class="form-group">

@@ -2,9 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Qualification;
-use App\Entity\WebsiteMenuCategory;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -33,7 +31,7 @@ class SiteMapManager
             if (str_starts_with($name, 'front_') && !$this->hasRouteParameters($route)) {
                 $urls[] = [
                     'loc' => $this->urlGenerator->generate($name, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                    'lastmod' => new \DateTime(),
+                    'lastmod' => new DatePoint(),
                 ];
             }
         }

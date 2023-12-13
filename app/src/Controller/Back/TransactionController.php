@@ -92,11 +92,11 @@ class TransactionController extends AbstractController
         string $typeFile,
         TransactionExporter $transactionExporter
     ): NotFoundHttpException|Response {
-        $products = $transactionRepository->findAll();
+        $transactions = $transactionRepository->findAll();
         $callable = 'exportAs' . strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $transactionExporter->$callableNameFunction($products);
+            $result = $transactionExporter->$callableNameFunction($transactions);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

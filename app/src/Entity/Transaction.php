@@ -21,7 +21,7 @@ class Transaction
     private ?int $id = null;
 
     /**
-     * @var Collection|ArrayCollection
+     * @var Collection
      */
     #[ORM\OneToMany(mappedBy: "transaction", targetEntity: TransactionLine::class, cascade: ["persist", "remove"])]
     private Collection $transactionLines;
@@ -33,31 +33,31 @@ class Transaction
     private TransactionStatus $status;
 
     /**
-     * @var string
+     * Référence de la transaction
      */
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $reference = null;
 
     /**
-     * @var string
+     * Identifiant de paiement
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $paymentIntentId = null;
 
     /**
-     * @var int
+     * Montant total TTC
      */
     #[ORM\Column(length: 11)]
     private int $totalAmountTtc;
 
     /**
-     * @var int
+     * Montant total TVA
      */
     #[ORM\Column(length: 11)]
     private int $totalAmountTva;
 
     /**
-     * @var int
+     * Montant total des frais
      */
     #[ORM\Column(length: 11)]
     private int $totalFees;
@@ -100,17 +100,11 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return TransactionStatus
-     */
     public function getStatus(): TransactionStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param TransactionStatus $status
-     */
     public function setStatus(TransactionStatus $status): self
     {
         $this->status = $status;
@@ -118,33 +112,21 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    /**
-     * @param string $reference
-     */
     public function setReference(string $reference): void
     {
         $this->reference = $reference;
     }
 
-    /**
-     * @return string
-     */
     public function getPaymentIntentId(): string
     {
         return $this->paymentIntentId;
     }
 
-    /**
-     * @param string $paymentIntentId
-     */
     public function setPaymentIntentId(string $paymentIntentId): self
     {
         $this->paymentIntentId = $paymentIntentId;
@@ -152,17 +134,11 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTotalAmountTtc(): int
     {
         return $this->totalAmountTtc;
     }
 
-    /**
-     * @param int $totalAmountTtc
-     */
     public function setTotalAmountTtc(int $totalAmountTtc): self
     {
         $this->totalAmountTtc = $totalAmountTtc;
@@ -170,17 +146,11 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getTotalAmountTva(): int
     {
         return $this->totalAmountTva;
     }
 
-    /**
-     * @param int $totalAmountTva
-     */
     public function setTotalAmountTva(int $totalAmountTva): self
     {
         $this->totalAmountTva = $totalAmountTva;
@@ -188,18 +158,11 @@ class Transaction
         return $this;
     }
 
-
-    /**
-     * @return int
-     */
     public function getTotalFees(): int
     {
         return $this->totalFees;
     }
 
-    /**
-     * @param int $totalFees
-     */
     public function setTotalFees(int $totalFees): self
     {
         $this->totalFees = $totalFees;

@@ -10,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -79,8 +80,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->createQueryBuilder('p')
             ->join('p.author', 'a')
             ->where('a.id = :userId')
-            ->setParameter('userId', $user->getId())
-        ;
+            ->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(p.id))')
             ->getQuery()
@@ -200,22 +200,45 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         if (!empty($filters['term']) && !$isLessor) {
             $builder
-                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.phone LIKE :term')
+                ->andWhere(
+                    'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.phone LIKE :term'
+                )
                 ->setParameter('term', $filters['term'] . '%');
         } elseif (!empty($filters['term'])) {
             $builder
-                ->andWhere('u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.stripeCustomerId LIKE :term OR u.phone LIKE :term')
+                ->andWhere(
+                    'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.stripeCustomerId LIKE :term OR u.phone LIKE :term'
+                )
                 ->setParameter('term', $filters['term'] . '%');
         }
         $builder->andWhere('u.roles IN (:role)');
         if ($isLessor) {
-            $builder->setParameter('role', '["'.User::ROLE_SELLER.'"]');
+            $builder->setParameter('role', '["' . User::ROLE_SELLER . '"]');
         } else {
-            $builder->setParameter('role', ['["'.User::ROLE_USER.'"]', '["'.User::ROLE_GUESS.'"]']);
+            $builder->setParameter('role', ['["' . User::ROLE_USER . '"]', '["' . User::ROLE_GUESS . '"]']);
         }
 
         $builder->orderBy('u.lastname, u.firstname', 'ASC');
 
         return $builder->getQuery();
+    }
+
+    /**
+     * Returns the statistics of users based on their role and creation date.
+     */
+    public function statsUsers(string $role, ?DatePoint $datePoint = null): array
+    {
+        $builder = $this
+            ->createQueryBuilder('u')
+            ->select('count(Distinct(u.id)) AS nbUsers')
+            ->where('u.roles like :role')
+            ->setParameter('role', '%"' . $role . '"%');
+
+        if ($datePoint) {
+            $builder->andWhere('u.createdAt = :date')
+                ->setParameter('date', $datePoint);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 }

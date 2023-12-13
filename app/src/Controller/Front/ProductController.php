@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -403,7 +404,7 @@ class ProductController extends AbstractController
 
     #[Route('/check-dates/{startDate}/{token}', name: 'product_check_dates', options: ["expose" => true], methods: ['GET'])]
     public function checkDate(
-        \DateTime $startDate,
+        DatePoint $startDate,
         string $token,
         EntityManagerInterface $em
     ): JsonResponse {

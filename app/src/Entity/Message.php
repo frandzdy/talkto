@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks()]
 class Message
 {
-    use TraitTimestamp, TraitAuthor, TraitToken;
+    use TraitTimestamp;
+    use TraitAuthor;
+    use TraitToken;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

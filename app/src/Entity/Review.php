@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Review
 {
-    use TraitAuthor, TraitTimestamp;
+    use TraitAuthor;
+    use TraitTimestamp;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,10 +39,7 @@ class Review
     #[ORM\Column(type: Types::STRING)]
     private string $message;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -64,17 +62,11 @@ class Review
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getNote(): int
     {
         return $this->note;
     }
 
-    /**
-     * @param int $note
-     */
     public function setNote(int $note): self
     {
         $this->note = $note;
@@ -82,17 +74,11 @@ class Review
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @param string $message
-     */
     public function setMessage(string $message): self
     {
         $this->message = $message;
