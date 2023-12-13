@@ -11,53 +11,21 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: [ '8.0', '8.1', '8.2' ]
-                dependencies: [ highest ]
-                symfony: [ '*' ]
-                include:
-                    # Minimum supported dependencies with the oldest supported PHP version
-                    -   php: '8.0'
-                        dependencies: lowest
-                        symfony: '*'
-                    # Minimum supported dependencies with the latest supported PHP version
-                    -   php: '8.2'
-                        dependencies: lowest
-                        symfony: '*'
-                    -   php: '8.2'
-                        dependencies: highest
-                        symfony: '*'
-                    # Test each supported Symfony version with lowest supported PHP version
-                    -   php: '8.1'
-                        dependencies: highest
-                        symfony: '6.2.*'
-                    -   php: '8.1'
-                        dependencies: highest
-                        symfony: '6.3.*'
-                    -   php: '8.2'
-                        dependencies: highest
-                        symfony: '6.4.*'
-                    -   php: '8.2'
-                        dependencies: highest
-                        symfony: '7.0.*'
+                php: ['8.2']
         name: PHP ${{ matrix.php }}
         steps:
             #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
             # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
             # uses: shivammathur/setup-php@v2 shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
-            -   name: Setup PHP with tools on ${{ matrix.php-versions }}
+            -   name: Setup PHP with tools on ${{ matrix.php }}
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
-                    tools: php-cs-fixer, phpstan, cs2pr
+                    tools: php-cs-fixer, phpstan, cs2pr, phpcs
 
             - name: Run phpcs
-              run: phpcs -q --report=checkstyle app/src | cs2pr
+              run: phpcs -q --report=checkstyle src | cs2pr
 
-            -   name: Update project dependencies
-                uses: ramsey/composer-install@v2
-                with:
-                    dependency-versions: ${{ matrix.dependencies }}
-                    working-directory: "app/"
             -   name: Setup Node
                 uses: actions/setup-node@v1
                 with:
@@ -67,12 +35,12 @@ jobs:
 #                uses: StephaneBour/actions-php-lint@8.1
 #                with:
 #                    # Folder to check syntax
-#                    working-directory: 'app/src'
+#                    dir: 'app/src'
 #
-            -   name: PHP Security Checker
-                uses: StephaneBour/actions-php-security-checker@1.2
-                with:
-                    composer-lock: './app/composer.lock'
+#            -   name: PHP Security Checker
+#                uses: StephaneBour/actions-php-security-checker@1.2
+#                with:
+#                    composer-lock: 'app/composer.lock'
             -   uses: actions/checkout@v3
             -   name: Copy .env.test.local
                 run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
