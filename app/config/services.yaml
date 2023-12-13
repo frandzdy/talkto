@@ -22,8 +22,10 @@ parameters:
         url: 'https://api-adresse.data.gouv.fr/search/?'
     file_uploader_config:
         base_path: "%kernel.project_dir%/public/uploads/"
+        base_path_prod: "%kernel.project_dir%/public_html/uploads/"
         base_path_private: "%kernel.project_dir%/uploads/"
         base_path_liip: "%kernel.project_dir%/public/uploads/media/cache/"
+        base_path_liip_prod: "%kernel.project_dir%/public_html/uploads/media/cache/"
         base_path_twig: '/uploads/profile_picture/'
         directories:
             profile_picture: "profile_picture/"
@@ -38,6 +40,7 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
+            $env: "%kernel.environment%"
             $fileUploadParameters: "%file_uploader_config%"
             $stripeParameters: "%stripe_config%"
             $googleRecaptchaSkey: "%google_recaptcha_skey%"
