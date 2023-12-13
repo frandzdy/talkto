@@ -69,11 +69,10 @@ jobs:
 #                    # Folder to check syntax
 #                    working-directory: 'app/src'
 #
-#            -   name: PHP Security Checker
-#                uses: StephaneBour/actions-php-security-checker@1.2
-#                with:
-#                    composer-lock: './composer.lock'
-#                    working-directory: 'app/'
+            -   name: PHP Security Checker
+                uses: StephaneBour/actions-php-security-checker@1.2
+                with:
+                    composer-lock: './app/composer.lock'
             -   uses: actions/checkout@v3
             -   name: Copy .env.test.local
                 run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
