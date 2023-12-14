@@ -95,6 +95,7 @@ class WebhookStripeController extends AbstractController
                     'emails/reservation_validation.html.twig',
                     [
                         'user' => $transaction->getAuthor(),
+                        'transaction' => $transaction
                     ]
                 );
                 // notification du bailleur

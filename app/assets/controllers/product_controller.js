@@ -25,6 +25,7 @@ export default class extends Controller {
         }
         this.handleBsCustomFileInput(collectionHolder.find('[type="file"]'));
         collectionHolder.find('.file-index').removeClass("d-none");
+        this.reindex()
     }
 
     /**
@@ -86,6 +87,13 @@ export default class extends Controller {
     handleBsCustomFileInput(container) {
         if ($(container)) {
             bsCustomFileInput.init();
+            $(container).change(function () {
+                var fieldVal = $(this).val();
+                if (fieldVal != undefined || fieldVal != "") {
+                    $(this).next(".custom-file-label").text(fieldVal);
+                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
+                }
+            });
         }
     }
 

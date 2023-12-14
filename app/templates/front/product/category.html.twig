@@ -262,16 +262,13 @@
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
                                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                                 alt="{{ pictureName }}">
+                                                                 alt="{{ product[0].title }}">
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
                                                                      src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                                     alt="{{ pictureName }}">
+                                                                     alt="{{ product[0].title }}">
                                                             {% endif %}
-                                                        {% else %}
-                                                            <img src="" alt="">
-                                                            <img class="product__thumb-2" src="" alt="">
                                                         {% endif %}
                                                         <div class="product__action transition-3">
                                                             <a href="{{ path('front_wishlist_add', {'token': product[0].token}) }}"
@@ -333,16 +330,13 @@
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
                                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                                 alt="{{ pictureName }}">
+                                                                 alt="{{ product[0].title }}">
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
                                                                      src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                                     alt="{{ pictureName }}">
+                                                                     alt="{{ product[0].title }}">
                                                             {% endif %}
-                                                        {% else %}
-                                                            <img src="" alt="">
-                                                            <img class="product__thumb-2" src="" alt="">
                                                         {% endif %}
                                                     </div>
                                                 </div>

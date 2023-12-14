@@ -22,53 +22,63 @@ export default class extends Controller {
      *
      * @param e
      */
-    addressAutocomplete(e) {
-        $(this.userFormTarget)
-            .on('change', 'input#user_address', (event) => {
-                if (!$(event.currentTarget).val().trim().length) {
-                    $('.zone-address').find('.address').remove()
-                }
-                if ($(event.currentTarget).val() && $(event.currentTarget).val().trim().length < 3) {
-                    return;
-                }
-                if (!this.searching) {
-                    this.searching = true
-                    debounce(getAllAddresses($(event.currentTarget).val()).then(
-                        (response) => {
-                            $('.zone-address').find('.address').remove()
-                            let zoneAddress = $('.zone-address')
+    addressAutocomplete(event) {
+        $(this.userFormTarget).on('change', 'input#user_address', (event) => {
+            const inputValue = $(event.currentTarget).val();
+            const trimmedInput = inputValue && inputValue.trim();
 
-                            const ul = document.createElement('ul')
-                            ul.classList.add('d-none')
-                            ul.classList.add('address')
-                            zoneAddress.append(ul)
+            if (!trimmedInput.length) {
+                this.removeAddress();
+            }
 
-                            let zoneAddressDiv = $('.zone-address').find('.address')
-                            const li = document.createElement('li')
-                            li.innerHTML = "-- Sélectionner votre adresse --"
-                            zoneAddressDiv.append(li)
+            if (trimmedInput.length < 3) return;
 
-                            for(let index in response) {
-                                const li = document.createElement('li')
-                                li.setAttribute("data-street", response[index].street);
-                                li.setAttribute("data-zipCode", response[index].postcode);
-                                li.setAttribute("data-city", response[index].city);
-                                li.setAttribute("class", "address-item");
-                                li.innerHTML = `<b>` + response[index].label + `</b>`
-                                zoneAddressDiv.append(li)
-                                zoneAddressDiv.removeClass('d-none')
-                            }
-                        }
-                    ).then(rest => this.searching = false), 1000)
-                }
-            })
-            .on('click', 'li.address-item', (e) => {
-                e.preventDefault()
-                $('#user_address').val($(e.currentTarget).data('street'))
-                $('#user_zipCode').val($(e.currentTarget).data('zipcode'))
-                $('#user_city').val($(e.currentTarget).data('city'))
-                $('.zone-address').find('.address').remove()
-            })
+            if (!this.searching) {
+                this.searching = true;
+
+                debounce(getAllAddresses(trimmedInput).then(
+                    (response) => {
+                        this.removeAddress();
+                        this.createAddressList(response);
+                    }
+                ).then(() => this.searching = false), 1000);
+            }
+        }).on('click', 'li.address-item', this.handleClickOnAddress);
+    }
+
+    removeAddress() {
+        $('.zone-address').find('.address').remove();
+    }
+
+    createAddressList(response) {
+        const ul = document.createElement('ul');
+        ul.classList.add('d-none', 'address');
+        $('.zone-address').append(ul);
+        const listContainer = $('.zone-address').find('.address');
+
+        const defaultLi = document.createElement('li');
+        defaultLi.innerHTML = "-- Sélectionner votre adresse --";
+        listContainer.append(defaultLi);
+
+        response.forEach(address => {
+            const li = document.createElement('li');
+            li.setAttribute('data-street', address.street);
+            li.setAttribute('data-zipCode', address.postcode);
+            li.setAttribute('data-city', address.city);
+            li.setAttribute('class', 'address-item');
+            li.innerHTML = `<b>${address.label}</b>`;
+            listContainer.append(li);
+        });
+        listContainer.removeClass('d-none');
+    }
+
+    handleClickOnAddress(event) {
+        event.preventDefault();
+        const clickedData = $(event.currentTarget).data()
+        $('#user_address').val(clickedData['street']);
+        $('#user_zipCode').val(clickedData['zipcode']);
+        $('#user_city').val(clickedData['city']);
+        this.removeAddress();
     }
 
     /**

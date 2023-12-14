@@ -7,7 +7,7 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <h1>Bonjour {{ user.fullname }},</h1>
+                    <h3>Bonjour {{ user.fullname }},</h3>
                     <p>
                         Nous vous annonçons, que le montant de {{ (transactionLine.cancelAmount / 100)|number_format(2, ',')|default(0) }} € vous a été remboursé directement sur le moyen de
                         paiement utilisé, lors de votre réservation de votre location :

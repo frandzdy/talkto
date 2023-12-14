@@ -507,9 +507,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public static function getAvailableRoles(): array
     {
         return [
-            self::ROLE_USER => 'Client',
-            self::ROLE_GUESS => 'Client invité(e)',
-            self::ROLE_SELLER => 'Loueur'
+            self::ROLE_USER => 'Locataire',
+            self::ROLE_GUESS => 'Invité(e)',
+            self::ROLE_SELLER => 'Bailleur'
         ];
     }
 

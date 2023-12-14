@@ -134,7 +134,6 @@ export default class extends Controller {
                     }
                 },
                 error:  (response) => {
-                    console.error(response.responseText);
                     if (response.status === 422) {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);

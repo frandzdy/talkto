@@ -22,7 +22,8 @@ readonly class UserManager
         private UserRepository $userRepository,
         private LoggerInterface $logger,
         private AdresseApi $adresseApi,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private MailerManager $mailer
     ) {}
 
     /**
@@ -55,6 +56,14 @@ readonly class UserManager
             $user->setRole(User::ROLE_GUESS);
             $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname() . $user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
+            // email de création de compte invitée
+            $this->mailer->sendMailNotification(
+                $user->getEmail(),
+                'emails/create_guess.html.twig',
+                [
+                    'user' => $user,
+                ]
+            );
         }
 
         if (!$user->getId()) {
@@ -64,11 +73,13 @@ readonly class UserManager
         if (!$user->getStripeCustomerId() && (User::ROLE_USER === $user->getRole())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
+
         } elseif (!$user->getStripeAccountId() && User::ROLE_SELLER === $user->getRole()) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
+
         }
         $this->checkCoord($user);
         $this->entityManager->flush();

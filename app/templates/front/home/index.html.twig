@@ -134,7 +134,7 @@
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders1.token}) }}"
                                            class="w-img"><img
                                                     src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                    alt="{{ pictureName }}"></a>
+                                                    alt="{{ homePage.underSliders1.title }}"></a>
                                     </div>
                                     <div class="banner__content p-absolute transition-3">
                                         <h5>
@@ -406,7 +406,7 @@
                                                 {% set pictureName = topSale[0].product.pictures.first.name %}
                                             {% endif %}
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                                 alt="{{ pictureName }}">
+                                                 alt="{{ topSale[0].product.title }}">
                                             {% if topSale[0].product.pictures.count > 1 %}
                                                 {% set pictureName = topSale[0].product.pictures.next.name %}
                                                 <img class="product__thumb-2"

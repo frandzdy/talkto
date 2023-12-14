@@ -7,10 +7,7 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <h1>Bonjour,</h1>
-                    <p>
-                        {{ user.fullname }}
-                    </p>
+                    <h3>Bonjour {{ user.fullname }},</h3>
                     <p>
                         Nous vous annonçons que votre {{ checkin.type.label|capitalize }} a été {{ checkin.status.label }}.
                         Vous pouvez retrouver toutes les informations sur <a title="Site Reented" href="{{ app.request.schemeAndHttpHost }}">Reented</a>.
@@ -36,9 +33,7 @@
 {% endblock %}
 
 {% block body_text %}
-    Bonjour,\n
-    \n
-    {{ user.fullname }}\n
+    Bonjour {{ user.fullname }},\n
     \n
     Nous vous annonçons que votre {{ checkin.type.label|capitalize }} a été {{ checkin.status.label }}.
     Vous pouvez retrouver toutes les informations sur {{ app.request.schemeAndHttpHost }}.\n

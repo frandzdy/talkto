@@ -24,8 +24,8 @@
                                                    href="#pro-{{ picture.token }}" role="tab"
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="false">
                                                     <div class="product__nav-img w-img">
-                                                        <img                                                              src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
-                                                             alt="{{ picture.name }}">
+                                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
+                                                             alt="{{ product.title }}">
                                                     </div>
                                                 </a>
                                             {% endfor %}
@@ -47,8 +47,9 @@
                                             <div class="product__modal-img product__thumb w-img"
                                                  data-action="click->bigpicture#loadGallery">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                                     data-caption="{{ product.title }}"
                                                      src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
-                                                     alt="{{ picture.name }}">
+                                                     alt="{{ product.title }}">
                                                 {#                                                <div class="product__sale "> #}
                                                 {#                                                    <span class="new">new</span> #}
                                                 {#                                                    <span class="percent">-16%</span> #}
@@ -337,14 +338,13 @@
                             <div class="product__thumb">
                                 {% if product.pictures.count > 0 %}
                                     {% set picture = product.pictures.first %}
-                                    <img width="270" height="324"
-                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
-                                         alt="product-img">
+                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
+                                         alt="{{ product.title }}">
                                     {% if product.pictures.count > 1 %}
                                         {% set picture2 = product.pictures.next %}
-                                        <img width="270" height="324" class="product__thumb-2"
+                                        <img class="product__thumb-2"
                                              src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale') }}"
-                                             alt="{{ picture2.name }}">
+                                             alt="{{ product.title }}">
                                     {% endif %}
                                 {% endif %}
 

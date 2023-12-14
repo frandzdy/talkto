@@ -120,6 +120,7 @@ class ProductController extends AbstractController
         $trends = $productRepository->getTrends($lat, $lon, $product->getCategory(), self::MAX_RESULT);
 
         $options = [
+            'product' => $product,
             'quantityLeft' => $quantityLeft,
             'action' => $request->getRequestUri(),
             'choicesValue' => $choicesValue,

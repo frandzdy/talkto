@@ -98,7 +98,7 @@ class ProductType extends AbstractType
             ->add(
                 'amount', TextType::class,
                 [
-                    'label' => 'Prix / Mois',
+                    'label' => 'Prix / jours',
                     'label_attr' => ['class' => 'form-text text-muted'],
                     'attr' =>
                         [
@@ -133,9 +133,7 @@ class ProductType extends AbstractType
             $product = $event->getData();
             $form = $event->getForm();
 
-            if (!array_key_exists(1, $product->uploadedPictures) && !$product->getPictures()->count()) {
-                $form->get('handleError')->addError(new FormError('Information requise.'));
-            } elseif (!$product->uploadedPictures[1] instanceof UploadedFile && !$product->getPictures()->count()) {
+            if (!current($product->uploadedPictures) instanceof UploadedFile && !$product->getPictures()->count()) {
                 $form->get('handleError')->addError(new FormError('Information requise.'));
             }
         });

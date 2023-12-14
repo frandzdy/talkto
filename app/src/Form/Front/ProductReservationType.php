@@ -5,6 +5,7 @@ namespace App\Form\Front;
 use App\Entity\Product;
 use App\Entity\TransactionLine;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,12 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductReservationType extends AbstractType
 {
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private EntityManagerInterface $em, private Security $security)
     {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $this->security->getUser();
         $builder
             ->add(
                 'date', TextType::class,
@@ -30,7 +32,7 @@ class ProductReservationType extends AbstractType
                     'label' => false,
                     'attr' =>
                         [
-                            'placeholder' => 'Définissez votre date',
+                            'placeholder' => 'Date de réservation',
                             'maxlength' => 11,
                             'data-controller' => 'datetimepicker',
                             'data-disabled-dates' => json_encode($options['disabledDates']),
@@ -52,13 +54,18 @@ class ProductReservationType extends AbstractType
                     'required' => true
                 ]
             );
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($user): void {
             $form = $event->getForm();
+            $options = $form->getConfig()->getOptions();
+
             if (!$form->get('quantity')->getData()) {
                 $form->get('quantity')->addError(new FormError('Information requise.'));
             }
             if (!$form->get('date')->getData()) {
                 $form->get('date')->addError(new FormError('Information requise.'));
+            }
+            if ($user === $options['product']->getAuthor()) {
+                $form->get('quantity')->addError(new FormError('Réservation impossible.'));
             }
         });
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
@@ -117,6 +124,7 @@ class ProductReservationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'product' => null,
             'quantityLeft' => null,
             'choicesValue' => null,
             'disabledDates' => null,

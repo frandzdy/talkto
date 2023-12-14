@@ -28,6 +28,7 @@ export default class extends Controller {
         }
         this.handleBsCustomFileInput(collectionHolder.find('[type="file"]'))
         collectionHolder.find('.file-index').removeClass("d-none");
+        this.reindex()
     }
 
     handleBsCustomFileInput(container) {

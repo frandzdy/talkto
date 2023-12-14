@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-3 profile__basic-thumb valign-items-center">
             <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                 alt="{{ pictureName ?: 'avatar' }}">
+                 alt="{{ pictureName ? user.fullname : 'avatar' }}">
         </div>
         <div class="col-8" style="margin-top: 23px">
             {{ form_row(form.uploadPicture) }}

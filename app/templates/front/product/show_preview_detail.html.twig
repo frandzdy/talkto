@@ -24,9 +24,8 @@
                                                    href="#pro-{{ picture.token }}" role="tab"
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="true">
                                                     <div class="product__nav-img w-img">
-                                                        <img data-bp=""
-                                                             src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
-                                                             alt="{{ picture.name }}">
+                                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
+                                                             alt="{{ product.title }}">
                                                     </div>
                                                 </a>
                                             {% endfor %}
@@ -47,8 +46,9 @@
                                              aria-labelledby="pro-{{ picture.token }}-tab">
                                             <div class="product__modal-img product__thumb w-img">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                                     data-caption="{{ product.title }}"
                                                      src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
-                                                     alt="{{ picture.name }}">
+                                                     alt="{{ product.title }}">
                                                 {#                                                <div class="product__sale "> #}
                                                 {#                                                    <span class="new">new</span> #}
                                                 {#                                                    <span class="percent">-16%</span> #}

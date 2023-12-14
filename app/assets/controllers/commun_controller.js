@@ -234,6 +234,7 @@ export default class extends Controller {
                             $(target).find('.wrapper').html($(response));
                             this.handleModalForm(target);
                             this.handleBsCustomInputFile($(target).find('[type="file"]'));
+                            this.handleToolTips()
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -268,6 +269,7 @@ export default class extends Controller {
                             $(target).find('.wrapper').html(response.responseText);
                             this.handleModalForm(target);
                             this.handleBsCustomInputFile($(target).find('[type="file"]'));
+                            this.handleToolTips()
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -450,12 +452,23 @@ export default class extends Controller {
         }, 5000);
     }
 
+    // handleBsCustomInputFile(container) {
+    //     if (container) {
+    //         bsCustomFileInput.init();
+    //     }
+    // }
     handleBsCustomInputFile(container) {
-        if (container) {
+        if ($(container)) {
             bsCustomFileInput.init();
+            $(container).change(function () {
+                var fieldVal = $(this).val();
+                if (fieldVal != undefined || fieldVal != "") {
+                    $(this).next(".custom-file-label").text(fieldVal);
+                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
+                }
+            });
         }
-    };
-
+    }
 
     initPlugins() {
         ////////////////////////////////////////////////////
