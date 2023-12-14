@@ -1,0 +1,4 @@
+{% extends 'pdf/pdf_base.html.twig' %}
+{% block title %}{{ title|default('') }}{% endblock %}
+{% block body %}{{ html|default('')|purify }}{% endblock %}
+

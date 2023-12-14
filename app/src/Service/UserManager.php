@@ -32,7 +32,7 @@ readonly class UserManager
     {
         $country = $this->entityManager->getRepository(Country::class)->findOneBy(['code' => 'FR']);
         $user = (new User())
-            ->setRoles($typeAccount === 1 ? [User::ROLE_USER] : [User::ROLE_SELLER])
+            ->setRole($typeAccount === 1 ? User::ROLE_USER : User::ROLE_SELLER)
             ->setCountry($country);
 
         return $user;
@@ -52,7 +52,7 @@ readonly class UserManager
         }
         // si on est un compte invité
         if (!$user->getIsGuess() && !$user->getId() && $isGuess) {
-            $user->setRoles([User::ROLE_GUESS]);
+            $user->setRole(User::ROLE_GUESS);
             $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname() . $user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
         }
@@ -61,18 +61,10 @@ readonly class UserManager
             $this->entityManager->persist($user);
         }
         // si on n'a pas de compte stripe
-        if (
-            !$user->getStripeCustomerId()
-            && (
-            in_array(User::ROLE_USER, $user->getRoles())
-            )
-        ) {
+        if (!$user->getStripeCustomerId() && (User::ROLE_USER === $user->getRole())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
-        } elseif (
-            !$user->getStripeAccountId()
-            && in_array(User::ROLE_SELLER, $user->getRoles())
-        ) {
+        } elseif (!$user->getStripeAccountId() && User::ROLE_SELLER === $user->getRole()) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
             $account = $this->stripeManager->createAccount($user);

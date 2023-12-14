@@ -114,9 +114,7 @@ class CustomerController extends AbstractController
         string $typeFile,
         CustomerExporter $customerExporter
     ): NotFoundHttpException|Response {
-        $customers = $userRepository->findBy(
-            ['roles' => ['["' . User::ROLE_USER . '"]', '["' . User::ROLE_GUESS . '"]']]
-        );
+        $customers = $userRepository->findBy(['role' => [User::ROLE_USER, User::ROLE_GUESS]]);
         $callable = 'exportAs' . strtoupper($typeFile);
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $customerExporter->$callableNameFunction($customers);

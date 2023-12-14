@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Catégorie du produit
+ * Catégorie de produit
  */
 enum ProductCategory: int
 {

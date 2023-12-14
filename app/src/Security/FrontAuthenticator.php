@@ -61,13 +61,10 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
         // contrôle si on est vendeur et que le compte stripe n'est pas actif
         // alors, on le redirige vers stripe
-        /**
-         * @var User $user
-         */
         $user = $token->getUser();
         $user->setLastDateConnexion(new \DateTime());
         $this->em->flush();
-        if (in_array(User::ROLE_SELLER, $user->getRoles()) && !$user->getIsStripeAccountActive()) {
+        if (User::ROLE_SELLER === $user->getRole() && !$user->getIsStripeAccountActive()) {
             $accountLink = $this->stripeManager->createAccountLink($user);
 
             return new RedirectResponse($accountLink->url);

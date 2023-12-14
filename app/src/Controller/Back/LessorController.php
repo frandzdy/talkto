@@ -113,7 +113,7 @@ class LessorController extends AbstractController
         string $typeFile,
         LessorExporter $lessorExporter
     ): NotFoundHttpException|Response {
-        $lessors = $userRepository->findBy(['roles' => '["' . User::ROLE_SELLER . '"]']);
+        $lessors = $userRepository->findBy(['role' => User::ROLE_SELLER]);
         $callable = 'exportAs' . strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {

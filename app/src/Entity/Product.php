@@ -73,8 +73,8 @@ class Product
             groups: ['creation', 'edit']
         )
     )]
-    #[Assert\Count(min: 1, max: 5, minMessage: "1 photo minimum", maxMessage: "5 photos maximums.", groups: ['creation'])]
     public array $uploadedPictures = [];
+    public ?string $handleError = null;
 
     /**
      * @var string|null

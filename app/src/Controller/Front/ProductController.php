@@ -409,13 +409,15 @@ class ProductController extends AbstractController
         EntityManagerInterface $em
     ): JsonResponse {
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
-        $transactionLines = $em->getRepository(TransactionLine::class)->productCheckQuantityAvailable($product, $startDate);
+        $transactions = $em->getRepository(TransactionLine::class)->productCheckQuantityAvailable($product, $startDate);
         $totalReserved = 0;
-        if ($transactionLines) {
-            foreach ($transactionLines as $transactionLine) {
-                $totalReserved += $transactionLine->getQuantity();
+        if ($transactions) {
+            foreach ($transactions as $transaction) {
+                foreach ($transaction->getTransactionLines() as $transactionLine) {
+                    $totalReserved += $transactionLine->getQuantity();
+                }
+                $hasReservation = true;
             }
-            $hasReservation = true;
         } else {
             $hasReservation = false;
             $totalReserved = $product->getQuantity();

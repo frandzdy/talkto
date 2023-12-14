@@ -108,7 +108,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('r.transaction', 't')
             ->leftjoin('t.transactionLines', 'tl')
             ->join('tl.product', 'p');
-        if (in_array(User::ROLE_USER, $user->getRoles())) {
+        if (User::ROLE_USER === $user->getRole()) {
             $qb->where('r.author = :userId');
         } else {
             $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
@@ -211,11 +211,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 )
                 ->setParameter('term', $filters['term'] . '%');
         }
-        $builder->andWhere('u.roles IN (:role)');
+        $builder->andWhere('u.role IN (:role)');
         if ($isLessor) {
-            $builder->setParameter('role', '["' . User::ROLE_SELLER . '"]');
+            $builder->setParameter('role', User::ROLE_SELLER);
         } else {
-            $builder->setParameter('role', ['["' . User::ROLE_USER . '"]', '["' . User::ROLE_GUESS . '"]']);
+            $builder->setParameter('role', [User::ROLE_USER, User::ROLE_GUESS]);
         }
 
         $builder->orderBy('u.lastname, u.firstname', 'ASC');
@@ -231,8 +231,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $builder = $this
             ->createQueryBuilder('u')
             ->select('count(Distinct(u.id)) AS nbUsers')
-            ->where('u.roles like :role')
-            ->setParameter('role', '%"' . $role . '"%');
+            ->where('u.role = :role')
+            ->setParameter('role', $role);
 
         if ($datePoint) {
             $builder->andWhere('u.createdAt = :date')

@@ -33,6 +33,7 @@ parameters:
             checkin: "checkin/"
             default: "default/"
     email_contact: "%env(EMAIL_CONTACT)%"
+    email_support: "%env(EMAIL_SUPPORT)%"
 
 services:
     # default configuration for services in *this* file
@@ -45,6 +46,7 @@ services:
             $stripeParameters: "%stripe_config%"
             $googleRecaptchaSkey: "%google_recaptcha_skey%"
             $emailContact: "%email_contact%"
+            $emailSupport: "%email_support%"
             $apiGouvConfig: "%api_gouv_config%"
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -9,12 +9,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CheckinType extends AbstractType
@@ -58,6 +59,7 @@ class CheckinType extends AbstractType
                     'required' => false
                 ]
             )
+            ->add('handleError', TextType::class)
             ->add('uploadedPictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
@@ -73,8 +75,21 @@ class CheckinType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'required' => false,
+                'required' => true,
             ]);
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event){
+            $checkin = $event->getData();
+            $form = $event->getForm();
+
+            if($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && !$checkin->getComments()) {
+                $form->get('comments')->addError(new FormError('Information requise.'));
+            }
+
+            if (!$checkin->uploadedPictures[1] instanceof UploadedFile && !$checkin->getPictures()->count()) {
+                $form->get('handleError')->addError(new FormError('Information requise.'));
+            }
+        });
     }
 
     /**
@@ -84,7 +99,7 @@ class CheckinType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Checkin::class,
+                'data_class' => Checkin::class
             ]
         );
     }

@@ -24,7 +24,7 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [ 67, 67 ], mode: outbound }
+                thumbnail: { size: [ 200, 200 ], mode: outbound, allow_upscale: true }
 
         ## home page filters
         home_slider:

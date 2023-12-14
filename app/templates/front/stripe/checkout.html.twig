@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="your-order mb-30 ">
-                        <h3>Votre réservation {{ transaction ? transaction.reference : '' }}</h3>
+                        <h3>Réservation {{ transaction ? transaction.reference : '' }}</h3>
                         <div class="your-order-table table-responsive">
                             <table>
                                 <thead>
@@ -97,7 +97,7 @@
                                 <tr class="cart-subtotal">
                                     <th></th>
                                     <th>Sous total HT</th>
-                                    <td><span class="amount">{{ carts.totalAmount - carts.totalTva - carts.totalFees }} €</span>
+                                    <td><span class="amount">{{ carts.totalAmount - carts.totalTva}} €</span>
                                     </td>
                                 </tr>
                                 <tr class="shipping">
@@ -119,10 +119,10 @@
                                 </tr>
                                 <tr class="shipping">
                                     <th></th>
-                                    <th data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Le montant des frais de service représente 10% du montant TTC.">
-                                        Dont frais de service
+                                    <th>
+                                        Frais de service
+                                        <i class="far fa-info-circle" style="color: #bc8246;" data-toggle="tooltip" data-placement="top"
+                                        title="Le montant des frais de service représente 10% du montant TTC."></i>
                                     </th>
                                     <td>
                                         <ul>
@@ -137,7 +137,7 @@
                                 <tr class="order-total">
                                     <th></th>
                                     <th>Total TTC</th>
-                                    <td><strong><span class="amount">{{ carts.totalAmount }} €</span></strong>
+                                    <td><strong><span class="amount">{{ (carts.totalAmount + carts.totalFees) }} €</span></strong>
                                     </td>
                                 </tr>
                                 </tfoot>

@@ -36,11 +36,10 @@ class ChatController extends AbstractController
         $receiverNotification = $user === $rented ? $lessor : $rented;
         $senderNotification = $user === $rented ? $rented : $lessor;
         if (!$messages) {
-            $support = $em->getRepository(User::class)->findOneBy(['roles' => User::ROLE_SUPPORT]);
-            $support1 = $em->getRepository(User::class)->findOneBy(['id' => 1]);
+            $support = $em->getRepository(User::class)->findOneBy(['role' => User::ROLE_SUPPORT]);
 
             $message = (new Message())
-                ->setAuthor($support ?: $support1)
+                ->setAuthor($support)
                 ->setReservation($reservation)
                 ->setMessage(
                     "Bienvenue dans votre chat. 

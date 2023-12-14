@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
@@ -64,7 +65,7 @@ class ProductType extends AbstractType
                     'purify_html' => true
                 ]
             )
-            ->add('errorFile', HiddenType::class, ['mapped' => false])
+            ->add('handleError', TextType::class)
             ->add('uploadedPictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
@@ -127,6 +128,17 @@ class ProductType extends AbstractType
 
                 ]
             );
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+            $product = $event->getData();
+            $form = $event->getForm();
+
+            if (!array_key_exists(1, $product->uploadedPictures) && !$product->getPictures()->count()) {
+                $form->get('handleError')->addError(new FormError('Information requise.'));
+            } elseif (!$product->uploadedPictures[1] instanceof UploadedFile && !$product->getPictures()->count()) {
+                $form->get('handleError')->addError(new FormError('Information requise.'));
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

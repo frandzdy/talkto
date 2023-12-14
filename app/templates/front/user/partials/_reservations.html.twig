@@ -1,6 +1,6 @@
 <div class="order__info">
     <div class="order__info-top d-flex justify-content-between align-items-center">
-        <h3 class="order__info-title"> {{ title }}</h3>
+        <h3 class="order__info-title">{{ title }}</h3>
     </div>
 
     <div class="order__list white-bg table-responsive">
@@ -17,11 +17,14 @@
             {% for reservation in results.results %}
                 <tr>
                     <td class="text-center order__id">
-                        <a href="{{ path('front_reservation_show', {'token': reservation.token}) }}" class="order__title">
+                        <a href="{{ path('front_reservation_show', {'token': reservation.token}) }}"
+                           class="order__title">
                             {{ reservation.transaction.reference }}
                         </a>
                     </td>
-                    <td class="text-center">{{ (reservation.transaction.totalAmountTtc / 100)|number_format(2, ',')|default(0) }} €</td>
+                    <td class="text-center">{{ ((reservation.transaction.totalAmountTtc + reservation.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }}
+                        €
+                    </td>
                     <td class="text-center">{{ reservation.status.label }}</td>
                     <td class="text-center">
                         <a href="{{ path('front_reservation_show', {'token': reservation.token}) }}"
@@ -29,6 +32,11 @@
                            data-lg-size="true"
                            data-modal-title="Réservation {{ reservation.transaction.reference }}"
                            title="Réservation {{ reservation.transaction.reference }}">Voir</a>
+                        {% if getInvoiceLink(reservation) %}
+                            <a href="{{ getInvoiceLink(reservation) }}"
+                               class="order__view-btn"
+                               title="Facture">Facture</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

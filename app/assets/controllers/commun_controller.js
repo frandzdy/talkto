@@ -18,7 +18,7 @@ export default class extends Controller {
     localisationDone = false;
 
     connect() {
-        $('[data-toggle="tooltip"]').tooltip();
+        this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
         this.initPlugins();
         this.updateWidgetCart();
@@ -293,18 +293,19 @@ export default class extends Controller {
                 $(this.modalTarget).find('.modal-title').html(title);
             }
             if (size === true) {
-                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg');
+                $(this.modalTarget).find('.modal-dialog').addClass('modal-lg')
             } else {
-                $(this.modalTarget).find('.modal-dialog').removeClass('modal-lg');
+                $(this.modalTarget).find('.modal-dialog').removeClass('modal-lg')
             }
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);
-            this.handleBsCustomInputFile($(this.modalTarget).find('[type="file"]'));
+            this.handleBsCustomInputFile($(this.modalTarget).find('[type="file"]'))
+            this.handleToolTips()
             $(this.modalTarget).find('.chat-history').animate({scrollTop: $(this.modalTarget).find('.chat-history').prop('scrollHeight')}, 500);
-            $(this.modalTarget).modal('show');
+            $(this.modalTarget).modal('show')
 
         }).fail((error) => {
-            toastr.error("Une erreur est survenue.");
+            toastr.error("Une erreur est survenue.")
         });
     }
 
@@ -317,20 +318,21 @@ export default class extends Controller {
     openProductModal(title, href, size) {
         $.get(href).done((response) => {
             if (title) {
-                $(this.modalProductTarget).find('.modal-title').html(title);
+                $(this.modalProductTarget).find('.modal-title').html(title)
             }
             if (size === true) {
-                $(this.modalProductTarget).find('.modal-dialog').addClass('modal-lg');
+                $(this.modalProductTarget).find('.modal-dialog').addClass('modal-lg')
             }
-            $(this.modalProductTarget).find('.wrapper').html(response);
-            this.handleModalForm(this.modalProductTarget);
-            this.handleBsCustomInputFile($(this.modalProductTarget).find('[type="file"]'));
+            $(this.modalProductTarget).find('.wrapper').html(response)
+            this.handleModalForm(this.modalProductTarget)
+            this.handleBsCustomInputFile($(this.modalProductTarget).find('[type="file"]'))
+            this.handleToolTips()
             $(this.modalProductTarget).modal({
                 focus: false
             })
-            $(this.modalProductTarget).modal('show');
+            $(this.modalProductTarget).modal('show')
         }).fail((error) => {
-            toastr.error("Une erreur est survenue.");
+            toastr.error("Une erreur est survenue.")
         });
     }
 
@@ -360,6 +362,9 @@ export default class extends Controller {
         });
     };
 
+    handleToolTips () {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
     /**
      * Permet de custom les input file bootstrap
      */

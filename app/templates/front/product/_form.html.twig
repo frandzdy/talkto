@@ -82,17 +82,15 @@
             <div class="profile__edit-input">
                 <button type="button" class="btn btn-primary btn-sm" title="Ajouter des photos à votre produit"
                         data-action="click->product#onFileAdd">
-                    Photos de votre produit <i class="fas fa-plus "></i>
+                    <i class="fas fa-plus"></i> Ajouter une image
                 </button>
-            </div>
-            <div class="profile__edit-input">
-                {{ form_errors(form.uploadedPictures) }}
+                {{ form_errors(form.handleError) }}
             </div>
             <div class="picture-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
                 {% for index, picture in form.vars.value.pictures %}
                     <div class="picture file-elt mt-1 mb-1 d-flex w-100">
                         <div class="w-100">
-                            <span>Photo produit(s) n° <span class="file-index d-none">{{ index }}</span></span>
+                            <span>Photo(s) n° <span class="file-index d-none">{{ index }}</span></span>
                             {{ picture.name }}
                         </div>
                         <button type="button" class="btn" data-action="click->product#onFileDelete"
@@ -107,6 +105,9 @@
             {% else %}
                 <button class="os-btn w-100" formnovalidate>Modifier</button>
             {% endif %}
+            <div class="d-none">
+                {{ form_rest(form) }}
+            </div>
             {{ form_end(form) }}
         </div>
     </div>

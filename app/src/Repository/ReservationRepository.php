@@ -81,22 +81,15 @@ class ReservationRepository extends ServiceEntityRepository
      */
     public function getAvailableProducts(string $token): array
     {
-        $maxDate = new DatePoint('+1 year');
+        $maxDate = (new DatePoint('+1 year'))->format('Y-m-d');
 
         return $this->createQueryBuilder('r')
             ->join('r.transaction', 't')
             ->join('t.transactionLines', 'tl')
             ->join('tl.product', 'p')
             ->where('p.token = :token')
-            ->andWhere('r.status IN (:reservationStatus)')
-            ->andWhere('tl.status IN (:transactionLineStatus)')
             ->andWhere('tl.endDate <= :endDate')
             ->setParameter('token', $token)
-            ->setParameter('reservationStatus', [ReservationStatus::PENDING->value, ReservationStatus::IN_PROGRESS->value])
-            ->setParameter(
-                'transactionLineStatus',
-                [TransactionLineStatus::WAITING->value, TransactionLineStatus::IN_PROGESS->value]
-            )
             ->setParameter('endDate', $maxDate)
             ->getQuery()
             ->getResult();

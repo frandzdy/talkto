@@ -41,7 +41,7 @@ class UserController extends AbstractController
             'products' => $userRepository->getProducts($user, 0)
         ];
 
-        if (in_array(User::ROLE_SELLER, $user->getRoles())) {
+        if (User::ROLE_SELLER === $user->getRole()) {
             $collections['rents'] = $userRepository->getRents($user, 0);
         }
         /**

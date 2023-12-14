@@ -1,0 +1,50 @@
+{% macro getAssetUrl(file) %}
+    {{ app.environment == "dev" ? ("http://thotem_nginx" ~ asset(file)) : absolute_url(asset(file)) }}
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Qualifelec Thotem{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+
+            <link href="{{ _self.getAssetUrl('build/app.css') }}" rel="stylesheet" />
+
+            <style>
+                * { background: white; }
+            </style>
+        {% endblock %}
+    </head>
+
+    <body>
+        <main class="main pdf-main" id="top">
+            {% block main %}
+            <div class="container" data-layout="container" data-commun-target="container">
+                <div class="content">
+                    {% block content %}
+                        <div class="row g-3 mb-3">
+                            <div class="col-lg-12">
+                                <div class="header-dashboard filterEdition d-print-none">
+                                    {% block contentTitle %}{% endblock %}
+                                </div>
+                                {% block body %}{% endblock %}
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+            {% endblock %}
+        </main>
+        {% block javascripts %}
+            {% for file in encore_entry_js_files("app") %}
+                <script src="{{ _self.getAssetUrl(file) }}" ></script>
+            {% endfor %}
+        {% endblock %}
+    </body>
+</html>

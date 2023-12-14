@@ -23,10 +23,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use TraitTimestamp;
     use TraitToken;
 
-    const ROLE_USER = 'ROLE_USER';
-    const ROLE_GUESS = 'ROLE_GUESS';
-    const ROLE_SELLER = 'ROLE_SELLER';
-    const ROLE_SUPPORT = 'ROLE_SUPPORT';
+    const ROLE_USER = 'ROLE_USER'; // customer
+    const ROLE_GUESS = 'ROLE_GUESS'; // guess
+    const ROLE_SELLER = 'ROLE_SELLER'; // lessor
+    const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,11 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Ses différents role dans l'application pour défaut ROLE_USER
-     *
-     * @ORM\Column(type="json")
      */
-    #[ORM\Column(type: Types::JSON)]
-    private ?array $roles = [];
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $role = null;
 
     /**
      * le nom de famille de l'utilisateur
@@ -238,19 +236,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string)$this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-
-        return array_unique($roles);
+        return $this->getRole() ? [$this->getRole()] : [];
     }
 
-    public function setRoles(array $roles): self
+    public function getRole(): ?string
     {
-        $this->roles = array_unique($roles);
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

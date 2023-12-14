@@ -13,6 +13,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Account;
 use Stripe\AccountLink;
+use Stripe\Charge;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
@@ -145,17 +146,30 @@ readonly class StripeManager
         } else {
             $customerId = $user->getStripeCustomerId();
         }
-
+        array_walk($cart['products'], function ($id, $product) {
+            dump($product);
+            dump($id);
+        });
+        die;
         return $this->stripe->paymentIntents->create(
             [
                 'amount' => $cart['totalAmount'] * 100,
-                'customer' => $customerId, // $customerId
+                'customer' => $customerId,
                 'currency' => 'eur',
                 'setup_future_usage' => 'off_session',
                 'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference(),
                 'receipt_email' => $user->getEmail(),
-                'description' => sprintf('Location Reented : Ref %s', $transaction->getReference())
+                'latest_charge' => 'expand',
+                'description' => vsprintf('Réf reented : %s', [$transaction->getReference()]),
+                'metadata' => array_walk($cart['products'], function ($id, $product) {
+                    return [
+                        'product' => $id,
+                        'productName' => $product['title'],
+                        'date' => $product['flatpickrDate'],
+                        'quantity' => $product['quantity'],
+                    ];
+                })
             ]
         );
     }
@@ -183,6 +197,13 @@ readonly class StripeManager
                     'destination' => $renter->getStripeAccountId(),
                     'source_transaction' => $paymentIntent->latest_charge,
                     'transfer_group' => $transaction->getReference(),
+                    'metadata' => [
+                        'product' => $product->getId(),
+                        'productName' => $product->getTitle(),
+                        'startDate' => $transactionLine->getStartDate()->format('Y-m-d'),
+                        'endDate' => $transactionLine->getEndDate()->format('Y-m-d'),
+                        'quantity' => $transactionLine->getQuantity()
+                    ]
                 ]
             );
             $transactionLine->setTransfertId($transfer->id);
@@ -267,6 +288,18 @@ readonly class StripeManager
     public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
     {
         return $this->stripe->paymentIntents->retrieve($paymenIntentId);
+    }
+
+    /**
+     * Retourne un paiement
+     */
+    public function retrieveCharge(?string $chargeId = null): ?Charge
+    {
+        if ($chargeId) {
+            return $this->stripe->charges->retrieve($chargeId);
+        }
+
+        return null;
     }
 
     /**
@@ -368,5 +401,15 @@ readonly class StripeManager
         }
 
         return $intent;
+    }
+
+    /**
+     * Retourne le lien de la facture
+     */
+    public function getInvoice(Transaction $transaction): ?string
+    {
+        return $this->retrieveCharge(
+            $this->retrievePaymentIntent($transaction->getPaymentIntentId())?->latest_charge
+        )?->receipt_url;
     }
 }

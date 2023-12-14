@@ -295,7 +295,7 @@
                             {% if lessor.picture is not null %}
                                 {% set pictureNameLessor = lessor.picture.name %}
                             {% endif %}
-                            {% set urlUserImageLessor = pictureNameLessor ? asset('uploads/profile_picture/' ~ pictureNameLessor)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
+                            {% set urlUserImageLessor = pictureNameLessor ? asset('uploads/profile_picture/' ~ pictureNameLessor)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
                             <img src="{{ urlUserImageLessor }}" alt="avatar">
                             <div class="about">
                                 <div class="name">{{ lessor.fullname|capitalize }}</div>
@@ -307,7 +307,7 @@
                             {% if rented.picture is not null %}
                                 {% set pictureNameRented = rented.picture.name %}
                             {% endif %}
-                            {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                            {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
                             <img src="{{ urlUserImageRented }}" alt="avatar">
                             <div class="about">
                                 <div class="name">{{ rented.fullname|capitalize }}</div>
@@ -324,7 +324,7 @@
                                 {% if user.picture is not null %}
                                     {% set userImage = user.picture.name %}
                                 {% endif %}
-                                {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
+                                {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
                                 <a href="javascript:void(0);" rel="nofollow" data-toggle="modal" data-target="#view_info">
                                     <img src="{{ urlUserImage }}" alt="avatar">
                                 </a>
@@ -359,11 +359,10 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                     {% if message.author.picture is not null %}
                                         {% set pictureName = message.author.picture.name %}
                                     {% endif %}
-                                    {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
+                                    {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
 
                                     {% if message.author.id is same as (user.id)
-                                        or message.author.roles[0] == constant('App\\Entity\\User::ROLE_SUPPORT')
-                                        or message.author.id == 1
+                                        or message.author.role is same as (constant('App\\Entity\\User::ROLE_SUPPORT'))
                                     %}
                                         <li class="clearfix">
                                             <div class="message-data pull-right">

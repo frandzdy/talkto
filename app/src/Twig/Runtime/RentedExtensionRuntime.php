@@ -2,9 +2,12 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Reservation;
 use App\Entity\User;
 use App\Enum\ProductCategory;
 use App\Repository\ClaimRepository;
+use App\Repository\ReservationRepository;
+use App\Service\StripeManager;
 use App\Service\UserManager;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -12,7 +15,9 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private UserManager $userManager,
-        private ClaimRepository $claimRepository
+        private ClaimRepository $claimRepository,
+        private ReservationRepository $reservationRepository,
+        private StripeManager $stripeManager
     ) {}
 
     /**
@@ -42,5 +47,10 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
             $lessor->getLat(),
             $lessor->getLon()
         );
+    }
+
+    public function getInvoiceLink(Reservation $reservation)
+    {
+        return $this->stripeManager->getInvoice($reservation->getTransaction());
     }
 }

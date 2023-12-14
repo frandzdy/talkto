@@ -68,16 +68,18 @@ class ProductReservationType extends AbstractType
             $date = explode('au', $array['date']);
 
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $options['token']]);
-            $transactionLines = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable(
+            $transactions = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable(
                 $product,
                 new DatePoint($date[0])
             );
             $totalReserved = 0;
-            if ($transactionLines) {
-                foreach ($transactionLines as $transactionLine) {
-                    $totalReserved = $transactionLine->getQuantity();
+            if ($transactions) {
+                foreach ($transactions as $transaction) {
+                    foreach ($transaction->getTransactionLines() as $transactionLine) {
+                        $totalReserved = $transactionLine->getQuantity();
+                    }
+                    $hasReservation = true;
                 }
-                $hasReservation = true;
             } else {
                 $hasReservation = false;
                 $totalReserved = $product->getQuantity();

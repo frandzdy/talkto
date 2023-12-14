@@ -53,12 +53,12 @@ class Checkin
         )
     )]
     public array $uploadedPictures = [];
+    public ?string $handleError = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotBlank(message: 'Information requise.')]
     private ?string $comments = null;
 
     #[ORM\Column]

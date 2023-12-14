@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="your-order mb-30 text-center">
-                    <h3>Réservation {{ reservation.transaction ? reservation.transaction.reference : '' }}</h3>
+                    <h3>Facture n° {{ reservation.transaction ? reservation.transaction.reference : '' }}</h3>
                     <div class="your-order-table table-responsive">
                         <table>
                             <thead>
@@ -14,7 +14,6 @@
                                 <th class="product-name">Qt.</th>
                                 <th class="product-name">Etat</th>
                                 <th class="product-total">Total</th>
-                                <th class="product-name">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,62 +48,6 @@
                                     <td class="product-total">
                                         <span class="amount">{{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }} €</span>
                                     </td>
-                                    <td class="product-name">
-                                        {% if transactionLine.status.value is not same as (constant('App\\Enum\\TransactionLineStatus::CANCELED').value) %}
-                                            {% if app.user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
-                                                {% if transactionLine.endDate|date('d/m/Y') <= "now"|date("d/m/Y")
-                                                    or transactionLine.status.value == constant('App\\Enum\\TransactionLineStatus::IN_PROGRESS').value %}
-                                                    <a class="profile__info-btn open-front-modal"
-                                                       data-modal-title="Réclamation"
-                                                       href="{{ path('front_claim_create', {'token': transactionLine.token}) }}"
-                                                       title="Faire une réclamation">
-                                                        Réclamation
-                                                    </a>
-                                                    <br>
-                                                {% endif %}
-                                            {% else %}
-                                                {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::IN'))|length == 0 %}
-                                                    <a class="profile__info-btn open-front-modal"
-                                                       href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
-                                                       title="Check-in"
-                                                       data-modal-title="Check-in">
-                                                        Check-in
-                                                    </a>
-                                                    <br>
-                                                {% endif %}
-                                                {% if transactionLine.endDate|date('d/m/Y') <=  "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::OUT'))|length == 0 %}
-                                                    <a class="profile__info-btn open-front-modal"
-                                                       href="{{ path('front_check_create', {'type': 'out', 'token': transactionLine.token}) }}"
-                                                       title="Check-out"
-                                                       data-modal-title="Check-out">
-                                                        Checkout
-                                                    </a>
-                                                    <br>
-                                                {% endif %}
-                                            {% endif %}
-                                            {% if transactionLine.canBeCancel %}
-                                                <a class="profile__info-btn post-confirm"
-                                                   data-button-text="Annuler"
-                                                   data-title="Annulation"
-                                                   data-confirm-message="Souhaitez-vous annuler cette réservation ?"
-                                                   href="{{ path('front_transaction_line_delete', {'token': transactionLine.token}) }}"
-                                                   title="Annuler votre réservation">Annulation</a>
-                                                <br>
-                                            {% endif %}
-                                            <a class="profile__info-btn open-front-modal" type="button"
-                                               data-lg-size="true"
-                                               href="{{ url('front_chat_index', {'token': reservation.token, 'transactionLineToken': transactionLine.token}, true) }}"
-                                               data-modal-title="Chat"
-                                               title="Chat">
-                                                Chat
-                                            </a>
-                                            {% if getInvoiceLink(reservation) %}
-                                                <a href="{{ getInvoiceLink(reservation) }}"
-                                                   class="profile__info-btn "
-                                                   title="Facture">Facture</a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -115,7 +58,6 @@
                                 <td>
                                     <span class="amount">{{ ((reservation.transaction.totalAmountTtc - reservation.transaction.totalAmountTva) / 100)|number_format(2, ',')|default(0) }} €</span>
                                 </td>
-                                <td></td>
                             </tr>
                             <tr class="shipping">
                                 <th colspan="3"></th>
@@ -129,7 +71,6 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td></td>
                             </tr>
                             <tr class="shipping">
                                 <th colspan="3"></th>
@@ -148,7 +89,6 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td></td>
                             </tr>
                             <tr class="order-total">
                                 <th colspan="3"></th>
@@ -160,7 +100,6 @@
                                         </span>
                                     </strong>
                                 </td>
-                                <td></td>
                             </tr>
                             </tfoot>
                         </table>

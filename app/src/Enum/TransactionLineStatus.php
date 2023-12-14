@@ -8,7 +8,7 @@ namespace App\Enum;
 enum TransactionLineStatus: int
 {
     case WAITING = 1;
-    case IN_PROGESS = 2;
+    case IN_PROGRESS = 2;
     case FINISHED = 3;
     case CANCELED = 4;
 
@@ -16,7 +16,7 @@ enum TransactionLineStatus: int
     {
         return [
             TransactionLineStatus::WAITING->value => 'En attente de réservation',
-            TransactionLineStatus::IN_PROGESS->value => 'Réservation en cours',
+            TransactionLineStatus::IN_PROGRESS->value => 'Réservation en cours',
             TransactionLineStatus::FINISHED->value => 'Réservation terminé',
             TransactionLineStatus::CANCELED->value => 'Réservation annulé',
         ];

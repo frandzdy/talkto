@@ -63,7 +63,7 @@ readonly class CheckManager
         }
         // si on a le type check in ou check out alors on indique qu'on a démarré la transactionLine
         if ($checkin->getType() === CheckinType::IN) {
-            $checkin->getTransactionLine()->setStatus(TransactionLineStatus::IN_PROGESS);
+            $checkin->getTransactionLine()->setStatus(TransactionLineStatus::IN_PROGRESS);
         } else {
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::FINISHED);
         }

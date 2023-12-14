@@ -20,7 +20,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     /**
      * Constructor.
      */
-    public function __construct(private UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(private readonly UserPasswordHasherInterface $passwordEncoder, private readonly string $emailSupport)
     {
     }
 
@@ -31,9 +31,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $country = $this->getReference(CountryFixtures::COUNTRY_FR);
         $user = new User();
-        $user->setEmail('support@yopmail.fr');
+        $user->setEmail($this->emailSupport);
         $user->setPassword($this->passwordEncoder->hashPassword($user, 'supportpass'));
-        $user->setRoles([User::ROLE_SUPPORT]);
+        $user->setRole(User::ROLE_SUPPORT);
         $user->setLastname("Reented")
             ->setFirstname('Support')
             ->setAddress('')

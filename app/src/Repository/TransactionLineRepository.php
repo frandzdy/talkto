@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Enum\ProductStatus;
+use App\Enum\TransactionLineStatus;
+use App\Enum\TransactionStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Clock\DatePoint;
@@ -107,7 +110,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->join('p.author', 'a')
             ->addSelect('a')
             ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
-            ->setParameter('dateNow', new DatePoint())
+            ->setParameter('dateNow', (new DatePoint())->format('Y-m-d'))
             ->andWhere('p.id = :productId')
             ->setParameter('productId', $product->getId());
 
@@ -123,14 +126,21 @@ class TransactionLineRepository extends ServiceEntityRepository
      */
     public function productCheckQuantityAvailable(Product $product, DatePoint $startDate): array
     {
-        return $this->createQueryBuilder('tl')
-            ->select('tl')
+        return $this->getEntityManager()->getRepository(Transaction::class)
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->join('t.transactionLines', 'tl')
+            ->addSelect('tl')
             ->join('tl.product', 'p')
             ->addSelect('p')
             ->where('tl.startDate <= :date AND tl.endDate >= :date')
-            ->setParameter('date', $startDate)
+            ->setParameter('date', $startDate->format('Y-m-d'))
+            ->andWhere('t.status IN (:transactionStatus)')
+            ->andWhere('tl.status IN (:transactionLineStatus)')
             ->andWhere('p.id = :product')
             ->setParameter('product', $product->getId())
+            ->setParameter('transactionStatus', [TransactionStatus::WAITING->value, TransactionStatus::VALIDATE->value])
+            ->setParameter('transactionLineStatus', TransactionLineStatus::IN_PROGRESS->value)
             ->getQuery()
             ->getResult();
     }
