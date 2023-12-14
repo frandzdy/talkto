@@ -20,33 +20,34 @@ export default class extends Controller {
     connect() {
         this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
-        this.initPlugins();
-        this.updateWidgetCart();
+        this.initPlugins()
+        this.updateWidgetCart()
+        this.seoAnchor()
 
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
-                event.preventDefault();
-                const item = $(event.currentTarget);
-                const href = item.attr('href');
-                const title = item.data('modal-title');
-                const size = item.data('lg-size');
-                $(this.modalTarget).modal('hide');
-                $(this.modalProductTarget).modal('hide');
-                this.openModal(title, href, size);
+                event.preventDefault()
+                const item = $(event.currentTarget)
+                const href = item.attr('href')
+                const title = item.data('modal-title')
+                const size = item.data('lg-size')
+                $(this.modalTarget).modal('hide')
+                $(this.modalProductTarget).modal('hide')
+                this.openModal(title, href, size)
             })
             .on('click', 'a.open-product-modal', (event) => {
-                event.preventDefault();
-                const item = $(event.currentTarget);
-                const href = item.attr('href');
-                const title = item.data('modal-title');
-                const size = item.data('lg-size');
+                event.preventDefault()
+                const item = $(event.currentTarget)
+                const href = item.attr('href')
+                const title = item.data('modal-title')
+                const size = item.data('lg-size')
 
-                this.openProductModal(title, href, size);
+                this.openProductModal(title, href, size)
             })
             .on('click', 'a.post-confirm', (event) => {
                 // Liens d'actions avec confirmation
-                event.preventDefault();
-                const item = $(event.currentTarget);
+                event.preventDefault()
+                const item = $(event.currentTarget)
                 $.confirm({
                     title: item.data('title'),
                     content: item.data('confirm-message'),
@@ -64,12 +65,12 @@ export default class extends Controller {
                             text: "Annuler"
                         }
                     }
-                });
+                })
             })
             .on('click', 'a.post-confirm-product', (event) => {
                 // Liens d'actions avec confirmation
-                event.preventDefault();
-                const item = $(event.currentTarget);
+                event.preventDefault()
+                const item = $(event.currentTarget)
                 $.confirm({
                     title: item.data('title'),
                     content: item.data('confirm-message'),
@@ -90,37 +91,43 @@ export default class extends Controller {
                 });
             })
             .on('click', 'a.add-product-cart', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                $("#productForm").submit();
+                event.preventDefault()
+                event.stopPropagation()
+                $("#productForm").submit()
             })
             .on('click', 'div.update-product-cart-minus', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                this.updateCart();
+                event.preventDefault()
+                event.stopPropagation()
+                this.updateCart()
             })
             .on('click', 'div.update-product-cart-plus', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                this.updateCart();
+                event.preventDefault()
+                event.stopPropagation()
+                this.updateCart()
             })
             .on('blur', 'input.reservation-date', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                this.updateCart();
+                event.preventDefault()
+                event.stopPropagation()
+                this.updateCart()
             })
             .on('click', 'a.update-cart', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                this.submitUpdateCart(event);
-                this.updateWidgetCart();
+                event.preventDefault()
+                event.stopPropagation()
+                this.submitUpdateCart(event)
+                this.updateWidgetCart()
             })
-            .on('click', 'a.checkout-login', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                this.login();
-            });
+    }
 
+    seoAnchor(){
+        // Add click event listener to all anchor elements
+        $('a').click((event) => {
+            // Check if the anchor has the 'rel' attribute
+            const relAttributeValue = $(event.currentTarget).attr('rel');
+            if (relAttributeValue) {
+                // Prevent default behavior for anchors with the 'rel' attribute
+                event.preventDefault();
+            }
+        });
     }
 
     updateCart() {
