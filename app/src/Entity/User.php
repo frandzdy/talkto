@@ -126,12 +126,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\Image(
         maxSize: '10M',
+        mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
         detectCorrupted: true,
-        maxSizeMessage: "Document trop lourd.",
-        mimeTypesMessage: "Format Image uniquement autorisé.",
+        maxSizeMessage: "Document trop lourd. (10Mo)",
+        mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
         corruptedMessage: 'Fichier corrompue'
     )]
-    private ?UploadedFile $uploadPicture = null;
+    public ?UploadedFile $uploadPicture = null;
 
     /**
      * A propos de l'utilisateur [SELLER]

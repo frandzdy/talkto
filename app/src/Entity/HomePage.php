@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\Back\WebsiteContentType;
 use App\Repository\HomePageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +17,10 @@ class HomePage
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: WebsiteContent::class, cascade: ['persist'])]
+    #[Assert\Valid()]
+    private Collection $websiteContents;
 
     #[ORM\ManyToOne(targetEntity: Product::class)]
     private ?Product $sliders1 = null;
@@ -152,5 +157,40 @@ class HomePage
     public function setMids3(?Product $mids3): void
     {
         $this->mids3 = $mids3;
+    }
+
+    public function __construct()
+    {
+        $this->websiteContents = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|WebsiteContent[]
+     */
+    public function getWebsiteContents(): Collection
+    {
+        return $this->websiteContents;
+    }
+
+    public function addWebsiteContent(WebsiteContent $websiteContent): self
+    {
+        if (!$this->websiteContents->contains($websiteContent)) {
+            $this->websiteContents[] = $websiteContent;
+            $websiteContent->setHomepage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWebsiteContent(WebsiteContent $websiteContent): self
+    {
+        if ($this->websiteContents->removeElement($websiteContent)) {
+            // set the owning side to null (unless already changed)
+            if ($websiteContent->getHomepage() === $this) {
+                $websiteContent->setHomepage(null);
+            }
+        }
+
+        return $this;
     }
 }

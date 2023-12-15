@@ -29,3 +29,7 @@
         {% endif %}
     {% endif %}
 {% endblock form_errors %}
+
+{% block WebsiteContent_widget %}
+    {{ form(form.children.title) }}
+{% endblock %}

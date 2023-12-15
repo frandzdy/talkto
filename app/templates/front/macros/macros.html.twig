@@ -23,13 +23,20 @@
     </div>
 {% endmacro %}
 
-{% macro fileField(formField, action) %}
-    <div class="picture file-elt d-flex w-100">
+{% macro websiteContentField(formField) %}
+    <div class="col-4">
         <div class="w-100">
-            {{ form_widget(formField) }}
+            {{ form_row(formField.children.title) }}
         </div>
-        <button type="button" class="btn" data-action="{{ action }}">
-            <i class="fa far fa-trash-alt text-danger"></i>
-        </button>
+        <div class="w-100">
+            {{ form_row(formField.children.subTitle) }}
+        </div>
+        <div class="w-100">
+            {{ form_row(formField.children.link) }}
+        </div>
+        <div class="w-100">
+            {{ dump(formField.picture) }}
+            {{ form_row(formField.children.uploadedPicture) }}
+        </div>
     </div>
 {% endmacro %}

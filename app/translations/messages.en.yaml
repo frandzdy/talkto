@@ -5,3 +5,13 @@ meta:
     and outdoor items from trustworthy individuals in your neighborhood. Embracing a collaborative economy,
     Reented offers a seamless local rental experience, featuring a diverse range of products easily accessible nearby.
     Join us today to enjoy hassle-free rentals and contribute to a vibrant sharing community!"
+
+# traduction pour le select du back office
+front_user_new: 'Renter account'
+front_seller_new: 'Lessor account'
+front_aboutus: 'About us'
+
+# HTML Traduction
+-- Sélectionner --: '-- Select --'
+Bonjour: 'Hey'CX: 'Required information'
+Fichier (10Mo): 'File (10Mo)'

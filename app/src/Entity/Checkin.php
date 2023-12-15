@@ -46,9 +46,10 @@ class Checkin
     #[Assert\All(
         new Assert\Image(
             maxSize: '10M',
+            mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
             detectCorrupted: true,
-            maxSizeMessage: "Document trop lourd.",
-            mimeTypesMessage: "Format Image uniquement autorisé.",
+            maxSizeMessage: "Document trop lourd. (10Mo)",
+            mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
             corruptedMessage: 'Fichier corrompue.'
         )
     )]
@@ -64,7 +65,10 @@ class Checkin
     #[ORM\Column]
     private \DateTime $startDate;
 
-    #[ORM\OneToMany(mappedBy: 'checkin', targetEntity: Claim::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'checkin', targetEntity: Claim::class, cascade: [
+        'persist',
+        'remove'
+    ], orphanRemoval: true)]
     private Collection $claims;
 
     public function __construct()

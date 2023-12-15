@@ -44,18 +44,20 @@
         <!-- side-mobile-menu start -->
         <nav class="side-mobile-menu d-block d-lg-none">
             <ul id="mobile-menu-active">
-                <li class="has-dropdown">
-                    <a href="#" rel="nofollow">Catégories</a>
+                <li class="active has-dropdown">
+                    <a class="has-arrow" href="#" rel="nofollow">Catégories</a>
                     <ul class="submenu transition-3">
                         {% for index, category in getProductCategories() %}
                             <li>
-                                <a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a>
+                                <a href="{{ path('front_product_category', {'productCategory': index}) }}" title="{{ category }}">
+                                    {{ category }}
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
                 </li>
-                <li><a href="{{ path('front_user_new') }}" title="À propos de nous">Locataire</a></li>
-                <li><a href="{{ path('front_seller_new') }}" title="Contactez-nous">Bailleur</a></li>
+                <li><a href="{{ path('front_user_new') }}" title="Locataire">Locataire</a></li>
+                <li><a href="{{ path('front_seller_new') }}" title="Bailleur">Bailleur</a></li>
             </ul>
         </nav>
         <!-- side-mobile-menu end -->

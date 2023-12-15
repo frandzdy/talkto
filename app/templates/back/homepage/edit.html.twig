@@ -19,6 +19,21 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Sliders</h4>
                     <button type="button" class="btn btn-primary btn-sm"
+                            title="Ajouter des slides"
+                            data-action="click->back-homepage#onWebsiteContentsAdd">
+                        <i class="fas fa-plus "></i> Ajouter
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="row col-12  websiteContent-collection" data-prototype="{{ macros.websiteContentField(form.websiteContents.vars.prototype)|e }}">
+                        {% for index, websiteContentForm in form.websiteContents %}
+                            {{ macros.websiteContentField(websiteContentForm) }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">Sliders</h4>
+                    <button type="button" class="btn btn-primary btn-sm"
                             title="Ajouter des produits au slider"
                             data-action="click->back-homepage#onSlidersAdd">
                         <i class="fas fa-plus "></i> Ajouter
@@ -44,7 +59,7 @@
                     <h4 class="panel-title">Under Sliders</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             data-action="click->back-homepage#onUnderSlidersAdd">
-                         <i class="fas fa-plus "></i> Ajouter
+                        <i class="fas fa-plus "></i> Ajouter
                     </button>
                 </div>
                 <div class="panel-body">
@@ -67,7 +82,7 @@
                     <h4 class="panel-title">Mids</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             data-action="click->back-homepage#onMidsAdd">
-                         <i class="fas fa-plus "></i> Ajouter
+                        <i class="fas fa-plus "></i> Ajouter
                     </button>
                 </div>
                 <div class="panel-body">

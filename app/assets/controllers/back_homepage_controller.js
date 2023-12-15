@@ -6,6 +6,14 @@ export default class extends Controller {
 
     }
 
+    onWebsiteContentsAdd(event) {
+        const collectionHolder = $('.websiteContent-collection');
+        const listIndex = collectionHolder.children().length + 1;
+        if (listIndex <= 3) {
+            collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
+        }
+    }
+
     onSlidersAdd(event) {
         const collectionHolder = $('.sliders-collection');
         const listIndex = collectionHolder.children().length + 1;

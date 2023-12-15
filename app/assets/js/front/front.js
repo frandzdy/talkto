@@ -51,7 +51,7 @@ require('../../js/front/pages/product')
 
 require('./services/vendor/modernizr-3.5.0.min.js')
 require('./services/vendor/jquery-3.6.0.min.js')
-require('./services/vendor/waypoints.min.js')
+//require('./services/vendor/waypoints.min.js')
 require('./services/bootstrap.bundle.min.js')
 require('./services/metisMenu.min.js')
 import 'slick-carousel'
@@ -59,7 +59,6 @@ require('./services/jquery.fancybox.min.js')
 require('./services/isotope.pkgd.min.js')
 require('./services/owl.carousel.min.js')
 require('./services/jquery-ui.min.js')
-import 'jquery-ui-touch-punch'
 
 import '@stripe/stripe-js';
 

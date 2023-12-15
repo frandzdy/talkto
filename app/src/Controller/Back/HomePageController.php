@@ -18,14 +18,19 @@ class HomePageController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
         $homePage = $em->getRepository(HomePage::class)->findOneBy(['id' => 1]);
-
+        $options = [
+            'validation_groups' => ['edition']
+        ];
         if (!$homePage) {
             $homePage = (new HomePage())->setLabel('Homepage création');
             $em->persist($homePage);
             $em->flush();
+            $options = [
+                'validation_groups' => ['creation']
+            ];
         }
 
-        $form = $this->createForm(HomePageType::class, $homePage);
+        $form = $this->createForm(HomePageType::class, $homePage, $options);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'Enregistrement effectué.');

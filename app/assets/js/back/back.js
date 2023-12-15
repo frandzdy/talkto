@@ -29,7 +29,6 @@ import bsCustomFileInput from "bs-custom-file-input"
 global.bsCustomFile = bsCustomFileInput
 
 require('./../front/services/jquery-ui.min.js')
-import 'jquery-ui-touch-punch'
 
 require('./../front/services/bootstrap.bundle.min.js')
 require('jquery-slimscroll');
