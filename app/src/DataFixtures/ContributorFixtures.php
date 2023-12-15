@@ -8,29 +8,30 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Intialisation d'un admin en back
+ * Initialisation d'un admin en back
  *
- * // implements DependentFixtureInterface
  */
 class ContributorFixtures extends Fixture
 {
     /**
      * Constructor.
      */
-    public function __construct(private UserPasswordHasherInterface $passwordEncoder)
-    {
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordEncoder,
+        private readonly string $emailAdmin
+    ) {
     }
 
     /**
      * <@inheritDoc>
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $contributor = new Contributor();
-        $contributor->setEmail('zz_rented@yopmail.fr');
+        $contributor->setEmail($this->emailAdmin);
         $contributor->setPassword($this->passwordEncoder->hashPassword($contributor, 'contributorpass'));
         $contributor->setRole(Contributor::ROLE_SUPER_ADMIN);
-        $contributor->setFullname("Super Administrateur");
+        $contributor->setFullname("Frandzdy Sanon");
 
         $manager->persist($contributor);
 

@@ -5,14 +5,15 @@ namespace App\Controller\Front;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 # Authentification du Front
 #[Route("/", name: "")]
+#[Cache(maxage: '3600')]
 class AuthController extends AbstractController
 {
-    # Authentification du Front
     #[Route("login", name: "login")]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -31,9 +32,9 @@ class AuthController extends AbstractController
             ]
         );
     }
+
     #[Route("deconnexion", name: "logout")]
     public function logout()
     {
-
     }
 }

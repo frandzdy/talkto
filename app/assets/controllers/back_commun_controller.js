@@ -1,16 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
-import bsCustomFileInput from "bs-custom-file-input";
-import $ from "jquery";
 
-/*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="hello" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- * hello_controller.js -> "hello"
- *
- * Delete this file or adapt it for your use!
- */
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['container', 'modal'];
     connect() {
@@ -218,7 +208,7 @@ export default class extends Controller {
 
     handleBsCustomFileInput(container) {
         if ($(container)) {
-            bsCustomFileInput.init();
+            bsCustomFile.init();
             $(container).change(function () {
                 var fieldVal = $(this).val();
                 if (fieldVal != undefined || fieldVal != "") {

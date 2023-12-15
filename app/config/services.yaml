@@ -32,7 +32,7 @@ parameters:
             product_picture: "product_picture/"
             checkin: "checkin/"
             default: "default/"
-    email_contact: "%env(EMAIL_CONTACT)%"
+    email_admin: "%env(EMAIL_ADMIN)%"
     email_support: "%env(EMAIL_SUPPORT)%"
 
 services:
@@ -45,7 +45,7 @@ services:
             $fileUploadParameters: "%file_uploader_config%"
             $stripeParameters: "%stripe_config%"
             $googleRecaptchaSkey: "%google_recaptcha_skey%"
-            $emailContact: "%email_contact%"
+            $emailAdmin: "%email_admin%"
             $emailSupport: "%email_support%"
             $apiGouvConfig: "%api_gouv_config%"
     # makes classes in src/ available to be used as services

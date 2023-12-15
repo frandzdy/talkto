@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductReservationType extends AbstractType
 {
-    public function __construct(private EntityManagerInterface $em, private Security $security)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly Security $security)
     {
     }
 
@@ -27,7 +27,8 @@ class ProductReservationType extends AbstractType
         $user = $this->security->getUser();
         $builder
             ->add(
-                'date', TextType::class,
+                'date',
+                TextType::class,
                 [
                     'label' => false,
                     'attr' =>
@@ -42,7 +43,8 @@ class ProductReservationType extends AbstractType
                     'required' => true
                 ]
             )->add(
-                'quantity', ChoiceType::class,
+                'quantity',
+                ChoiceType::class,
                 [
                     'label' => false,
                     'placeholder' => '-- Sélectionnez une quantité --',
@@ -106,7 +108,8 @@ class ProductReservationType extends AbstractType
 
             $form->remove('quantity')
                 ->add(
-                    'quantity', ChoiceType::class,
+                    'quantity',
+                    ChoiceType::class,
                     [
                         'label' => false,
                         'placeholder' => '-- Sélectionnez une quantité --',

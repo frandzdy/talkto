@@ -12,12 +12,13 @@ use Doctrine\ORM\Events;
 readonly class PictureListener
 {
     public function __construct(private FileUploadManager $fileUploadManager)
-    {}
+    {
+    }
 
     /**
      * Supprime les images sur le disque avant la suppression
      */
-    public function preRemove(Picture $picture, PreRemoveEventArgs $event)
+    public function preRemove(Picture $picture, PreRemoveEventArgs $event): void
     {
         if ($this->fileUploadManager->getFileContent('product', $picture->getName())) {
             $this->fileUploadManager->removeFile('product_picture', $picture->getName());

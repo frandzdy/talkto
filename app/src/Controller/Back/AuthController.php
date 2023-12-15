@@ -2,26 +2,9 @@
 
 namespace App\Controller\Back;
 
-use App\Entity\CustomerAccount;
-use App\Entity\User;
-use App\Form\Type\Front\CustomerAccountCreationType;
-use App\Form\Type\Front\EmailRessettingPasswordType;
-use App\Form\Type\Front\RessettingPasswordType;
-use App\Repository\CustomerAccountRepository;
-use App\Repository\UserRepository;
-use App\Security\FrontAuthenticator;
-use App\Service\MailerManager;
-use App\Service\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
@@ -55,6 +38,5 @@ class AuthController extends AbstractController
     #[Route("deconnexion", name: "logout")]
     public function logout()
     {
-
     }
 }

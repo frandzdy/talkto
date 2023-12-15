@@ -12,10 +12,11 @@ use Doctrine\Persistence\ObjectManager;
 class CountryFixtures extends Fixture
 {
     public const COUNTRY_FR = 'country-fr';
+
     /**
      * <@inheritDoc>
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $countryLabels = [
             "FR" => "France",

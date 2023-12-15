@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,7 @@ trait TraitAuthor
      * @var
      */
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name:"author_id", referencedColumnName:"id")]
+    #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id")]
     private User $author;
 
     /**

@@ -20,14 +20,16 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     /**
      * Constructor.
      */
-    public function __construct(private readonly UserPasswordHasherInterface $passwordEncoder, private readonly string $emailSupport)
-    {
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordEncoder,
+        private readonly string $emailSupport
+    ) {
     }
 
     /**
      * <@inheritDoc>
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $country = $this->getReference(CountryFixtures::COUNTRY_FR);
         $user = new User();

@@ -21,7 +21,8 @@ class ProductReviewType extends AbstractType
         $builder
             ->add('note', HiddenType::class)
             ->add(
-                'message', TextareaType::class,
+                'message',
+                TextareaType::class,
                 [
                     'label' => false,
                     'attr' =>

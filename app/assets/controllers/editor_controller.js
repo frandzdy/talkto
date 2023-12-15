@@ -28,6 +28,8 @@ import RemoveFormat from "@ckeditor/ckeditor5-remove-format/src/removeformat";
  * utiliser le data-controller="editor"
  *
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     connect() {
         ClassicEditor

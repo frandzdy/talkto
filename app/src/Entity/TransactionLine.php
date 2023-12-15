@@ -96,7 +96,10 @@ class TransactionLine
     #[ORM\Column(length: 11, nullable: true)]
     private ?string $cautionAmount = null;
 
-    #[ORM\OneToMany(mappedBy: 'transactionLine', targetEntity: Checkin::class, cascade: ['remove', 'persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'transactionLine', targetEntity: Checkin::class, cascade: [
+        'remove',
+        'persist'
+    ], orphanRemoval: true)]
     private Collection $checkins;
 
     public function getId(): ?int
@@ -281,6 +284,7 @@ class TransactionLine
 
     /**
      * Check si on peut annuler une réservation
+     *
      * @return bool
      */
     public function canBeCancel(): bool
@@ -334,7 +338,7 @@ class TransactionLine
     public function getCheck(CheckinType $checkinStatus): ?Collection
     {
         return $this->getCheckins()->filter(
-            function(Checkin $checkin) use ($checkinStatus) {
+            function (Checkin $checkin) use ($checkinStatus) {
                 return $checkin->getType() === $checkinStatus;
             }
         );

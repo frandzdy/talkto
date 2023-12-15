@@ -5,6 +5,8 @@ import {French} from 'flatpickr/dist/l10n/fr'
 /**
  * Gestion des datepickers
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     /**
      * Initialise le datepicker

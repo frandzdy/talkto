@@ -5,17 +5,15 @@ namespace App\Controller\Front;
 use App\Entity\HomePage;
 use App\Entity\Product;
 use App\Entity\TransactionLine;
-use App\Enum\ProductCategory;
-use App\Repository\UserRepository;
 use App\Service\SiteMapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Cache(maxage: 3600)]
 class HomeController extends AbstractController
 {
     public const HOME_PAGE_ID = 1;
@@ -38,7 +36,7 @@ class HomeController extends AbstractController
     /**
      * Génère le sitemap du site.
      */
-    #[Route('//sitemap.{_format}', name: 'sitemap', requirements: ['_format'=> 'xml'])]
+    #[Route('/sitemap.{_format}', name: 'sitemap', requirements: ['_format'=> 'xml'])]
     public function siteMap(SiteMapManager $siteMapManager)
     {
         return $this->render(

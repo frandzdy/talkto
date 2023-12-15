@@ -28,11 +28,11 @@ class HomePageController extends AbstractController
         $form = $this->createForm(HomePageType::class, $homePage);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-        $this->addFlash('success', 'Enregistrement effectué.');
-        $em->flush();
+            $this->addFlash('success', 'Enregistrement effectué.');
+            $em->flush();
 
-        return $this->redirectToRoute('back_homepage_edit');
-    }
+            return $this->redirectToRoute('back_homepage_edit');
+        }
 
         return $this->render('back/homepage/edit.html.twig', ['form' => $form]);
     }

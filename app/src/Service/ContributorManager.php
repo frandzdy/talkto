@@ -6,9 +6,6 @@ use App\Entity\Contributor;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/**
- * Gestionnaire d'utilisateurs BO
- */
 readonly class ContributorManager
 {
     /**

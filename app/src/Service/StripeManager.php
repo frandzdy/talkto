@@ -9,7 +9,6 @@ use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\TransactionLineStatus;
 use App\Enum\TransactionStatus;
-use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Account;
 use Stripe\AccountLink;

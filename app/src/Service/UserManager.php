@@ -24,7 +24,8 @@ readonly class UserManager
         private AdresseApi $adresseApi,
         private UserPasswordHasherInterface $passwordHasher,
         private MailerManager $mailer
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne un user prêt pour la création soit byer soit seller
@@ -73,13 +74,11 @@ readonly class UserManager
         if (!$user->getStripeCustomerId() && (User::ROLE_USER === $user->getRole())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
-
         } elseif (!$user->getStripeAccountId() && User::ROLE_SELLER === $user->getRole()) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
             $account = $this->stripeManager->createAccount($user);
             $user->setStripeAccountId($account->id);
-
         }
         $this->checkCoord($user);
         $this->entityManager->flush();

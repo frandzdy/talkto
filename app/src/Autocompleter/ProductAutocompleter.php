@@ -14,8 +14,10 @@ use Symfony\UX\Autocomplete\EntityAutocompleterInterface;
 #[AutoconfigureTag('ux.entity_autocompleter', ['alias' => 'product'])]
 class ProductAutocompleter implements EntityAutocompleterInterface
 {
-    public function __construct(private \Symfony\Bundle\SecurityBundle\Security $security, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private readonly Security $security,
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     public function getEntityClass(): string
@@ -76,13 +78,14 @@ class ProductAutocompleter implements EntityAutocompleterInterface
         return $entity[0]->getToken();
     }
 
+    // see the "security" option for details
     public function isGranted(Security $security): bool
     {
-        // see the "security" option for details
         return true;
     }
 
-    public function getGroupBy(): mixed {
+    public function getGroupBy(): mixed
+    {
         return null;
     }
 }

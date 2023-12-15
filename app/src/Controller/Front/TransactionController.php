@@ -39,7 +39,6 @@ class TransactionController extends AbstractController
         $refund = $stripeManager->refundTransactionLine($transactionLine);
 
         if ($refund->status === 'failed') {
-
             $this->addFlash('error', 'Veuillez contrôler vos informations bancaire.');
         } else {
             $transactionLine->setStatus(TransactionLineStatus::CANCELED);

@@ -128,7 +128,6 @@ class CartController extends AbstractController
                 if (str_contains($flatpickrDate, 'au')) {
                     $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
                     $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
-
                 } else {
                     $startDate = new \DateTimeImmutable($flatpickrDate);
                     $endDate = $startDate;
@@ -136,7 +135,9 @@ class CartController extends AbstractController
                 $carts['products'][$token]['flatpickrDate'] = $flatpickrDate;
                 $carts['products'][$token]['startDate'] = $startDate->format('d/m/Y');
                 $carts['products'][$token]['endDate'] = $endDate->format('d/m/Y');
-                $carts['products'][$token]['numberDays'] = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+                $carts['products'][$token]['numberDays'] = $startDate->diff(
+                    $endDate
+                )->days === 0 ? 1 : $startDate->diff($endDate)->days;
                 $newPrice = (int)$carts['products'][$token]['price']
                     * (int)$carts['products'][$token]['quantity']
                     * (int)$carts['products'][$token]['numberDays'];

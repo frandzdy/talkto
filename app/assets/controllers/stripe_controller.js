@@ -1,11 +1,11 @@
 import {Controller} from '@hotwired/stimulus';
-import $ from "jquery";
-import 'toastr'
 import {loadStripe} from '@stripe/stripe-js';
 
 /**
  * Gestion des paiements
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     rentedPolicyCheckbox = $('#rented-policy')
     cautionCheckbox = $('#caution-policy')

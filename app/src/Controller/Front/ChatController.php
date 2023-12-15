@@ -2,7 +2,6 @@
 
 namespace App\Controller\Front;
 
-
 use App\Entity\Message;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;

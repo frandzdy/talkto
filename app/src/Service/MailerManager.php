@@ -10,9 +10,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
 
-/**
- * Gestionnaire des envois de mails de l'application
- */
 readonly class MailerManager
 {
     /**
@@ -21,7 +18,7 @@ readonly class MailerManager
     public function __construct(
         private MailerInterface $mailer,
         private Environment $environment,
-        private LoggerInterface $logger
+        private LoggerInterface $emailLogger
     ) {
     }
 
@@ -77,7 +74,12 @@ readonly class MailerManager
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            $this->logger->error(sprintf("Erreur lors de l'envoi du mail : %s", $e->getMessage()));
+            $this->emailLogger->error('[EMAIL] Erreur lors de l\'envoie : ', [
+                    'to' => $to,
+                    'subject' => $subject,
+                    'message' => $e->getMessage()
+                ]
+            );
         }
     }
 }

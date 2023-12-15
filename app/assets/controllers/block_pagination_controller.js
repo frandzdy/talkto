@@ -3,6 +3,8 @@ import {Controller} from '@hotwired/stimulus';
 /**
  * Pagination par fleche des blocs sur les fiches
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     /**
      * Page précédente

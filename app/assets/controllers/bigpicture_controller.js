@@ -4,6 +4,8 @@ import BigPicture from "bigpicture";
 /**
  * Gestion du plugin bigpicture
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     /**
      * Initialise le plugin bigpicture

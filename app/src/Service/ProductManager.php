@@ -17,10 +17,11 @@ readonly class ProductManager
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private FileUploadManager      $fileUploadManager,
+        private FileUploadManager $fileUploadManager,
         private LoggerInterface $logger,
         private ReservationRepository $reservationRepository
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne un user prêt pour la création soit locataire, soit bailleur
@@ -30,8 +31,7 @@ readonly class ProductManager
         return (new Product())
             ->setAuthor($user)
             ->setStatus(ProductStatus::WAITING)
-            ->setQuantityAllReadyReserved(0)
-        ;
+            ->setQuantityAllReadyReserved(0);
     }
 
     /**
@@ -58,7 +58,7 @@ readonly class ProductManager
         }
 
         $this->em->flush();
-        
+
         return true;
     }
 
@@ -87,6 +87,7 @@ readonly class ProductManager
     {
         $this->em->flush();
     }
+
     /**
      * Supprime un produit
      */
@@ -102,11 +103,7 @@ readonly class ProductManager
     }
 
     /**
-     * @param array $cart
-     * @param mixed $flatpickrDate
-     * @param Product|null $product
-     * @param mixed $quantity
-     * @return array
+     * Ajoute un produit au panier
      */
     public function addProductToCart(array $cart, mixed $flatpickrDate, ?Product $product, mixed $quantity): array
     {
@@ -114,11 +111,10 @@ readonly class ProductManager
         $totalAmount = 0;
 
         if (str_contains($flatpickrDate, 'au')) {
-            $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
-            $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
-
+            $startDate = new \DateTime(trim(explode('au', $flatpickrDate)[0]));
+            $endDate = new \DateTime(trim(explode('au', $flatpickrDate)[1]));
         } else {
-            $startDate = new \DateTimeImmutable($flatpickrDate);
+            $startDate = new \DateTime($flatpickrDate);
             $endDate = $startDate;
         }
         $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;

@@ -2,14 +2,12 @@
 
 namespace App\Controller\Front;
 
-
 use App\Entity\Checkin;
 use App\Entity\Reservation;
 use App\Entity\TransactionLine;
 use App\Enum\CheckinType as CheckinTypeEnum;
 use App\Form\Front\CheckinType;
 use App\Service\CheckManager;
-use App\Service\MailerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

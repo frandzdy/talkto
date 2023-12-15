@@ -23,7 +23,8 @@ readonly class CheckManager
         private EntityManagerInterface $entityManager,
         private FileUploadManager $fileUploadManager,
         private MailerManager $mailerManager
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne un check in ou out
@@ -33,8 +34,7 @@ readonly class CheckManager
         return (new Checkin())
             ->setType($type === 'in' ? CheckinType::IN : CheckinType::OUT)
             ->setTransactionLine($transactionLine)
-            ->setAuthor($user)
-        ;
+            ->setAuthor($user);
     }
 
     /**
@@ -54,17 +54,18 @@ readonly class CheckManager
             }
         }
 
-        if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING) {
-            // créer une réclamation pour le back office
-            $claim = (new Claim())
-                ->setCheckin($checkin)
-                ->setStatus(ClaimStatus::PENDING);
-            $checkin->addClaim($claim);
-        }
         // si on a le type check in ou check out alors on indique qu'on a démarré la transactionLine
         if ($checkin->getType() === CheckinType::IN) {
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::IN_PROGRESS);
         } else {
+            // s'il y a une réclamation lors de la fermeture de la réservation du produit
+            if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING) {
+                // créer une réclamation pour le back office
+                $claim = (new Claim())
+                    ->setCheckin($checkin)
+                    ->setStatus(ClaimStatus::PENDING);
+                $checkin->addClaim($claim);
+            }
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::FINISHED);
         }
 
@@ -110,7 +111,7 @@ readonly class CheckManager
         }
 
         $this->entityManager->flush();
-        
+
         return true;
     }
 }

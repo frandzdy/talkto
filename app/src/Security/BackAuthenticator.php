@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\User;
 use App\Service\StripeManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use \Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Authenticator pour le Back Office
@@ -29,8 +28,10 @@ class BackAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'back_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private StripeManager $stripeManager)
-    {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly StripeManager $stripeManager
+    ) {
     }
 
     public function authenticate(Request $request): Passport

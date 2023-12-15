@@ -31,21 +31,29 @@ class ProductType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Titre du produit',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
+                            'placeholder' => 'table ...',
                             'maxlength' => 255
                         ]
                 ]
             )
             ->add(
-                'shortDescription', TextareaType::class,
+                'shortDescription',
+                TextareaType::class,
                 [
                     'label' => 'Court description du produit',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
-                            'placeholder' => 'Détaillez de manière simple ...',
+                            'placeholder' => 'table en bois 8 places ...',
                             'style' => 'height: 200px',
                             'maxlength' => 255
                         ]
@@ -55,10 +63,13 @@ class ProductType extends AbstractType
                 'description', TextareaType::class,
                 [
                     'label' => 'Description',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
-                            'placeholder' => 'Détaillez plus votre bien ...',
+                            'placeholder' => 'Détaillez les spécificités votre bien ...',
                             'rows' => 'height: 400px',
                             'data-controller' => 'editor'
                         ],
@@ -66,17 +77,22 @@ class ProductType extends AbstractType
                 ]
             )
             ->add('handleError', TextType::class)
-            ->add('uploadedPictures', CollectionType::class, [
+            ->add(
+                'uploadedPictures',
+                CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
-                'entry_options' => [
+                'entry_options' =>
+                    [
                     'label' => false,
-                    'attr' => [
+                    'attr' =>
+                        [
                         'accept' => 'image/*',
                         'allow-delete' => true,
                     ],
                 ],
-                'label_attr' => [
+                'label_attr' =>
+                    [
                     'class' => 'w-max-content form-text text-muted',
                 ],
                 'allow_add' => true,
@@ -84,36 +100,47 @@ class ProductType extends AbstractType
                 'by_reference' => false
             ])
             ->add(
-                'caution', TextType::class,
+                'caution',
+                TextType::class,
                 [
                     'label' => 'Montant de la caution',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
-                            'placeholder' => '150',
+                            'placeholder' => '150 € ...',
                             'maxlength' => 11,
                         ]
                 ]
             )
             ->add(
-                'amount', TextType::class,
+                'amount',
+                TextType::class,
                 [
                     'label' => 'Prix / jours',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                        'class' => 'form-text text-muted'
+                    ],
                     'attr' =>
                         [
-                            'placeholder' => '150',
+                            'placeholder' => '10 € ...',
                             'maxlength' => 11,
                         ]
                 ]
             )->add(
-                'quantity', TextType::class,
+                'quantity',
+                TextType::class,
                 [
                     'label' => 'Quantité',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
-                            'placeholder' => '4',
                             'maxlength' => 11,
                         ]
                 ]
@@ -125,7 +152,6 @@ class ProductType extends AbstractType
                     'class' => ProductCategory::class,
                     'choice_label' => 'label',
                     'label' => 'Catégorie du produit',
-
                 ]
             );
 

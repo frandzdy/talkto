@@ -1,10 +1,10 @@
 import {Controller} from '@hotwired/stimulus';
-import bsCustomFileInput from "bs-custom-file-input";
-import $ from "jquery";
 
 /**
- * Gestion des justificatifs
+ * Gestion des checkins
  */
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     /**
      * Initialise la liste des photos avec un element si elle est vide
@@ -33,7 +33,7 @@ export default class extends Controller {
 
     handleBsCustomFileInput(container) {
         if ($(container)) {
-            bsCustomFileInput.init();
+            bsCustomFile.init();
         }
     }
     /**

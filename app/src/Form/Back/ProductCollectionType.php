@@ -42,7 +42,6 @@ class ProductCollectionType extends AbstractType
                             ->setParameter(':productStatus', ProductStatus::VALIDATE)
                             ->orderBy('p.title')
                             ;
-
                     },
                     'attr' =>
                         [

@@ -6,18 +6,13 @@ use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Génére le site map de l'application
- */
-class SiteMapManager
+readonly class SiteMapManager
 {
-    /**
-     * SiteMapManager constructor.
-     */
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private RouterInterface $router
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne la liste des liens du site pour le sitemap

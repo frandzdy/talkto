@@ -3,9 +3,9 @@ framework:
         dsn: '%env(MAILER_DNS)%'
         envelope:
             sender: 'snakeater95@gmail.com'
-            #            recipients: ['snakeater95@gmail.com']
+            #recipients: ['snakeater95@gmail.com']
         headers:
-            from: 'RENTED <support@ac-malin.fr.nf>'
+            from: 'Reented <support@reented.com>'
 
 when@prod:
     framework:
@@ -14,4 +14,4 @@ when@prod:
             envelope:
                 sender: 'contact@reented.com'
             headers:
-                from: 'RENTED <contact@reented.com>'
+                from: 'Reented <contact@reented.com>'

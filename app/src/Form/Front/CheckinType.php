@@ -35,7 +35,10 @@ class CheckinType extends AbstractType
                     'class' => CheckinStatus::class,
                     'choice_label' => 'label',
                     'label' => 'Statut du check',
-                    'label_attr' => ['class' => 'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
                             'data-action' => 'checkin#onChangeStatus'
@@ -60,29 +63,34 @@ class CheckinType extends AbstractType
                 ]
             )
             ->add('handleError', TextType::class)
-            ->add('uploadedPictures', CollectionType::class, [
+            ->add(
+                'uploadedPictures',
+                CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
-                'entry_options' => [
-                    'attr' => [
-                        'accept' => 'image/*',
-                        'lang' => 'fr',
-                        'data-browse' => 'Votre photo'
+                'entry_options' =>
+                    [
+                        'attr' =>
+                            [
+                                'accept' => 'image/*',
+                                'lang' => 'fr',
+                                'data-browse' => 'Votre photo'
+                            ],
                     ],
-                ],
-                'label_attr' => [
-                    'class' => 'w-max-content form-text text-muted',
-                ],
+                'label_attr' =>
+                    [
+                        'class' => 'w-max-content form-text text-muted',
+                    ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => true,
             ]);
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event){
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $checkin = $event->getData();
             $form = $event->getForm();
 
-            if($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && !$checkin->getComments()) {
+            if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && !$checkin->getComments()) {
                 $form->get('comments')->addError(new FormError('Information requise.'));
             }
 

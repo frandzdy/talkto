@@ -16,8 +16,8 @@ class AdresseApi
 
     /**
      * AdresseApi constructor.
-     * s     */
-    public function __construct(protected array $apiGouvConfig, protected LoggerInterface $logger)
+     */
+    public function __construct(protected array $apiGouvConfig, protected LoggerInterface $addressLogger)
     {
         $this->guzzle = new Client([
             'http_errors' => false
@@ -42,7 +42,7 @@ class AdresseApi
                 $this->apiGouvConfig['url'] . http_build_query($parameters)
             );
 
-            $this->logger->info(
+            $this->addressLogger->info(
                 'search',
                 [
                     'time' => number_format(microtime(true) - $time, 3),
@@ -52,7 +52,7 @@ class AdresseApi
                 ]
             );
         } catch (GuzzleException $e) {
-            $this->logger->error(
+            $this->addressLogger->error(
                 'Erreur api',
                 ['parameters' => $parameters, 'message' => $e->getMessage()]
             );
@@ -69,7 +69,7 @@ class AdresseApi
                 ];
             }
         } else {
-            $this->logger->error(
+            $this->addressLogger->error(
                 'Erreur api',
                 [
                     'parameters' => $parameters,

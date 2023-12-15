@@ -13,7 +13,10 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class LessorExporter
 {
     public const FORMAT = [
-        'xlsx' => ['format' => 'xlsx', 'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+        'xlsx' => [
+            'format' => 'xlsx',
+            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ],
         'csv' => ['format' => 'csv', 'mimeType' => 'text/csv'],
     ];
 
@@ -107,7 +110,7 @@ class LessorExporter
     /**
      * Enregistre le fichier dans un répertoire temporaire
      */
-    private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): string | false
+    private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): string|false
     {
         if ($fileType === self::FORMAT['xlsx']['format']) {
             $writer = new Xlsx($spreadsheet);

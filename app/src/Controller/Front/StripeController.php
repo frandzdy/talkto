@@ -28,7 +28,7 @@ class StripeController extends AbstractController
     ): Response {
         /**
          * On récupère l'utilisateur connecté
-         * si pas connecté alors on crée un compte stripe avec les informations de facturation
+         * si pas connecté alors, on crée un compte stripe avec les informations de facturation
          */
         $carts = $session->get('cart', [
             'products' => [],

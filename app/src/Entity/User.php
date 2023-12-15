@@ -23,10 +23,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use TraitTimestamp;
     use TraitToken;
 
-    const ROLE_USER = 'ROLE_USER'; // customer
-    const ROLE_GUESS = 'ROLE_GUESS'; // guess
-    const ROLE_SELLER = 'ROLE_SELLER'; // lessor
-    const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
+    public const ROLE_USER = 'ROLE_USER'; // customer
+    public const ROLE_GUESS = 'ROLE_GUESS'; // guess
+    public const ROLE_SELLER = 'ROLE_SELLER'; // lessor
+    public const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

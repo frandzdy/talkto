@@ -11,23 +11,27 @@ use App\Repository\TransactionRepository;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Stripe\Event;
+use Stripe\Exception\SignatureVerificationException;
+use Stripe\Webhook;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WebhookStripeController extends AbstractController
 {
     #[Route('/webhook', name: 'app_stripe_webhook', methods: ['POST'])]
     public function checkoutSession(
-        Request                $request,
-        StripeManager          $stripeManager,
-        TransactionRepository  $transactionRepository,
+        Request $request,
+        StripeManager $stripeManager,
+        TransactionRepository $transactionRepository,
         EntityManagerInterface $em,
-        MailerManager          $mailer,
-        array                  $stripeParameters
+        MailerManager $mailer,
+        array $stripeParameters,
+        LoggerInterface $stripeLogger
     ): Response {
         $endpoint_secret = $stripeParameters['wh_secret_key'];
 
@@ -35,7 +39,7 @@ class WebhookStripeController extends AbstractController
         $event = null;
 
         try {
-            $event = \Stripe\Event::constructFrom(
+            $event = Event::constructFrom(
                 json_decode($payload, true)
             );
         } catch (\UnexpectedValueException $e) {
@@ -49,16 +53,14 @@ class WebhookStripeController extends AbstractController
             // Je récupère la signature
             $header = 'Stripe-Signature';
             $sig_header = $request->headers->get($header);
-            //$sig_header = $request->server->get('HTTP_STRIPE_SIGNATURE'); //$_SERVER['HTTP_STRIPE_SIGNATURE'];
             try {
-                $event = \Stripe\Webhook::constructEvent(
+                $event = Webhook::constructEvent(
                     $payload,
                     $sig_header,
                     $endpoint_secret
                 );
-            } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            } catch (SignatureVerificationException $e) {
                 // Invalid signature
-                echo '⚠️  Webhook error while validating signature.';
                 return new Response('⚠️  Webhook error while validating signature.', 400);
             }
         }
@@ -81,7 +83,9 @@ class WebhookStripeController extends AbstractController
                      * @var TransactionLine $transactionLine
                      */
                     $product = $transactionLine->getProduct();
-                    $product->setQuantityAllReadyReserved($product->getQuantityAllReadyReserved() + $transactionLine->getQuantity());
+                    $product->setQuantityAllReadyReserved(
+                        $product->getQuantityAllReadyReserved() + $transactionLine->getQuantity()
+                    );
                 }
                 $reservation = (new Reservation())
                     ->setTransaction($transaction)
@@ -111,7 +115,10 @@ class WebhookStripeController extends AbstractController
                             'endDate' => $transactionLine->getEndDate()->format('d/m/Y'),
                             'quantity' => $transactionLine->getQuantity(),
                             'totalAmount' => $transactionLine->getAmountTtc() / 100,
-                            'link' => $this->generateUrl('front_reservation_line_show', ['token' => $transactionLine->getToken(), UrlGeneratorInterface::ABSOLUTE_URL])
+                            'link' => $this->generateUrl(
+                                'front_reservation_line_show',
+                                ['token' => $transactionLine->getToken(), UrlGeneratorInterface::ABSOLUTE_URL]
+                            )
                         ]
                     );
                 }

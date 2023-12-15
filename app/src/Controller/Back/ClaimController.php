@@ -118,8 +118,7 @@ class ClaimController extends AbstractController
         StripeManager $stripeManager,
         EntityManagerInterface $em,
         MailerManager $mailerManager
-    ): Response
-    {
+    ): Response {
         $data = [
             'amount' => null
         ];

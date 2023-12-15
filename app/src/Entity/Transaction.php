@@ -13,7 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks()]
 class Transaction
 {
-    use TraitToken, TraitAuthor, TraitTimestamp;
+    use TraitToken;
+    use TraitAuthor;
+    use TraitTimestamp;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -80,7 +82,6 @@ class Transaction
     public function addTransactionLine(TransactionLine $transactionLine): self
     {
         if (!$this->transactionLines->contains($transactionLine)) {
-
             $this->transactionLines[] = $transactionLine;
             $transactionLine->setTransaction($this);
         }
@@ -91,7 +92,6 @@ class Transaction
     public function removeTransactionLine(TransactionLine $transactionLine): self
     {
         if ($this->transactionLines->removeElement($transactionLine)) {
-
             if ($transactionLine->getTransaction() === $this) {
                 $transactionLine->setTransaction(null);
             }

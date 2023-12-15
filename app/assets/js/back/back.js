@@ -13,24 +13,23 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
-import * as Turbo from '@hotwired/turbo';
+import '@hotwired/turbo';
 
 import toastr from 'toastr';
 
 toastr.options.preventDuplicates = true;
 toastr.options.positionClass = 'toast-bottom-left';
 
-window.toastr = toastr;
+global.toastr = toastr
 
-import 'jquery-confirm';
+import 'jquery-confirm'
 
-import bsCustomFileInput from "bs-custom-file-input";
+import bsCustomFileInput from "bs-custom-file-input"
 
-bsCustomFileInput.init();
+global.bsCustomFile = bsCustomFileInput
 
-require('jquery-confirm');
-// require('popper.js');
-//require('bootstrap/dist/js/bootstrap');
+require('./../front/services/jquery-ui.min.js')
+import 'jquery-ui-touch-punch'
 
 require('./../front/services/bootstrap.bundle.min.js')
 require('jquery-slimscroll');

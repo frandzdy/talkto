@@ -16,9 +16,9 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     public function __construct(
         private UserManager $userManager,
         private ClaimRepository $claimRepository,
-        private ReservationRepository $reservationRepository,
         private StripeManager $stripeManager
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne la liste des catégories des produits afin de l'afficher par tout dans les vues Twig

@@ -318,7 +318,8 @@ class UserPaymentType extends AbstractType
                     ]
                 )
                 ->add(
-                    'isGuess', CheckboxType::class,
+                    'isGuess',
+                    CheckboxType::class,
                     [
                         'label' => 'Créer un compte ?',
                         'label_attr' =>

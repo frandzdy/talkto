@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use \Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Authenticator pour le Front Office
@@ -32,10 +32,11 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
 
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private StripeManager $stripeManager,
-        private EntityManagerInterface $em
-    ) {}
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly StripeManager $stripeManager,
+        private readonly EntityManagerInterface $em
+    ) {
+    }
 
     public function authenticate(Request $request): Passport
     {

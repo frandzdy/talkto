@@ -294,7 +294,6 @@ class Product
         }
 
         if ($totalNote) {
-
             return $totalNote / $this->getReviews()->count();
         }
 

@@ -17,7 +17,10 @@ class SellerType extends UserType
                 TextareaType::class,
                 [
                     'label' => 'Description',
-                    'label_attr' => ['class'=>'form-text text-muted'],
+                    'label_attr' =>
+                        [
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
                             'placeholder' => 'Expliquez pourquoi vous louer vos biens ou bien parlez de vous même tous simplement ...',

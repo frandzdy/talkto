@@ -21,14 +21,14 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
-import * as Turbo from '@hotwired/turbo';
+import '@hotwired/turbo';
 
 import toastr from 'toastr';
 
 toastr.options.preventDuplicates = true;
 toastr.options.positionClass = 'toast-bottom-left';
 
-window.toastr = toastr;
+global.toastr = toastr;
 
 const {debounce} = require('lodash')
 window.debounce = debounce
@@ -37,8 +37,7 @@ import 'jquery-confirm';
 
 import bsCustomFileInput from "bs-custom-file-input";
 
-bsCustomFileInput.init();
-//require('bootstrap/dist/js/bootstrap.bundle.min');
+global.bsCustomFile = bsCustomFileInput;
 
 const routes = require('../../../public/js/fos_js_routes.json');
 import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
