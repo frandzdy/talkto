@@ -28,7 +28,7 @@ readonly class UserManager
     }
 
     /**
-     * Retourne un user prêt pour la création soit byer soit seller
+     * Retourne un user prêt pour la création soit locataire, soit bailleur
      */
     public function createUser(int $typeAccount = 1): user
     {
