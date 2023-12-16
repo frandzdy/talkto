@@ -1809,16 +1809,16 @@
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
-                "reference": "80835feb9caa57b23cb3d1ef405440098d57dca0"
+                "reference": "2b88ce924741614d2716a9fec5f06a2c27972ab2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/80835feb9caa57b23cb3d1ef405440098d57dca0",
-                "reference": "80835feb9caa57b23cb3d1ef405440098d57dca0",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/2b88ce924741614d2716a9fec5f06a2c27972ab2",
+                "reference": "2b88ce924741614d2716a9fec5f06a2c27972ab2",
                 "shasum": ""
             },
             "require": {
@@ -1869,9 +1869,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/tree/3.4.0"
+                "source": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/tree/3.4.1"
             },
-            "time": "2023-12-12T13:19:40+00:00"
+            "time": "2023-12-15T23:00:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -10,13 +10,13 @@
     <li class="{% if currentRoute starts with 'back_homepage' %}active{% endif %}">
         <a title="HomePage" href="{{ path('back_homepage_edit') }}">
             <i class="fas fa-home"></i>
-            <span>HomePage</span>
+            <span>Config. Accueil</span>
         </a>
     </li>
     <li class="{% if currentRoute starts with 'back_product' %}active{% endif %}">
         <a title="Produits" href="{{ path('back_product_index') }}" >
             <i class="fas fa-box-open"></i>
-            <span>Produits</span>
+            <span>Produits ({{ numberProductToValidate() }})</span>
         </a>
     </li>
     <li class="{% if currentRoute starts with 'back_lessor' %}active{% endif %}">

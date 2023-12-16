@@ -2,6 +2,7 @@
 
 namespace App\Form\Back;
 
+use App\Enum\ClaimStatus;
 use App\Enum\ProductStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -12,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Filtre du menu produit
  */
-class ProductFilterType extends AbstractType
+class ClaimFilterType extends AbstractType
 {
     /**
      * <@inheritDoc>
@@ -39,7 +40,7 @@ class ProductFilterType extends AbstractType
                 'status',
                 EnumType::class,
                 [
-                    'class' => ProductStatus::class,
+                    'class' => ClaimStatus::class,
                     'label' => false,
                     'choice_label' => 'label',
                     'attr' =>

@@ -8,6 +8,7 @@ export default class extends Controller {
             $('#page-container').addClass('show');
         });
 
+        this.handleBsCustomInputFile($('[type=file]'));
         $('[data-toggle="tooltip"]').tooltip();
         $(this.containerTarget)
             .on('click', 'a.open-back-modal', (event) => {
@@ -206,16 +207,9 @@ export default class extends Controller {
         }, 5000);
     }
 
-    handleBsCustomFileInput(container) {
-        if ($(container)) {
-            bsCustomFile.init();
-            $(container).change(function () {
-                var fieldVal = $(this).val();
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).next(".custom-file-label").text(fieldVal);
-                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
-                }
-            });
+    handleBsCustomInputFile(container) {
+        if (container) {
+            bsCustomFileInput.init();
         }
-    }
+    };
 }

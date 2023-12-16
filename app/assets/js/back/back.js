@@ -25,7 +25,6 @@ global.toastr = toastr
 import 'jquery-confirm'
 
 import bsCustomFileInput from "bs-custom-file-input"
-
 global.bsCustomFile = bsCustomFileInput
 
 require('./../front/services/jquery-ui.min.js')
@@ -34,7 +33,7 @@ require('./../front/services/bootstrap.bundle.min.js')
 require('jquery-slimscroll');
 require('js-cookie');
 
-require('./services/common')
+require('./pages/common')
 
 const routes = require('../../../public/js/fos_js_routes.json');
 import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';

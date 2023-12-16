@@ -30,6 +30,43 @@
     {% endif %}
 {% endblock form_errors %}
 
-{% block WebsiteContent_widget %}
-    {{ form(form.children.title) }}
+{% block website_content_widget %}
+    <div class="col-4">
+        <div class="w-100">
+            {{ form_row(form.children.title) }}
+        </div>
+        <div class="w-100">
+            {{ form_row(form.children.subTitle) }}
+        </div>
+        <div class="w-100">
+            {{ form_row(form.children.link) }}
+        </div>
+        <div class="w-100">
+            {% if form.vars.value.picture is defined and form.vars.value.picture.name is defined %}
+            <div class="row preview-image">
+                <div class="col-8">
+                    {% endif %}
+                    {{ form_row(form.children.uploadedPicture) }}
+                    {% if form.vars.value.picture is defined and form.vars.value.picture.name is defined %}
+                </div>
+                <div class="col-4">
+                    <img src="{{ asset('uploads/home_page/' ~ form.vars.value.picture.name)|imagine_filter('back_website_contente') }}"
+                        alt="accueil logo"
+                        height="100px"
+                        width="100px"
+                        class="border"
+                    />
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block product_collection_widget %}
+    <div class="col-4">
+        <div class="w-100">
+            {{ form_widget(form.children.product) }}
+        </div>
+    </div>
 {% endblock %}

@@ -2,17 +2,16 @@
 
 namespace App\Form\Back;
 
-use App\Enum\ProductStatus;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu client
  */
-class ProductFilterType extends AbstractType
+class LessorFilterType extends AbstractType
 {
     /**
      * <@inheritDoc>
@@ -29,7 +28,7 @@ class ProductFilterType extends AbstractType
                     'required' => false,
                     'attr' =>
                         [
-                            'placeholder' => 'Titre, description ou propriétaire',
+                            'placeholder' => 'Nom / prénom, e-mail, adresse, ville, code postal, téléphone ou stripe id',
                             'style' => 'width: 53%;',
                             'class' => 'float-right'
                         ]
@@ -37,18 +36,22 @@ class ProductFilterType extends AbstractType
             )
             ->add(
                 'status',
-                EnumType::class,
+                ChoiceType::class,
                 [
-                    'class' => ProductStatus::class,
                     'label' => false,
-                    'choice_label' => 'label',
+                    'choices' =>
+                    [
+                        'Non actif' => 0,
+                        'Actif' => 1
+                    ],
                     'attr' =>
                         [
-                        'style' => 'width: 38%;',
-                        'class' => 'float-right'
+                            'style' => 'width: 38%;',
+                            'class' => 'float-right'
                         ]
                 ]
-            );
+            )
+        ;
     }
 
     /**

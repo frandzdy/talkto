@@ -3,7 +3,7 @@ import {Controller} from "@hotwired/stimulus";
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     connect() {
-
+        this.handleBsCustomInputFile('[type="file"]');
     }
 
     onWebsiteContentsAdd(event) {
@@ -12,6 +12,7 @@ export default class extends Controller {
         if (listIndex <= 3) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
+        this.handleBsCustomInputFile(collectionHolder.find('[type="file"]'));
     }
 
     onSlidersAdd(event) {
@@ -23,7 +24,7 @@ export default class extends Controller {
     }
 
     onUnderSlidersAdd(event) {
-        const collectionHolder = $('.under_sliders-collection');
+        const collectionHolder = $('.under-sliders-collection');
         const listIndex = collectionHolder.children().length + 1;
         if (listIndex <= 3) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
@@ -33,30 +34,14 @@ export default class extends Controller {
     onMidsAdd(event) {
         const collectionHolder = $('.mids-collection');
         const listIndex = collectionHolder.children().length + 1;
-        if (listIndex <= 3) {
+        if (listIndex <= 2) {
             collectionHolder.append(collectionHolder.data('prototype').replace(/__name__/g, listIndex));
         }
     }
 
-    onDeleteProduct(event) {
-        const elt = e.currentTarget;
-        $.confirm({
-            title: 'Suppression d\'un produit',
-            content: 'Souhaitez-vous supprimer ce produit ?',
-            type: 'red',
-            typeAnimated: true,
-            buttons: {
-                confirm: {
-                    text: 'Supprimer',
-                    btnClass: 'btn-red',
-                    action: () => {
-                        elt.parentElement.remove()
-                    }
-                },
-                close: {
-                    text: "Annuler"
-                }
-            }
-        })
-    }
+    handleBsCustomInputFile(container) {
+        if (container) {
+            bsCustomFileInput.init();
+        }
+    };
 }

@@ -78,8 +78,11 @@ class TransactionRepository extends ServiceEntityRepository
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere('t.reference LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term')
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term',  '%'. $filters['term'] . '%');
         }
+
+        $builder
+            ->andWhere('t.paymentIntentId IS NOT NULL');
 
         $builder->orderBy('t.reference', 'ASC');
 

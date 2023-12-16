@@ -3,32 +3,34 @@
 {% block title %}Mention Légale{% endblock %}
 
 {% block content %}
-    <section id="features">
-        <div class="container px-5 my-3 bg-white shadow">
-            <div class="row">
-                <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('front/rights/_nav_list.html.twig') }}
-                </div>
-                <div class="col-lg-9 mb-sm-12 mb-lg-0">
-                    <div class="mb-5">
-                        <div class="text-center">
-                            <h1>Mentions Légales</h1>
-                        </div>
+    <section class="shop__area pb-65" {{ stimulus_controller('bigpicture')|stimulus_controller('rating') }}>
+        <div class="shop__top grey-bg-6 pt-50 pb-90">
+            <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-lg-0 text-right">
+                {{ include('front/rights/_nav_right.html.twig') }}
+            </div>
+            <div class="col-lg-9 mb-sm-12 mb-lg-0">
+                <div class="mb-5">
+                    <div class="text-center">
+                        <h1>Mentions Légales</h1>
                     </div>
-                    <p class="">
-                        Le présent site qu’il désigne est exploité par la société Alsi WebTech,
-                        Micro entrepreneur enregistré sous le numéro 893 371 344 000 19,
-                        dont le siège social est situé 24 allée du cerf 95800 Courdimanche
-                        et représentée par son Président Monsieur Sanon Frandzdy (n° TVA FR 67 89 33 713 44).
-                    </p>
-                    <p>
-                        Le Directeur de Publication du site est Monsieur Sanon Frandzdy.
-                    </p>
-                    <p>
-                        E-mail à l’adresse : <a title="E-mail de contact"
-                                               href="mailto:contact@reented.com">contact@reented.com</a>
-                    </p>
                 </div>
+                <p class="">
+                    Le présent site qu’il désigne est exploité par la société Alsi WebTech,
+                    Micro entrepreneur enregistré sous le numéro 893 371 344 000 19,
+                    dont le siège social est situé 24 allée du cerf 95800 Courdimanche
+                    et représentée par son Président Monsieur Sanon Frandzdy (n° TVA FR 67 89 33 713 44).
+                </p>
+                <p>
+                    Le Directeur de Publication du site est Monsieur Sanon Frandzdy.
+                </p>
+                <p>
+                    E-mail à l’adresse : <a title="E-mail de contact"
+                                            href="mailto:contact@reented.com">contact@reented.com</a>
+                </p>
+            </div>
+            </div>
             </div>
         </div>
     </section>

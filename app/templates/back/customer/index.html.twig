@@ -49,7 +49,7 @@
                                     <td>{{ renter.fullAddress }}</td>
                                     <td>{{ renter.phone }}</td>
                                     <td>{{ renter.stripeCustomerId }}</td>
-                                    <td>{{ renter.isGuess ? 'Oui' : 'Non' }}</td>
+                                    <td>{{ renter.isGuess or renter.role is same as constant('App\\Entity\\User::ROLE_GUESS') ? 'Oui' : 'Non' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

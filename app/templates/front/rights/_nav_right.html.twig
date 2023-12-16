@@ -1,0 +1,38 @@
+<ul class="list-group list-group-flush text-muted text-center">
+    <li class="list-group-item" style="{{ app.request.get('_route') == "front_cgu" ? 'background-color: #bc8246' : '' }}">
+        <a class="{{ app.request.get('_route') == "front_cgu" ? 'text-white' : '' }}"
+           href="{{ path('front_cgu') }}" title="Conditions générales d'utilisation">
+            Conditions générales d'utilisation
+        </a>
+    </li>
+    <li class="list-group-item" style="{{ app.request.get('_route') == "front_personal_data" ? 'background-color: #bc8246' : '' }}">
+        <a class="{{ app.request.get('_route') == "front_personal_data" ? 'text-white' : '' }}"
+           href="{{ path('front_personal_data') }}" title="Gestion de vos données personnelles">
+            Gestion de vos données personnelles
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a style="{{ app.request.get('_route') == "front_policy" ? 'background-color: #bc8246' : '' }}"  class="{{ app.request.get('_route') == "front_policy" ? 'text-white' : '' }}"
+           href="{{ path('front_policy') }}" title="Politique de confidentialité">
+            Politique de confidentialité
+        </a>
+    </li>
+    <li class="list-group-item" style="{{ app.request.get('_route') == "front_legal_mention" ? 'background-color: #bc8246' : '' }}">
+        <a pclass="{{ app.request.get('_route') == "front_legal_mention" ? 'text-white' : '' }}"
+           href="{{ path('front_legal_mention') }}" title="Mentions légales">
+            Mentions légales
+        </a>
+    </li>
+    <li class="list-group-item" style="{{ app.request.get('_route') == "front_trust_chart" ? 'background-color: #bc8246' : '' }}" >
+        <a class="{{ app.request.get('_route') == "front_trust_chart" ? 'text-white' : '' }}"
+           href="{{ path('front_trust_chart') }}" title="Charte de confiance">
+            Charte de confiance
+        </a>
+    </li>
+    <li class="list-group-item" style="{{ app.request.get('_route') == "front_cookies" ? 'background-color: #bc8246' : '' }}">
+        <a  class="{{ app.request.get('_route') == "front_cookies" ? 'text-white' : '' }}"
+           href="{{ path('front_cookies') }}" title="Gestion des cookies">
+            Gestion des cookies
+        </a>
+    </li>
+</ul>

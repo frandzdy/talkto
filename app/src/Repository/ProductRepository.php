@@ -155,19 +155,22 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * Construit une requête de recherche
      */
-    public function buildSearchQuery(array $filters = [], bool $isLessor = false): Query
+    public function buildSearchQuery(array $filters = []): Query
     {
         $builder = $this
             ->createQueryBuilder('p')
         ->join('p.author', 'a');
 
-        if (!empty($filters['term']) && !$isLessor) {
+        if (!empty($filters['term'])) {
             $builder
                 ->andWhere('p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term')
                 ->setParameter('term', $filters['term'] . '%');
         }
+            $builder
+                ->andWhere('p.status = :status')
+                ->setParameter('status', $filters['status']->value);
 
-        $builder->orderBy('p.title, p.createdAt', 'ASC');
+        $builder->orderBy('p.status, p.title, p.createdAt', 'ASC');
 
         return $builder->getQuery();
     }
@@ -233,5 +236,19 @@ class ProductRepository extends ServiceEntityRepository
         ;
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Retourne le nombre de produits en attente de validation
+     */
+    public function getProductToValidate(): int
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.status = :productStatus')
+            ->setParameter('productStatus', ProductStatus::WAITING);
+
+        return (clone $qb)->select('count(Distinct(p.id))')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

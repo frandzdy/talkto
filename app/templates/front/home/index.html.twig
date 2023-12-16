@@ -4,173 +4,72 @@
 
 {% block content %}
     <!-- slider area start -->
-    <section class="slider__area p-relative">
+    <section class="slider__area p-relative pb-60">
         <div class="slider-active">
             {% set pictureName = '' %}
-            {% if homePage.sliders1 %}
-                {% if homePage.sliders1.pictures.count|default(0) > 0 %}
-                    {% set pictureName = homePage.sliders1.pictures.first.name %}
-                {% endif %}
-                <div class="single-slider slider__height d-flex align-items-center"
-                     data-background="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_slider') }}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10 col-12">
-                                <div class="slider__content">
-                                    <h2 data-animation="fadeInUp"
-                                        data-delay=".2s">{{ homePage.sliders1.title }}</h2>
-                                    <p data-animation="fadeInUp"
-                                       data-delay=".4s">{{ homePage.sliders1.shortDescription|u.truncate(10, '...', false) }}</p>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders1.token}) }}"
-                                       class="os-btn os-btn-2" data-animation="fadeInUp"
-                                       data-delay=".6s" title="Réservez">Réservez</a>
+            {% if homePage.websiteContents|length > 0 %}
+                {% for websiteContent in homePage.websiteContents %}
+                    <div class="single-slider slider__height d-flex align-items-center"
+                         data-background="{{ asset('uploads/home_page/' ~ websiteContent.picture.name)|imagine_filter('home_slider') }}">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10 col-12">
+                                    <div class="slider__content">
+                                        <h2 data-animation="fadeInUp"
+                                            data-delay=".4s">{{ websiteContent.title }}</h2>
+                                        <p data-animation="fadeInUp"
+                                           data-delay=".6s">{{ websiteContent.subTitle }}</p>
+                                        <a href="{{ path(websiteContent.link.label) }}"
+                                           class="os-btn os-btn-2" data-animation="fadeInUp"
+                                           data-delay=".10s"
+                                           title="{{ websiteContent.link.label|trans }}">{{ websiteContent.link.label|trans }}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
-            {% if homePage.sliders2 %}
-                {% set pictureName = '' %}
-                {% if homePage.sliders2.pictures.count > 0 %}
-                    {% set pictureName = homePage.sliders2.pictures.first.name %}
-                {% endif %}
-                <div class="single-slider slider__height d-flex align-items-center"
-                     data-background="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_slider') }}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 col-12">
-                                <div class="slider__content">
-                                    <h2 data-animation="fadeInUp" data-delay=".2s">{{ homePage.sliders2.title }}
-                                    </h2>
-                                    <p data-animation="fadeInUp"
-                                       data-delay=".4s">{{ homePage.sliders2.shortDescription|u.truncate(10, '...', false) }}</p>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders2.token}) }}"
-                                       class="os-btn os-btn-2" data-animation="fadeInUp"
-                                       data-delay=".6s" title="Réservez">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if homePage.sliders3 %}
-                {% set pictureName = '' %}
-                {% if homePage.sliders3.pictures.count > 0 %}
-                    {% set pictureName = homePage.sliders3.pictures.first.name %}
-                {% endif %}
-                <div class="single-slider slider__height d-flex align-items-center"
-                     data-background="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_slider') }}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 col-12">
-                                <div class="slider__content">
-                                    <h2 data-animation="fadeInUp"
-                                        data-delay=".2s">{{ homePage.sliders3.title }}</h2>
-                                    <p data-animation="fadeInUp"
-                                       data-delay=".4s">{{ homePage.sliders3.shortDescription|u.truncate(10, '...', false) }}</p>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.sliders3.token}) }}"
-                                       class="os-btn os-btn-2" data-animation="fadeInUp"
-                                       data-delay=".6s" title="Réservez">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             {% endif %}
         </div>
     </section>
     <!-- slider area end -->
 
     <!-- banner area start -->
-    <div class="banner__area">
+    <div class="banner__area {% if not homePage.sliders|length %} d-none {% endif %}">
         <div class="container">
             <div class="banner__inner p-relative mt--95">
                 <div class="row">
-                    {% if homePage.underSliders1 %}
-                        <div class="col-xl-4 col-lg-4 col-md-6">
-                            <div class="banner__item mb-30 p-relative">
-                                <div class="banner__thumb fix">
-                                    {% set pictureName = '' %}
-                                    {% if homePage.underSliders1.pictures.count > 0 %}
-                                        {% set pictureName = homePage.underSliders1.pictures.first.name %}
-                                    {% endif %}
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders1.token}) }}"
-                                       class="w-img"><img
-                                                src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                alt="{{ homePage.underSliders1.title }}"></a>
-                                </div>
-                                <div class="banner__content p-absolute transition-3">
-                                    <h5>
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders1.token}) }}">
-                                            {{ homePage.underSliders1.title }}
-                                            <br> {{ homePage.underSliders1.author.fullname|capitalize }}
+                    {% if homePage.sliders|length > 0 %}
+                        {% for slider in homePage.sliders %}
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="banner__item mb-30 p-relative">
+                                    <div class="banner__thumb fix">
+                                        {% set pictureName = '' %}
+                                        {% if slider.pictures.count > 0 %}
+                                            {% set pictureName = slider.pictures.first.name %}
+                                        {% endif %}
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': slider.token}) }}"
+                                           class="w-img">
+                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
+                                                 width="376px"
+                                                 alt="{{ slider.title }}">
                                         </a>
-                                    </h5>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders1.token}) }}"
-                                       class="link-btn" title="Réservez">
-                                        Réservez
-                                    </a>
+                                    </div>
+                                    {#                                    <div class="banner__content p-absolute transition-3"> #}
+                                    {#                                        <h5> #}
+                                    {#                                            <a href="{{ path('front_product_reservation_show_detail', {'token': slider.token}) }}"> #}
+                                    {#                                                {{ slider.title }} #}
+                                    {#                                                <br> {{ slider.author.fullname|capitalize }} #}
+                                    {#                                            </a> #}
+                                    {#                                        </h5> #}
+                                    {#                                        <a href="{{ path('front_product_reservation_show_detail', {'token': slider.token}) }}" #}
+                                    {#                                           class="link-btn" title="Réservez"> #}
+                                    {#                                            Réservez #}
+                                    {#                                        </a> #}
+                                    {#                                    </div> #}
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
-                    {% if homePage.underSliders2 %}
-                        <div class="col-xl-4 col-lg-4 col-md-6">
-                            <div class="banner__item mb-30 p-relative">
-                                <div class="banner__thumb fix">
-                                    {% set pictureName = '' %}
-                                    {% if homePage.underSliders2.pictures.count > 0 %}
-                                        {% set pictureName = homePage.underSliders2.pictures.first.name %}
-                                    {% endif %}
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders2.token}) }}"
-                                       class="w-img">
-                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                             alt="{{ homePage.underSliders2.title }}">
-                                    </a>
-                                </div>
-                                <div class="banner__content p-absolute transition-3">
-                                    <h5>
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders2.token}) }}">
-                                            {{ homePage.underSliders2.title }}
-                                            <br> {{ homePage.underSliders2.author.fullname|capitalize }}
-                                        </a>
-                                    </h5>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders2.token}) }}"
-                                       class="link-btn" title="Réservez">
-                                        Réservez
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if homePage.underSliders3 %}
-                        <div class="col-xl-4 col-lg-4 col-md-6">
-                            <div class="banner__item mb-30 p-relative">
-                                <div class="banner__thumb fix">
-                                    {% set pictureName = '' %}
-                                    {% if homePage.underSliders3.pictures.count > 0 %}
-                                        {% set pictureName = homePage.underSliders3.pictures.first.name %}
-                                    {% endif %}
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders3.token}) }}"
-                                       class="w-img">
-                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                             alt="{{ homePage.underSliders3.title }}"></a>
-                                </div>
-                                <div class="banner__content p-absolute transition-3">
-                                    <h5>
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders3.token}) }}">
-                                            {{ homePage.underSliders3.title }}
-                                            <br> {{ homePage.underSliders3.author.fullname|capitalize }}
-                                        </a>
-                                    </h5>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.underSliders3.token}) }}"
-                                       class="link-btn" title="Réservez">
-                                        Réservez
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     {% endif %}
                 </div>
             </div>
@@ -205,10 +104,12 @@
                                             {% set pictureName = trend[0].pictures.first.name %}
                                         {% endif %}
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                             width="270px"
                                              alt="{{ trend[0].title }}">
                                         {% if trend[0].pictures.count > 1 %}
                                             {% set pictureName = trend[0].pictures.next.name %}
                                             <img class="product__thumb-2"
+                                                 width="270px"
                                                  src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
                                                  alt="{{ trend[0].title }}">
                                         {% endif %}
@@ -278,65 +179,38 @@
     <div class="banner__area-2 pb-60">
         <div class="container-fluid p-0">
             <div class="row no-gutters">
-                {% if homePage.mids1 %}
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="banner__item-2 banner-right p-relative mb-30 pr-15">
-                            <div class="banner__thumb fix">
-                                {% set pictureName = '' %}
-                                {% if homePage.mids1.pictures.count > 0 %}
-                                    {% set pictureName = homePage.mids1.pictures.first.name %}
-                                {% endif %}
-                                <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids1.token}) }}"
-                                   class="w-img">
-                                    <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
-                                         alt="{{ homePage.mids1.title }}">
-                                </a>
-                            </div>
-                            <div class="banner__content-2 p-absolute transition-3">
-                                <span>{{ homePage.mids1.category.label }}</span>
-                                <h4>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids1.token}) }}">
-                                        {{ homePage.mids1.title }}
+                {% if homePage.mids|length > 0 %}
+                    {% for mid in homePage.mids %}
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="banner__item-2 banner-right p-relative mb-30 pr-15">
+                                <div class="banner__thumb fix">
+                                    {% set pictureName = '' %}
+                                    {% if mid.pictures.count > 0 %}
+                                        {% set pictureName = mid.pictures.first.name %}
+                                    {% endif %}
+                                    <a href="{{ path('front_product_reservation_show_detail', {'token': mid.token}) }}"
+                                       class="w-img">
+                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
+                                             width="950px"
+                                             alt="{{ mid.title }}">
                                     </a>
-                                </h4>
-                                <p>{{ homePage.mids1.shortDescription|u.truncate(20, '...', false) }}</p>
-                                <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids1.token}) }}"
-                                   class="os-btn os-btn-2" title="Réservez">
-                                    Réservez /
-                                    <span>{{ homePage.mids1.amount|number_format(2, ',')|default(0) }} €</span></a>
+                                </div>
+                                {#                                <div class="banner__content-2 p-absolute transition-3"> #}
+                                {#                                    <span>{{ mid.category.label }}</span> #}
+                                {#                                    <h4> #}
+                                {#                                        <a href="{{ path('front_product_reservation_show_detail', {'token': mid.token}) }}"> #}
+                                {#                                            {{ mid.title }} #}
+                                {#                                        </a> #}
+                                {#                                    </h4> #}
+                                {#                                    <p>{{ mid.shortDescription|u.truncate(20, '...', false) }}</p> #}
+                                {#                                    <a href="{{ path('front_product_reservation_show_detail', {'token': mid.token}) }}" #}
+                                {#                                       class="os-btn os-btn-2" title="Réservez"> #}
+                                {#                                        Réservez / #}
+                                {#                                        <span>{{ mid.amount|number_format(2, ',')|default(0) }} €</span></a> #}
+                                {#                                </div> #}
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-                {% if homePage.mids2 %}
-                    <div class="col-xl-6 col-lg-6">
-                        <div class=" banner__item-2 banner-left p-relative mb-30 pl-15">
-                            <div class="banner__thumb fix">
-                                {% set pictureName = '' %}
-                                {% if homePage.mids2.pictures.count > 0 %}
-                                    {% set pictureName = homePage.mids2.pictures.first.name %}
-                                {% endif %}
-                                <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids2.token}) }}"
-                                   class="w-img">
-                                    <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
-                                         alt="{{ homePage.mids2.title }}"></a>
-                            </div>
-                            <div class="banner__content-2 banner__content-2-right p-absolute transition-3">
-                                <span>{{ homePage.mids2.category.label }}</span>
-                                <h4>
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids2.token}) }}">
-                                        {{ homePage.mids2.title }}
-                                    </a>
-                                </h4>
-                                <p>{{ homePage.mids2.shortDescription|u.truncate(20, '...', false) }}</p>
-                                <a href="{{ path('front_product_reservation_show_detail', {'token': homePage.mids2.token}) }}"
-                                   class="os-btn os-btn-2" title="Réservez">
-                                    Réservez /
-                                    <span>{{ homePage.mids2.amount|number_format(2, ',')|default(0) }} €</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>
@@ -370,10 +244,12 @@
                                             {% set pictureName = topSale[0].product.pictures.first.name %}
                                         {% endif %}
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                             width="270px"
                                              alt="{{ topSale[0].product.title }}">
                                         {% if topSale[0].product.pictures.count > 1 %}
                                             {% set pictureName = topSale[0].product.pictures.next.name %}
                                             <img class="product__thumb-2"
+                                                 width="270px"
                                                  src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
                                                  alt="{{ topSale[0].product.title }}">
                                         {% endif %}
@@ -448,6 +324,7 @@
                             <div class="client__thumb">
                                 <a href="{{ path('front_product_reservation_show_detail', {'token': latestProduct[0].token}) }}">
                                     <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_latest') }}"
+                                         width="240px"
                                          alt="{{ latestProduct[0].title }}"></a>
                             </div>
                         {% endfor %}

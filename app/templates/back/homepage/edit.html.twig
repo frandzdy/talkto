@@ -17,7 +17,13 @@
             {{ form_start(form, {attr: {'autocomplete':'off'}}) }}
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Sliders</h4>
+                    <h4 class="panel-title">Titre</h4>
+                </div>
+                <div class="panel-body">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">Mise en avant</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             title="Ajouter des slides"
                             data-action="click->back-homepage#onWebsiteContentsAdd">
@@ -25,14 +31,14 @@
                     </button>
                 </div>
                 <div class="panel-body">
-                    <div class="row col-12  websiteContent-collection" data-prototype="{{ macros.websiteContentField(form.websiteContents.vars.prototype)|e }}">
-                        {% for index, websiteContentForm in form.websiteContents %}
-                            {{ macros.websiteContentField(websiteContentForm) }}
+                    <div class="row col-12  websiteContent-collection" data-prototype="{{ form_widget(form.websiteContents.vars.prototype)|e }}">
+                        {% for websiteContentForm in form.websiteContents %}
+                            {{ form_widget(websiteContentForm) }}
                         {% endfor %}
                     </div>
                 </div>
                 <div class="panel-heading">
-                    <h4 class="panel-title">Sliders</h4>
+                    <h4 class="panel-title">Produit slider</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             title="Ajouter des produits au slider"
                             data-action="click->back-homepage#onSlidersAdd">
@@ -40,70 +46,45 @@
                     </button>
                 </div>
                 <div class="panel-body">
-                    <div class="row col-12">
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.sliders1) }}
-                            {{ form_errors(form.sliders1) }}
-                        </div>
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.sliders2) }}
-                            {{ form_errors(form.sliders2) }}
-                        </div>
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.sliders3) }}
-                            {{ form_errors(form.sliders3) }}
-                        </div>
+                    <div class="row col-12 sliders-collection" data-prototype="{{ form_widget(form.sliders.vars.prototype)|e }}">
+                        {% for sliderForm in form.sliders %}
+                            {{ form_widget(sliderForm) }}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="panel-heading">
-                    <h4 class="panel-title">Under Sliders</h4>
+                    <h4 class="panel-title">Produit sous slider</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             data-action="click->back-homepage#onUnderSlidersAdd">
                         <i class="fas fa-plus "></i> Ajouter
                     </button>
                 </div>
                 <div class="panel-body">
-                    <div class="row col-12">
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.underSliders1) }}
-                            {{ form_errors(form.underSliders1) }}
-                        </div>
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.underSliders2) }}
-                            {{ form_errors(form.underSliders2) }}
-                        </div>
-                        <div class="col-xs-12 col-lg-4">
-                            {{ form_widget(form.underSliders3) }}
-                            {{ form_errors(form.underSliders3) }}
-                        </div>
+                    <div class="row col-12 under-sliders-collection" data-prototype="{{ form_widget(form.underSliders.vars.prototype)|e }}">
+                        {% for underSliderForm in form.underSliders %}
+                            {{ form_widget(underSliderForm) }}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="panel-heading">
-                    <h4 class="panel-title">Mids</h4>
+                    <h4 class="panel-title">Produit milieu écran</h4>
                     <button type="button" class="btn btn-primary btn-sm"
                             data-action="click->back-homepage#onMidsAdd">
                         <i class="fas fa-plus "></i> Ajouter
                     </button>
                 </div>
                 <div class="panel-body">
-                    <div class="row col-12">
-                        <div class="col-xs-12 col-lg-6">
-                            {{ form_widget(form.mids1) }}
-                            {{ form_errors(form.mids1) }}
-                        </div>
-                        <div class="col-xs-12 col-lg-6">
-                            {{ form_widget(form.mids2) }}
-                            {{ form_errors(form.mids2) }}
-                        </div>
+                    <div class="row col-12 mids-collection" data-prototype="{{ form_widget(form.mids.vars.prototype)|e }}">
+                        {% for midForm in form.mids %}
+                            {{ form_widget(midForm) }}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="actions mt-4 text-center col-12 pb-2">
-                <button type="submit" class="btn btn-primary" formnovalidate>Valider le produit</button>
+                <button type="submit" class="btn btn-primary" formnovalidate>Enregistrer</button>
             </div>
             {{ form_end(form) }}
         </div>
-    </div>
-    </div>
     </div>
 {% endblock %}

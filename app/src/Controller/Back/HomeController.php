@@ -2,8 +2,10 @@
 
 namespace App\Controller\Back;
 
+use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Entity\User;
+use App\Enum\TransactionStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Clock\DatePoint;
@@ -18,7 +20,7 @@ class HomeController extends AbstractController
     {
         $allProfits = $em->getRepository(TransactionLine::class)->getStatTransactionLine();
         $dayProfits = $em->getRepository(TransactionLine::class)->getStatTransactionLine(new DatePoint());
-        $nbTransaction = $em->getRepository(TransactionLine::class)->findAll();
+        $nbTransaction = $em->getRepository(Transaction::class)->findBy(['status' => TransactionStatus::VALIDATE]);
 
         $allSellers = $em->getRepository(User::class)->statsUsers(User::ROLE_SELLER);
         $daySellers = $em->getRepository(User::class)->statsUsers(User::ROLE_SELLER, new DatePoint());

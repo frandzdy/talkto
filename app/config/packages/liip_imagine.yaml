@@ -43,9 +43,9 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                fixed:
-                    width: 950
-                    height: 457
+                downscale:
+                    max: [ 950, 457 ]
+
         home_latest:
             quality: 100
             filters:
@@ -95,3 +95,10 @@ liip_imagine:
                 auto_rotate: ~
                 #strip: ~
                 thumbnail: { size: [ 130, 130 ], mode: outbound }
+
+        back_website_contente:
+            quality: 100
+            filters:
+                auto_rotate: ~
+                #strip: ~
+                thumbnail: { size: [ 100, 100 ], mode: outbound }

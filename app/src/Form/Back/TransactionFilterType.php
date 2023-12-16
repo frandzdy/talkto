@@ -2,7 +2,9 @@
 
 namespace App\Form\Back;
 
+use App\Enum\ClaimStatus;
 use App\Enum\ProductStatus;
+use App\Enum\TransactionStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Filtre du menu produit
  */
-class ProductFilterType extends AbstractType
+class TransactionFilterType extends AbstractType
 {
     /**
      * <@inheritDoc>
@@ -32,20 +34,6 @@ class ProductFilterType extends AbstractType
                             'placeholder' => 'Titre, description ou propriétaire',
                             'style' => 'width: 53%;',
                             'class' => 'float-right'
-                        ]
-                ]
-            )
-            ->add(
-                'status',
-                EnumType::class,
-                [
-                    'class' => ProductStatus::class,
-                    'label' => false,
-                    'choice_label' => 'label',
-                    'attr' =>
-                        [
-                        'style' => 'width: 38%;',
-                        'class' => 'float-right'
                         ]
                 ]
             );

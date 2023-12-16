@@ -10,10 +10,11 @@
 
 {% block form_filter %}
     {{ form_start(filterForm, {'attr': {'novalidate':'novalidate', 'style' : 'position:relative;top:-12px;', 'data-controller': 'back-customer'}}) }}
+    {{ form_row(filterForm.term) }}
     <button type="submit" class="btn btn-success float-right">
         <i class="fa fa-search"></i>&nbsp
     </button>
-    {{ form_row(filterForm.term) }}
+    {{ form_row(filterForm.status) }}
     {{ form_end(filterForm) }}
 {% endblock %}
 

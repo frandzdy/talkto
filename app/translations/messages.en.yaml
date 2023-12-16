@@ -13,5 +13,9 @@ front_aboutus: 'About us'
 
 # HTML Traduction
 -- Sélectionner --: '-- Select --'
-Bonjour: 'Hey'CX: 'Required information'
+Bonjour: 'Hey'
+Information requise: 'Required information'
+Titre: 'Titre'
+Sous-titre: 'Sous-titre'
+Lien vers: 'Lien vers'
 Fichier (10Mo): 'File (10Mo)'

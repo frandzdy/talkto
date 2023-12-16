@@ -19,9 +19,6 @@
                         <i class="fa fa-lock"></i>
                     </div>
                 </div>
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
                 <div class="login-body">
                     <div class="login-content">
                         {{ include('back/auth/_form.html.twig') }}

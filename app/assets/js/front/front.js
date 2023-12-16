@@ -45,7 +45,7 @@ import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources
 Routing.setRoutingData(routes);
 window.Routing = Routing;
 
-//require('./js/pages/common')
+//require('../../js/front/pages/common')
 require('./services/cookie')
 require('../../js/front/pages/product')
 

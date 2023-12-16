@@ -22,21 +22,3 @@
         </button>
     </div>
 {% endmacro %}
-
-{% macro websiteContentField(formField) %}
-    <div class="col-4">
-        <div class="w-100">
-            {{ form_row(formField.children.title) }}
-        </div>
-        <div class="w-100">
-            {{ form_row(formField.children.subTitle) }}
-        </div>
-        <div class="w-100">
-            {{ form_row(formField.children.link) }}
-        </div>
-        <div class="w-100">
-            {{ dump(formField.picture) }}
-            {{ form_row(formField.children.uploadedPicture) }}
-        </div>
-    </div>
-{% endmacro %}

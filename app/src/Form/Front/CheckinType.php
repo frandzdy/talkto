@@ -72,7 +72,7 @@ class CheckinType extends AbstractType
                     [
                         'attr' =>
                             [
-                                'accept' => 'image/*',
+                                'accept' => 'image/png, image/jpeg, image/jpg',
                                 'lang' => 'fr',
                                 'data-browse' => 'Votre photo'
                             ],

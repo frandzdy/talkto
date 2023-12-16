@@ -18,150 +18,72 @@ class HomePage
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: WebsiteContent::class, cascade: ['persist'])]
     #[Assert\Valid()]
     private Collection $websiteContents;
 
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $sliders1 = null;
+    #[ORM\ManyToMany(targetEntity: Product::class)]
+    #[ORM\JoinTable(
+        name: 'home_page_slider',
+        joinColumns: [
+            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id')
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')
+        ]
+    )]
+    private Collection $sliders;
 
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $sliders2 = null;
+    #[ORM\ManyToMany(targetEntity: Product::class)]
+    #[ORM\JoinTable(
+        name: 'home_page_under_slider',
+        joinColumns: [
+            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id')
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')
+        ]
+    )]
+    private Collection $underSliders;
 
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $sliders3 = null;
+    #[ORM\ManyToMany(targetEntity: Product::class)]
+    #[ORM\JoinTable(
+        name: 'home_page_mid',
+        joinColumns: [
+            new ORM\JoinColumn('home_page_id', referencedColumnName: 'id')
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn('product_id', referencedColumnName: 'id')
+        ]
+    )]
+    private Collection $mids;
 
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $underSliders1;
-
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $underSliders2;
-
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $underSliders3;
-
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $mids1;
-
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $mids2;
-
-    #[ORM\ManyToOne(targetEntity: Product::class)]
-    private ?Product $mids3;
-
-    #[ORM\Column(length: 255)]
-    private ?string $label = null;
+    // constructor
+    public function __construct() {
+        $this->websiteContents = new ArrayCollection();
+        $this->sliders = new ArrayCollection();
+        $this->underSliders = new ArrayCollection();
+        $this->mids = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getTitle(): ?string
     {
-        return $this->label;
+        return $this->title;
     }
 
-    public function setLabel(?string $label): self
+    public function setTitle(?string $title): self
     {
-        $this->label = $label;
+        $this->title = $title;
 
         return $this;
-    }
-
-    public function getSliders1(): ?Product
-    {
-        return $this->sliders1;
-    }
-
-    public function setSliders1(?Product $sliders1): void
-    {
-        $this->sliders1 = $sliders1;
-    }
-
-    public function getSliders2(): ?Product
-    {
-        return $this->sliders2;
-    }
-
-    public function setSliders2(?Product $sliders2): void
-    {
-        $this->sliders2 = $sliders2;
-    }
-
-    public function getSliders3(): ?Product
-    {
-        return $this->sliders3;
-    }
-
-    public function setSliders3(?Product $sliders3): void
-    {
-        $this->sliders3 = $sliders3;
-    }
-
-    public function getUnderSliders1(): ?Product
-    {
-        return $this->underSliders1;
-    }
-
-    public function setUnderSliders1(?Product $underSliders1): void
-    {
-        $this->underSliders1 = $underSliders1;
-    }
-
-    public function getUnderSliders2(): ?Product
-    {
-        return $this->underSliders2;
-    }
-
-    public function setUnderSliders2(?Product $underSliders2): void
-    {
-        $this->underSliders2 = $underSliders2;
-    }
-
-    public function getUnderSliders3(): ?Product
-    {
-        return $this->underSliders3;
-    }
-
-    public function setUnderSliders3(?Product $underSliders3): void
-    {
-        $this->underSliders3 = $underSliders3;
-    }
-
-    public function getMids1(): ?Product
-    {
-        return $this->mids1;
-    }
-
-    public function setMids1(?Product $mids1): void
-    {
-        $this->mids1 = $mids1;
-    }
-
-    public function getMids2(): ?Product
-    {
-        return $this->mids2;
-    }
-
-    public function setMids2(?Product $mids2): void
-    {
-        $this->mids2 = $mids2;
-    }
-
-    public function getMids3(): ?Product
-    {
-        return $this->mids3;
-    }
-
-    public function setMids3(?Product $mids3): void
-    {
-        $this->mids3 = $mids3;
-    }
-
-    public function __construct()
-    {
-        $this->websiteContents = new ArrayCollection();
     }
 
     /**
@@ -191,6 +113,55 @@ class HomePage
             }
         }
 
+        return $this;
+    }
+
+
+    public function getSliders(): Collection {
+        return $this->sliders;
+    }
+
+    public function addSlider(Product $slider): self {
+        if (!$this->sliders->contains($slider)) {
+            $this->sliders[] = $slider;
+        }
+        return $this;
+    }
+
+    public function removeSlider(Product $slider): self {
+        $this->sliders->removeElement($slider);
+        return $this;
+    }
+
+    public function getUnderSliders(): Collection {
+        return $this->underSliders;
+    }
+
+    public function addUnderSlider(Product $underSlider): self {
+        if (!$this->underSliders->contains($underSlider)) {
+            $this->underSliders[] = $underSlider;
+        }
+        return $this;
+    }
+
+    public function removeUnderSlider(Product $underSlider): self {
+        $this->underSliders->removeElement($underSlider);
+        return $this;
+    }
+
+    public function getMids(): Collection {
+        return $this->mids;
+    }
+
+    public function addMid(Product $mids): self {
+        if (!$this->mids->contains($mids)) {
+            $this->mids[] = $mids;
+        }
+        return $this;
+    }
+
+    public function removeMid(Product $mids): self {
+        $this->mids->removeElement($mids);
         return $this;
     }
 }

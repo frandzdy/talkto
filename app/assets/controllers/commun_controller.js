@@ -108,18 +108,6 @@ export default class extends Controller {
             })
     }
 
-    seoAnchor(){
-        // Add click event listener to all anchor elements
-        $('a').click((event) => {
-            // Check if the anchor has the 'rel' attribute
-            const relAttributeValue = $(event.currentTarget).attr('rel');
-            if (relAttributeValue) {
-                // Prevent default behavior for anchors with the 'rel' attribute
-                event.preventDefault();
-            }
-        });
-    }
-
     updateCart() {
         this.cart = [];
         let listProducts = $('#cart-products').find('tr');
@@ -361,9 +349,10 @@ export default class extends Controller {
         });
     };
 
-    handleToolTips () {
+    handleToolTips() {
         $('[data-toggle="tooltip"]').tooltip();
     }
+
     /**
      * Permet de custom les input file bootstrap
      */

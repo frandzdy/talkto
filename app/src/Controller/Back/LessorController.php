@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Exporter\LessorExporter;
+use App\Form\Back\LessorFilterType;
 use App\Form\Back\UserFilterType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,13 +39,16 @@ class LessorController extends AbstractController
     {
         $filtersFormSession = $request->getSession()->get(self::LESSORS_TERM_FILTER, null);
         if (!$filtersFormSession) {
-            $filters = ['term' => $request->query->get('term', '')];
+            $filters = [
+                'term' => $request->query->get('term', ''),
+                'status' => $request->query->get('status', 0)
+            ];
         } else {
             $filters = $filtersFormSession;
         }
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
-        $filterForm = $this->createForm(UserFilterType::class, $filters);
+        $filterForm = $this->createForm(LessorFilterType::class, $filters);
         if ($filterForm->handleRequest($request)->isSubmitted() && $filterForm->isValid()) {
             $filters = $filterForm->getData() ?? [];
             $request->getSession()->set(self::LESSORS_TERM_FILTER, $filters);

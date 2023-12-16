@@ -2,20 +2,24 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Claim;
+use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Enum\ProductCategory;
+use App\Enum\ProductStatus;
 use App\Repository\ClaimRepository;
 use App\Repository\ReservationRepository;
 use App\Service\StripeManager;
 use App\Service\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
 readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private UserManager $userManager,
-        private ClaimRepository $claimRepository,
+        private EntityManagerInterface $em,
         private StripeManager $stripeManager
     ) {
     }
@@ -33,7 +37,15 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
      */
     public function numberClaims(): int
     {
-        return \count($this->claimRepository->getClaims());
+        return \count($this->em->getRepository(Claim::class)->getClaims());
+    }
+
+    /**
+     * Retourne le nombre de réclamations dans twig
+     */
+    public function numberProductToValidate(): int
+    {
+        return $this->em->getRepository(Product::class)->getProductToValidate();
     }
 
     /**

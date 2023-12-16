@@ -47,17 +47,16 @@ class WebsiteContentType extends AbstractType
                 'uploadedPicture',
                 FileType::class,
                 [
-                    'label' => 'Fichier (10Mo)',
+                    'label' => 'Image (SVG)',
                     'attr' =>
                         [
-                            'accept' => 'image/*',
-                            'lang' => 'fr',
-                        ],
-                    'required' => true
+                            'accept' => 'image/svg+xml, image/png, image/jpg, image/jpeg',
+                            'lang' => 'fr'
+                        ]
                 ]
             );
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $websiteContent = $event->getData();
 

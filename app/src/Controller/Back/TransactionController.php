@@ -4,9 +4,11 @@ namespace App\Controller\Back;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionLine;
+use App\Enum\TransactionStatus;
 use App\Exporter\TransactionExporter;
 use App\Form\Back\CancelTransactionLineType;
 use App\Form\Back\ProductFilterType;
+use App\Form\Back\TransactionFilterType;
 use App\Repository\TransactionRepository;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
@@ -44,20 +46,20 @@ class TransactionController extends AbstractController
         }
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
-        $filterForm = $this->createForm(ProductFilterType::class, $filters);
+        $filterForm = $this->createForm(TransactionFilterType::class, $filters);
         if ($filterForm->handleRequest($request)->isSubmitted() && $filterForm->isValid()) {
             $filters = $filterForm->getData() ?? [];
             $request->getSession()->set(self::TRANSACTIONS_TERM_FILTER, $filters);
         }
 
-        $query = $transactionRepository->buildSearchQuery($filters, true);
+        $query = $transactionRepository->buildSearchQuery($filters);
 
         $paginator = $paginator->paginate(
             $query,
             $page,
             self::TRANSACTIONS_PER_PAGE,
             [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 't.reference',
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 't.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
                 PaginatorInterface::DISTINCT => false
             ]

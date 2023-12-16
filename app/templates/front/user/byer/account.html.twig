@@ -75,7 +75,7 @@
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab"
                                             data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false">
-                                        <i class="fa fa-bags-shopping text-info"></i>
+                                        <i class="fa fa-bags-shopping"></i>
                                         Mes biens
                                     </button>
                                 {% endif %}
@@ -84,14 +84,14 @@
                                             data-target="#nav-reservation"
                                             type="button" role="tab" aria-controls="nav-reservation"
                                             aria-selected="false">
-                                        <i class="fa fa-calendar text-primary"></i>
+                                        <i class="fa fa-calendar"></i>
                                         Mes réservations
                                     </button>
                                     <button class="nav-link" id="nav-rents-tab" data-toggle="tab"
                                             data-target="#nav-rents"
                                             type="button" role="tab" aria-controls="nav-rents"
                                             aria-selected="false">
-                                        <i class="fa fa-calendar-check text-warning"></i>
+                                        <i class="fa fa-calendar-check"></i>
                                         Mes locations
                                     </button>
                                 {% else %}
@@ -99,7 +99,7 @@
                                             data-target="#nav-reservation"
                                             type="button" role="tab" aria-controls="nav-reservation"
                                             aria-selected="false">
-                                        <i class="fa fa-calendar-check text-warning"></i>
+                                        <i class="fa fa-calendar-check"></i>
                                         Mes locations
                                     </button>
                                 {% endif %}
@@ -107,10 +107,11 @@
                                         data-target="#nav-wishlist"
                                         type="button" role="tab" aria-controls="nav-wishlist"
                                         aria-selected="false">
-                                    <i class="fas fa-heart" style="color: #ffc8c8;"></i>
+                                    <i class="fas fa-heart"></i>
                                     Mes favoris
                                 </button>
-                                <a href="{{ path('front_logout') }}" class="btn nav-link"><i class="fa fa-sign-out text-danger"></i>
+                                <a href="{{ path('front_logout') }}" class="btn nav-link" title="Déconnexion">
+                                    <i class="fa fa-sign-out text-danger"></i>
                                     Déconnexion
                                 </a>
                             </div>

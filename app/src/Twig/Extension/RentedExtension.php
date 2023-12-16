@@ -24,6 +24,7 @@ class RentedExtension extends AbstractExtension
         return [
             new TwigFunction('getProductCategories', [RentedExtensionRuntime::class, 'getProductCategories'], ['is_safe' => ['html']]),
             new TwigFunction('numberClaims', [RentedExtensionRuntime::class, 'numberClaims']),
+            new TwigFunction('numberProductToValidate', [RentedExtensionRuntime::class, 'numberProductToValidate']),
             new TwigFunction('getInvoiceLink', [RentedExtensionRuntime::class, 'getInvoiceLink']),
             new TwigFunction('getDistance', [RentedExtensionRuntime::class, 'getDistance']),
         ];

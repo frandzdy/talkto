@@ -14,5 +14,14 @@ front_seller_new: "Compte bailleur"
 front_aboutus: "À propos de nous"
 
 # HTML Traduction
-'-- Sélectionner --': '-- Select --'
 Bonjour: 'Bonjour'
+-- Sélectionner --: '-- Select --'
+Titre: 'Titre'
+Sous-titre: 'Sous-titre'
+Lien vers: 'Lien vers'
+Fichier (10Mo): 'Lien vers'
+Information requise: 'Information requise'
+
+Produit: 'Produit'
+Montant TTC: 'Montant TTC'
+Montant T.V.A: 'Montant T.V.A'

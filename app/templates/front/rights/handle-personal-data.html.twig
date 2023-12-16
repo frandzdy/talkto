@@ -3,11 +3,12 @@
 {% block title %}Gestion de vos données personnelles{% endblock %}
 
 {% block content %}
-    <section id="features">
-        <div class="container px-5 my-3">
+    <section class="shop__area pb-65" {{ stimulus_controller('bigpicture')|stimulus_controller('rating') }}>
+        <div class="shop__top grey-bg-6 pt-50 pb-90">
+            <div class="container">
             <div class="row">
                 <div class="col-lg-3 mb-lg-0 text-right">
-                    {{ include('front/rights/_nav_list.html.twig') }}
+                    {{ include('front/rights/_nav_right.html.twig') }}
                 </div>
                 <div class="col-lg-9 mb-sm-12 mb-lg-0">
                     <div class="mb-5">
@@ -28,11 +29,12 @@
                         Le Directeur de Publication du site est Monsieur Sanon Frandzdy.
                     </p>
                     <p>
-                        Email à l’adresse : <a title="E-mail de contact"
+                        E-mail à l’adresse : <a title="E-mail de contact"
                                                href="mailto:contact@reented">contact@reented</a>
                     </p>
                 </div>
             </div>
-        </div>
+            </div>
+            </div>
     </section>
 {% endblock %}

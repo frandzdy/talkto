@@ -43,7 +43,10 @@ class ProductController extends AbstractController
     ): Response {
         $filtersFormSession = $request->getSession()->get(self::PRODUCTS_TERM_FILTER, null);
         if (!$filtersFormSession) {
-            $filters = ['term' => $request->query->get('term', '')];
+            $filters = [
+                'term' => $request->query->get('term', ''),
+                'status' => $request->query->getEnum('status', ProductStatus::class, ProductStatus::WAITING)
+            ];
         } else {
             $filters = $filtersFormSession;
         }
@@ -55,14 +58,14 @@ class ProductController extends AbstractController
             $request->getSession()->set(self::PRODUCTS_TERM_FILTER, $filters);
         }
 
-        $query = $productRepository->buildSearchQuery($filters, true);
+        $query = $productRepository->buildSearchQuery($filters);
 
         $paginator = $paginator->paginate(
             $query,
             $page,
             self::PRODUCTS_PER_PAGE,
             [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'p.createdAt',
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'p.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
                 PaginatorInterface::DISTINCT => false
             ]

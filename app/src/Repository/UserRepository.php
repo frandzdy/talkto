@@ -211,9 +211,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 )
                 ->setParameter('term', $filters['term'] . '%');
         }
+
         $builder->andWhere('u.role IN (:role)');
         if ($isLessor) {
-            $builder->setParameter('role', User::ROLE_SELLER);
+            $builder->andWhere('u.isStripeAccountActive = :status')
+                ->setParameter('status', $filters['status'])
+                ->setParameter('role', User::ROLE_SELLER);
         } else {
             $builder->setParameter('role', [User::ROLE_USER, User::ROLE_GUESS]);
         }

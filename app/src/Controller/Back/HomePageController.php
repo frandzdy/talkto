@@ -3,7 +3,11 @@
 namespace App\Controller\Back;
 
 use App\Entity\HomePage;
+use App\Entity\Picture;
+use App\Entity\WebsiteContent;
 use App\Form\Back\HomePageType;
+use App\Service\FileUploadManager;
+use App\Service\HomePageManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,24 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomePageController extends AbstractController
 {
     #[Route(path: '/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, EntityManagerInterface $em): Response
+    public function edit(Request $request, EntityManagerInterface $em, HomePageManager $homePageManager): Response
     {
         $homePage = $em->getRepository(HomePage::class)->findOneBy(['id' => 1]);
-        $options = [
-            'validation_groups' => ['edition']
-        ];
+
         if (!$homePage) {
-            $homePage = (new HomePage())->setLabel('Homepage création');
+            $homePage = (new HomePage())->setTitle('Homepage création');
             $em->persist($homePage);
             $em->flush();
-            $options = [
-                'validation_groups' => ['creation']
-            ];
         }
 
-        $form = $this->createForm(HomePageType::class, $homePage, $options);
+        $form = $this->createForm(HomePageType::class, $homePage);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $homePage = $form->getData();
+            $homePageManager->saveHomePage($homePage);
             $this->addFlash('success', 'Enregistrement effectué.');
             $em->flush();
 

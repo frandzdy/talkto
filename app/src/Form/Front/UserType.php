@@ -160,7 +160,8 @@ class UserType extends AbstractType
                     'mapped' => false,
                     'attr' =>
                         [
-                            'accept' => 'image/*',
+                            'accept' => 'image/png, image/jpeg, image/jpg',
+                            'lang' => 'fr',
                             'data-browse' => 'votre photo'
                         ]
                 ]

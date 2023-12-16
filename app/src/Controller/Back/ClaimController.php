@@ -4,8 +4,10 @@ namespace App\Controller\Back;
 
 use App\Entity\Claim;
 use App\Entity\TransactionLine;
+use App\Enum\ClaimStatus;
 use App\Exporter\TransactionExporter;
 use App\Form\Back\CancelTransactionLineType;
+use App\Form\Back\ClaimFilterType;
 use App\Form\Back\ProductFilterType;
 use App\Repository\ClaimRepository;
 use App\Repository\TransactionRepository;
@@ -39,26 +41,29 @@ class ClaimController extends AbstractController
     ): Response {
         $filtersFormSession = $request->getSession()->get(self::CLAIM_TERM_FILTER, null);
         if (!$filtersFormSession) {
-            $filters = ['term' => $request->query->get('term', '')];
+            $filters = [
+                'term' => $request->query->get('term', ''),
+                'status' => $request->query->getEnum('status', ClaimStatus::class, ClaimStatus::PENDING)
+            ];
         } else {
             $filters = $filtersFormSession;
         }
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
-        $filterForm = $this->createForm(ProductFilterType::class, $filters);
+        $filterForm = $this->createForm(ClaimFilterType::class, $filters);
         if ($filterForm->handleRequest($request)->isSubmitted() && $filterForm->isValid()) {
             $filters = $filterForm->getData() ?? [];
             $request->getSession()->set(self::CLAIM_TERM_FILTER, $filters);
         }
 
-        $query = $claimRepository->buildSearchQuery($filters, true);
+        $query = $claimRepository->buildSearchQuery($filters);
 
         $paginator = $paginator->paginate(
             $query,
             $page,
             self::CLAIM_PER_PAGE,
             [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.id',
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
                 PaginatorInterface::DISTINCT => false
             ]

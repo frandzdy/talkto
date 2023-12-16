@@ -79,26 +79,29 @@ class ProductType extends AbstractType
             ->add('handleError', TextType::class)
             ->add(
                 'uploadedPictures',
-                CollectionType::class, [
-                'label' => false,
-                'entry_type' => FileType::class,
-                'entry_options' =>
-                    [
+                CollectionType::class,
+                [
                     'label' => false,
-                    'attr' =>
+                    'entry_type' => FileType::class,
+                    'entry_options' =>
                         [
-                        'accept' => 'image/*',
-                        'allow-delete' => true,
-                    ],
-                ],
-                'label_attr' =>
-                    [
-                    'class' => 'w-max-content form-text text-muted',
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false
-            ])
+                            'label' => false,
+                            'attr' =>
+                                [
+                                    'accept' => 'image/png, image/jpeg, image/jpg',
+                                    'lang' => 'fr',
+                                    'allow-delete' => true,
+                                ],
+                        ],
+                    'label_attr' =>
+                        [
+                            'class' => 'w-max-content form-text text-muted',
+                        ],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false
+                ]
+            )
             ->add(
                 'caution',
                 TextType::class,
@@ -122,8 +125,8 @@ class ProductType extends AbstractType
                     'label' => 'Prix / jours',
                     'label_attr' =>
                         [
-                        'class' => 'form-text text-muted'
-                    ],
+                            'class' => 'form-text text-muted'
+                        ],
                     'attr' =>
                         [
                             'placeholder' => '10 € ...',

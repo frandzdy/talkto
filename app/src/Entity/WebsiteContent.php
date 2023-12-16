@@ -35,18 +35,16 @@ class WebsiteContent
     private ?Link $link = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private Picture $picture;
+    private ?Picture $picture = null;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'websiteContents')]
     private ?HomePage $homePage = null;
 
-    #[Assert\Image(
+    #[Assert\File(
         maxSize: '10M',
-        mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
-        detectCorrupted: true,
+        mimeTypes: ['image/svg+xml', 'image/png', 'image/jpg', 'image/jpeg'],
         maxSizeMessage: "Document trop lourd. (10Mo)",
-        mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
-        corruptedMessage: 'Fichier corrompue'
+        mimeTypesMessage: "Format image uniquement autorisé. (SVG)",
     )]
     private ?UploadedFile $uploadedPicture = null;
 
