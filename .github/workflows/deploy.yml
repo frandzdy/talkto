@@ -24,8 +24,8 @@ jobs:
                     script: |
                         cd /app
                         rsync -r --delete-after --quiet $GITHUB_WORKSPACE/app ${{ env.username }}@${{ env.host }}:~/domains/reented.com/
-                        ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && composer install --no-ansi --no-interaction --no-progress --optimize-autoloader'
-                        ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && composer dump-autoload --optimize'
+                        ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist -o'
+                        ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && composer dump-autoload --no-dev --classmap-authoritative --optimize'
                         ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && php bin/console d:s:u -f'
                         ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && php bin/console cache:clear'
                         ssh ${{ env.username }}@${{ env.host }} 'cd ~/domains/reented.com/ && export APP_ENV=prod && cp public/. public_html/ -R'
