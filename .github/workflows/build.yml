@@ -1,0 +1,54 @@
+name: Build
+
+on:
+    push:
+        branches:
+            - prod
+    pull_request:
+        types:
+            - closed
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout Repository
+                uses: actions/checkout@v2
+
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+
+            -   name: Install Composer dependencies
+                run: |
+                    cd app
+                    composer install --no-ansi --no-interaction --no-progress --optimize-autoloader
+                    composer dump-autoload --optimize
+
+            -   name: Install latest Node.js and Yarn
+                uses: actions/setup-node@v3
+                with:
+                    node-version: '16'
+                    registry-url: 'https://registry.npmjs.org/'
+
+            -   run: |
+                    cd app
+                    yarn install
+
+            -   name: Build assets
+                run: |
+                    cd app
+                    yarn encore production
+                    php bin/console doctrine:schema:validate --skip-sync -q
+                    php bin/console lint:twig templates
+                    php bin/console lint:yaml config
+
+            -   name: Trigger Deploy Workflow
+                if: github.event_name === 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+                run: echo "Pull request was merged. Start Deployment to prod"
+                uses: peter-evans/repository-dispatch@v2
+                with:
+                    token: ${{ secrets.GITHUB_TOKEN }}
+                    event-type: deploy

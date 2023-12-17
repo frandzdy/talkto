@@ -21,14 +21,14 @@ class WebsiteContent
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 55)]
-    #[Assert\NotBlank(message: 'Information requise.')]
-    #[Assert\Length(max: 55, maxMessage: 'Trop long.')]
-    private ?string $title = null;
-
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 100, maxMessage: 'Trop long.')]
+    private ?string $title = null;
+
+    #[ORM\Column(length: 200)]
+    #[Assert\NotBlank(message: 'Information requise.')]
+    #[Assert\Length(max: 200, maxMessage: 'Trop long.')]
     private ?string $subTitle = null;
 
     #[ORM\Column(type: "smallint", enumType: Link::class)]
@@ -47,6 +47,9 @@ class WebsiteContent
         mimeTypesMessage: "Format image uniquement autorisé. (SVG)",
     )]
     private ?UploadedFile $uploadedPicture = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $whiteColor = null;
 
     public function getId(): ?int
     {
@@ -121,5 +124,15 @@ class WebsiteContent
     public function setUploadedPicture(?UploadedFile $uploadedPicture): void
     {
         $this->uploadedPicture = $uploadedPicture;
+    }
+
+    public function hasWhiteColor(): ?bool
+    {
+        return $this->whiteColor;
+    }
+
+    public function setWhiteColor(?bool $whiteColor): void
+    {
+        $this->whiteColor = $whiteColor;
     }
 }

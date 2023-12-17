@@ -5,20 +5,21 @@
     <div class="panel-body" {{ stimulus_controller('bigpicture') }}>
         <div class="table-responsive mb-4">
             <div class="product__modal-box">
-                <div class="tab-content mb-20 bp-gallery" id="nav-tabContent">
+                <div class="tab-content mb-20 bp-gallery" id="nav-tabContent-{{ type }}">
                     {% if checkin.pictures.count > 0 %}
                         {% for index, picture in checkin.pictures %}
                             {% set active = '' %}
                             {% if index == 0 %}
                                 {% set active = 'active' %}
                             {% endif %}
-                            <div data-action="click->bigpicture#loadGalleryModal"
+                            <div data-action="bp-galleryclick->bigpicture#loadGalleryCheckin"
                                  class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
                                  aria-labelledby="nav-{{ picture.token }}-tab">
                                 <div class="product__modal-img w-img">
                                     <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                          data-caption="{{ picture.name }}"
                                          src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                         width="316px"
                                          alt="{{ picture.name }}">
                                 </div>
                             </div>
@@ -39,6 +40,7 @@
                                    aria-selected="true">
                                     <div class="product__nav-img w-img">
                                         <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
+                                             width="102px"
                                              alt="{{ picture.name }}">
 
                                     </div>

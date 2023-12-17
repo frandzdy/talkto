@@ -41,7 +41,7 @@ export default class extends Controller {
 
     handleBsCustomInputFile(container) {
         if (container) {
-            bsCustomFileInput.init();
+            bsCustomFile.init();
         }
     };
 }

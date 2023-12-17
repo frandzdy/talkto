@@ -12,7 +12,10 @@
                         {% endif %}
                         <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel" aria-labelledby="nav-{{ picture.token }}-tab">
                             <div class="product__modal-img w-img">
-                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}" alt="">
+                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                     alt="{{ picture.name }}"
+                                     width="316px"
+                                >
                             </div>
                         </div>
                     {% endfor %}
@@ -28,7 +31,7 @@
                             {% endif %}
                             <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab" href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}" aria-selected="true">
                                 <div class="product__nav-img w-img">
-                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
+                                    <img width="130px" src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
 {#                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}"#}
 {#                                       class="post-confirm"#}
 {#                                       data-button-text="Supprimer"#}

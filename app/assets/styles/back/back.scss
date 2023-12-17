@@ -115,14 +115,22 @@ select.form-control.is-invalid, .was-validated select.form-control:invalid {
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: lightgray !important;;
+  color: lightgray !important;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-  color: lightgray !important;;
+  color: lightgray !important;
 }
 
 #website_content_backgroundTitle {
   position: relative;
   left: -20px;
+}
+
+.bp-xc {
+  display: none !important;
+}
+
+.ts-dropdown-content {
+  background-color: white !important;
 }

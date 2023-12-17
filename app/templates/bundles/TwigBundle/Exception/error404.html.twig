@@ -1,30 +1,29 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
-{% extends 'front/base.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block body %}
-    <div data-commun-target="container">
-        {% include 'front/partials/_nav.html.twig' %}
-        {% include 'front/partials/_header.html.twig' %}
-        {% include 'front/partials/_search.html.twig' %}
-        <!-- error area start -->
-        <section class="error__area pt-60 pb-100">
-            <div class="container">
-                <div class="col-xl-8 offset-xl-2 col-lg-8 offset-lg-2">
-                    <div class="error__content text-center">
-                        <div class="error__number">
-                            <h1>404</h1>
-                        </div>
-                        <span>Page introuvable</span>
-                        <h2>Allez oust, il n'y a rien a voir!</h2>
-                        <p>
-                            La page que vous cherchez a été supprimé ou n'existe plus, si vous souhaitez vous pouvez revenir à la page d'<a href="{{ path('front_home') }}" title="Accueil">accueil</a>.
-                            Si le problème continue, merci de nous contactez via notre <span class="highlight comment">formulaire de <a href="{{ path('front_contact') }}">contact</a></span>
-                        </p>
+{% block title %}
+    Erreur
+{% endblock %}
+
+{% block content %}
+    <!-- error area start -->
+    <section class="error__area pt-60 pb-100">
+        <div class="container">
+            <div class="col-xl-8 offset-xl-2 col-lg-8 offset-lg-2">
+                <div class="error__content text-center">
+                    <div class="error__number">
+                        <h1>404</h1>
                     </div>
+                    <span>Page introuvable</span>
+                    <h2>Allez oust, il n'y a rien a voir!</h2>
+                    <p>
+                        La page que vous cherchez a été supprimé ou n'existe plus, si vous souhaitez vous pouvez revenir
+                        à la page d'<a href="{{ path('front_home') }}" title="Accueil">accueil</a>.
+                        Si le problème continue, merci de nous contactez via notre <span class="highlight comment">formulaire de <a
+                                    href="{{ path('front_contact') }}">contact</a></span>
+                    </p>
                 </div>
             </div>
-        </section>
-        <!-- error area end -->
-        {% include 'front/partials/_footer.html.twig' %}
-    </div>
+        </div>
+    </section>
 {% endblock %}

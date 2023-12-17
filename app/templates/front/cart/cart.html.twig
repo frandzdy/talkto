@@ -28,6 +28,7 @@
                                         <td class="product-thumbnail">
                                             <a title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
+                                                     width="130px"
                                                      alt="{{ product.title }}"/>
                                             </a>
                                         </td>

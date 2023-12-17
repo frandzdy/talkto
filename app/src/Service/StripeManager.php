@@ -15,6 +15,7 @@ use Stripe\AccountLink;
 use Stripe\Charge;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
+use Stripe\LoginLink;
 use Stripe\PaymentIntent;
 use Stripe\Refund;
 use Stripe\StripeClient;
@@ -410,5 +411,13 @@ readonly class StripeManager
         return $this->retrieveCharge(
             $this->retrievePaymentIntent($transaction->getPaymentIntentId())?->latest_charge
         )?->receipt_url;
+    }
+
+    /**
+     * Retourne le lien vers le compte client STRIPE
+     */
+    public function getAccountLink(User $lessor): LoginLink
+    {
+        return $this->stripe->accounts->createLoginLink($lessor->getStripeAccountId());
     }
 }

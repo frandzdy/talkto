@@ -15,7 +15,8 @@
                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                      data-caption="{{ product.title }}"
                                      src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
-                                     alt="{{ product.title }}">
+                                     alt="{{ product.title }}"
+                                     width="316px">
                             </div>
                         </div>
                     {% endfor %}
@@ -31,10 +32,11 @@
                             {% endif %}
                             <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab"
                                href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
-                               aria-selected="true">
+                               aria-selected="true" title="{{ product.title }}">
                                 <div class="product__nav-img w-img">
                                     <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
-                                         alt="{{ product.title }}">
+                                         alt="{{ product.title }}"
+                                         width="102px">
                                 </div>
                             </a>
                         {% endfor %}

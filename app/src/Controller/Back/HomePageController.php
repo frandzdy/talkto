@@ -3,12 +3,8 @@
 namespace App\Controller\Back;
 
 use App\Entity\HomePage;
-use App\Entity\Picture;
-use App\Entity\WebsiteContent;
 use App\Form\Back\HomePageType;
-use App\Service\FileUploadManager;
 use App\Service\HomePageManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,0 +1,37 @@
+{% block subject %}Reented – Réclamation à analyser{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Réclamation à analyser{% endblock %}
+        {% block accroche %}Réclamation à analyser{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h3>Bonjour,</h3>
+                    <p>
+                        Une nouvelle réclamation vient d'être créé : <a href="{{ path('back_claim_show', {'id' : claim.id}) }}" title="Voir la réclamation">Voir la réclamation {{ claim.id }}</a>.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe Reented<br/>
+                        <a title="Site Reented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour,\n
+    \n
+    Une nouvelle réclamation vient d'être créé : <a href="{{ path('back_claim_show', {'id' : claim.id}) }}" title="Voir la réclamation">Voir la réclamation {{ claim.id }}</a>.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe Reented\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

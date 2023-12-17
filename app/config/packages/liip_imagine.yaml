@@ -95,10 +95,3 @@ liip_imagine:
                 auto_rotate: ~
                 #strip: ~
                 thumbnail: { size: [ 130, 130 ], mode: outbound }
-
-        back_website_contente:
-            quality: 100
-            filters:
-                auto_rotate: ~
-                #strip: ~
-                thumbnail: { size: [ 100, 100 ], mode: outbound }

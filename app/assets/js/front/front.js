@@ -36,7 +36,6 @@ window.debounce = debounce
 import 'jquery-confirm';
 
 import bsCustomFileInput from "bs-custom-file-input";
-
 global.bsCustomFile = bsCustomFileInput;
 
 const routes = require('../../../public/js/fos_js_routes.json');

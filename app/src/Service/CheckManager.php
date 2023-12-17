@@ -10,6 +10,7 @@ use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\CheckinType;
 use App\Enum\CheckinStatus;
+use App\Enum\CheckinType as CheckinTypeEnum;
 use App\Enum\ClaimStatus;
 use App\Enum\ReservationStatus;
 use App\Enum\TransactionLineStatus;
@@ -22,7 +23,8 @@ readonly class CheckManager
     public function __construct(
         private EntityManagerInterface $entityManager,
         private FileUploadManager $fileUploadManager,
-        private MailerManager $mailerManager
+        private MailerManager $mailerManager,
+        private string $emailSupport
     ) {
     }
 
@@ -42,6 +44,7 @@ readonly class CheckManager
      */
     public function saveCheckin(Checkin $checkin, Reservation $reservation, array $pictureFileDatas): bool
     {
+        $hasClaim = false;
         if ($pictureFileDatas) {
             foreach ($pictureFileDatas as $pictureFileData) {
                 if ($pictureFileData instanceof UploadedFile) {
@@ -54,17 +57,28 @@ readonly class CheckManager
             }
         }
 
-        // si on a le type check in ou check out alors on indique qu'on a démarré la transactionLine
+        // si on a le type check in ou checkOut alors, on indique qu'on a démarré la transactionLine
         if ($checkin->getType() === CheckinType::IN) {
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::IN_PROGRESS);
         } else {
+            $hasCheckinValidate = $checkin->getTransactionLine()->getCheckins()->filter(
+                fn(Checkin $checkin) => $checkin->getStatus() === CheckinStatus::VALIDATE
+            )->count();
             // s'il y a une réclamation lors de la fermeture de la réservation du produit
-            if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING) {
+            if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && $hasCheckinValidate) {
                 // créer une réclamation pour le back office
                 $claim = (new Claim())
                     ->setCheckin($checkin)
                     ->setStatus(ClaimStatus::PENDING);
                 $checkin->addClaim($claim);
+                $hasClaim = true;
+                $this->mailerManager->sendMailNotification(
+                    $this->emailSupport,
+                    'emails/admin_claim.html.twig',
+                    [
+                        'claim' => $claim
+                    ]
+                );
             }
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::FINISHED);
         }
@@ -79,9 +93,9 @@ readonly class CheckManager
                 $nbTransactionLineValidated += 1;
             }
         }
-        // si on est sur le check out
+        // si on est sur le checkOut
         if ($checkin->getType() === CheckinType::OUT) {
-            // si on a le nb de transaction validé et le mm que le nombre de réservation alors on cloture la réservation
+            // si on a le nb de transaction validé et le mm que le nombre de réservations alors, on clôture la réservation
             if ($nbTransactionLineValidated === $nbTransactionLine) {
                 $reservation->setStatus(ReservationStatus::FINISHED);
             }
@@ -112,6 +126,6 @@ readonly class CheckManager
 
         $this->entityManager->flush();
 
-        return true;
+        return $hasClaim;
     }
 }
