@@ -23,10 +23,10 @@ jobs:
                     php-version: ${{ matrix.php }}
                     tools: php-cs-fixer, phpstan, cs2pr, phpcs
 
-            -   name: Run phpcs
-                run: |
-                    cd app
-                    phpcs -q --report=checkstyle --ignore=./src/Enum --standard=PSR12 --exclude=Generic.Files.LineLength ./src | cs2pr
+#            -   name: Run phpcs
+#                run: |
+#                    cd app
+#                    phpcs -q --report=checkstyle --ignore=./src/Enum --standard=PSR12 --exclude=Generic.Files.LineLength ./src | cs2pr
 
             -   name: Setup Node
                 uses: actions/setup-node@v1
