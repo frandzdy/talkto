@@ -1,5 +1,5 @@
 {% macro getAssetUrl(file) %}
-    {{ app.environment == "dev" ? ("http://thotem_nginx" ~ asset(file)) : absolute_url(asset(file)) }}
+    {{ app.environment == "dev" ? ("http://talkto_nginx" ~ asset(file)) : absolute_url(asset(file)) }}
 {% endmacro %}
 
 <!DOCTYPE html>

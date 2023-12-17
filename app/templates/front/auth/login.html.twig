@@ -1,9 +1,9 @@
 {% extends 'front/layout.html.twig' %}
 
 {% if app.user %}
-    {% set title = "Votre compte" %}
+    {% set title = "Mon compte" %}
 {% else %}
-    {% set title = "Création de votre compte" %}
+    {% set title = "Création de compte" %}
 {% endif %}
 
 {% block title %}{{ title }}{% endblock %}
