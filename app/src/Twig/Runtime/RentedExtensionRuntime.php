@@ -65,4 +65,9 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->stripeManager->getInvoice($reservation->getTransaction());
     }
+
+    public function getAccountLink(User $lessor)
+    {
+        return $this->stripeManager->getAccountLink($lessor);
+    }
 }

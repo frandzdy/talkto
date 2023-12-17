@@ -14,13 +14,13 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10 col-12">
-                                    <div class="slider__content">
+                                    <div class="slider__content{{ websiteContent.whiteColor ? '-black' : '' }}">
                                         <h2 data-animation="fadeInUp"
                                             data-delay=".4s">{{ websiteContent.title }}</h2>
                                         <p data-animation="fadeInUp"
                                            data-delay=".6s">{{ websiteContent.subTitle }}</p>
                                         <a href="{{ path(websiteContent.link.label) }}"
-                                           class="os-btn os-btn-2" data-animation="fadeInUp"
+                                           class="os-btn {{ websiteContent.whiteColor ? 'os-btn-white' : 'os-btn-2' }}" data-animation="fadeInUp"
                                            data-delay=".10s"
                                            title="{{ websiteContent.link.label|trans }}">{{ websiteContent.link.label|trans }}</a>
                                     </div>

@@ -4,7 +4,9 @@ namespace App\Form\Back;
 
 use App\Entity\WebsiteContent;
 use App\Enum\Link;
+use GuzzleHttp\Psr7\UploadedFile;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,14 +25,22 @@ class WebsiteContentType extends AbstractType
                 'title',
                 TextType::class,
                 [
-                    'label' => 'Titre'
+                    'label' => 'Titre',
+                    'attr' =>
+                    [
+                        'maxlength' => 100
+                    ]
                 ]
             )
             ->add(
                 'subTitle',
                 TextType::class,
                 [
-                    'label' => 'Sous titre'
+                    'label' => 'Description',
+                    'attr' =>
+                    [
+                        'maxlength' => 200
+                    ]
                 ]
             )
             ->add(
@@ -41,6 +51,14 @@ class WebsiteContentType extends AbstractType
                     'label' => 'Lien vers',
                     'choice_label' => 'label',
                     'choice_translation_domain' => 'messages'
+                ]
+            )
+            ->add(
+                'whiteColor',
+                CheckboxType::class,
+                [
+                    'label' => 'Text noir ?',
+                    'required' => false
                 ]
             )
             ->add(
@@ -60,7 +78,7 @@ class WebsiteContentType extends AbstractType
             $form = $event->getForm();
             $websiteContent = $event->getData();
 
-            if (!$websiteContent->getUploadedPicture() && !$form->get('uploadedPicture')->getData()) {
+            if (!$websiteContent->getPicture() && !$form->get('uploadedPicture')->getData()) {
                 $form->get('uploadedPicture')->addError(new FormError('Information requise.'));
             }
         });

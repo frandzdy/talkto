@@ -21,8 +21,8 @@ class ContactController extends AbstractController
         Request $request,
         ContactManager $contactManager,
         MailerManager $mailerManager,
-        string $emailContact
-    ): Response|string {
+        string $emailSupport
+    ): Response {
         if ($this->getUser()) {
             $contact = $contactManager->initializeContact(
                 $this->getUser()->getEmail(),
@@ -38,8 +38,7 @@ class ContactController extends AbstractController
                 'contact' => $contact
             ];
             $mailerManager->sendMailNotification(
-            // params
-                $emailContact,
+                $emailSupport,
                 'emails/contact.html.twig',
                 $vars
             );

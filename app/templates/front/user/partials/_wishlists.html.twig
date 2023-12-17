@@ -17,8 +17,9 @@
             {% for wishlist in results.results %}
                 <tr>
                     <td class="text-center product-thumbnail">
-                        <img src="{{ asset("build/images/img/shop/product/product-1.jpg") }}"
-                             alt="product-img">
+                        <img src="{{ asset('uploads/product_picture/' ~ wishlist.product.pictures.first.name)|imagine_filter('product_miniature') }}"
+                             width="130px"
+                             alt="{{ wishlist.product.title }}"/>
                     </td>
                     <td class="text-center">
                         <a href="{{ path('front_product_show', {'token': wishlist.token}) }}"

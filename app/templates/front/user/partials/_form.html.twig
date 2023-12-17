@@ -5,16 +5,22 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 <div class="profile__edit-wrapper" {{ user.role is same as (constant('App\\Entity\\User::ROLE_SELLER')) ? 'data-turbo="false"' : '' }}>
     {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha', 'autocomplete':'off'} }) }}
-    <div class="row">
-        <div class="col-3 profile__basic-thumb valign-items-center">
-            <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                 alt="{{ pictureName ? user.fullname : 'avatar' }}">
-        </div>
-        <div class="col-8" style="margin-top: 23px">
-            {{ form_row(form.uploadPicture) }}
-        </div>
+    <div class="profile__edit-input text-center">
+        <label for="user_uploadPicture" style="cursor: pointer">
+            <div class="profile__basic-thumb valign-items-center">
+                <img id="profilePictureImg"
+                     src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
+                     width="315px"
+                     alt="{{ pictureName ? user.fullname : 'avatar' }}" data-controller="profile"
+                     data-action="change->profile#changeImage">
+            </div>
+            {{ form_errors(form.uploadPicture) }}
+        </label>
+        <span style="display: none">
+        {{ form_widget(form.uploadPicture, {attr: {'id': 'profilePictureUpload', 'data-target': 'profile.fileInput', 'data-action': 'change->profile#changeImage'}}) }}
+    </span>
     </div>
-    <div class="product__modal-input">
+    <div class="profile__edit-input">
         {{ form_row(form.genre) }}
     </div>
     <div class="profile__edit-input">

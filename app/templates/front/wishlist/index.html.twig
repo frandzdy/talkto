@@ -31,6 +31,7 @@
                                         {% endif %}
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                 width="130px"
                                                  alt="{{ wishlist.product.title }}"/>
                                         </a>
                                     </td>

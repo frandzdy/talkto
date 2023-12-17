@@ -13,6 +13,22 @@ export default class extends Controller {
     connect() {
     }
 
+    loadBackGallery(e) {
+        e.preventDefault()
+        BigPicture({
+            el: e.currentTarget,
+            gallery: '#websiteContent',
+            animationStart: function () {
+                document.documentElement.style.overflowY = 'hidden'
+                document.body.style.overflowY = 'scroll'
+            },
+            onClose: function () {
+                document.documentElement.style.overflowY = 'auto'
+                document.body.style.overflowY = 'auto'
+            },
+        })
+    }
+
     loadGallery(e) {
         e.preventDefault()
         BigPicture({
@@ -29,11 +45,11 @@ export default class extends Controller {
         })
     }
 
-    loadGalleryModal(e) {
+    loadGalleryCheckin(e) {
         e.preventDefault()
         BigPicture({
             el: e.currentTarget,
-            gallery: '#nav-tabContent',
+            gallery: '#nav-tabContent-checkin',
             animationStart: function () {
                 document.documentElement.style.overflowY = 'hidden'
                 document.body.style.overflowY = 'scroll'

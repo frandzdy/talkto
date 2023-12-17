@@ -31,7 +31,7 @@
 {% endblock form_errors %}
 
 {% block website_content_widget %}
-    <div class="col-4">
+    <div class="col-4" {{ stimulus_controller('bigpicture') }}>
         <div class="w-100">
             {{ form_row(form.children.title) }}
         </div>
@@ -42,22 +42,22 @@
             {{ form_row(form.children.link) }}
         </div>
         <div class="w-100">
+            {{ form_row(form.children.whiteColor) }}
+        </div>
+        <div class="w-100">
+            {{ form_row(form.children.uploadedPicture) }}
+        </div>
+        <div class="w-100 bp-gallery" id="websiteContent">
             {% if form.vars.value.picture is defined and form.vars.value.picture.name is defined %}
-            <div class="row preview-image">
-                <div class="col-8">
-                    {% endif %}
-                    {{ form_row(form.children.uploadedPicture) }}
-                    {% if form.vars.value.picture is defined and form.vars.value.picture.name is defined %}
-                </div>
-                <div class="col-4">
-                    <img src="{{ asset('uploads/home_page/' ~ form.vars.value.picture.name)|imagine_filter('back_website_contente') }}"
-                        alt="accueil logo"
-                        height="100px"
-                        width="100px"
-                        class="border"
+                <div class="row m-1 preview-image" {{ stimulus_action('bigpicture', 'loadBackGallery', 'click') }}>
+                    <img src="{{ asset('uploads/home_page/' ~ form.vars.value.picture.name) }}"
+                         data-bp="{{ asset('uploads/home_page/' ~ form.vars.value.picture.name) }}"
+                         data-caption="Photo home page {{ form.vars.value.id }}"
+                         alt="accueil logo"
+                         width="100%"
+                         class="border"
                     />
                 </div>
-            </div>
             {% endif %}
         </div>
     </div>

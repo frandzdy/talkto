@@ -1,6 +1,5 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
 {% extends 'front/layout.html.twig' %}
-
 {% block title %}
     Erreur
 {% endblock %}
@@ -12,14 +11,11 @@
             <div class="col-xl-8 offset-xl-2 col-lg-8 offset-lg-2">
                 <div class="error__content text-center">
                     <div class="error__number">
-                        <h1>404</h1>
+                        <h1>500</h1>
                     </div>
-                    <span>Page introuvable</span>
-                    <h2>Allez oust, il n'y a rien a voir!</h2>
+                    <span>Une erreur s'est produite.</span>
                     <p>
-                        La page que vous cherchez a été supprimé ou n'existe plus, si vous souhaitez vous pouvez revenir
-                        à la page d'<a href="{{ path('front_home') }}" title="Accueil">accueil</a>.
-                        Si le problème continue, merci de nous contactez via notre <span class="highlight comment">formulaire de <a
+                        Merci de nous contactez via notre <span class="highlight comment">formulaire de <a
                                     href="{{ path('front_contact') }}">contact</a></span>
                     </p>
                 </div>

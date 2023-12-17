@@ -25,7 +25,8 @@
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="true">
                                                     <div class="product__nav-img w-img">
                                                         <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
-                                                             alt="{{ product.title }}">
+                                                             alt="{{ product.title }}"
+                                                             width="90px">
                                                     </div>
                                                 </a>
                                             {% endfor %}
@@ -48,7 +49,8 @@
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                                      data-caption="{{ product.title }}"
                                                      src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
-                                                     alt="{{ product.title }}">
+                                                     alt="{{ product.title }}"
+                                                     width="470px">
                                                 {#                                                <div class="product__sale "> #}
                                                 {#                                                    <span class="new">new</span> #}
                                                 {#                                                    <span class="percent">-16%</span> #}

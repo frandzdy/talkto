@@ -27,6 +27,7 @@
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': transactionLine.product.token }) }}"
                                            title="{{ transactionLine.product.title }}">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                                 width="130px"
                                                  alt="{{ transactionLine.product.title }}"/>
                                         </a>
                                     </td>

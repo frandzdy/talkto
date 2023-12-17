@@ -96,7 +96,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html($(response));
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
+                            this.handleBsCustomInputFile($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -129,7 +129,7 @@ export default class extends Controller {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);
                             this.handleModalForm(target);
-                            this.handleBsCustomFileInput($(target).find('[type="file"]'));
+                            this.handleBsCustomInputFile($(target).find('[type="file"]'));
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
@@ -161,7 +161,7 @@ export default class extends Controller {
             }
             $(this.modalTarget).find('.wrapper').html(response);
             this.handleModalForm(this.modalTarget);
-            this.handleBsCustomFileInput($(this.modalTarget).find('[type="file"]'));
+            this.handleBsCustomInputFile($(this.modalTarget).find('[type="file"]'));
             $(this.modalTarget).find('.chat-history').animate({scrollTop: $(this.modalTarget).find('.chat-history').prop('scrollHeight')}, 500);
             $(this.modalTarget).modal('show');
 
@@ -209,7 +209,7 @@ export default class extends Controller {
 
     handleBsCustomInputFile(container) {
         if (container) {
-            bsCustomFileInput.init();
+            bsCustomFile.init();
         }
     };
 }

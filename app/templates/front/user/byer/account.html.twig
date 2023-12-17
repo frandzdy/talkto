@@ -17,6 +17,7 @@
                         <div class="profile__basic d-md-flex align-items-center">
                             <div class="profile__basic-thumb mr-30">
                                 <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
+                                     width="315px"
                                      alt="{{ pictureName ? user.fullname : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}">
                             </div>
                             <div class="profile__basic-content">
@@ -94,6 +95,7 @@
                                         <i class="fa fa-calendar-check"></i>
                                         Mes locations
                                     </button>
+                                    <a href="{{ getAccountLink(app.user) }}" title="Compte stripe">Compte stripe</a>
                                 {% else %}
                                     <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
                                             data-target="#nav-reservation"

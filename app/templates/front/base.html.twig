@@ -64,6 +64,9 @@
     {% for flash_message in app.session.flashBag.get('error') %}
     <script>toastr.error("{{ flash_message }}")</script>
     {% endfor %}
+    {% for flash_message in app.session.flashBag.get('info') %}
+    <script>toastr.warning("{{ flash_message }}", "Reented support")</script>
+    {% endfor %}
     {% for flash_message in app.session.flashBag.get('success') %}
     <script>toastr.success("{{ flash_message }}")</script>
     {% endfor %}

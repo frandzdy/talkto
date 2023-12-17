@@ -12,7 +12,6 @@ export default class extends Controller {
         this.handleBsCustomInputFile($('[type=file]'))
         this.initPlugins()
         this.updateWidgetCart()
-        this.seoAnchor()
 
         $(this.containerTarget)
             .on('click', 'a.open-front-modal', (event) => {
@@ -440,7 +439,7 @@ export default class extends Controller {
 
     // handleBsCustomInputFile(container) {
     //     if (container) {
-    //         bsCustomFileInput.init();
+    //         bsCustomFile.init();
     //     }
     // }
     handleBsCustomInputFile(container) {

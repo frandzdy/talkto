@@ -30,7 +30,6 @@ class ProductCollectionType extends AbstractType
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('p')
                             ->innerjoin('p.author', 'a')
-                            ->innerjoin('p.reviews', 'r')
                             ->addSelect('a')
                             ->where('p.status = :productStatus')
                             ->andWhere('a.isStripeAccountActive = true')
@@ -39,25 +38,19 @@ class ProductCollectionType extends AbstractType
                             ->andWhere('p.createdAt between :startDate and :endDate')
                             ->setParameter('startDate', (new DatePoint('-1 months'))->format('Y-m-d'))
                             ->setParameter('endDate', (new DatePoint())->format('Y-m-d'))
-                            ->having('(avg(r.note) BETWEEN 3 AND 5 OR avg(r.note) BETWEEN 0 AND 3)')
-                            ->andWhere('(p.numberView >= 50 or p.numberView <= 50)')
                             ##
-                            ->orderBy('p.numberView, p.title', 'ASC')
-                            ->groupBy('p.id')
+                            ->orderBy('p.id, p.numberView', 'ASC')
+                            ->addOrderBy('p.title', 'DESC')
                             ;
                     },
                     'choice_label' => function (Product $product) {
-                        return $product->getTitle() . ' - Note : ' . $product->getAverageNote() . ' ' . $product->getAverageNote();
+                        return $product->getTitle() . ' - Note : ' . $product->getAverageNote() . ' - Nb avis : ' . $product->getReviews()->count() . ' - Nb vue : ' . $product->getNumberView();
                     },
-                    'attr' =>
-                        [
-                            'style' => 'width: 56%;',
-                            'class' => 'float-right'
-                        ],
                     'placeholder' => '-- Sélectionner --',
                     'required' => true,
                     'expanded' => false,
-                    'multiple' => false
+                    'multiple' => false,
+                    'autocomplete' => true
                 ]
             )
         ;
