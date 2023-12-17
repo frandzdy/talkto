@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: ['8.2']
+                php: [ '8.2' ]
         name: PHP ${{ matrix.php }}
         steps:
             #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
@@ -23,24 +23,26 @@ jobs:
                     php-version: ${{ matrix.php }}
                     tools: php-cs-fixer, phpstan, cs2pr, phpcs
 
-#            - name: Run phpcs
-#              run: phpcs -q --report=checkstyle --ignore=./app/src/Enum --standard=PSR12 --exclude=Generic.Files.LineLength ./app/src | cs2pr
+#            -   name: Run phpcs
+#                run: |
+#                    cd app
+#                    phpcs -q --report=checkstyle --ignore=./src/Enum --standard=PSR12 --exclude=Generic.Files.LineLength ./src | cs2pr
 
             -   name: Setup Node
                 uses: actions/setup-node@v1
                 with:
-                    node-version: '20.x'
+                    node-version: '21.x'
 
-#            -   name: PHP Syntax Checker (Lint)
-#                uses: StephaneBour/actions-php-lint@8.1
-#                with:
-#                    # Folder to check syntax
-#                    dir: 'app/src'
-#
-#            -   name: PHP Security Checker
-#                uses: StephaneBour/actions-php-security-checker@1.2
-#                with:
-#                    composer-lock: 'app/composer.lock'
+            #            -   name: PHP Syntax Checker (Lint)
+            #                uses: StephaneBour/actions-php-lint@8.1
+            #                with:
+            #                    # Folder to check syntax
+            #                    dir: 'app/src'
+            #
+            #            -   name: PHP Security Checker
+            #                uses: StephaneBour/actions-php-security-checker@1.2
+            #                with:
+            #                    composer-lock: 'app/composer.lock'
             -   uses: actions/checkout@v3
             -   name: Copy .env.test.local
                 run: php -r "file_exists('app/.env.test.local') || copy('app/.env.test', 'app/.env.test.local');"
