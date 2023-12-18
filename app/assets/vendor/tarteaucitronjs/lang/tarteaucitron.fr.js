@@ -9,11 +9,11 @@ tarteaucitron.lang = {
     "alertBigClick": "En poursuivant votre navigation,",
     "alertBig": "vous acceptez l'utilisation de services tiers pouvant installer des cookies",
 
-    "alertBigPrivacy": "<b>Le respect de votre vie privée est notre priorité</b><br/>" +
-        "Ce site utilise des cookies pour vous offrir une expérience utilisateur de qualité et mesurer l'audience.<br/>" +
-        "Cliquez sur Accepter si vous consentez à l'utilisation de cette technologie et au traitement de vos données à caractère personnel en vue de ces objectifs.<br/>" +
-        "Vous pouvez changer d'avis et modifier votre consentement à tout moment en revenant sur ce site.<br/>" +
-        "<a href=\"" + policyUrl + "\">En savoir plus sur notre politique de confidentialité</a>",
+    "alertBigPrivacy": '<b>Le respect de votre vie privée est notre priorité</b><br/>' +
+        'Ce site utilise des cookies pour vous offrir une expérience utilisateur de qualité et mesurer l\'audience.<br/>' +
+        'Cliquez sur Accepter si vous consentez à l\'utilisation de cette technologie et au traitement de vos données à caractère personnel en vue de ces objectifs.<br/>' +
+        'Vous pouvez changer d\'avis et modifier votre consentement à tout moment en revenant sur ce site.<br/>' +
+        '<a href="' + policyUrl + '" title="Politique de confidentialité">En savoir plus sur notre politique de confidentialité</a>',
     "alertSmall": "Gestion des services",
     "acceptAll": "Accepter",
     "personalize": "Personnaliser",
@@ -82,5 +82,5 @@ tarteaucitron.lang = {
         "details": "Services visant à afficher du contenu web."
     },
     "footer": "Pour exercer vos droits sur les données collectées par les tiers ou pour toute question sur ces traitements vous pouvez les contacter directement.<br/>" +
-        "<a href='" + policyUrl + "'>En savoir plus sur notre politique de confidentialité</a>"
+        "<a href='" + policyUrl + "' title='Politique de confidentialité'>En savoir plus sur notre politique de confidentialité</a>"
 };

@@ -18,7 +18,7 @@ export default class extends Controller {
 
     async handleStripe() {
 
-        const stripe = await loadStripe(stripePublicKey) // 'pk_test_51HD51PFRcMdepTxq4JsEEuihDjkOnftzJCpyxkZHpHX9aLvWuxviSpQCqH9GvszGqtfwMXcOS12jl11g3yyfSpWW0072zp4ZEd'
+        const stripe = await loadStripe(stripePublicKey)
         const loader = 'auto'
         let linkAuthenticationElement = null
         const options = {
@@ -93,9 +93,5 @@ export default class extends Controller {
             }
             buttonSubmit.removeAttr('disabled');
         });
-    }
-
-    checkForm() {
-
     }
 }

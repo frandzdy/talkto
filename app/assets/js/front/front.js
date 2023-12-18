@@ -59,7 +59,6 @@ require('./services/isotope.pkgd.min.js')
 require('./services/owl.carousel.min.js')
 require('./services/jquery-ui.min.js')
 
-import '@stripe/stripe-js';
 
 import WOW from 'wow.js';
 
