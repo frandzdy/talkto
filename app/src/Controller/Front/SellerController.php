@@ -26,7 +26,6 @@ class SellerController extends AbstractController
         Security $security
     ): Response {
         if ($this->getUser()) {
-
             return $this->redirectToRoute('front_user_account');
         }
         $user = $userManager->createUser(2);
@@ -60,7 +59,7 @@ class SellerController extends AbstractController
     #[Route('/commercial/edition-compte', name: 'seller_edit', methods: ['GET', 'POST'])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function edit(
-        Request     $request,
+        Request $request,
         UserManager $userManager
     ): Response {
         $user = $this->getUser();
@@ -107,7 +106,6 @@ class SellerController extends AbstractController
     #[Route('/commercial/creation-valide', name: 'seller_success_creation', methods: ['GET'])]
     public function successCreation(): Response
     {
-
         return $this->render('front/user/seller/creation-success.html.twig');
     }
 }

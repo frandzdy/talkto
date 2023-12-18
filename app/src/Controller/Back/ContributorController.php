@@ -34,7 +34,11 @@ class ContributorController extends AbstractController
             $query,
             $page,
             self::USERS_PER_PAGE,
-            [PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.fullname', PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC', PaginatorInterface::DISTINCT => false]
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.fullname',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+                PaginatorInterface::DISTINCT => false
+            ]
         );
 
         return $this->render(
@@ -50,8 +54,11 @@ class ContributorController extends AbstractController
      */
     #[Route(path: '/new', name: '_new', methods: ['GET', 'POST'])]
     #[Route(path: '/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ContributorManager $contributorManager, Contributor $contributor = null): Response
-    {
+    public function edit(
+        Request $request,
+        ContributorManager $contributorManager,
+        Contributor $contributor = null
+    ): Response {
         $validationGroups = ['Default'];
         if (!$contributor) {
             $contributor = new Contributor();
@@ -61,7 +68,11 @@ class ContributorController extends AbstractController
             $formAction = $this->generateUrl('back_contributors_edit', ['id' => $contributor->getId()]);
         }
 
-        $form = $this->createForm(ContributorType::class, $contributor, ['validation_groups' => $validationGroups, 'action' => $formAction]);
+        $form = $this->createForm(
+            ContributorType::class,
+            $contributor,
+            ['validation_groups' => $validationGroups, 'action' => $formAction]
+        );
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $contributorManager->createOrUpdate($contributor);
             $this->addFlash('success', "Modifications enregistrées avec succès");

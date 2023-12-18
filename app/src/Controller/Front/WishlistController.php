@@ -24,8 +24,12 @@ class WishlistController extends AbstractController
     }
 
     #[Route('/favoris/ajout/{token}', name: 'wishlist_add', options: ['expose' => true], methods: ['POST'])]
-    public function wishlistAdd(string $token, EntityManagerInterface $em, Request $request, RouterInterface $router): Response
-    {
+    public function wishlistAdd(
+        string $token,
+        EntityManagerInterface $em,
+        Request $request,
+        RouterInterface $router
+    ): Response {
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $referer = $request->headers->get('referer');
         $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['product' => $product]);
@@ -47,8 +51,12 @@ class WishlistController extends AbstractController
     }
 
     #[Route('/favoris/supprime/{token}', name: 'wishlist_delete', options: ['expose' => true], methods: ['POST'])]
-    public function wishlistDelete(string $token, EntityManagerInterface $em, Request $request, RouterInterface $router): Response
-    {
+    public function wishlistDelete(
+        string $token,
+        EntityManagerInterface $em,
+        Request $request,
+        RouterInterface $router
+    ): Response {
         $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['token' => $token]);
         $referer = $request->headers->get('referer');
 

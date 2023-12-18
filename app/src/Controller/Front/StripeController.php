@@ -19,12 +19,12 @@ class StripeController extends AbstractController
 {
     #[Route('/paiement', name: 'stripe_payment_intent', options: ['expose' => true], methods: ['GET', 'POST'])]
     public function paymentIntent(
-        SessionInterface       $session,
-        Request                $request,
-        StripeManager          $stripeManager,
-        UserManager            $userManager,
-        AuthenticationUtils    $authenticationUtils,
-        Security               $security
+        SessionInterface $session,
+        Request $request,
+        StripeManager $stripeManager,
+        UserManager $userManager,
+        AuthenticationUtils $authenticationUtils,
+        Security $security
     ): Response {
         /**
          * On récupère l'utilisateur connecté
@@ -80,10 +80,10 @@ class StripeController extends AbstractController
 
     #[Route('/paiement-connexion', name: 'stripe_payment_user_login', options: ['expose' => true], methods: ['POST'])]
     public function paymentUserLogin(
-        SessionInterface       $session,
-        UserManager            $userManager,
-        Request                $request,
-        AuthenticationUtils    $authenticationUtils
+        SessionInterface $session,
+        UserManager $userManager,
+        Request $request,
+        AuthenticationUtils $authenticationUtils
     ): Response {
         $user = $userManager->createUser();
         $form = $this->createForm(LoginType::class, $user);
@@ -99,7 +99,8 @@ class StripeController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
+            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
+            );
         }
 
         return $this->render(
@@ -121,7 +122,8 @@ class StripeController extends AbstractController
         $form = $this->createForm(UserPaymentType::class, $user);
 
         if ($form->handleRequest()->isSubmitted() && $form->isValid()) {
-            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]);
+            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
+            );
         }
 
         return $this->render('front/stripe/_form_user_creation.html.twig', ['form' => $form]);
@@ -164,7 +166,10 @@ class StripeController extends AbstractController
                 break;
         }
 
-        return $this->render('front/stripe/success.html.twig', ['user' => $this->getUser(), 'message' => $message, 'error' => $error]);
+        return $this->render(
+            'front/stripe/success.html.twig',
+            ['user' => $this->getUser(), 'message' => $message, 'error' => $error]
+        );
     }
 
     #[Route('/annuler', name: 'stripe_cancel')]

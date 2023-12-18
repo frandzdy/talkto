@@ -7,10 +7,10 @@
         <div class="container">
             <div class="row">
                 {% if not app.user %}
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="coupon-accordion">
                             <!-- ACCORDION START -->
-                            <h3>Déjà client ? <span id="showlogin">Cliquez ici pour vous connecter</span></h3>
+                            <h3>Déjà client ? <span id="showlogin">Se connecter</span></h3>
                             <div id="checkout-login" class="coupon-content">
                                 <div class="coupon-info">
                                     {{ include('front/stripe/_form_login.html.twig') }}
@@ -19,7 +19,7 @@
                             <!-- ACCORDION END -->
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         {#                    <div class="coupon-accordion"> #}
                         {#                        <!-- ACCORDION START --> #}
                         {#                        <h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3> #}
@@ -45,33 +45,34 @@
     <section class="checkout-area pb-70" {{ stimulus_controller('user') }}>
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <div class="checkbox-form">
                         <h3>Détails de facturation</h3>
                         <div class="row">
                             <div class="col-lg-12">
-
                                 {{ include('front/stripe/_form_user_creation.html.twig') }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="your-order mb-30 ">
+                <div class="col-lg-7">
+                    <div class="your-order mb-30">
                         <h3>Réservation {{ transaction ? transaction.reference : '' }}</h3>
                         <div class="your-order-table table-responsive">
-                            <table>
+                            <table class="text-center">
                                 <thead>
                                 <tr>
-                                    <th class="product-name">Photo</th>
                                     <th class="product-name">Produit</th>
+                                    <th class="product-name">Date</th>
+                                    <th class="product-name">Qt</th>
                                     <th class="product-total">Total</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for index, cart in carts['products'] %}
                                     <tr class="cart_item">
-                                        <td class="product-thumbnail">
+                                        <td class="product-thumbnail text-center">
+                                            <div>{{ cart.title }} </div>
                                             <a href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
                                                      width="130px"
@@ -79,30 +80,30 @@
                                             </a>
                                         </td>
                                         <td class="product-name">
-                                            Date de réservation : <br>
                                             {% if cart.startDate != cart.endDate %}
-                                                {{ cart.startDate }} au {{ cart.endDate }}<br>
+                                                {{ cart.startDate }}-{{ cart.endDate }}<br>
                                             {% else %}
                                                 {{ cart.startDate }}<br>
-                                            {% endif %}
-                                            {{ cart.title }} <strong class="product-quantity">
-                                                × {{ cart.quantity }}</strong>
+                                            {% endif %} </td>
+                                        <td class="product-name">
+                                            <strong class="product-quantity">{{ cart.quantity }}</strong>
                                         </td>
                                         <td class="product-total">
-                                            <span class="amount">{{ cart.price * cart.quantity * cart.numberDays }} €</span>
+                                            <span class="amount">{{ (cart.price * cart.quantity * cart.numberDays)|number_format(2, ',')|default(0) }} €</span>
                                         </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
                                 <tfoot>
                                 <tr class="cart-subtotal">
-                                    <th></th>
+                                    <td colspan="2"></td>
                                     <th>Sous total HT</th>
-                                    <td><span class="amount">{{ carts.totalAmount - carts.totalTva}} €</span>
+                                    <td>
+                                        <span class="amount">{{ (carts.totalAmount - carts.totalTva - carts.totalFees)|number_format(2, ',')|default(0) }} €</span>
                                     </td>
                                 </tr>
                                 <tr class="shipping">
-                                    <th></th>
+                                    <td colspan="2"></td>
                                     <th data-toggle="tooltip"
                                         data-placement="top"
                                         title="La TVA est de 20%.">
@@ -112,14 +113,14 @@
                                         <ul>
                                             <li>
                                                 <label>
-                                                    <span class="amount">{{ carts.totalTva }} €</span>
+                                                    <span class="amount">{{ carts.totalTva|number_format(2, ',')|default(0) }} €</span>
                                                 </label>
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr class="shipping">
-                                    <th></th>
+                                    <td colspan="2"></td>
                                     <th>
                                         Frais de service
                                         <i class="far fa-info-circle" style="color: #bc8246;" data-toggle="tooltip" data-placement="top"
@@ -129,16 +130,16 @@
                                         <ul>
                                             <li>
                                                 <label>
-                                                    <span class="amount">{{ carts.totalFees }} €</span>
+                                                    <span class="amount">{{ carts.totalFees|number_format(2, ',')|default(0) }} €</span>
                                                 </label>
                                             </li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr class="order-total">
-                                    <th></th>
+                                    <td colspan="2"></td>
                                     <th>Total TTC</th>
-                                    <td><strong><span class="amount">{{ (carts.totalAmount + carts.totalFees) }} €</span></strong>
+                                    <td><strong><span class="amount">{{ carts.totalAmount|number_format(2, ',')|default(0) }} €</span></strong>
                                     </td>
                                 </tr>
                                 </tfoot>
@@ -165,18 +166,22 @@
                                                        class="form-check-input">
                                                 <label for="caution">
                                                     En cochant cette case, vous vous engagez à
-                                                    payer la / les <span
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="Le prix de la caution est variable, il est établie entre les deux parties en fonction des dégâts.">caution(s) <i
-                                                                class="fal fa-exclamation text-warning"></i></span>.
+                                                    payer la / les
+                                                    <span data-toggle="tooltip"
+                                                          data-placement="top"
+                                                          title="Le prix de la caution est variable, il est établie entre les deux parties en fonction des dégâts.">
+                                                        caution(s). <i class="far fa-info-circle" style="color: #bc8246;"></i>
+                                                    </span>
                                                 </label>
                                             </div>
                                             <div class="checkout-form-list form-check" style="display: flex;">
                                                 <input type="checkbox" value="1" id="rented-policy"
                                                        class="form-check-input">
                                                 <label for="rented-policy">
-                                                    Veuillez accepter notre <a>politique de location</a>.
+                                                    Veuillez accepter nos
+                                                    <a href="{{ path('front_policy') }}" title="Conditions Générales de Location">
+                                                        Conditions Générales de Location
+                                                    </a>.
                                                 </label>
                                             </div>
                                         </div>
@@ -184,15 +189,12 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
-                                        <h5 class="mb-0">
-                                            <button class="btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
+                                        <h6 class="mb-0" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
                                                 CB / Visa
-                                            </button>
-                                        </h5>
+                                        </h6>
                                     </div>
-
                                     <div id="collapseOne" class="collapse " aria-labelledby="headingOne"
                                          data-parent="#accordionExample">
                                         <div class="card-body">

@@ -32,9 +32,19 @@ class HomeController extends AbstractController
         $dayRentes = $em->getRepository(User::class)->statsUsers(User::ROLE_USER, new DatePoint());
 
         $stats = [
-            'allProfits' => current($allProfits)['profit'] ? number_format(current($allProfits)['profit'] / 100, 2, ',', ' ') : 0,
+            'allProfits' => current($allProfits)['profit'] ? number_format(
+                current($allProfits)['profit'] / 100,
+                2,
+                ',',
+                ' '
+            ) : 0,
             'allCa' => current($allProfits)['ca'] ? number_format(current($allProfits)['ca'] / 100, 2, ',', ' ') : 0,
-            'dayProfits' => current($dayProfits)['profit'] ? number_format(current($dayProfits)['profit'] / 100, 2, ',', ' ') : 0,
+            'dayProfits' => current($dayProfits)['profit'] ? number_format(
+                current($dayProfits)['profit'] / 100,
+                2,
+                ',',
+                ' '
+            ) : 0,
             'dayCa' => current($dayProfits)['ca'] ? number_format(current($dayProfits)['ca'] / 100, 2, ',', ' ') : 0,
             'nbTransaction' => \count($nbTransaction),
             'daySellers' => current($daySellers)['nbUsers'],

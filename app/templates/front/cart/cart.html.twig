@@ -14,8 +14,8 @@
                                 <thead>
                                 <tr>
                                     <th class="product-thumbnail">Photo</th>
-                                    <th class="cart-product-name">Nom</th>
-                                    <th class="product-quantity">Date de réservation</th>
+                                    <th class="cart-product-name">Produit</th>
+                                    <th class="product-quantity">Date</th>
                                     <th class="product-price">Prix unitaire TTC</th>
                                     <th class="product-quantity">Quantité</th>
                                     <th class="product-subtotal">Total</th>
@@ -26,6 +26,7 @@
                                 {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
+                                            <div>{{ product.title }}</div>
                                             <a title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ asset('uploads/product_picture/' ~ product.pictureName)|imagine_filter('product_miniature') }}"
                                                      width="130px"
@@ -40,7 +41,7 @@
                                                    placeholder="jj/mm/aaaa" type="text" value="{{ product.flatpickrDate }}"
                                                    data-token="{{ index }}" data-disabled-dates="{{ product.disabledDates }}" style="text-align: center;"/>
                                         </td>
-                                        <td class="product-price"><span>{{ product.price }} </span>€</td>
+                                        <td class="product-price"><span>{{ product.price|number_format(2, ',')|default(0) }} </span>€</td>
                                         <td class="product-quantity">
                                             <div class="cart-plus-minus-cart"><input data-max="" type="text"
                                                                                      id="quantity"
@@ -48,7 +49,7 @@
                                             <input type="hidden" value="{{ index }}" id="token">
                                         </td>
                                         <td class="product-subtotal"><span
-                                                    class="amount">{{ product.price * product.quantity * product.numberDays }} </span>€
+                                                    class="amount">{{ (product.price * product.quantity * product.numberDays)|number_format(2, ',')|default(0) }} </span>€
                                         </td>
                                         <td class="product-remove">
                                             <a href="{{ path('front_cart_delete', {'token':index}) }}"
@@ -90,19 +91,19 @@
                                     <ul class="mb-20">
                                         <li>
                                             Total
-                                            HT<span>{{ carts.totalAmount - carts.totalTva }} €</span>
+                                            HT<span>{{ (carts.totalAmount - carts.totalTva - carts.totalFees)|number_format(2, ',')|default(0) }} €</span>
                                         </li>
                                         <li data-toggle="tooltip"
                                             data-placement="top"
                                             title="La TVA est de 20%.">
-                                            Dont TVA (20%) <span>{{ carts.totalTva }} €</span></li>
+                                            Dont TVA (20%) <span>{{ carts.totalTva|number_format(2, ',')|default(0) }} €</span></li>
                                         <li>
                                             Frais de service <i class="far fa-info-circle" style="color: #bc8246;" data-toggle="tooltip" data-placement="top"
                                                                 title="Le montant des frais de service représente 10% du montant TTC."></i>
-                                            <span>{{ carts.totalFees }} €</span>
+                                            <span>{{ carts.totalFees|number_format(2, ',')|default(0) }} €</span>
                                         </li>
                                         <li><b>Total TTC</b><span id="totalAmountTtc"
-                                                                  class="text-black font-weight-bold">{{ (carts.totalAmount + carts.totalFees) }} €</span>
+                                                                  class="text-black font-weight-bold">{{ carts.totalAmount|number_format(2, ',')|default(0) }} €</span>
                                         </li>
                                     </ul>
                                     <a class="os-btn" href="{{ path('front_stripe_payment_intent') }}">Réserver</a>

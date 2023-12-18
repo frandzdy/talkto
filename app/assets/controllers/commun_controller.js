@@ -2,11 +2,11 @@ import {Controller} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['container', 'modal', 'modalProduct', 'alertSuccess'];
+    static targets = ['container', 'modal', 'modalProduct', 'alertSuccess']
     cart = []
-    rejectLocalisation = false;
-    localisationDone = false;
-
+    rejectLocalisation = false
+    localisationDone = false
+    timeOut
     connect() {
         this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
@@ -138,9 +138,33 @@ export default class extends Controller {
     }
 
     containerTargetConnected() {
-        if ((!lat && !lon) || (!this.rejectLocalisation || !this.localisationDone)) {
-            navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
-        }
+        this.timeOut = setTimeout(() => {
+            if ((!lat && !lon) || (!this.rejectLocalisation || !this.localisationDone)) {
+                $.confirm({
+                    title: 'Géolocalisation',
+                    content: 'En activant la géolocalisation, vous aurez une meilleure expérience. ' +
+                        'Nous l\'utilisons uniquement pour vos proposer des produits près de chez vous.',
+                    type: 'blue',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: {
+                            text: 'Accepter',
+                            btnClass: 'btn-blue',
+                            action: () => {
+                                navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
+                            }
+                        },
+                        close: {
+                            text: "Refuser",
+                            action: () => {
+                                clearTimeout(this.timeOut)
+                            }
+                        }
+                    }
+                })
+            }
+        }, 60000)
+
     }
 
     /**
@@ -153,17 +177,19 @@ export default class extends Controller {
     };
 
     successAccuracy = (pos) => {
-        var cards = pos.coords;
+        const cards = pos.coords
         $.post(Routing.generate('front_user_save_coord', {
             'lat': cards.latitude,
             'lon': cards.longitude
         }))
         this.localisationDone = true
+        clearTimeout(this.timeOut)
+        toastr.info('Géolocalisation activé', 'Activation')
     }
 
     error = (err) => {
+        clearTimeout(this.timeOut)
         this.rejectLocalisation = true
-        console.warn(`Erreur (${err.code} : ${err.message})`)
     }
 
     /**
@@ -227,7 +253,10 @@ export default class extends Controller {
                     }
 
                     if (response.success && response.redirectUrl) {
-                        toastr.success('Enregistrement effectué');
+                        toastr.success(response.message || 'Enregistrement effectué');
+                        if (response.reload) {
+                            window.location.reload(true)
+                        }
                         Turbo.visit(response.redirectUrl, {action: "replace"});
                         return false;
                     }
@@ -437,11 +466,6 @@ export default class extends Controller {
         }, 5000);
     }
 
-    // handleBsCustomInputFile(container) {
-    //     if (container) {
-    //         bsCustomFile.init();
-    //     }
-    // }
     handleBsCustomInputFile(container) {
         if ($(container)) {
             bsCustomFile.init();
@@ -570,7 +594,7 @@ export default class extends Controller {
                 autoplay: true,
                 swipe: true,
                 autoplaySpeed: 8000,
-                dots: true,
+                dots: false,
                 fade: true,
                 arrows: false,
                 mobileFirst: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
@@ -612,7 +636,7 @@ export default class extends Controller {
                 autoplay: true,
                 swipe: true,
                 autoplaySpeed: 8000,
-                dots: true,
+                dots: false,
                 fade: true,
                 arrows: true,
                 prevArrow: '<button type="button" class="slick-prev"><i class="fal fa-angle-left"></i></button>',
@@ -623,7 +647,7 @@ export default class extends Controller {
                         slidesToShow: 3,
                         slidesToScroll: 3,
                         infinite: true,
-                        dots: true
+                        dots: false
                     }
                 }, {
                     breakpoint: 480,
@@ -632,7 +656,7 @@ export default class extends Controller {
                         centerMode: true,
                         slidesToShow: 1,
                         infinite: true,
-                        dots: true
+                        dots: false
                     }
                 }]
             });
@@ -664,7 +688,7 @@ export default class extends Controller {
             slidesToScroll: 1,
             arrows: false,
             fade: true,
-            dots: true,
+            dots: false,
             asNavFor: '.testimonial__nav',
 
         });
@@ -1162,7 +1186,7 @@ export default class extends Controller {
             items: 6,
             navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
             nav: false,
-            dots: true,
+            dots: false,
             responsive: {
                 0: {
                     items: 1

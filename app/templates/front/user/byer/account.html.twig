@@ -73,6 +73,12 @@
                                     Mon compte
                                 </button>
                                 {% if user.isStripeAccountActive and user.role is same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
+                                    <button class="nav-link">
+                                        <i class="fa fa-user-tie"></i>
+                                        <a href="{{ getAccountLink(app.user) }}" data-turbo="false" target="_blank" title="Compte stripe">
+                                            Compte stripe
+                                        </a>
+                                    </button>
                                     <button class="nav-link" id="nav-product-tab" data-toggle="tab"
                                             data-target="#nav-product"
                                             type="button" role="tab" aria-controls="nav-product" aria-selected="false">
@@ -95,7 +101,6 @@
                                         <i class="fa fa-calendar-check"></i>
                                         Mes locations
                                     </button>
-                                    <a href="{{ getAccountLink(app.user) }}" title="Compte stripe">Compte stripe</a>
                                 {% else %}
                                     <button class="nav-link" id="nav-reservation-tab" data-toggle="tab"
                                             data-target="#nav-reservation"

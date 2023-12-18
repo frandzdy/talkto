@@ -20,7 +20,10 @@ class CheckController extends AbstractController
     /**
      * Gère la création du check in ou out
      */
-    #[Route('/check/{type}/{token}', name: 'check_create', requirements: ['type' => 'in|out'], methods: ['GET', 'POST'])]
+    #[Route('/check/{type}/{token}', name: 'check_create', requirements: ['type' => 'in|out'], methods: [
+        'GET',
+        'POST'
+    ])]
     #[IsGranted("IS_AUTHENTICATED_FULLY")]
     public function check(
         string $type,
@@ -30,7 +33,9 @@ class CheckController extends AbstractController
         CheckManager $checkManager
     ): Response {
         $transactionLine = $em->getRepository(TransactionLine::class)->findOneBy(['token' => $token]);
-        $reservation = $em->getRepository(Reservation::class)->findOneBy(['transaction' => $transactionLine->getTransaction()]);
+        $reservation = $em->getRepository(Reservation::class)->findOneBy(
+            ['transaction' => $transactionLine->getTransaction()]
+        );
         $hasAllReadyDoneCheckin = $em->getRepository(Checkin::class)->findOneBy(
             [
                 'transactionLine' => $transactionLine->getId(),

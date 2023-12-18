@@ -7,9 +7,6 @@ use App\Entity\Product;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Enum\ProductCategory;
-use App\Enum\ProductStatus;
-use App\Repository\ClaimRepository;
-use App\Repository\ReservationRepository;
 use App\Service\StripeManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -61,13 +58,13 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
         );
     }
 
-    public function getInvoiceLink(Reservation $reservation)
+    public function getInvoiceLink(Reservation $reservation): ?string
     {
         return $this->stripeManager->getInvoice($reservation->getTransaction());
     }
 
-    public function getAccountLink(User $lessor)
+    public function getAccountLink(User $lessor): ?string
     {
-        return $this->stripeManager->getAccountLink($lessor);
+        return $this->stripeManager->getAccountLink($lessor)->url;
     }
 }

@@ -23,6 +23,7 @@ toastr.options.positionClass = 'toast-bottom-left';
 global.toastr = toastr
 
 import 'jquery-confirm'
+jconfirm.defaults = {theme:'bootstrap'}
 
 import bsCustomFileInput from "bs-custom-file-input"
 global.bsCustomFile = bsCustomFileInput

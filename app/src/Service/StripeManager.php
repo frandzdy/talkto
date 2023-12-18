@@ -37,7 +37,7 @@ readonly class StripeManager
         $this->stripe = new StripeClient(
             [
                 'api_key' => $this->stripeParameters['secret_key'],
-                'stripe_version' => '2022-11-15'
+                'stripe_version' => '2023-10-16'
             ]
         );
     }
@@ -146,30 +146,17 @@ readonly class StripeManager
         } else {
             $customerId = $user->getStripeCustomerId();
         }
-        array_walk($cart['products'], function ($id, $product) {
-            dump($product);
-            dump($id);
-        });
-        die;
+
         return $this->stripe->paymentIntents->create(
             [
                 'amount' => $cart['totalAmount'] * 100,
                 'customer' => $customerId,
                 'currency' => 'eur',
                 'setup_future_usage' => 'off_session',
-                'automatic_payment_methods' => ['enabled' => true],
                 'transfer_group' => $transaction->getReference(),
-                'receipt_email' => $user->getEmail(),
-                'latest_charge' => 'expand',
-                'description' => vsprintf('Réf reented : %s', [$transaction->getReference()]),
-                'metadata' => array_walk($cart['products'], function ($id, $product) {
-                    return [
-                        'product' => $id,
-                        'productName' => $product['title'],
-                        'date' => $product['flatpickrDate'],
-                        'quantity' => $product['quantity'],
-                    ];
-                })
+                'receipt_email' => $user->getEmail(),-
+                //'latest_charge' => 'expand',
+                'description' => vsprintf('Réf reented : %s', [$transaction->getReference()])
             ]
         );
     }

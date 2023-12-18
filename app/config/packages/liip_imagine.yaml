@@ -28,26 +28,29 @@ liip_imagine:
 
         ## home page filters
         home_slider:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
-                downscale:
-                    max: [ 1920, 933 ]
+                #downscale:
+                 #   max: [ 1920, 933 ]
+                fixed:
+                    width: 1254
+                    height: 750
         home_under_slider:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 376, 233 ]
         home_mid:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
 
         home_latest:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 downscale:
@@ -69,7 +72,7 @@ liip_imagine:
                 downscale:
                     max: [ 102, 130 ]
         product_trends_or_sale:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 #strip: ~
@@ -94,4 +97,4 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 #strip: ~
-                thumbnail: { size: [ 130, 130 ], mode: outbound }
+                thumbnail: { size: [ 130, 130 ], mode: outbound, allow_upscale: true }

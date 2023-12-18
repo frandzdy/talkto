@@ -4,6 +4,7 @@
             {% for index, cart in carts.products %}
                 <li>
                     <div class="cart-img f-left">
+                        <div>{{ cart.title }}</div>
                         <a title="{{ cart.title }}"
                            href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                             <img src="{{ asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature') }}"
@@ -17,7 +18,7 @@
                         </h5>
                         <div class="cart-price">
                             <span class="amount">{{ cart.quantity }} <i class="fal fa-times"></i></span>
-                            <span class="price">{{ cart.price }} €</span>
+                            <span class="price">{{ cart.price|number_format(2, ',')|default(0) }} €</span>
                         </div>
                     </div>
                     <div class="del-icon f-right mt-30">
@@ -37,8 +38,9 @@
         </ul>
     {% endif %}
     <div class="total-price d-flex justify-content-between mb-30">
-        <span>Total TTC :</span>
-        <span>{{ carts.totalAmount }} €</span>
+        <span>Total TTC <i class="far fa-info-circle" style="color: #bc8246;" data-toggle="tooltip" data-placement="top"
+                           title="Frais de service inclus"></i> :</span>
+        <span>{{ carts.totalAmount|number_format(2, ',')|default(0) }} €</span>
     </div>
     <div class="checkout-link">
         <a href="{{ path('front_cart_index') }}" title="Voir le panier" class="os-btn">Voir le panier</a>

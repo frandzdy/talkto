@@ -82,7 +82,8 @@ class ClaimController extends AbstractController
      * Affichage d'une réclamation
      */
     #[Route(path: '/{claim<\d+>}', name: 'show', methods: ['GET', 'POST'])]
-    public function show(Claim $claim): Response {
+    public function show(Claim $claim): Response
+    {
         return $this->render('back/claim/show.html.twig', [
             'claim' => $claim
         ]);
@@ -134,8 +135,10 @@ class ClaimController extends AbstractController
         $form = $this->createForm(CancelTransactionLineType::class, $data, $options);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $transactionLine->setCancelTransfertId($stripeManager->cancelTranfert($transactionLine->getTransfertId(), $data['amount'])->id)
-            ->setCancelAmount($data['amount'] * 100);
+            $transactionLine->setCancelTransfertId(
+                $stripeManager->cancelTranfert($transactionLine->getTransfertId(), $data['amount'])->id
+            )
+                ->setCancelAmount($data['amount'] * 100);
             $em->flush();
             $mailerManager->sendMailNotification(
                 $transactionLine->getTransaction()->getAuthor()->getEmail(),
@@ -155,7 +158,15 @@ class ClaimController extends AbstractController
             );
             $this->addFlash('success', "Remboursement effectué.");
 
-            return $this->json(['success' => true, 'redirectUrl' => $this->generateUrl('back_transaction_show', ['transaction' => $transactionLine->getTransaction()->getId()])]);
+            return $this->json(
+                [
+                    'success' => true,
+                    'redirectUrl' => $this->generateUrl(
+                        'back_transaction_show',
+                        ['transaction' => $transactionLine->getTransaction()->getId()]
+                    )
+                ]
+            );
         }
 
         return $this->render('back/transaction/cancel.html.twig', compact('form'));

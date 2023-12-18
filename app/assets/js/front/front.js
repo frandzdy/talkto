@@ -34,6 +34,7 @@ const {debounce} = require('lodash')
 window.debounce = debounce
 
 import 'jquery-confirm';
+jconfirm.defaults = {theme:'bootstrap'}
 
 import bsCustomFileInput from "bs-custom-file-input";
 global.bsCustomFile = bsCustomFileInput;
@@ -65,4 +66,4 @@ import WOW from 'wow.js';
 window.WOW = WOW
 
 require('./services/imagesloaded.pkgd.min.js')
-require('./services/main.js')
+//require('./services/main.js')

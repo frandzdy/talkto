@@ -32,11 +32,11 @@ class HomeController extends AbstractController
 
         return $this->render('front/home/index.html.twig', compact('homePage', 'trends', 'latestProducts', 'topSales'));
     }
-    
+
     /**
      * Génère le sitemap du site.
      */
-    #[Route('/sitemap.{_format}', name: 'sitemap', requirements: ['_format'=> 'xml'])]
+    #[Route('/sitemap.{_format}', name: 'sitemap', requirements: ['_format' => 'xml'])]
     public function siteMap(SiteMapManager $siteMapManager)
     {
         return $this->render(

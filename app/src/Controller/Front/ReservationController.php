@@ -26,8 +26,11 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/reservation-bailleur/{token}', name: 'reservation_line_show', methods: ['GET'])]
-    public function lineShow(string $token, TransactionLineRepository $transactionLineRepository, ReservationRepository $reservationRepository): Response
-    {
+    public function lineShow(
+        string $token,
+        TransactionLineRepository $transactionLineRepository,
+        ReservationRepository $reservationRepository
+    ): Response {
         $transactionLine = $transactionLineRepository->findOneBy(['token' => $token]);
         $reservation = $reservationRepository->findOneBy(['transaction' => $transactionLine->getTransaction()]);
 

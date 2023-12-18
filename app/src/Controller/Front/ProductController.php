@@ -151,7 +151,7 @@ class ProductController extends AbstractController
             $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
 
             $session->set('cart', $cart);
-            $this->addFlash('success', 'Produit(s) ajouté(s)');
+            $this->addFlash('success', 'Produit ajouté au panier');
 
             if ($request->attributes->get('_route') === "front_product_reservation_show_detail") {
                 return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
@@ -160,7 +160,8 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_home')
+                    'reload' => true,
+                    'redirectUrl' => $this->generateUrl('front_home'),
                 ]
             );
         }
