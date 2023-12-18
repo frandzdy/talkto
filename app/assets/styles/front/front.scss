@@ -64,11 +64,12 @@
 // tarteaucitron css
 
 #tarteaucitronPersonalize {
-  background-color: $main-green !important;
+  color: $white;
+  background-color: $theme-color !important;
 }
 
 #tarteaucitronPersonalize:hover {
-  background-color: $main-green-hover !important;
+  background-color: $theme-color-hover !important;
 }
 
 #tarteaucitronRoot #tarteaucitronAlertBig {
@@ -122,4 +123,8 @@ button[id$="Denied"] {
 
 .bp-xc {
   display: none !important;
+}
+
+.jconfirm .jconfirm-box {
+  border-top: solid 7px $theme-color !important;
 }
