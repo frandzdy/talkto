@@ -184,7 +184,7 @@ export default class extends Controller {
         }))
         this.localisationDone = true
         clearTimeout(this.timeOut)
-        toastr.info('Géolocalisation activé', 'Activation')
+        toastr.success('Géolocalisation activé', 'Activation')
     }
 
     error = (err) => {
