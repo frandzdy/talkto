@@ -94,11 +94,7 @@ class FileUploadManager
      */
     private function getDirectoryPath(string $directory): string
     {
-        if ($this->env === "dev") {
-            $path = $this->fileUploadParameters['base_path'];
-        } else {
-            $path = $this->fileUploadParameters['base_path_prod'];
-        }
+        $path = $this->fileUploadParameters['base_path'];
 
         $path .= $this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default'];
 
@@ -122,7 +118,7 @@ class FileUploadManager
      */
     private function getDirectoryPathLiip(): string
     {
-        return $this->env === "dev" ? $this->fileUploadParameters['base_path_liip'] : $this->fileUploadParameters['base_path_liip_prod'];
+        return $this->fileUploadParameters['base_path_liip'];
     }
 
     /**

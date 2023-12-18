@@ -566,6 +566,7 @@ export default class extends Controller {
                 doAnimations($animatingElements);
             });
             BasicSlider.slick({
+                infinite: true,
                 autoplay: true,
                 swipe: true,
                 autoplaySpeed: 8000,

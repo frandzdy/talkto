@@ -23,7 +23,6 @@ parameters:
 
     file_uploader_config:
         base_path: "%kernel.project_dir%/public/uploads/"
-        base_path_prod: "%kernel.project_dir%/public_html/uploads/"
         base_path_private: "%kernel.project_dir%/uploads/"
         base_path_liip: "%kernel.project_dir%/public/uploads/media/cache/"
         base_path_liip_prod: "%kernel.project_dir%/public_html/uploads/media/cache/"
