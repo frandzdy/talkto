@@ -225,38 +225,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * Enregistre les coordonnées GPS d'un utilisateur
-     */
-    #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ["expose" => true], methods: ['POST'])]
-    public function saveUserCoord(
-        string $lat,
-        string $lon,
-        UserManager $userManager,
-        LoggerInterface $logger,
-        SessionInterface $session
-    ): Response {
-        try {
-            $user = $this->getUser();
-            /**
-             * @var User $user
-             */
-            if ($user) {
-                $user->setLat($lat);
-                $user->setLon($lon);
-                $userManager->saveUser();
-            } else {
-                $session->set('lat', $lat);
-                $session->set('lon', $lon);
-            }
-        } catch (\Exception $e) {
-            // logger l'erreur
-            $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());
-        }
-
-        return $this->json(['success' => true], Response::HTTP_OK);
-    }
-
-    /**
      * Pagination des blocs table de la fiche qualif
      */
     #[Route(path: '/collections/{name}/{page}', name: "user_collection", requirements: ['name' => 'reservations|rents|products|wishlists'], methods: ["GET"])]

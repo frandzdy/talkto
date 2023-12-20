@@ -6,19 +6,18 @@
 <div class="profile__edit-wrapper" {{ user.role is same as (constant('App\\Entity\\User::ROLE_SELLER')) ? 'data-turbo="false"' : '' }}>
     {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha', 'autocomplete':'off'} }) }}
     <div class="profile__edit-input text-center">
-        <label for="user_uploadPicture" style="cursor: pointer">
-            <div class="profile__basic-thumb valign-items-center">
-                <img id="profilePictureImg"
+        <div class="profile__basic-thumb valign-items-center">
+            <label for="user_uploadPicture">
+                <img id="profilePictureImg" style="cursor: pointer"
                      src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                     width="315px"
-                     alt="{{ pictureName ? user.fullname : 'avatar' }}" data-controller="profile"
-                     data-action="change->profile#changeImage">
-            </div>
-            {{ form_errors(form.uploadPicture) }}
-        </label>
+                     width="200px"
+                     alt="{{ pictureName ? user.fullname : 'avatar' }}" {{ stimulus_target('user', 'imgFile') }}>
+            </label>
+        </div>
+        {{ form_errors(form.uploadPicture) }}
         <span style="display: none">
-        {{ form_widget(form.uploadPicture, {attr: {'id': 'profilePictureUpload', 'data-target': 'profile.fileInput', 'data-action': 'change->profile#changeImage'}}) }}
-    </span>
+            {{ form_widget(form.uploadPicture, {'attr': {'data-user-target':'profileFile', 'data-action': 'change->user#imagesPreview'}}) }}
+        </span>
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.genre) }}
@@ -34,8 +33,8 @@
     </div>
     <div class="profile__edit-input">
         {{ form_row(form.address) }}
-        <div class="zone-address w-100">
-            <ul class="address d-none" style="list-style: none">
+        <div class="zone-address w-50">
+            <ul class="address d-none">
             </ul>
         </div>
     </div>

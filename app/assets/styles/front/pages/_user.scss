@@ -1,4 +1,19 @@
-.address {
-  cursor: pointer;
-  margin: 0 10px;
+.zone-address {
+  position: absolute;
+  width: 100%;
+  .address {
+    cursor: pointer;
+    margin: 0 10px;
+    list-style: none;
+    border: 2px solid $theme-color;
+    border-radius: 5px;
+    text-align: center;
+    background-color: $white;
+
+    li:hover {
+      background: #e3e2e2 !important;
+      border-bottom: 1px solid $theme-color;
+      color: $white;
+    }
+  }
 }

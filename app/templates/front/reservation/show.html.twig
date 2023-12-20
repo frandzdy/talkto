@@ -51,19 +51,15 @@
                                         <span class="amount">{{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }} €</span>
                                     </td>
                                     <td class="product-name">
+                                        <a class="profile__info-btn open-front-modal" type="button"
+                                           data-lg-size="true"
+                                           href="{{ url('front_chat_index', {'token': reservation.token, 'transactionLineToken': transactionLine.token}, true) }}"
+                                           data-modal-title="Chat"
+                                           title="Chat">
+                                            Chat
+                                        </a>
                                         {% if transactionLine.status.value is not same as (constant('App\\Enum\\TransactionLineStatus::CANCELED').value) %}
-                                            {% if app.user.roleAsLabel is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
-                                                {% if transactionLine.endDate|date('d/m/Y') <= "now"|date("d/m/Y")
-                                                    or transactionLine.status.value == constant('App\\Enum\\TransactionLineStatus::IN_PROGRESS').value %}
-                                                    <a class="profile__info-btn open-front-modal"
-                                                       data-modal-title="Réclamation"
-                                                       href="{{ path('front_claim_create', {'token': transactionLine.token}) }}"
-                                                       title="Faire une réclamation">
-                                                        Réclamation
-                                                    </a>
-                                                    <br>
-                                                {% endif %}
-                                            {% else %}
+                                            {% if app.user.roleAsLabel is same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
                                                 {% if transactionLine.startDate|date('d/m/Y') == "now"|date("d/m/Y") or transactionLine.getCheck(constant('App\\Enum\\CheckinType::IN'))|length == 0 %}
                                                     <a class="profile__info-btn open-front-modal"
                                                        href="{{ path('front_check_create', {'type': 'in', 'token': transactionLine.token}) }}"
@@ -92,13 +88,6 @@
                                                    title="Annuler votre réservation">Annulation</a>
                                                 <br>
                                             {% endif %}
-                                            <a class="profile__info-btn open-front-modal" type="button"
-                                               data-lg-size="true"
-                                               href="{{ url('front_chat_index', {'token': reservation.token, 'transactionLineToken': transactionLine.token}, true) }}"
-                                               data-modal-title="Chat"
-                                               title="Chat">
-                                                Chat
-                                            </a>
                                         {% endif %}
                                     </td>
                                 </tr>

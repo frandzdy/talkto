@@ -1,6 +1,6 @@
 {% extends 'back/layout.html.twig' %}
 
-{% block title %}Bailleurs - {{ parent() }}{% endblock %}
+{% block title %}Bailleurs{% endblock %}
 {% block page_title %}Bailleurs ({{ lessors.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
     <a title="Exporter" href="{{ path('back_lessor_extract') }}" class="btn btn-info" data-toggle="tooltip"

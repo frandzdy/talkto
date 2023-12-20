@@ -33,9 +33,10 @@
                            data-modal-title="Réservation {{ reservation.transaction.reference }}"
                            title="Réservation {{ reservation.transaction.reference }}">Voir</a>
                         {% if getInvoiceLink(reservation) %}
+                            <br>
                             <a href="{{ getInvoiceLink(reservation) }}"
                                class="order__view-btn"
-                               title="Facture">Facture</a>
+                               title="Facture">Votre facture</a>
                         {% endif %}
                     </td>
                 </tr>

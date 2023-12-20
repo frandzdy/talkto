@@ -1,6 +1,6 @@
 {% extends 'back/layout.html.twig' %}
 
-{% block title %}Clients - {{ parent() }}{% endblock %}
+{% block title %}Clients{% endblock %}
 {% block page_title %}Clients ({{ renters.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
     <a title="Exporter" href="{{ path('back_customer_extract') }}"

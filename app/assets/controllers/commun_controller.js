@@ -4,9 +4,6 @@ import {Controller} from '@hotwired/stimulus';
 export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess']
     cart = []
-    rejectLocalisation = false
-    localisationDone = false
-    timeOut
     connect() {
         this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
@@ -135,61 +132,6 @@ export default class extends Controller {
                     $('#cart-length').html(data.totalQuantity);
                 });
         }, 2000)
-    }
-
-    containerTargetConnected() {
-        this.timeOut = setTimeout(() => {
-            if ((!lat && !lon) || (!this.rejectLocalisation || !this.localisationDone)) {
-                $.confirm({
-                    title: 'Géolocalisation',
-                    content: 'En activant la géolocalisation, vous aurez une meilleure expérience. ' +
-                        'Nous l\'utilisons uniquement pour vos proposer des produits près de chez vous.',
-                    type: 'blue',
-                    typeAnimated: true,
-                    buttons: {
-                        confirm: {
-                            text: 'Accepter',
-                            btnClass: 'btn-blue',
-                            action: () => {
-                                navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
-                            }
-                        },
-                        close: {
-                            text: "Refuser",
-                            action: () => {
-                                clearTimeout(this.timeOut)
-                            }
-                        }
-                    }
-                })
-            }
-        }, 60000)
-
-    }
-
-    /**
-     * GPS COORD SAVE
-     */
-    optionsAccuracy = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
-
-    successAccuracy = (pos) => {
-        const cards = pos.coords
-        $.post(Routing.generate('front_user_save_coord', {
-            'lat': cards.latitude,
-            'lon': cards.longitude
-        }))
-        this.localisationDone = true
-        clearTimeout(this.timeOut)
-        toastr.success('Géolocalisation activé', 'Activation')
-    }
-
-    error = (err) => {
-        clearTimeout(this.timeOut)
-        this.rejectLocalisation = true
     }
 
     /**
@@ -382,80 +324,6 @@ export default class extends Controller {
     }
 
     /**
-     * Permet de custom les input file bootstrap
-     */
-
-    imagesPreview(input, placeToInsertImagePreview) {
-        if (input.files) {
-            const filesAmount = input.files.length;
-            const filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
-            for (let i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
-
-                reader.onload = (event) => {
-                    const image = new Image();
-
-                    image.onload = function () {
-                        const canvas = document.createElement("canvas");
-                        const context = canvas.getContext("2d");
-                        const max_size = 198;
-                        let width = image.width;
-                        let height = image.height;
-                        if (width > max_size) {
-                            height *= max_size / width;
-                            width = max_size;
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        context.drawImage(image,
-                            0,
-                            0,
-                            image.width,
-                            image.height,
-                            0,
-                            0,
-                            canvas.width,
-                            canvas.height
-                        );
-                        $($.parseHTML('<div>')).attr('id', 'imgPrev' + i).attr('style', 'width:' + canvas.width + 'height:' + canvas.height)
-                            .css({'margin-right': '4px'})
-                            .appendTo(placeToInsertImagePreview);
-                        $($.parseHTML('<img>')).attr('src', canvas.toDataURL())
-                            .addClass('img-fluid img-thumbnail float-end')
-                            .appendTo('div#imgPrev' + i);
-                    }
-                    image.src = event.target.result;
-                }
-                if (!filterType.test(input.files[i].type)) {
-                    alert("Please select a valid image.");
-                    return;
-                }
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
-    };
-
-    previewProfileFile() {
-        var input = this.profileFileTarget;
-        $('div#previewFile').fadeOut('slow');
-        $('#previewFile').remove();
-        var el = $('<div id="previewFile" class="previewFile"></div>');
-        $('#file').append(el);
-        this.imagesPreview(input, 'div#previewFile');
-        $('div#previewFile').fadeIn('slow');
-    }
-
-    previewChatFile() {
-        var input = this.chatFileTarget;
-        $('div#previewFile').fadeOut();
-        $('#previewFile').remove();
-        var el = $('<div id="previewFile" class="previewFile"></div>');
-        $('#receiver').append(el);
-        this.imagesPreview(input, 'div#previewFile');
-        $('div#previewFile').fadeIn('slow');
-    }
-
-    /**
      * Callback button target alertSuccess
      */
     alertSuccessTargetConnected() {
@@ -469,13 +337,6 @@ export default class extends Controller {
     handleBsCustomInputFile(container) {
         if ($(container)) {
             bsCustomFile.init();
-            $(container).change(function () {
-                var fieldVal = $(this).val();
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).next(".custom-file-label").text(fieldVal);
-                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
-                }
-            });
         }
     }
 

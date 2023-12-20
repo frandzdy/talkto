@@ -1,6 +1,6 @@
 {% extends 'back/layout.html.twig' %}
 
-{% block title %}Ref : {{ transaction.reference|default('') }} - {{ parent() }}{% endblock %}
+{% block title %}Ref : {{ transaction.reference|default('') }}{% endblock %}
 {% block page_title %}Transaction ref : {{ transaction.reference|default('') }} {% endblock %}
 
 {% block action_buttons %}

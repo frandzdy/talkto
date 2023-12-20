@@ -1,6 +1,6 @@
 {% extends 'back/layout.html.twig' %}
 
-{% block title %}Réclamations - {{ parent() }}{% endblock %}
+{% block title %}Réclamations{% endblock %}
 {% block page_title %}Réclamations ({{ claims.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
     <a title="Exporter" href="{{ path('back_claim_extract') }}" class="btn btn-info">

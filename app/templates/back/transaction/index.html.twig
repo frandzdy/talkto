@@ -1,6 +1,6 @@
 {% extends 'back/layout.html.twig' %}
 
-{% block title %}Transactions - {{ parent() }}{% endblock %}
+{% block title %}Transactions{% endblock %}
 {% block page_title %}Transactions ({{ transactions.totalItemCount() }}){% endblock %}
 {% block action_buttons %}
     <a title="Exporter" href="{{ path('back_transaction_extract') }}" class="btn btn-info">

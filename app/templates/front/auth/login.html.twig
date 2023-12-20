@@ -1,15 +1,8 @@
 {% extends 'front/layout.html.twig' %}
 
-{% if app.user %}
-    {% set title = "Mon compte" %}
-{% else %}
-    {% set title = "Création de compte" %}
-{% endif %}
-
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block content %}
-
     <!-- login Area Strat-->
     <section class="login-area pt-50 pb-100">
         <div class="container">
@@ -24,5 +17,4 @@
         </div>
     </section>
     <!-- login Area End-->
-
 {% endblock %}

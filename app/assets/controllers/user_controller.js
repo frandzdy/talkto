@@ -3,7 +3,7 @@ import {getAllAddresses} from "../js/front/pages/user";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['userForm']
+    static targets = ['userForm', 'profileFile', 'imgFile']
     addresses = {}
     searching = false
     connect() {
@@ -12,15 +12,14 @@ export default class extends Controller {
 
     /**
      *
-     * @param e
      */
     addressAutocomplete(event) {
-        $(this.userFormTarget).on('change', 'input#user_address', (event) => {
+        $(this.userFormTarget).on('keyup', 'input#user_address', (event) => {
             const inputValue = $(event.currentTarget).val();
             const trimmedInput = inputValue && inputValue.trim();
 
             if (!trimmedInput.length) {
-                this.removeAddress();
+                $('.zone-address').find('.address').remove();
             }
 
             if (trimmedInput.length < 3) return;
@@ -30,10 +29,10 @@ export default class extends Controller {
 
                 debounce(getAllAddresses(trimmedInput).then(
                     (response) => {
-                        this.removeAddress();
+                        $('.zone-address').find('.address').remove();
                         this.createAddressList(response);
                     }
-                ).then(() => this.searching = false), 1000);
+                ).then(() => this.searching = false), 2000);
             }
         }).on('click', 'li.address-item', this.handleClickOnAddress);
     }
@@ -70,7 +69,7 @@ export default class extends Controller {
         $('#user_address').val(clickedData['street']);
         $('#user_zipCode').val(clickedData['zipcode']);
         $('#user_city').val(clickedData['city']);
-        this.removeAddress();
+        $('.zone-address').find('.address').remove();
     }
 
     /**
@@ -101,5 +100,56 @@ export default class extends Controller {
                 });
             });
         });
+    }
+
+    /**
+     * Permet de custom les input file bootstrap
+     */
+
+    imagesPreview(event) {
+        console.log('files : ', this.profileFileTarget.files)
+        if (this.profileFileTarget.files) {
+            const filesAmount = this.profileFileTarget.files.length;
+            const filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+            for (let i = 0; i < filesAmount; i++) {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const image = new Image();
+
+                    image.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
+                        const max_size = 200;
+                        let width = image.width;
+                        let height = image.height;
+                        if (width > max_size) {
+                            height *= max_size / width;
+                            width = max_size;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        context.drawImage(image,
+                            0,
+                            0,
+                            image.width,
+                            image.height,
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                        );
+                        this.imgFileTarget.src = canvas.toDataURL()
+                    }
+                    image.src = event.target.result;
+                    this.imgFileTarget = image
+                }
+                if (!filterType.test(this.profileFileTarget.files[i].type)) {
+                    toastr("Format fichier (PNG/JPEG/JPG).")
+                    return;
+                }
+                reader.readAsDataURL(this.profileFileTarget.files[i])
+            }
+        }
     }
 }
