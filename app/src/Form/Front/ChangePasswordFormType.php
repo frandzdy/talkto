@@ -22,6 +22,9 @@ class ChangePasswordFormType extends AbstractType
                     'type' => PasswordType::class,
                     'options' => [
                         'toggle' => true,
+                        'hidden_label' => 'Masquer',
+                        'visible_label' => 'Afficher',
+                        'translation_domain' => 'messages'
                     ],
                     'first_options' => [
                         'attr' => [

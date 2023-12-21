@@ -47,8 +47,6 @@ export default class extends Controller {
                 $("#product_reservation_quantity option").each(function () {
                     $(this).remove();
                 });
-                let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
-                $('#product_reservation_quantity').append(option)
 
                 let dates = dateStr.split('au')
 
@@ -60,10 +58,16 @@ export default class extends Controller {
                 $.get(Routing.generate('front_product_check_dates', {
                     'startDate': dates[0],
                     'token': token
-                }), null, function (data) {
+                }), null, (data) => {
                     if (data['quantity']) {
+                        $("#product_reservation_quantity option").each(function () {
+                            $(this).remove();
+                        })
+                        let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
+                        $('#product_reservation_quantity').append(option)
+
                         for (let i = 1; i <= data['quantity']; i++) {
-                            var option = $("<option value='" + i + "'></option>").text(i);   // Create with jQuery
+                            let option = $("<option value='" + i + "'></option>").text(i);   // Create with jQuery
                             $('#product_reservation_quantity').append(option)
                         }
                     } else {
@@ -74,7 +78,7 @@ export default class extends Controller {
 
                         $("#product_reservation_quantity option").each(function () {
                             $(this).remove();
-                        });
+                        })
 
                         let option = $('<option value selected="selected"></option>').text('-- Sélectionnez une quantité --');
                         $('#product_reservation_quantity').append(option)

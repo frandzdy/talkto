@@ -18,10 +18,16 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    {
+
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -175,6 +181,9 @@ class UserType extends AbstractType
                     'options' =>
                         [
                             'toggle' => true,
+                            'hidden_label' => 'Masquer',
+                            'visible_label' => 'Afficher',
+                            'translation_domain' => 'messages'
                         ],
                     'first_options' =>
                         [
@@ -217,6 +226,9 @@ class UserType extends AbstractType
                     'options' =>
                         [
                             'toggle' => true,
+                            'hidden_label' => 'Masquer',
+                            'visible_label' => 'Afficher',
+                            'translation_domain' => 'messages'
                         ],
                     'first_options' => [
                         'label' => 'Mot de passe',
@@ -245,7 +257,8 @@ class UserType extends AbstractType
                     'terms',
                     CheckboxType::class,
                     [
-                        'label' => 'Politique de d\'utilisation'
+                        'label' => '<a target="_blank" title="Condition Générale d\'Utilisation" data-turbo="false" href="'.$this->urlGenerator->generate('front_cgu').'">CGU</a>',
+                        'label_html' => true,
                     ]
                 );
         }

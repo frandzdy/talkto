@@ -30,7 +30,7 @@ global.bsCustomFile = bsCustomFileInput
 
 require('./../front/services/jquery-ui.min.js')
 
-require('./../front/services/bootstrap.bundle.min.js')
+require('bootstrap')
 require('jquery-slimscroll');
 require('js-cookie');
 

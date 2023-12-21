@@ -284,6 +284,9 @@ class UserPaymentType extends AbstractType
                         'options' =>
                             [
                                 'toggle' => true,
+                                'hidden_label' => 'Masquer',
+                                'visible_label' => 'Afficher',
+                                'translation_domain' => 'messages'
                             ],
                         'first_options' =>
                             [

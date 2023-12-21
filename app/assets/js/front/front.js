@@ -45,25 +45,20 @@ import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources
 Routing.setRoutingData(routes);
 window.Routing = Routing;
 
-//require('../../js/front/pages/common')
 require('./services/cookie')
 require('../../js/front/pages/product')
 
 require('./services/vendor/modernizr-3.5.0.min.js')
-require('./services/vendor/jquery-3.6.0.min.js')
-//require('./services/vendor/waypoints.min.js')
-require('./services/bootstrap.bundle.min.js')
 require('./services/metisMenu.min.js')
-import 'slick-carousel'
 require('./services/jquery.fancybox.min.js')
 require('./services/isotope.pkgd.min.js')
 require('./services/owl.carousel.min.js')
 require('./services/jquery-ui.min.js')
 
-
+import 'bootstrap'
+import 'slick-carousel'
 import WOW from 'wow.js';
 
 window.WOW = WOW
 
 require('./services/imagesloaded.pkgd.min.js')
-//require('./services/main.js')

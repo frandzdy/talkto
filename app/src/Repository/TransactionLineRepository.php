@@ -153,11 +153,13 @@ class TransactionLineRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('tl')
             ->select('SUM(tl.fees) as profit,
-            SUM(tl.amountTtc + tl.fees) as ca');
+            SUM(tl.amountTtc + tl.fees) as ca')
+        ->where('tl.status IN (:tlStatus)')
+        ->setParameter('tlStatus', [TransactionLineStatus::IN_PROGRESS->value, TransactionLineStatus::FINISHED->value]);
 
         if ($date) {
             $qb->join('tl.transaction', 't')
-                ->where('t.createdAt = :date')
+                ->andWhere('t.createdAt = :date')
                 ->setParameter('date', $date)
             ;
         }

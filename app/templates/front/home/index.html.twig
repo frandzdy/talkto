@@ -321,9 +321,9 @@
                             {% if latestProduct[0].pictures.count > 0 %}
                                 {% set pictureName = latestProduct[0].pictures.first.name %}
                             {% endif %}
-                            <div class="client__thumb">
+                            <div class="">
                                 <a href="{{ path('front_product_reservation_show_detail', {'token': latestProduct[0].token}) }}">
-                                    <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_latest') }}"
+                                    <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
                                          width="240px"
                                          alt="{{ latestProduct[0].title }}"></a>
                             </div>

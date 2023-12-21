@@ -55,6 +55,9 @@ class LoginType extends AbstractType
                             new Email(['message' => 'Information requises.'])
                         ],
                     'toggle' => true,
+                    'translation_domain' => 'messages',
+                    'hidden_label' => 'Masquer',
+                    'visible_label' => 'Afficher',
                 ]
             );
     }

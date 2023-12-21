@@ -76,8 +76,11 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 #strip: ~
-                downscale:
-                    max: [ 270, 344 ]
+                #downscale:
+                    #max: [ 270, 344 ]
+                fixed:
+                    width: 270
+                    height: 344
         product_details:
             quality: 100
             filters:
