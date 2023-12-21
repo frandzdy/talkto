@@ -78,6 +78,10 @@ readonly class CheckManager
             }
 
             $checkin->getTransactionLine()->setStatus(TransactionLineStatus::FINISHED);
+            // on remet la quantité en stock
+            $checkin->getTransactionLine()->getProduct()->setQuantityAllReadyReserved(
+                $checkin->getTransactionLine()->getProduct()->getQuantityAllReadyReserved() - $checkin->getTransactionLine()->getQuantity()
+            );
         }
 
         $nbTransactionLine = $reservation->getTransaction()->getTransactionLines()->count();
