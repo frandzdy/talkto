@@ -51,8 +51,16 @@
                                     <div class="mini-cart">
                                     </div>
                                 </li>
-                                <li><a href="#" rel="nofollow" title="Menu bar"><i
-                                                class="far fa-bars"></i></a>
+                                <li>
+                                    {% if app.user %}
+                                        <a href="#" rel="nofollow" title="Menu bar">
+                                            <i class="far fa-user"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="#" rel="nofollow" title="Menu bar">
+                                            <i class="far fa-bars"></i>
+                                        </a>
+                                    {% endif %}
                                     <ul class="extra-info">
                                         <li>
                                             {% if app.user %}
@@ -90,7 +98,8 @@
                                                             </li>
                                                         {% else %}
                                                             <li>
-                                                                <a href="{{ path('front_logout') }}" title="Déconnexion">
+                                                                <a href="{{ path('front_logout') }}"
+                                                                   title="Déconnexion">
                                                                     Déconnexion
                                                                 </a>
                                                             </li>
@@ -114,7 +123,8 @@
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ path('front_seller_new') }}" title="Devenez bailleur">
+                                                            <a href="{{ path('front_seller_new') }}"
+                                                               title="Devenez bailleur">
                                                                 Devenez bailleur
                                                             </a>
                                                         </li>
@@ -165,5 +175,7 @@
 </header>
 <!-- header area end -->
 <!--[if lte IE 9]>
-<p class="browserupgrade">Vous utilisez une version <strong>non à jour</strong> de votre navigateur. Merci <a href="https://browsehappy.com/">de mettre à jour votre navigateur</a> pour en améliorer l'expérience et la sécurité.</p>
+<p class="browserupgrade">Vous utilisez une version <strong>non à jour</strong> de votre navigateur. Merci <a
+        href="https://browsehappy.com/">de mettre à jour votre navigateur</a> pour en améliorer l'expérience et la
+    sécurité.</p>
 <![endif]-->
