@@ -19,8 +19,8 @@
                 {% for product in products %}
                     <tr>
                         <td>{{ product.title|default('') }}</td>
-                        <td>{{ product.amount|default('') }} €</td>
-                        <td>{{ product.caution|default('') }} €</td>
+                        <td>{{ product.amount|number_format(2, ',')|default(0) }} €</td>
+                        <td>{{ product.caution|number_format(2, ',')|default(0) }} €</td>
                         <td>{{ product.status.label|default('') }}</td>
                         <td class="pl-4">
                             <a title="Voir le produit"

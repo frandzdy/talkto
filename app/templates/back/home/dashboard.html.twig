@@ -12,7 +12,7 @@
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
                 <div class="stats-content">
                     <div class="stats-title">Profits du jour</div>
-                    <div class="stats-number">{{ stats.dayProfits }} €</div>
+                    <div class="stats-number">{{ stats.dayProfits|number_format(2, ',')|default(0) }} €</div>
                     <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 70.1%;"></div>
                     </div>
@@ -25,7 +25,7 @@
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
                 <div class="stats-content">
                     <div class="stats-title">CA du jour</div>
-                    <div class="stats-number">{{ stats.dayCa }} €</div>
+                    <div class="stats-number">{{ stats.dayCa|number_format(2, ',')|default(0) }} €</div>
                     <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 40.5%;"></div>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
                 <div class="stats-content">
                     <div class="stats-title">Profits</div>
-                    <div class="stats-number">{{ stats.allProfits }} €</div>
+                    <div class="stats-number">{{ stats.allProfits|number_format(2, ',')|default(0) }} €</div>
                     <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 76.3%;"></div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-euro-sign fa-fw"></i></div>
                 <div class="stats-content">
                     <div class="stats-title">CA</div>
-                    <div class="stats-number">{{ stats.allCa }} €</div>
+                    <div class="stats-number">{{ stats.allCa|number_format(2, ',')|default(0) }} €</div>
                     <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 54.9%;"></div>
                     </div>

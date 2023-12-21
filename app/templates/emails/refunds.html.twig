@@ -22,8 +22,7 @@
                             {% endif %}
                         </li>
                         <li><strong>Montant de votre réservation
-                                :</strong> {{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }}
-                            €
+                                :</strong> {{ (transactionLine.amountTtc / 100)|number_format(2, ',')|default(0) }} €
                         </li>
                         <li><strong>Montant remboursé
                                 :</strong> {{ (transactionLine.cancelAmount /100)|number_format(2, ',')|default(0) }} €

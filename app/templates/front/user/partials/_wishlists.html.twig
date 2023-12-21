@@ -30,7 +30,7 @@
                             {{ wishlist.product.title }}
                         </a>
                     </td>
-                    <td class="text-center">{{ wishlist.product.amount }} €</td>
+                    <td class="text-center">{{ wishlist.product.amount|number_format(2, ',')|default(0) }} €</td>
                     <td class="text-center">
                         <a href="{{ path('front_product_reservation', {'token': wishlist.product.token}) }}"
                            class="order__view-btn open-product-modal"

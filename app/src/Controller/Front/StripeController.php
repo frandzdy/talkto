@@ -137,7 +137,7 @@ class StripeController extends AbstractController
         $error = false;
         switch ($paymentIntent->status) {
             case 'succeeded':
-                $message = 'Paiement validé';
+                $message = "Paiement validé !";
                 $session->set('cart', [
                     'products' => [],
                     'totalQuantity' => 0,
@@ -148,7 +148,7 @@ class StripeController extends AbstractController
                 ]);
                 break;
             case 'processing':
-                $message = 'Paiement en cour de validation';
+                $message = 'Paiement en cour de validation !';
                 $session->set('cart', [
                     'products' => [],
                     'totalQuantity' => 0,
@@ -159,7 +159,7 @@ class StripeController extends AbstractController
                 ]);
                 break;
             case 'requires_payment_method':
-                $message = 'Veuillez choisir un autre moyen de paiement.';
+                $message = 'Veuillez choisir un autre moyen de paiement !';
                 $error = true;
                 break;
             default:

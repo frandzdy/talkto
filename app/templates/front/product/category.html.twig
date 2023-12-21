@@ -301,7 +301,7 @@
                                                                 </a>
                                                             </h4>
                                                             <div class="product__price transition-3">
-                                                                <span>{{ product[0].amount }} €</span>
+                                                                <span>{{ product[0].amount|number_format(2, ',')|default(0) }} €</span>
                                                                 <!-- <span class="old-price">$96.00</span> -->
                                                                 <span class="old-price">{{ product.distance > 0 ? product.distance ~ 'Km' : 'Proche' }}</span>
                                                             </div>
@@ -347,7 +347,7 @@
                                                                 <a href="{{ path('front_product_reservation', {'token': product[0].token}) }}">{{ product[0].title }}</a>
                                                             </h4>
                                                             <div class="product__price-2 mb-10">
-                                                                <span>{{ product[0].amount }} €</span>
+                                                                <span>{{ product[0].amount|number_format(2, ',')|default(0) }} €</span>
                                                                 <!-- <span class="old-price">$96.00</span> -->
                                                                 {#                                                                <span class="old-price">{{ product.distance }} km</span> #}
                                                             </div>

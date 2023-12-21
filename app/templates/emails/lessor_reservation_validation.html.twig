@@ -21,7 +21,7 @@
                         </li>
                         <li><strong>Quantité</strong> : {{ quantity }}</li>
                         <li><strong>Locataire</strong> : {{ buyer }}</li>
-                        <li><strong>Montant TTC</strong> : {{ totalAmount }} €</li>
+                        <li><strong>Montant TTC</strong> : {{ totalAmount|number_format(2, ',')|default(0) }} €</li>
                     </ul>
                     <p>
                         Voir la <a href="{{ link }}" title="Réservation">Réservation</a>.
@@ -60,7 +60,7 @@
         • Date de réservation : {{ startDate == endDate ? 'Le ' ~ startDate : 'Du ' ~ startDate ~ ' au ' ~ endDate }}\n
         • Quantité : {{ quantity }}\n
         • Locataire : {{ buyer }}\n
-        • Montant TTC : {{ totalAmount }} €\n
+        • Montant TTC : {{ totalAmount|number_format(2, ',')|default(0) }} €\n
     \n
     Voir la réservation : {{ link }}\n
     \n

@@ -26,7 +26,7 @@
                     <!--<td class="text-center order__id">#3520</td>-->
                     <td class="text-center"><a href="{{ path('front_product_show', {'token': product.token}) }}"
                                                class="order__title">{{ product.title|capitalize }}</a></td>
-                    <td class="text-center">{{ product.amount }} €</td>
+                    <td class="text-center">{{ product.amount|number_format(2, ',')|default(0) }} €</td>
                     <td class="text-center">{{ product.status.label }}</td>
                     <td class="text-center">
                         <a href="{{ path('front_product_show', {'token': product.token}) }}"

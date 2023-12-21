@@ -40,7 +40,7 @@
                                             {{ wishlist.product.title }}
                                         </a>
                                     </td>
-                                    <td class="product-price"><span class="amount">{{ wishlist.product.amount }} €</span></td>
+                                    <td class="product-price"><span class="amount">{{ wishlist.product.amount|number_format(2, ',')|default(0) }} €</span></td>
                                     <td class="product-quantity">
                                         <a href="{{ path('front_product_reservation', {'token': wishlist.product.token })}}"
                                            title="Réservez"

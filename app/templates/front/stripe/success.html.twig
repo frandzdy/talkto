@@ -11,14 +11,14 @@
                 <div class="error__content text-center">
                     <h2><span class="highlight comment">{{ message }}</span>
                         {% if error is not same as (true) %}
-                            <br> Merci pour votre location !
+                            <br> Merci pour votre location ! Votre réservation est en cours de validation par nos services.
                         {% endif %}
                     </h2>
                     {% if error is not same as (true) %}
                         <p>
-                            Vous allez recevoir un email de confirmation de votre réservation.
+                            Vous allez recevoir un email de confirmation de votre réservation une fois celui-ci validé.
                             Retrouvez dans votre espace votre réservation, afin de discuter avec le(s) bailleur(s) de
-                            votre ou vos locations, pour convenir d'un horaire.
+                            votre ou vos locations, pour convenir d'un horaire et retrouver votre facture.
                         </p>
                     {% endif %}
                     <p>

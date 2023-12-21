@@ -65,11 +65,11 @@
                 </span>
             </div>
             <div class="product__price-2 mb-25">
-                <span>{{ product.amount }} € / jour</span>
+                <span>Prix : {{ product.amount|number_format(2, ',')|default(0) }} € / jour</span>
                 {#                <span class="old-price">$96.00</span> #}
             </div>
             <div class="product__price-2 mb-25">
-                <span>Montant de la caution : {{ product.caution }} €</span>
+                <span>Montant de la caution : {{ product.caution|number_format(2, ',')|default(0) }} €</span>
                 {#                <span class="old-price">$96.00</span> #}
             </div>
             <div class="product__modal-des mb-30">

@@ -13,8 +13,8 @@
                     </p>
                     <ul>
                         <li><strong>Titre :</strong> {{ product.title }}</li>
-                        <li><strong>Montant TTC / jours :</strong> {{ product.amount }} €</li>
-                        <li><strong>Caution :</strong> {{ product.caution }} €</li>
+                        <li><strong>Montant TTC / jours :</strong> {{ product.amount|number_format(2, ',')|default(0) }} €</li>
+                        <li><strong>Caution :</strong> {{ product.caution|number_format(2, ',')|default(0) }} €</li>
                         <li><strong>Quantité :</strong> {{ product.quantity }}</li>
                         <li><strong>Courte description :</strong> {{ product.shortDescription }}</li>
                     </ul>
@@ -45,8 +45,8 @@
     Merci d'avoir ajouté un nouveau produit :\n
     \n
     •    Titre : {{ product.title }}\n
-    •    Montant TTC / jour : {{ product.amount }} €\n
-    •    Caution : {{ product.caution }} €\n
+    •    Montant TTC / jour : {{ product.amount|number_format(2, ',')|default(0) }} €\n
+    •    Caution : {{ product.caution|number_format(2, ',')|default(0) }} €\n
     •    Quantité : {{ product.quantity }}\n
     •    Courte description : {{ product.shortDescription }}\n
     \n

@@ -82,11 +82,11 @@
                                 {#                                <span class="review rating-left"><a href="#">Add your Review</a></span> #}
                             </div>
                             <div class="product__price-2 mb-25">
-                                <span>Prix : {{ product.amount }} € / jours</span>
+                                <span>Prix : {{ product.amount|number_format(2, ',')|default(0) }} € / jours</span>
                                 {#                <span class="old-price">$96.00</span> #}
                             </div>
                             <div class="product__price-2 mb-25">
-                                <span>Caution : {{ product.caution }} €</span>
+                                <span>Montant de la caution : {{ product.caution|number_format(2, ',')|default(0) }} €</span>
                                 {#                <span class="old-price">$96.00</span> #}
                             </div>
                             <div class="product__modal-des mb-30">
@@ -380,7 +380,7 @@
                                         </a>
                                     </h4>
                                     <div class="product__price transition-3">
-                                        <span>{{ product.amount }} €</span>
+                                        <span>{{ product.amount|number_format(2, ',')|default(0) }} €</span>
                                         {#                                                <span class="old-price">$96.00</span> #}
                                     </div>
                                 </div>

@@ -58,11 +58,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Montant TTC :</label>
-                                <div class="form-control">{{ product.amount }} €</div>
+                                <div class="form-control">{{ product.amount|number_format(2, ',')|default(0) }} €</div>
                             </div>
                             <div class="form-group">
                                 <label for="" >Caution :</label>
-                                <div class="form-control">{{ product.caution }} €</div>
+                                <div class="form-control">{{ product.caution|number_format(2, ',')|default(0) }} €</div>
                             </div>
                         </div>
                     </div>

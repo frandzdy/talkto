@@ -144,7 +144,7 @@
                                                 </a>
                                             </h4>
                                             <div class="product__price transition-3">
-                                                <span>{{ trend[0].amount }} €</span>
+                                                <span>{{ trend[0].amount|number_format(2, ',')|default(0) }} €</span>
                                                 {#                                                <span class="old-price">$96.00</span> #}
                                             </div>
                                         </div>
@@ -287,7 +287,7 @@
                                                 <a href="{{ path('front_product_reservation_show_detail', {'token': topSale[0].product.token}) }}">{{ topSale[0].product.title|capitalize }}</a>
                                             </h4>
                                             <div class="product__price transition-3">
-                                                <span>{{ topSale[0].product.amount }} €</span>
+                                                <span>{{ topSale[0].product.amount|number_format(2, ',')|default(0) }} €</span>
                                                 <!--<span class="old-price">$96.00</span>-->
                                             </div>
                                         </div>
