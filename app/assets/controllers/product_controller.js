@@ -87,13 +87,6 @@ export default class extends Controller {
     handleBsCustomFileInput(container) {
         if ($(container)) {
             bsCustomFile.init();
-            $(container).change(function () {
-                var fieldVal = $(this).val();
-                if (fieldVal != undefined || fieldVal != "") {
-                    $(this).next(".custom-file-label").text(fieldVal);
-                    $(this).closest('.file-elt').next(".custom-file-label").text(fieldVal);
-                }
-            });
         }
     }
 
