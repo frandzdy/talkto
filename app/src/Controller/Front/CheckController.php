@@ -52,16 +52,15 @@ class CheckController extends AbstractController
         $form = $this->createForm(CheckinType::class, $checkin, ['action' => $request->getUri()]);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $hasclaim = $checkManager->saveCheckin($checkin, $reservation, $checkin->uploadedPictures);
+            $this->addFlash('success', 'Check'.$type.' enregistré !');
             if ($hasclaim) {
-                $this->addFlash('success', 'Check'.$type.' enregistré !');
                 $this->addFlash('info', 'Un ticket a été ouvert pour analyse !');
-            } else {
-                $this->addFlash('success', 'Check'.$type.' enregistré !');
             }
 
             return $this->json(
                 [
                     'success' => true,
+                    'message' => 'Check'.$type.' enregistré !',
                     'redirectUrl' => $this->generateUrl('front_user_account'),
                 ]
             );
