@@ -11,12 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class ProductType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,7 +28,7 @@ class ProductType extends AbstractType
                     'class' => ProductStatus::class,
                     'choice_label' => 'label',
                     'label' => 'Statut du produit :',
-                    'placeholder' => '-- Sélectionner le statut --'
+                    'placeholder' => '-- Sélectionner le statut --',
                 ]
             )
             ->add(
@@ -36,19 +36,15 @@ class ProductType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => 'Raison du refus :',
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Si le produit est rejeté alors expliquez pourquoi ...',
                             'style' => 'height: 200px',
-                            'maxlength' => 255
-                        ]
+                            'maxlength' => 255,
+                        ],
                 ]
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

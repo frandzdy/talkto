@@ -7,10 +7,8 @@ use App\Entity\Reservation;
 use App\Entity\User;
 use App\Exporter\LessorExporter;
 use App\Form\Back\LessorFilterType;
-use App\Form\Back\UserFilterType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,16 +21,17 @@ use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * Gestion des bailleurs
+ * Gestion des bailleurs.
  */
 #[Route(path: '/lessors', name: 'lessor_')]
 class LessorController extends AbstractController
 {
-    public const LESSORS_PER_PAGE = 50;
-    public const LESSORS_TERM_FILTER = 'lessor.filter';
+    final public const LESSORS_PER_PAGE = 50;
+
+    final public const LESSORS_TERM_FILTER = 'lessor.filter';
 
     /**
-     * Liste des bailleurs
+     * Liste des bailleurs.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
@@ -41,11 +40,12 @@ class LessorController extends AbstractController
         if (!$filtersFormSession) {
             $filters = [
                 'term' => $request->query->get('term', ''),
-                'status' => $request->query->get('status', 0)
+                'status' => $request->query->get('status', 0),
             ];
         } else {
             $filters = $filtersFormSession;
         }
+
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
         $filterForm = $this->createForm(LessorFilterType::class, $filters);
@@ -63,7 +63,7 @@ class LessorController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                PaginatorInterface::DISTINCT => false
+                PaginatorInterface::DISTINCT => false,
             ]
         );
 
@@ -71,13 +71,13 @@ class LessorController extends AbstractController
             'back/lessor/index.html.twig',
             [
                 'lessors' => $paginator,
-                'filterForm' => $filterForm->createView()
+                'filterForm' => $filterForm->createView(),
             ]
         );
     }
 
     /**
-     * Affichage d'une fiche bailleur
+     * Affichage d'une fiche bailleur.
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(User $lessor, EntityManagerInterface $em): Response
@@ -88,28 +88,22 @@ class LessorController extends AbstractController
         return $this->render('back/lessor/show.html.twig', [
             'lessor' => $lessor,
             'reservations' => $reservations,
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
     /**
-     * Supprime d'un bailleur
+     * Supprime d'un bailleur.
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(User $lessor): RedirectResponse
     {
-        try {
-            //$customerCompanyManager->removeCompany($lessor);
-        } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-        }
-
         return $this->redirectToRoute('back_lessor_index');
     }
 
     /**
-     * Génère un export de tous les bailleurs
+     * Génère un export de tous les bailleurs.
      */
     #[Route(path: '/extract-lessor/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
     public function export(
@@ -118,7 +112,7 @@ class LessorController extends AbstractController
         LessorExporter $lessorExporter
     ): NotFoundHttpException|Response {
         $lessors = $userRepository->findBy(['role' => User::ROLE_SELLER]);
-        $callable = 'exportAs' . strtoupper($typeFile);
+        $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $lessorExporter->$callableNameFunction($lessors);
@@ -130,14 +124,14 @@ class LessorController extends AbstractController
             $result['file'],
             200,
             [
-                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
-                'Content-Disposition' => 'attachment; filename="export_bailleurs.' . $typeFile . '"'
+                'Content-Type' => $result['contentType'].'; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_bailleurs.'.$typeFile.'"',
             ]
         );
     }
 
     /**
-     * S'en connecter en tant que bailleur
+     * S'en connecter en tant que bailleur.
      */
     #[Route(path: '/{id<\d+>}/authenticate', name: 'authenticate', methods: ['GET'])]
     public function authenticate(Request $request, User $user, TokenStorageInterface $tokenStorage): RedirectResponse

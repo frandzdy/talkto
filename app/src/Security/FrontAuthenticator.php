@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Entity\User;
 use App\Service\StripeManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,17 +20,17 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Bundle\SecurityBundle\Security;
 
 /**
- * Authenticator pour le Front Office
+ * Authenticator pour le Front Office.
  */
 class FrontAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'front_login';
-    public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
+    final public const LOGIN_ROUTE = 'front_login';
+
+    final public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -49,7 +50,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('front_login', $request->request->get('_csrf_token')),
-                new RememberMeBadge()
+                new RememberMeBadge(),
             ]
         );
     }
@@ -64,12 +65,14 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
         // alors, on le redirige vers stripe
         $user = $token->getUser();
         $user->setLastDateConnexion(new \DateTime());
+
         $this->em->flush();
         if (User::ROLE_SELLER === $user->getRole() && !$user->getIsStripeAccountActive()) {
             $accountLink = $this->stripeManager->createAccountLink($user);
 
             return new RedirectResponse($accountLink->url);
         }
+
         // si on se connecte depuis la page de paiement
         if (str_contains($request->headers->get('referer'), 'paiement')) {
             return new RedirectResponse($this->urlGenerator->generate('front_stripe_payment_intent'));
@@ -94,6 +97,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
         if (str_contains($request->headers->get('referer'), 'paiement')) {
             return $this->urlGenerator->generate(self::LOGIN_CART_ROUTE);
         }
+
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }

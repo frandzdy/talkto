@@ -40,33 +40,33 @@ class TransactionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Transaction[] Returns an array of Transaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Transaction[] Returns an array of Transaction objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Transaction
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Transaction
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 
     /**
-     * Construit une requête de recherche
+     * Construit une requête de recherche.
      */
     public function buildSearchQuery(array $filters = []): Query
     {
@@ -78,7 +78,7 @@ class TransactionRepository extends ServiceEntityRepository
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere('t.reference LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term')
-                ->setParameter('term',  '%'. $filters['term'] . '%');
+                ->setParameter('term', '%'.$filters['term'].'%');
         }
 
         $builder

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\ClaimStatus;
 use App\Enum\Link;
 use App\Repository\WebsiteContentRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,7 +30,7 @@ class WebsiteContent
     #[Assert\Length(max: 200, maxMessage: 'Trop long.')]
     private ?string $subTitle = null;
 
-    #[ORM\Column(type: "smallint", enumType: Link::class)]
+    #[ORM\Column(type: 'smallint', enumType: Link::class)]
     private ?Link $link = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -43,8 +42,8 @@ class WebsiteContent
     #[Assert\File(
         maxSize: '10M',
         mimeTypes: ['image/svg+xml', 'image/png', 'image/jpg', 'image/jpeg'],
-        maxSizeMessage: "Document trop lourd. (10Mo)",
-        mimeTypesMessage: "Format image uniquement autorisé. (SVG)",
+        maxSizeMessage: 'Document trop lourd. (10Mo)',
+        mimeTypesMessage: 'Format image uniquement autorisé. (SVG)',
     )]
     private ?UploadedFile $uploadedPicture = null;
 

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: TransactionLineRepository::class)]
-#[ORM\Index(columns: ["start_date", "end_date", "token", "status"], name: "ecommerce_transaction_line")]
+#[ORM\Index(columns: ['start_date', 'end_date', 'token', 'status'], name: 'ecommerce_transaction_line')]
 #[ORM\HasLifecycleCallbacks()]
 class TransactionLine
 {
@@ -22,60 +22,33 @@ class TransactionLine
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var int
-     */
-    #[ORM\Column(type: "integer", length: 11)]
+    #[ORM\Column(type: 'integer', length: 11)]
     private int $quantity;
 
-    /**
-     * @var \DateTime
-     */
-    #[ORM\Column(type: "date")]
+    #[ORM\Column(type: 'date')]
     #[Assert\DateTime()]
     private \DateTime $startDate;
 
-    /**
-     * @var \DateTime
-     */
     #[ORM\Column()]
     #[Assert\DateTime()]
     private \DateTime $endDate;
 
-    /**
-     * @var Product
-     */
     #[ORM\ManyToOne()]
     private Product $product;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(length: 11)]
     private int $amountTtc;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(length: 11)]
     private int $amountTva;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(length: 11)]
     private int $fees;
 
-    /**
-     * @var Transaction
-     */
-    #[ORM\ManyToOne(inversedBy: "transactionLines")]
-    private ?Transaction $transaction;
+    #[ORM\ManyToOne(inversedBy: 'transactionLines')]
+    private ?Transaction $transaction = null;
 
-    /**
-     * @var TransactionLineStatus
-     */
-    #[ORM\Column(type: "smallint", enumType: TransactionLineStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: TransactionLineStatus::class)]
     private TransactionLineStatus $status;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -98,7 +71,7 @@ class TransactionLine
 
     #[ORM\OneToMany(mappedBy: 'transactionLine', targetEntity: Checkin::class, cascade: [
         'remove',
-        'persist'
+        'persist',
     ], orphanRemoval: true)]
     private Collection $checkins;
 
@@ -107,17 +80,11 @@ class TransactionLine
         return $this->id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    /**
-     * @param int|null $quantity
-     */
     public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
@@ -125,17 +92,11 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct(): Product
     {
         return $this->product;
     }
 
-    /**
-     * @param Product $product
-     */
     public function setProduct(Product $product): self
     {
         $this->product = $product;
@@ -143,16 +104,12 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return Transaction|null
-     */
     public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }
 
     /**
-     * @param Transaction|null $transaction
      * @return $this
      */
     public function setTransaction(?Transaction $transaction): self
@@ -186,9 +143,6 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getStatus(): TransactionLineStatus
     {
         return $this->status;
@@ -204,17 +158,11 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAmountTtc(): ?int
     {
         return $this->amountTtc;
     }
 
-    /**
-     * @param int|null $amountTtc
-     */
     public function setAmountTtc(?int $amountTtc): self
     {
         $this->amountTtc = $amountTtc;
@@ -222,17 +170,11 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAmountTva(): ?int
     {
         return $this->amountTva;
     }
 
-    /**
-     * @param int|null $amountTva
-     */
     public function setAmountTva(?int $amountTva): self
     {
         $this->amountTva = $amountTva;
@@ -240,17 +182,11 @@ class TransactionLine
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getFees(): ?int
     {
         return $this->fees;
     }
 
-    /**
-     * @param int|null $fees
-     */
     public function setFees(?int $fees): self
     {
         $this->fees = $fees;
@@ -283,9 +219,7 @@ class TransactionLine
     }
 
     /**
-     * Check si on peut annuler une réservation
-     *
-     * @return bool
+     * Check si on peut annuler une réservation.
      */
     public function canBeCancel(): bool
     {
@@ -293,19 +227,14 @@ class TransactionLine
             && $this->getStartDate() > (new \DateTime('now'));
     }
 
-    /**
-     * @return Collection
-     */
     public function getCheckins(): Collection
     {
         return $this->checkins;
     }
 
     /**
-     * @param Checkin $checkin
      * @return $this
      */
-
     public function addCheckIn(Checkin $checkin): self
     {
         if (!$this->checkins->contains($checkin)) {
@@ -317,7 +246,6 @@ class TransactionLine
     }
 
     /**
-     * @param Checkin $checkin
      * @return $this
      */
     public function removeCheckin(Checkin $checkin): self
@@ -338,9 +266,7 @@ class TransactionLine
     public function getCheck(CheckinType $checkinStatus): ?Collection
     {
         return $this->getCheckins()->filter(
-            function (Checkin $checkin) use ($checkinStatus) {
-                return $checkin->getType() === $checkinStatus;
-            }
+            static fn (Checkin $checkin): bool => $checkin->getType() === $checkinStatus
         );
     }
 

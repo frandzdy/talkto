@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Status de la réservation
+ * Status de la réservation.
  */
 enum ReservationStatus: int
 {
@@ -23,7 +23,7 @@ enum ReservationStatus: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

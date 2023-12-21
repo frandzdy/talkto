@@ -17,16 +17,14 @@ class SellerType extends UserType
                 TextareaType::class,
                 [
                     'label' => 'Description',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-text text-muted'
+                    'label_attr' => [
+                            'class' => 'form-text text-muted',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Expliquez pourquoi vous louer vos biens ou bien parlez de vous même tous simplement ...',
                             'style' => 'height: 200px',
-                            'maxlength' => 255
-                        ]
+                            'maxlength' => 255,
+                        ],
                 ]
             );
     }
@@ -35,7 +33,7 @@ class SellerType extends UserType
     {
         $resolver->setDefaults(
             [
-                'data_class' => User::class
+                'data_class' => User::class,
             ]
         );
     }

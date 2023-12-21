@@ -8,19 +8,19 @@ use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
- * Exporter des données liées à une société
+ * Exporter des données liées à une société.
  */
 class LessorExporter
 {
-    public const FORMAT = [
+    final public const FORMAT = [
         'xlsx' => [
             'format' => 'xlsx',
-            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ],
         'csv' => ['format' => 'csv', 'mimeType' => 'text/csv'],
     ];
 
-    public const EXTRACT_HEADER = [
+    final public const EXTRACT_HEADER = [
         'A' => 'Nom',
         'B' => 'Prénom',
         'C' => 'Email',
@@ -31,18 +31,11 @@ class LessorExporter
         'H' => 'Invité',
         'I' => 'Date d’inscription',
         'J' => 'Date dernière mise à jour',
-        'K' => 'Date de dernière connexion'
+        'K' => 'Date de dernière connexion',
     ];
 
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Génération d'un export des entreprises au format xlsx
+     * Génération d'un export des entreprises au format xlsx.
      */
     public function exportAsXLSX(array $customers): array
     {
@@ -50,7 +43,7 @@ class LessorExporter
     }
 
     /**
-     * Génération d'un export des entreprises au format xlsx
+     * Génération d'un export des entreprises au format xlsx.
      */
     public function exportAsCSV(array $customers): array
     {
@@ -58,7 +51,7 @@ class LessorExporter
     }
 
     /**
-     * Export
+     * Export.
      */
     private function export(array $customers, string $fileType): array
     {
@@ -70,45 +63,45 @@ class LessorExporter
 
         return [
             'file' => $this->saveFile($spreadsheet, $fileType),
-            'contentType' => self::FORMAT[$fileType]['mimeType']
+            'contentType' => self::FORMAT[$fileType]['mimeType'],
         ];
     }
 
     /**
-     * Initialisation des entêtes
+     * Initialisation des entêtes.
      */
     private function initializeHeader(Worksheet $sheet): void
     {
         $x = 1;
         foreach (self::EXTRACT_HEADER as $key => $header) {
-            $sheet->setCellValue($key . $x, $header);
+            $sheet->setCellValue($key.$x, $header);
         }
     }
 
     /**
-     * Initialisation du corps
+     * Initialisation du corps.
      */
     private function initializeBody(Worksheet $sheet, array $customers): void
     {
         $i = 2;
         foreach ($customers as $customer) {
-            $sheet->setCellValue('A' . $i, $customer->getLastname());
-            $sheet->setCellValue('B' . $i, $customer->getFirstname());
-            $sheet->setCellValue('C' . $i, $customer->getEmail());
-            $sheet->setCellValue('D' . $i, $customer->getFullAddress());
-            $sheet->setCellValue('E' . $i, $customer->getPhone());
-            $sheet->setCellValue('F' . $i, $customer->getStripeCustomerId());
-            $sheet->setCellValue('G' . $i, $customer->getStripeAccountId());
-            $sheet->setCellValue('H' . $i, ($customer->getIsGuess()) ? 'Oui' : 'Non');
-            $sheet->setCellValue('I' . $i, $customer->getCreatedAt()->format('d-m-Y'));
-            $sheet->setCellValue('J' . $i, $customer->getUpdatedAt()->format('d-m-Y'));
-            $sheet->setCellValue('K' . $i, $customer->getUpdatedAt()->format('d-m-Y'));
-            $i++;
+            $sheet->setCellValue('A'.$i, $customer->getLastname());
+            $sheet->setCellValue('B'.$i, $customer->getFirstname());
+            $sheet->setCellValue('C'.$i, $customer->getEmail());
+            $sheet->setCellValue('D'.$i, $customer->getFullAddress());
+            $sheet->setCellValue('E'.$i, $customer->getPhone());
+            $sheet->setCellValue('F'.$i, $customer->getStripeCustomerId());
+            $sheet->setCellValue('G'.$i, $customer->getStripeAccountId());
+            $sheet->setCellValue('H'.$i, ($customer->getIsGuess()) ? 'Oui' : 'Non');
+            $sheet->setCellValue('I'.$i, $customer->getCreatedAt()->format('d-m-Y'));
+            $sheet->setCellValue('J'.$i, $customer->getUpdatedAt()->format('d-m-Y'));
+            $sheet->setCellValue('K'.$i, $customer->getUpdatedAt()->format('d-m-Y'));
+            ++$i;
         }
     }
 
     /**
-     * Enregistre le fichier dans un répertoire temporaire
+     * Enregistre le fichier dans un répertoire temporaire.
      */
     private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): string|false
     {
@@ -129,6 +122,7 @@ class LessorExporter
         // Création d'un fichier temporaire
         ob_start();
         $writer->save('php://output');
+
         return ob_get_clean();
     }
 }

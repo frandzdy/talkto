@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Catégorie de produit
+ * Catégorie de produit.
  */
 enum ProductCategory: int
 {
@@ -23,7 +23,7 @@ enum ProductCategory: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

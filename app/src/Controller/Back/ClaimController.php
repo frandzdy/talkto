@@ -8,7 +8,6 @@ use App\Enum\ClaimStatus;
 use App\Exporter\TransactionExporter;
 use App\Form\Back\CancelTransactionLineType;
 use App\Form\Back\ClaimFilterType;
-use App\Form\Back\ProductFilterType;
 use App\Repository\ClaimRepository;
 use App\Repository\TransactionRepository;
 use App\Service\MailerManager;
@@ -22,16 +21,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Gestion des réclamations
+ * Gestion des réclamations.
  */
 #[Route(path: '/reclamation', name: 'claim_')]
 class ClaimController extends AbstractController
 {
-    public const CLAIM_PER_PAGE = 50;
-    public const CLAIM_TERM_FILTER = 'claim.filter';
+    final public const CLAIM_PER_PAGE = 50;
+
+    final public const CLAIM_TERM_FILTER = 'claim.filter';
 
     /**
-     * Liste des réclamations
+     * Liste des réclamations.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
@@ -43,11 +43,12 @@ class ClaimController extends AbstractController
         if (!$filtersFormSession) {
             $filters = [
                 'term' => $request->query->get('term', ''),
-                'status' => $request->query->getEnum('status', ClaimStatus::class, ClaimStatus::PENDING)
+                'status' => $request->query->getEnum('status', ClaimStatus::class, ClaimStatus::PENDING),
             ];
         } else {
             $filters = $filtersFormSession;
         }
+
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
         $filterForm = $this->createForm(ClaimFilterType::class, $filters);
@@ -65,7 +66,7 @@ class ClaimController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                PaginatorInterface::DISTINCT => false
+                PaginatorInterface::DISTINCT => false,
             ]
         );
 
@@ -73,24 +74,24 @@ class ClaimController extends AbstractController
             'back/claim/index.html.twig',
             [
                 'claims' => $paginator,
-                'filterForm' => $filterForm->createView()
+                'filterForm' => $filterForm->createView(),
             ]
         );
     }
 
     /**
-     * Affichage d'une réclamation
+     * Affichage d'une réclamation.
      */
     #[Route(path: '/{claim<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(Claim $claim): Response
     {
         return $this->render('back/claim/show.html.twig', [
-            'claim' => $claim
+            'claim' => $claim,
         ]);
     }
 
     /**
-     * Génère un export de tous les bailleurs
+     * Génère un export de tous les bailleurs.
      */
     #[Route(path: '/extract-reclamation/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
     public function export(
@@ -99,7 +100,7 @@ class ClaimController extends AbstractController
         TransactionExporter $transactionExporter
     ): NotFoundHttpException|Response {
         $products = $transactionRepository->findAll();
-        $callable = 'exportAs' . strtoupper($typeFile);
+        $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $transactionExporter->$callableNameFunction($products);
@@ -111,8 +112,8 @@ class ClaimController extends AbstractController
             $result['file'],
             200,
             [
-                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
-                'Content-Disposition' => 'attachment; filename="export_transactions.' . $typeFile . '"'
+                'Content-Type' => $result['contentType'].'; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_transactions.'.$typeFile.'"',
             ]
         );
     }
@@ -126,11 +127,11 @@ class ClaimController extends AbstractController
         MailerManager $mailerManager
     ): Response {
         $data = [
-            'amount' => null
+            'amount' => null,
         ];
         $options = [
             'action' => $request->getUri(),
-            'maxAmount' => $transactionLine->getAmountTtc() / 100
+            'maxAmount' => $transactionLine->getAmountTtc() / 100,
         ];
         $form = $this->createForm(CancelTransactionLineType::class, $data, $options);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
@@ -145,7 +146,7 @@ class ClaimController extends AbstractController
                 'emails/refunds.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getTransaction()->getAuthor()
+                    'user' => $transactionLine->getTransaction()->getAuthor(),
                 ]
             );
             $mailerManager->sendMailNotification(
@@ -153,10 +154,10 @@ class ClaimController extends AbstractController
                 'emails/lessor_refunds.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getProduct()->getAuthor()
+                    'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', "Remboursement effectué.");
+            $this->addFlash('success', 'Remboursement effectué.');
 
             return $this->json(
                 [
@@ -164,11 +165,11 @@ class ClaimController extends AbstractController
                     'redirectUrl' => $this->generateUrl(
                         'back_transaction_show',
                         ['transaction' => $transactionLine->getTransaction()->getId()]
-                    )
+                    ),
                 ]
             );
         }
 
-        return $this->render('back/transaction/cancel.html.twig', compact('form'));
+        return $this->render('back/transaction/cancel.html.twig', ['form' => $form]);
     }
 }

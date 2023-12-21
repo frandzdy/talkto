@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Picture;
 use App\Entity\Reservation;
 use App\Entity\User;
-use App\Enum\ReservationStatus;
-use App\Enum\TransactionLineStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Clock\DatePoint;
@@ -64,7 +62,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
 
         $qb->select('r')
-            //->orderBy('p.', 'DESC')
+            // ->orderBy('p.', 'DESC')
             ->setFirstResult($offset * 5)
             ->setMaxResults(5);
 
@@ -75,10 +73,6 @@ class ReservationRepository extends ServiceEntityRepository
         ];
     }
 
-    /**
-     * @param string $token
-     * @return array
-     */
     public function getAvailableProducts(string $token): array
     {
         $maxDate = (new DatePoint('+1 year'))->format('Y-m-d');

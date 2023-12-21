@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
-#[ORM\Index(columns: ["name"], name: "ecommerce_picture")]
+#[ORM\Index(columns: ['name'], name: 'ecommerce_picture')]
 #[ORM\HasLifecycleCallbacks()]
 class Picture
 {
@@ -18,15 +18,9 @@ class Picture
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\Civility;
 use App\Repository\UserRepository;
+use App\Validator\Constraints as AssertRented;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,22 +12,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AssertRented;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Index(columns: ["email", "firstname", "lastname", "created_at"], name: "ecommerce_user")]
-#[UniqueEntity(fields: ["email"], message: "E-mail déjà enregistré.")]
+#[ORM\Index(columns: ['email', 'firstname', 'lastname', 'created_at'], name: 'ecommerce_user')]
+#[UniqueEntity(fields: ['email'], message: 'E-mail déjà enregistré.')]
 #[ORM\HasLifecycleCallbacks()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TraitTimestamp;
     use TraitToken;
 
-    public const ROLE_USER = 'ROLE_USER'; // customer
-    public const ROLE_GUESS = 'ROLE_GUESS'; // guess
-    public const ROLE_SELLER = 'ROLE_SELLER'; // lessor
-    public const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
+    final public const ROLE_USER = 'ROLE_USER';
+
+    // customer
+    final public const ROLE_GUESS = 'ROLE_GUESS';
+
+    // guess
+    final public const ROLE_SELLER = 'ROLE_SELLER';
+
+    // lessor
+    final public const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,178 +40,176 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     /**
-     * L'e-mail de l'utilisateur
+     * L'e-mail de l'utilisateur.
      */
-    #[ORM\Column(type: "string", length: 180, unique: true)]
-    #[Assert\NotBlank(message: "Information requise.")]
-    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Information requise.')]
+    #[Assert\Email(message: 'Format E-mail incorrect.')]
     #[Assert\NoSuspiciousCharacters(
-        restrictionLevelMessage: "Information erronée.",
-        invisibleMessage: "Information erronée.",
-        mixedNumbersMessage: "Information erronée.",
-        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
         restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
     )]
     private ?string $email = null;
 
     /**
-     * Ses différents role dans l'application pour défaut ROLE_USER
+     * Ses différents role dans l'application pour défaut ROLE_USER.
      */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $role = null;
 
     /**
-     * le nom de famille de l'utilisateur
+     * le nom de famille de l'utilisateur.
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank(message="Information requise.")
      */
-    #[ORM\Column(type: "string", length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private ?string $lastname = null;
 
     /**
-     * Le prénom de l'utilisateur
+     * Le prénom de l'utilisateur.
      */
-    #[ORM\Column(type: "string", length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private ?string $firstname = null;
 
     /**
-     * Le genre de l'utilisateur
+     * Le genre de l'utilisateur.
      */
-    #[ORM\Column(type: "smallint", enumType: Civility::class)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[ORM\Column(type: 'smallint', enumType: Civility::class)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private Civility $genre;
 
     /**
-     * Ville de l'utilisateur
+     * Ville de l'utilisateur.
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private string $city;
 
     /**
-     * Le genre de l'utilisateur
+     * Le genre de l'utilisateur.
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private string $address;
 
     /**
-     * Le genre de l'utilisateur
+     * Le genre de l'utilisateur.
      */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $additionalAddress = null;
 
     /**
-     * Le genre de l'utilisateur
+     * Le genre de l'utilisateur.
      */
     #[ORM\Column(length: 5)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private string $zipCode;
 
     /**
-     * Le genre de l'utilisateur
+     * Le genre de l'utilisateur.
      */
     #[ORM\Column(length: 20)]
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private string $phone;
 
     /**
-     * Pays
+     * Pays.
      */
     #[ORM\ManyToOne(targetEntity: Country::class)]
     private Country $country;
 
     /**
-     * La photo de l'utilisateur
+     * La photo de l'utilisateur.
      */
-    #[ORM\OneToOne(targetEntity: Picture::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: Picture::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Picture $picture = null;
 
     #[Assert\Image(
         maxSize: '10M',
         mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
         detectCorrupted: true,
-        maxSizeMessage: "Document trop lourd. (10Mo)",
-        mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
+        maxSizeMessage: 'Document trop lourd. (10Mo)',
+        mimeTypesMessage: 'Format image uniquement autorisé. (PNG/JPG)',
         corruptedMessage: 'Fichier corrompue'
     )]
     public ?UploadedFile $uploadPicture = null;
 
     /**
-     * A propos de l'utilisateur [SELLER]
+     * A propos de l'utilisateur [SELLER].
      */
     #[ORM\Column(nullable: true)]
-    private ?string $description;
+    private ?string $description = null;
 
     /**
-     *  Mot de passe
+     *  Mot de passe.
      */
     #[ORM\Column(length: 255)]
     private string $password;
 
     /**
-     * Mot de passe en clair de l'utilisateur
+     * Mot de passe en clair de l'utilisateur.
      */
     #[AssertRented\PasswordRequirements()]
-    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[Assert\Email(message: 'Format E-mail incorrect.')]
     #[Assert\NoSuspiciousCharacters(
-        restrictionLevelMessage: "Information erronée.",
-        invisibleMessage: "Information erronée.",
-        mixedNumbersMessage: "Information erronée.",
-        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
         restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
     )]
     private ?string $plainPassword = null;
 
     /**
-     * Latitude de la position de l'utilisateur
+     * Latitude de la position de l'utilisateur.
      */
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $lat = null;
 
     /**
-     * Longitude de la position de l'utilisateur
+     * Longitude de la position de l'utilisateur.
      */
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $lon = null;
 
     /**
-     * Stripe Customer Id [SELLER, GUESS]
+     * Stripe Customer Id [SELLER, GUESS].
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeCustomerId = null;
 
-    # $stripeAccountId [SELLER]
+    // $stripeAccountId [SELLER]
     /**
-     * Stripe Account Id [SELLER]
+     * Stripe Account Id [SELLER].
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $stripeAccountId = null;
 
     /**
-     * Si le compte est actif [SELLER]
+     * Si le compte est actif [SELLER].
      */
     #[ORM\Column()]
     private ?bool $isStripeAccountActive = false;
 
-    /**
-     * @var bool|null
-     */
     #[ORM\Column()]
     private ?bool $isGuess = false;
 
     /**
-     * Terms de l'application
+     * Terms de l'application.
      */
     #[ORM\Column()]
     #[Assert\NotBlank(message: 'Information requise.')]
     private bool $terms;
 
     /**
-     * Dernière date de connexion
+     * Dernière date de connexion.
      */
     #[ORM\Column(nullable: true)]
     private ?\DateTime $lastDateConnexion = null;
@@ -234,7 +238,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     public function getRoles(): array
@@ -277,7 +281,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 
     public function getGenre(): Civility
     {
@@ -503,19 +506,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Retourne les rôles disponibles
+     * Retourne les rôles disponibles.
      */
     public static function getAvailableRoles(): array
     {
         return [
             self::ROLE_USER => 'Locataire',
             self::ROLE_GUESS => 'Invité(e)',
-            self::ROLE_SELLER => 'Bailleur'
+            self::ROLE_SELLER => 'Bailleur',
         ];
     }
 
     /**
-     * Retourne le label du rôle de l'utilisateur
+     * Retourne le label du rôle de l'utilisateur.
      */
     public function getRoleAsLabel(): string
     {
@@ -529,7 +532,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastDateConnexion;
     }
 
-    public function setLastDateConnexion(?\DateTime $lastDateConnexion = null): self
+    public function setLastDateConnexion(\DateTime $lastDateConnexion = null): self
     {
         $this->lastDateConnexion = $lastDateConnexion;
 

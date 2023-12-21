@@ -24,7 +24,7 @@ class ChangePasswordFormType extends AbstractType
                         'toggle' => true,
                         'hidden_label' => 'Masquer',
                         'visible_label' => 'Afficher',
-                        'translation_domain' => 'messages'
+                        'translation_domain' => 'messages',
                     ],
                     'first_options' => [
                         'attr' => [

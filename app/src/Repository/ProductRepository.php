@@ -43,35 +43,31 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Product[] Returns an array of Product objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Product
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Product
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 
-    /**
-     * @param array $filter
-     * @return QueryBuilder
-     */
     public function getFilteredProducts(array $filter): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
@@ -101,7 +97,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int)$filter['sortedBy']) {
+        match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -114,10 +110,8 @@ class ProductRepository extends ServiceEntityRepository
 
     public function searchProducts(array $filter): QueryBuilder
     {
-        $searchIds = [$filter['searchIds']];
-        if (is_array(explode(',', $filter['searchIds']))) {
-            $searchIds = explode(',', $filter['searchIds']);
-        }
+        $searchIds = explode(',', (string) $filter['searchIds']);
+
         $qb = $this->createQueryBuilder('p')
             ->select(
                 '
@@ -141,7 +135,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int)$filter['sortedBy']) {
+        match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -153,7 +147,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * Construit une requête de recherche
+     * Construit une requête de recherche.
      */
     public function buildSearchQuery(array $filters = []): Query
     {
@@ -164,18 +158,19 @@ class ProductRepository extends ServiceEntityRepository
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere('p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term')
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         }
-            $builder
-                ->andWhere('p.status = :status')
-                ->setParameter('status', $filters['status']->value);
+
+        $builder
+            ->andWhere('p.status = :status')
+            ->setParameter('status', $filters['status']->value);
 
         $builder->orderBy('p.status, p.title, p.createdAt', 'ASC');
 
         return $builder->getQuery();
     }
 
-    public function getTrends(?int $lat, ?int $lon, ?ProductCategory $productCategory = null, ?int $maxResult = 8): ?array
+    public function getTrends(?int $lat, ?int $lon, ProductCategory $productCategory = null, ?int $maxResult = 8): ?array
     {
         $qb = $this->createQueryBuilder('p')
             ->select(
@@ -199,13 +194,14 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLon', $lon ?: 2.333333)
             ->orderBy('p.numberView', 'ASC')
             ->setMaxResults($maxResult)
-            ;
+        ;
 
-        if ($productCategory) {
+        if ($productCategory instanceof \App\Enum\ProductCategory) {
             $qb->andWhere('p.category = :productCategory')
                 ->setParameter('productCategory', $productCategory)
             ;
         }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -239,7 +235,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne le nombre de produits en attente de validation
+     * Retourne le nombre de produits en attente de validation.
      */
     public function getProductToValidate(): int
     {

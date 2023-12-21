@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Form\Back\WebsiteContentType;
 use App\Repository\HomePageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,10 +28,10 @@ class HomePage
     #[ORM\JoinTable(
         name: 'home_page_slider',
         joinColumns: [
-            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id')
+            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id'),
         ],
         inverseJoinColumns: [
-            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')
+            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id'),
         ]
     )]
     private Collection $sliders;
@@ -41,10 +40,10 @@ class HomePage
     #[ORM\JoinTable(
         name: 'home_page_under_slider',
         joinColumns: [
-            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id')
+            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id'),
         ],
         inverseJoinColumns: [
-            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')
+            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id'),
         ]
     )]
     private Collection $underSliders;
@@ -53,16 +52,17 @@ class HomePage
     #[ORM\JoinTable(
         name: 'home_page_mid',
         joinColumns: [
-            new ORM\JoinColumn('home_page_id', referencedColumnName: 'id')
+            new ORM\JoinColumn('home_page_id', referencedColumnName: 'id'),
         ],
         inverseJoinColumns: [
-            new ORM\JoinColumn('product_id', referencedColumnName: 'id')
+            new ORM\JoinColumn('product_id', referencedColumnName: 'id'),
         ]
     )]
     private Collection $mids;
 
     // constructor
-    public function __construct() {
+    public function __construct()
+    {
         $this->websiteContents = new ArrayCollection();
         $this->sliders = new ArrayCollection();
         $this->underSliders = new ArrayCollection();
@@ -106,62 +106,74 @@ class HomePage
 
     public function removeWebsiteContent(WebsiteContent $websiteContent): self
     {
-        if ($this->websiteContents->removeElement($websiteContent)) {
-            // set the owning side to null (unless already changed)
-            if ($websiteContent->getHomepage() === $this) {
-                $websiteContent->setHomepage(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->websiteContents->removeElement($websiteContent) && $websiteContent->getHomepage() === $this) {
+            $websiteContent->setHomepage(null);
         }
 
         return $this;
     }
 
-
-    public function getSliders(): Collection {
+    public function getSliders(): Collection
+    {
         return $this->sliders;
     }
 
-    public function addSlider(Product $slider): self {
+    public function addSlider(Product $slider): self
+    {
         if (!$this->sliders->contains($slider)) {
             $this->sliders[] = $slider;
         }
+
         return $this;
     }
 
-    public function removeSlider(Product $slider): self {
+    public function removeSlider(Product $slider): self
+    {
         $this->sliders->removeElement($slider);
+
         return $this;
     }
 
-    public function getUnderSliders(): Collection {
+    public function getUnderSliders(): Collection
+    {
         return $this->underSliders;
     }
 
-    public function addUnderSlider(Product $underSlider): self {
+    public function addUnderSlider(Product $underSlider): self
+    {
         if (!$this->underSliders->contains($underSlider)) {
             $this->underSliders[] = $underSlider;
         }
+
         return $this;
     }
 
-    public function removeUnderSlider(Product $underSlider): self {
+    public function removeUnderSlider(Product $underSlider): self
+    {
         $this->underSliders->removeElement($underSlider);
+
         return $this;
     }
 
-    public function getMids(): Collection {
+    public function getMids(): Collection
+    {
         return $this->mids;
     }
 
-    public function addMid(Product $mids): self {
+    public function addMid(Product $mids): self
+    {
         if (!$this->mids->contains($mids)) {
             $this->mids[] = $mids;
         }
+
         return $this;
     }
 
-    public function removeMid(Product $mids): self {
+    public function removeMid(Product $mids): self
+    {
         $this->mids->removeElement($mids);
+
         return $this;
     }
 }

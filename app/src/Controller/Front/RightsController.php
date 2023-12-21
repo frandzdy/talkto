@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Cache(maxage: '+ 1 years')]
 class RightsController extends AbstractController
@@ -14,7 +13,7 @@ class RightsController extends AbstractController
     #[Route('/politique-de-confidentialite', name: 'policy', methods: ['GET'])]
     public function policy(): Response
     {
-        return $this->render('front/rights/policy.html.twig')->setMaxAge("3600");
+        return $this->render('front/rights/policy.html.twig')->setMaxAge('3600');
     }
 
     #[Route('/mentions-legales', name: 'legal_mention', methods: ['GET'])]
@@ -27,7 +26,7 @@ class RightsController extends AbstractController
     #[Route('/conditions-generales-d-utilisation', name: 'cgu', methods: ['GET'])]
     public function cgu(): Response
     {
-        return $this->render('front/rights/cgu.html.twig')->setMaxAge("3600");
+        return $this->render('front/rights/cgu.html.twig')->setMaxAge('3600');
     }
 
     #[Route('/gestion-donnees-personnelles', name: 'personal_data', methods: ['GET'])]
@@ -47,6 +46,6 @@ class RightsController extends AbstractController
     #[Route('/cookies', name: 'cookies', methods: ['GET'])]
     public function cookies(): Response
     {
-        return $this->render('front/rights/cookies.html.twig')->setMaxAge("3600");
+        return $this->render('front/rights/cookies.html.twig')->setMaxAge('3600');
     }
 }

@@ -28,7 +28,7 @@ class StripeController extends AbstractController
     ): Response {
         /**
          * On récupère l'utilisateur connecté
-         * si pas connecté alors, on crée un compte stripe avec les informations de facturation
+         * si pas connecté alors, on crée un compte stripe avec les informations de facturation.
          */
         $carts = $session->get('cart', [
             'products' => [],
@@ -36,7 +36,7 @@ class StripeController extends AbstractController
             'totalAmount' => 0,
             'totalTva' => 0,
             'totalFees' => 0,
-            'transactionId' => null
+            'transactionId' => null,
         ]);
         $clientSecret = null;
         $transaction = null;
@@ -48,10 +48,10 @@ class StripeController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         $user = $this->getUser();
-        if (!$user) {
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $user = $userManager->createUser();
         } else {
-            list($paymentIntent, $transaction) = $stripeManager->createTransaction($carts, $user);
+            [$paymentIntent, $transaction] = $stripeManager->createTransaction($carts, $user);
             $session->set('cart', $carts);
             $clientSecret = $paymentIntent->client_secret;
         }
@@ -60,7 +60,7 @@ class StripeController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $userManager->saveOrEditUser(user: $user, isGuess: true);
-            $security->login($user, 'App\Security\FrontAuthenticator', 'front');
+            $security->login($user, \App\Security\FrontAuthenticator::class, 'front');
 
             return $this->redirectToRoute('front_stripe_payment_intent');
         }
@@ -73,7 +73,7 @@ class StripeController extends AbstractController
                 'clientSecret' => $clientSecret,
                 'form' => $form,
                 'error' => $error,
-                'transaction' => $transaction
+                'transaction' => $transaction,
             ]
         );
     }
@@ -93,7 +93,7 @@ class StripeController extends AbstractController
             'totalAmount' => 0,
             'totalTva' => 0,
             'totalFees' => 0,
-            'transactionId' => null
+            'transactionId' => null,
         ]);
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -110,7 +110,7 @@ class StripeController extends AbstractController
                 'carts' => $carts,
                 'clientSecret' => null,
                 'form' => $form,
-                'error' => $error
+                'error' => $error,
             ]
         );
     }
@@ -137,14 +137,14 @@ class StripeController extends AbstractController
         $error = false;
         switch ($paymentIntent->status) {
             case 'succeeded':
-                $message = "Paiement validé !";
+                $message = 'Paiement validé !';
                 $session->set('cart', [
                     'products' => [],
                     'totalQuantity' => 0,
                     'totalAmount' => 0,
                     'totalTva' => 0,
                     'totalFees' => 0,
-                    'transactionId' => null
+                    'transactionId' => null,
                 ]);
                 break;
             case 'processing':
@@ -155,7 +155,7 @@ class StripeController extends AbstractController
                     'totalAmount' => 0,
                     'totalTva' => 0,
                     'totalFees' => 0,
-                    'transactionId' => null
+                    'transactionId' => null,
                 ]);
                 break;
             case 'requires_payment_method':

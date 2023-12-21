@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Status de la ligne de transaction
+ * Status de la ligne de transaction.
  */
 enum ClaimStatus: int
 {
@@ -13,13 +13,13 @@ enum ClaimStatus: int
     public static function getLabels(): array
     {
         return [
-            ClaimStatus::PENDING->value => 'En cours d\'analyse',
+            ClaimStatus::PENDING->value => "En cours d'analyse",
             ClaimStatus::FINISHED->value => 'Terminer',
         ];
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

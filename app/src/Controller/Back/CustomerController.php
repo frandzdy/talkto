@@ -5,10 +5,8 @@ namespace App\Controller\Back;
 use App\Entity\User;
 use App\Exporter\CustomerExporter;
 use App\Form\Back\UserFilterType;
-use App\Repository\ProductRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,28 +19,24 @@ use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * Class CompanyController
- *
- * @package App\Controller\Back
+ * Class CompanyController.
  */
 #[Route(path: '/customers', name: 'customer_')]
 class CustomerController extends AbstractController
 {
-    public const CUSTOMERS_PER_PAGE = 50;
-    public const CUSTOMERS_TERM_FILTER = 'user.filter';
+    final public const CUSTOMERS_PER_PAGE = 50;
+
+    final public const CUSTOMERS_TERM_FILTER = 'user.filter';
 
     /**
-     * Liste des sociétés clients
+     * Liste des sociétés clients.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
     {
         $filtersFormSession = $request->getSession()->get(self::CUSTOMERS_TERM_FILTER, null);
-        if (!$filtersFormSession) {
-            $filters = ['term' => $request->query->get('term', '')];
-        } else {
-            $filters = $filtersFormSession;
-        }
+        $filters = $filtersFormSession ?: ['term' => $request->query->get('term', '')];
+
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
         $filterForm = $this->createForm(UserFilterType::class, $filters);
@@ -60,7 +54,7 @@ class CustomerController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.firstname',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                PaginatorInterface::DISTINCT => false
+                PaginatorInterface::DISTINCT => false,
             ]
         );
 
@@ -68,13 +62,13 @@ class CustomerController extends AbstractController
             'back/customer/index.html.twig',
             [
                 'renters' => $paginator,
-                'filterForm' => $filterForm->createView()
+                'filterForm' => $filterForm->createView(),
             ]
         );
     }
 
     /**
-     * Modification d'une fiche client
+     * Modification d'une fiche client.
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -85,28 +79,22 @@ class CustomerController extends AbstractController
 
         return $this->render('back/customer/show.html.twig', [
             'customer' => $customer,
-            'reservations' => $reservations
+            'reservations' => $reservations,
         ]);
     }
 
     /**
-     * Supprime le client
+     * Supprime le client.
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(User $customer): RedirectResponse
     {
-        try {
-            // $customerCompanyManager->removeCompany($customer);
-        } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-        }
-
         return $this->redirectToRoute('back_customer_index');
     }
 
     /**
-     * Génère un export de toutes les entreprises et de ses utilisateurs rattachés
+     * Génère un export de toutes les entreprises et de ses utilisateurs rattachés.
      */
     #[Route(path: '/extract-customer/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
     public function export(
@@ -115,7 +103,7 @@ class CustomerController extends AbstractController
         CustomerExporter $customerExporter
     ): NotFoundHttpException|Response {
         $customers = $userRepository->findBy(['role' => [User::ROLE_USER, User::ROLE_GUESS]]);
-        $callable = 'exportAs' . strtoupper($typeFile);
+        $callable = 'exportAs'.strtoupper($typeFile);
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $customerExporter->$callableNameFunction($customers);
         } else {
@@ -126,8 +114,8 @@ class CustomerController extends AbstractController
             $result['file'],
             200,
             [
-                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
-                'Content-Disposition' => 'attachment; filename="export_clients.' . $typeFile . '"'
+                'Content-Type' => $result['contentType'].'; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_clients.'.$typeFile.'"',
             ]
         );
     }

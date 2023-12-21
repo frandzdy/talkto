@@ -12,7 +12,6 @@ use App\Repository\ProductRepository;
 use App\Service\MailerManager;
 use App\Service\ProductManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,16 +23,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * Gestion des bailleurs
+ * Gestion des bailleurs.
  */
 #[Route(path: '/products', name: 'product_')]
 class ProductController extends AbstractController
 {
-    public const PRODUCTS_PER_PAGE = 50;
-    public const PRODUCTS_TERM_FILTER = 'product.filter';
+    final public const PRODUCTS_PER_PAGE = 50;
+
+    final public const PRODUCTS_TERM_FILTER = 'product.filter';
 
     /**
-     * Liste des bailleurs
+     * Liste des bailleurs.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
@@ -45,11 +45,12 @@ class ProductController extends AbstractController
         if (!$filtersFormSession) {
             $filters = [
                 'term' => $request->query->get('term', ''),
-                'status' => $request->query->getEnum('status', ProductStatus::class, ProductStatus::WAITING)
+                'status' => $request->query->getEnum('status', ProductStatus::class, ProductStatus::WAITING),
             ];
         } else {
             $filters = $filtersFormSession;
         }
+
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
         $filterForm = $this->createForm(ProductFilterType::class, $filters);
@@ -67,7 +68,7 @@ class ProductController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'p.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                PaginatorInterface::DISTINCT => false
+                PaginatorInterface::DISTINCT => false,
             ]
         );
 
@@ -75,13 +76,13 @@ class ProductController extends AbstractController
             'back/product/index.html.twig',
             [
                 'products' => $paginator,
-                'filterForm' => $filterForm->createView()
+                'filterForm' => $filterForm->createView(),
             ]
         );
     }
 
     /**
-     * Affichage d'une fiche bailleur
+     * Affichage d'une fiche bailleur.
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -96,13 +97,13 @@ class ProductController extends AbstractController
             $this->addFlash('success', 'Enregistrement effectué.');
             $em->flush();
 
-            if ($product->getStatus() === ProductStatus::VALIDATE) {
+            if (ProductStatus::VALIDATE === $product->getStatus()) {
                 $mailerManager->sendMailNotification(
                     $product->getAuthor()->getEmail(),
                     'emails/product_validation.html.twig',
                     [
                         'product' => $product,
-                        'user' => $product->getAuthor()
+                        'user' => $product->getAuthor(),
                     ]
                 );
             } else {
@@ -112,7 +113,7 @@ class ProductController extends AbstractController
                     [
                         'product' => $product,
                         'user' => $product->getAuthor(),
-                        'responseRejected' => 'ds '
+                        'responseRejected' => 'ds ',
                     ]
                 );
             }
@@ -122,28 +123,22 @@ class ProductController extends AbstractController
 
         return $this->render('back/product/show.html.twig', [
             'product' => $product,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
     /**
-     * Supprime d'un bailleur
+     * Supprime d'un bailleur.
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Product $product): RedirectResponse
     {
-        try {
-            //$customerCompanyManager->removeCompany($product);
-        } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
-        }
-
         return $this->redirectToRoute('back_product_index');
     }
 
     /**
-     * Génère un export de tous les bailleurs
+     * Génère un export de tous les bailleurs.
      */
     #[Route(path: '/extract-product/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
     public function export(
@@ -152,7 +147,7 @@ class ProductController extends AbstractController
         ProductExporter $productExporter
     ): NotFoundHttpException|Response {
         $products = $productRepository->findAll();
-        $callable = 'exportAs' . strtoupper($typeFile);
+        $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $productExporter->$callableNameFunction($products);
@@ -164,8 +159,8 @@ class ProductController extends AbstractController
             $result['file'],
             200,
             [
-                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
-                'Content-Disposition' => 'attachment; filename="export_produits.' . $typeFile . '"'
+                'Content-Type' => $result['contentType'].'; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_produits.'.$typeFile.'"',
             ]
         );
     }

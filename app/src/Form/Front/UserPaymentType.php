@@ -35,10 +35,9 @@ class UserPaymentType extends AbstractType
                         'choice_label' => 'label',
                         'label' => 'Information personnelle',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Civilité *',
-                                'disabled' => 'disabled'
+                                'disabled' => 'disabled',
                             ],
                     ]
                 )
@@ -47,12 +46,11 @@ class UserPaymentType extends AbstractType
                     TelType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Téléphone *',
                                 'maxlength' => 20,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )
                 ->add(
@@ -61,12 +59,11 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => 'Adresse',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Adresse *',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )->add(
                     'additionalAddress',
@@ -74,37 +71,34 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => 'Adresse complémentaire',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Appartement, étage, etc.',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
+                                'disabled' => 'disabled',
                             ],
-                        'required' => false
+                        'required' => false,
                     ]
                 )->add(
                     'zipCode',
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Code postal *',
                                 'maxlength' => 5,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )->add(
                     'city',
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Ville *',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )
                 ->add(
@@ -115,19 +109,18 @@ class UserPaymentType extends AbstractType
                         'choice_label' => 'label',
                         'label' => 'Pays',
                         'placeholder' => '- Sélectionnez un pays -',
-                        'disabled' => 'disabled'
+                        'disabled' => 'disabled',
                     ]
                 )->add(
                     'lastname',
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Nom *',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )
                 ->add(
@@ -135,12 +128,11 @@ class UserPaymentType extends AbstractType
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Prénom *',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 )
                 ->add(
@@ -148,12 +140,11 @@ class UserPaymentType extends AbstractType
                     EmailType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'E-mail *',
                                 'maxlength' => 255,
-                                'disabled' => 'disabled'
-                            ]
+                                'disabled' => 'disabled',
+                            ],
                     ]
                 );
         } else {
@@ -166,8 +157,7 @@ class UserPaymentType extends AbstractType
                         'choice_label' => 'label',
                         'label' => 'Information personnelle',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Civilité *',
                             ],
                     ]
@@ -177,11 +167,10 @@ class UserPaymentType extends AbstractType
                     TelType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Téléphone *',
                                 'maxlength' => 20,
-                            ]
+                            ],
                     ]
                 )
                 ->add(
@@ -190,11 +179,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => 'Adresse',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Adresse *',
                                 'maxlength' => 255,
-                            ]
+                            ],
                     ]
                 )->add(
                     'additionalAddress',
@@ -202,34 +190,31 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => 'Adresse complémentaire',
                         'label_attr' => ['class' => 'form-text text-muted'],
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Appartement, étage, etc.',
                                 'maxlength' => 255,
                             ],
-                        'required' => false
+                        'required' => false,
                     ]
                 )->add(
                     'zipCode',
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Code postal *',
                                 'maxlength' => 5,
-                            ]
+                            ],
                     ]
                 )->add(
                     'city',
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Ville *',
                                 'maxlength' => 255,
-                            ]
+                            ],
                     ]
                 )
                 ->add(
@@ -246,11 +231,10 @@ class UserPaymentType extends AbstractType
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Nom *',
                                 'maxlength' => 255,
-                            ]
+                            ],
                     ]
                 )
                 ->add(
@@ -258,11 +242,10 @@ class UserPaymentType extends AbstractType
                     TextType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'Prénom *',
                                 'maxlength' => 255,
-                            ]
+                            ],
                     ]
                 )
                 ->add(
@@ -270,54 +253,47 @@ class UserPaymentType extends AbstractType
                     EmailType::class,
                     [
                         'label' => false,
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'placeholder' => 'E-mail *',
                                 'maxlength' => 255,
-                            ]
+                            ],
                     ]
                 )->add(
                     'plainPassword',
                     RepeatedType::class,
                     [
                         'type' => PasswordType::class,
-                        'options' =>
-                            [
+                        'options' => [
                                 'toggle' => true,
                                 'hidden_label' => 'Masquer',
                                 'visible_label' => 'Afficher',
-                                'translation_domain' => 'messages'
+                                'translation_domain' => 'messages',
                             ],
-                        'first_options' =>
-                            [
+                        'first_options' => [
                                 'label' => 'Mot de passe',
-                                'label_attr' =>
-                                    [
-                                        'class' => 'form-text text-muted'
+                                'label_attr' => [
+                                        'class' => 'form-text text-muted',
                                     ],
                                 'hash_property_path' => 'password',
-                                'attr' =>
-                                    [
+                                'attr' => [
                                         'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
                                         'autocomplete' => 'new-password',
-                                        'maxlength' => 255
+                                        'maxlength' => 255,
                                     ],
                             ],
 
                         'second_options' => [
                             'label' => 'Confirmer votre mot de passe',
-                            'attr' =>
-                                [
+                            'attr' => [
                                     'maxlength' => 255,
-                                    'autocomplete' => 'new-password'
+                                    'autocomplete' => 'new-password',
                                 ],
                         ],
                         'mapped' => false,
                         'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
-                        'constraints' =>
-                            [
-                                new PasswordRequirements()
-                            ]
+                        'constraints' => [
+                                new PasswordRequirements(),
+                            ],
                     ]
                 )
                 ->add(
@@ -325,27 +301,26 @@ class UserPaymentType extends AbstractType
                     CheckboxType::class,
                     [
                         'label' => 'Créer un compte ?',
-                        'label_attr' =>
-                            [
-                                'class' => 'custom-control-label'
+                        'label_attr' => [
+                                'class' => 'custom-control-label',
                             ],
-                        'attr' =>
-                            [
-                                'class' => 'custom-control-input'
+                        'attr' => [
+                                'class' => 'custom-control-input',
                             ],
                     ]
                 );
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $form = $event->getForm();
             $user = $form->getData();
             /**
              * @var User $user
              */
-            if (!$user->getCountry()) {
+            if (null === $user->getCountry()) {
                 $form->get('country')->addError(new FormError('Information requise.'));
             }
+
             if ($user->getIsGuess() && !$form->get('plainPassword')->getData()) {
                 $form->get('plainPassword')->get('first')->addError(new FormError('Information requise.'));
             }
@@ -356,7 +331,7 @@ class UserPaymentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'isOnline' => null
+                'isOnline' => null,
             ]
         );
     }

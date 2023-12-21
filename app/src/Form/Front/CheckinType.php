@@ -2,7 +2,6 @@
 
 namespace App\Form\Front;
 
-
 use App\Entity\Checkin;
 use App\Enum\CheckinStatus;
 use Symfony\Component\Form\AbstractType;
@@ -20,9 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CheckinType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -35,14 +31,12 @@ class CheckinType extends AbstractType
                     'class' => CheckinStatus::class,
                     'choice_label' => 'label',
                     'label' => 'Statut du check',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-text text-muted'
+                    'label_attr' => [
+                            'class' => 'form-text text-muted',
                         ],
-                    'attr' =>
-                        [
-                            'data-action' => 'checkin#onChangeStatus'
-                        ]
+                    'attr' => [
+                            'data-action' => 'checkin#onChangeStatus',
+                        ],
                 ]
             )
             ->add(
@@ -50,16 +44,14 @@ class CheckinType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => 'Décrivez le problème',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'style' => 'height: 200px;resize:none',
                             'placeholder' => 'Ajouter un commentaire détails',
                         ],
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add('handleError', TextType::class)
@@ -68,17 +60,14 @@ class CheckinType extends AbstractType
                 CollectionType::class, [
                 'label' => false,
                 'entry_type' => FileType::class,
-                'entry_options' =>
-                    [
-                        'attr' =>
-                            [
+                'entry_options' => [
+                        'attr' => [
                                 'accept' => 'image/png, image/jpeg, image/jpg',
                                 'lang' => 'fr',
-                                'data-browse' => 'Votre photo'
+                                'data-browse' => 'Votre photo',
                             ],
                     ],
-                'label_attr' =>
-                    [
+                'label_attr' => [
                         'class' => 'w-max-content form-text text-muted',
                     ],
                 'allow_add' => true,
@@ -86,11 +75,10 @@ class CheckinType extends AbstractType
                 'required' => true,
             ]);
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $checkin = $event->getData();
             $form = $event->getForm();
-
-            if ($checkin->getStatus() === CheckinStatus::VALIDATE_WITH_WARNING && !$checkin->getComments()) {
+            if (CheckinStatus::VALIDATE_WITH_WARNING === $checkin->getStatus() && !$checkin->getComments()) {
                 $form->get('comments')->addError(new FormError('Information requise.'));
             }
 
@@ -100,14 +88,11 @@ class CheckinType extends AbstractType
         });
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
-                'data_class' => Checkin::class
+                'data_class' => Checkin::class,
             ]
         );
     }

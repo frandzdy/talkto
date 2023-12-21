@@ -8,12 +8,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtres sur l'écran de gestion utilisateurs BO
+ * Filtres sur l'écran de gestion utilisateurs BO.
  */
 class ContributorFilterType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,15 +24,12 @@ class ContributorFilterType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
-                    'label' => 'Nom ou email'
+                    'label' => 'Nom ou email',
                 ]
             )
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

@@ -3,25 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\ContributorRepository;
+use App\Validator\Constraints\PasswordRequirements;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints\PasswordRequirements;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
-#[ORM\Index(columns: ["fullname", "email"], name: "admin_contributor")]
+#[ORM\Index(columns: ['fullname', 'email'], name: 'admin_contributor')]
 #[UniqueEntity(fields: ['email'], message: 'E-mail déjà enregistré.')]
 class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    final public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
+    final public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
-     * Id de l'utilisateur
+     * Id de l'utilisateur.
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -29,48 +30,48 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     /**
-     * Nom complet de l'utilisateur
+     * Nom complet de l'utilisateur.
      */
     #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank(message: 'Information requise.')]
     private ?string $fullname = null;
 
     /**
-     * Email de l'utilisateur
+     * Email de l'utilisateur.
      */
-    #[ORM\Column(type: "string", length: 180, unique: true)]
-    #[Assert\NotBlank(message: "Information requise.")]
-    #[Assert\Email(message: "Format E-mail incorrect.")]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Information requise.')]
+    #[Assert\Email(message: 'Format E-mail incorrect.')]
     #[Assert\NoSuspiciousCharacters(
-        restrictionLevelMessage: "Information erronée.",
-        invisibleMessage: "Information erronée.",
-        mixedNumbersMessage: "Information erronée.",
-        hiddenOverlayMessage: "Information erronée.",
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
         restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
     )]
     private ?string $email = null;
 
     /**
-     * Mot de passe
+     * Mot de passe.
      */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $password = null;
 
     /**
-     * Mot de passe en clair (non persisté)
+     * Mot de passe en clair (non persisté).
      */
     #[Assert\NotBlank(message: 'Information requise.', groups: ['creation'])]
     #[PasswordRequirements()]
     public ?string $plainPassword = null;
 
     /**
-     * Niveau de droits
+     * Niveau de droits.
      */
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $role = null;
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function getUsername(): string
     {
@@ -78,7 +79,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function getPassword(): ?string
     {
@@ -86,7 +87,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function getRoles(): array
     {
@@ -94,7 +95,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function getSalt(): ?string
     {
@@ -102,25 +103,25 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function eraseCredentials(): void
     {
     }
 
     /**
-     * Retourne les rôles disponibles
+     * Retourne les rôles disponibles.
      */
     public static function getAvailableRoles(): array
     {
         return [
             self::ROLE_ADMIN => 'Administrateur',
-            self::ROLE_SUPER_ADMIN => 'Super Administrateur'
+            self::ROLE_SUPER_ADMIN => 'Super Administrateur',
         ];
     }
 
     /**
-     * Retourne le label du rôle de l'utilisateur
+     * Retourne le label du rôle de l'utilisateur.
      */
     public function getRoleAsLabel(): string
     {
@@ -134,20 +135,15 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function isDeletable(): bool
     {
-        return $this->getRole() != self::ROLE_SUPER_ADMIN;
+        return self::ROLE_SUPER_ADMIN != $this->getRole();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getUserIdentifier(): string
     {
         return $this->getEmail();
     }
 
-    /***********************************************/
-    /*           AUTOGENERATED CODE BELLOW         */
-    /***********************************************/
+    /*           AUTOGENERATED CODE BELLOW */
 
     public function getId(): ?int
     {

@@ -42,3 +42,15 @@ yarn-error.log
 ###< liip/imagine-bundle ###
 
 /uploads/
+
+###> friendsofphp/php-cs-fixer ###
+.php-cs-fixer.*
+###< friendsofphp/php-cs-fixer ###
+
+###> phpstan/phpstan ###
+phpstan.*
+###< phpstan/phpstan ###
+
+###> rector/rector ###
+rector.php
+###< rector/rector ###

@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 readonly class RecaptchaManager
 {
     /**
-     * Client guzzle
+     * Client guzzle.
      */
     protected Client $guzzle;
 
@@ -16,13 +16,13 @@ readonly class RecaptchaManager
     {
         $this->guzzle = new Client(
             [
-                'http_errors' => false
+                'http_errors' => false,
             ]
         );
     }
 
     /**
-     * Contrôle si le formulaire est envoyé par une personne et non un robot
+     * Contrôle si le formulaire est envoyé par une personne et non un robot.
      */
     public function checkForm(string $googleRecaptchaSkey, string $token): bool
     {
@@ -30,15 +30,14 @@ readonly class RecaptchaManager
             $res = $this->guzzle->post(
                 'https://www.google.com/recaptcha/api/siteverify',
                 [
-                    'form_params' =>
-                        [
+                    'form_params' => [
                             'secret' => $googleRecaptchaSkey,
-                            'response' => $token
-                        ]
+                            'response' => $token,
+                        ],
                 ]
             );
 
-            if ($res->getStatusCode() == '200') {
+            if ('200' == $res->getStatusCode()) {
                 $this->logger->info('GOOGLE RECAPTCHA', json_decode($res->getBody(), true));
 
                 return json_decode($res->getBody(), true)['success'];
@@ -47,8 +46,8 @@ readonly class RecaptchaManager
 
                 return false;
             }
-        } catch (\Exception $e) {
-            $this->logger->error('GOOGLE RECAPTCHA ERROR', ['message' => $e->getMessage()]);
+        } catch (\Exception $exception) {
+            $this->logger->error('GOOGLE RECAPTCHA ERROR', ['message' => $exception->getMessage()]);
 
             return false;
         }

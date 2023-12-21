@@ -4,25 +4,25 @@ namespace App\Controller\Front;
 
 use App\Exception\FileNotFoundException;
 use App\Service\FileUploadManager;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controlleur de récupération des fichiers stockés sur le serveur
+ * Controlleur de récupération des fichiers stockés sur le serveur.
  */
 #[Route(path: '/fichiers', name: 'file_')]
 class FileController extends AbstractController
 {
-    public const MIMES = [
+    final public const MIMES = [
         'qualification' => 'image/svg+xml',
         'homepage' => 'image/png',
         'faqs' => 'image/svg+xml',
-        'testimonial' => 'image/jpeg'
+        'testimonial' => 'image/jpeg',
     ];
 
     /**
-     * Récupère un logo stocké sur le serveur
+     * Récupère un logo stocké sur le serveur.
      */
     #[Route(path: '/{directory}/{fileName}', name: 'get', methods: ['GET'])]
     public function getFile(string $directory, string $fileName, FileUploadManager $filerUploader): Response

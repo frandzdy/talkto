@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Status de validation du check in ou out
+ * Status de validation du check in ou out.
  */
 enum CheckinStatus: int
 {
@@ -19,7 +19,7 @@ enum CheckinStatus: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

@@ -19,7 +19,7 @@ class HomePageController extends AbstractController
     {
         $homePage = $em->getRepository(HomePage::class)->findOneBy(['id' => 1]);
 
-        if (!$homePage) {
+        if (null === $homePage) {
             $homePage = (new HomePage())->setTitle('Homepage création');
             $em->persist($homePage);
             $em->flush();

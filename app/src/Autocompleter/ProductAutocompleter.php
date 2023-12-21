@@ -9,6 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\UX\Autocomplete\EntityAutocompleterInterface;
 
 #[AutoconfigureTag('ux.entity_autocompleter', ['alias' => 'product'])]
@@ -28,7 +29,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
     public function createFilteredQueryBuilder(EntityRepository $repository, string $query): QueryBuilder
     {
         $user = $this->security->getUser();
-        if ($user) {
+        if ($user instanceof UserInterface) {
             $lat = $user->getLat();
             $lon = $user->getLon();
         } else {
@@ -36,7 +37,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             $lon = $this->requestStack->getSession()->get('lon', 0);
         }
 
-        $qb = $repository
+        return $repository
             // the alias "food" can be anything
             ->createQueryBuilder('p')
             ->select(
@@ -50,7 +51,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
                 'p.title LIKE :search OR p.description LIKE :search OR p.shortDescription LIKE :search OR p.amount LIKE :search 
             OR a.lastname LIKE :search OR a.firstname LIKE :search OR a.city LIKE :search OR a.zipCode LIKE :search'
             )
-            ->setParameter('search', '%' . $query . '%')
+            ->setParameter('search', '%'.$query.'%')
 
             // maybe do some custom filtering in all cases
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
@@ -64,13 +65,11 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->setParameter(':userLon', $lon ?: 2.333333)
             ->orderBy('p.title, p.amount', 'ASC')
             ->groupBy('p.id');
-
-        return $qb;
     }
 
     public function getLabel(array|object $entity): string
     {
-        return $entity[0]->getTitle() . ' - ' . $entity[0]->getAmount() . ' €';
+        return $entity[0]->getTitle().' - '.$entity[0]->getAmount().' €';
     }
 
     public function getValue(array|object $entity): string

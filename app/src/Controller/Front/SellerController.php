@@ -25,9 +25,10 @@ class SellerController extends AbstractController
         StripeManager $stripeManager,
         Security $security
     ): Response {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return $this->redirectToRoute('front_user_account');
         }
+
         $user = $userManager->createUser(2);
 
         $form = $this->createForm(UserType::class, $user);
@@ -45,19 +46,19 @@ class SellerController extends AbstractController
                 ]
             );
             $userManager->saveUser();
-            $security->login($user, 'App\Security\FrontAuthenticator', 'front');
+            $security->login($user, \App\Security\FrontAuthenticator::class, 'front');
 
             return $this->redirect($stripeManager->createAccountLink($user)->url);
         }
 
         return $this->render('front/user/seller/edit.html.twig', [
             'user' => $user,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
     #[Route('/commercial/edition-compte', name: 'seller_edit', methods: ['GET', 'POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(
         Request $request,
         UserManager $userManager
@@ -75,7 +76,7 @@ class SellerController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_seller_edit')
+                    'redirectUrl' => $this->generateUrl('front_seller_edit'),
                 ],
                 Response::HTTP_OK
             );
@@ -83,15 +84,15 @@ class SellerController extends AbstractController
 
         return $this->render('front/user/seller/_form.html.twig', [
             'user' => $user,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
     /**
-     * Supprime le compte d'un vendeur
+     * Supprime le compte d'un vendeur.
      */
     #[Route('/commercial/supprimer-compte', name: 'seller_delete', methods: ['POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete(Request $request, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($this->getUser());
@@ -101,7 +102,7 @@ class SellerController extends AbstractController
     }
 
     /**
-     * Affiche le message de succès pour la création d'un compte
+     * Affiche le message de succès pour la création d'un compte.
      */
     #[Route('/commercial/creation-valide', name: 'seller_success_creation', methods: ['GET'])]
     public function successCreation(): Response

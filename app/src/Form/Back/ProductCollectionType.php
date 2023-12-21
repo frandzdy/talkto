@@ -11,12 +11,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class ProductCollectionType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -27,30 +27,25 @@ class ProductCollectionType extends AbstractType
                 [
                     'label' => false,
                     'class' => Product::class,
-                    'query_builder' => function(EntityRepository $er) {
-                        return $er->createQueryBuilder('p')
-                            ->innerjoin('p.author', 'a')
-                            ->addSelect('a')
-                            ->where('p.status = :productStatus')
-                            ->andWhere('a.isStripeAccountActive = true')
-                            ->setParameter('productStatus', ProductStatus::VALIDATE->value)
-                            ##
-                            ->andWhere('p.createdAt between :startDate and :endDate')
-                            ->setParameter('startDate', (new DatePoint('-1 months'))->format('Y-m-d'))
-                            ->setParameter('endDate', (new DatePoint())->format('Y-m-d'))
-                            ##
-                            ->orderBy('p.id, p.numberView', 'ASC')
-                            ->addOrderBy('p.title', 'DESC')
-                            ;
-                    },
-                    'choice_label' => function (Product $product) {
-                        return $product->getTitle() . ' - Note : ' . $product->getAverageNote() . ' - Nb avis : ' . $product->getReviews()->count() . ' - Nb vue : ' . $product->getNumberView();
-                    },
+                    'query_builder' => static fn (EntityRepository $er) => $er->createQueryBuilder('p')
+                        ->innerjoin('p.author', 'a')
+                        ->addSelect('a')
+                        ->where('p.status = :productStatus')
+                        ->andWhere('a.isStripeAccountActive = true')
+                        ->setParameter('productStatus', ProductStatus::VALIDATE->value)
+                        // #
+                        ->andWhere('p.createdAt between :startDate and :endDate')
+                        ->setParameter('startDate', (new DatePoint('-1 months'))->format('Y-m-d'))
+                        ->setParameter('endDate', (new DatePoint())->format('Y-m-d'))
+                        // #
+                        ->orderBy('p.id, p.numberView', 'ASC')
+                        ->addOrderBy('p.title', 'DESC'),
+                    'choice_label' => static fn (Product $product): string => $product->getTitle().' - Note : '.$product->getAverageNote().' - Nb avis : '.$product->getReviews()->count().' - Nb vue : '.$product->getNumberView(),
                     'placeholder' => '-- Sélectionner --',
                     'required' => true,
                     'expanded' => false,
                     'multiple' => false,
-                    'autocomplete' => true
+                    'autocomplete' => true,
                 ]
             )
         ;

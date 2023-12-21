@@ -2,43 +2,41 @@
 
 namespace App\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait NotificationModelTrait
 {
     /**
-     * Prénom du formulaire de contacte
+     * Prénom du formulaire de contacte.
      */
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 100)]
     private ?string $firstname;
 
     /**
-     * Nom du formulaire de contacte
+     * Nom du formulaire de contacte.
      */
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 100)]
     private ?string $lastname;
 
     /**
-     * E-mail du formulaire de contacte
+     * E-mail du formulaire de contacte.
      */
-    #[Assert\NotBlank(message: "Information requise.")]
-    #[Assert\Email(message: "Format e-mail incorrect.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
+    #[Assert\Email(message: 'Format e-mail incorrect.')]
     #[Assert\Length(max: 255)]
     private ?string $email;
 
     /**
-     * Message du formulaire de contacte
+     * Message du formulaire de contacte.
      */
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 400)]
     private ?string $message;
 
     /**
-     * Retourne le prénom du contact
+     * Retourne le prénom du contact.
      */
     public function getFirstname(): ?string
     {
@@ -46,7 +44,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Set le prénom du contact
+     * Set le prénom du contact.
      */
     public function setFirstname(?string $firstname): self
     {
@@ -56,7 +54,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Retourne le nom du contact
+     * Retourne le nom du contact.
      */
     public function getLastname(): ?string
     {
@@ -64,7 +62,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * set le nom du contact
+     * set le nom du contact.
      */
     public function setLastname(?string $lastname): self
     {
@@ -74,7 +72,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Retourne l'e-mail du contact
+     * Retourne l'e-mail du contact.
      */
     public function getEmail(): ?string
     {
@@ -82,7 +80,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Set l'e-mail du contact
+     * Set l'e-mail du contact.
      */
     public function setEmail(?string $email): self
     {
@@ -92,7 +90,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Retourne le message
+     * Retourne le message.
      */
     public function getMessage(): ?string
     {
@@ -100,7 +98,7 @@ trait NotificationModelTrait
     }
 
     /**
-     * Set le message
+     * Set le message.
      */
     public function setMessage(?string $message): self
     {

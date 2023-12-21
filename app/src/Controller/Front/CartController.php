@@ -22,17 +22,17 @@ class CartController extends AbstractController
                 'totalAmount' => 0,
                 'totalTva' => 0,
                 'totalFees' => 0,
-                'transactionId' => null
+                'transactionId' => null,
             ]
         );
 
         return $this->json(
             [
-                'response' => $this->renderView('front/cart/cart-widget.html.twig', compact('carts')),
+                'response' => $this->renderView('front/cart/cart-widget.html.twig', ['carts' => $carts]),
                 'totalQuantity' => $carts['totalQuantity'],
                 'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
-                'totalFees' => $carts['totalFees']
+                'totalFees' => $carts['totalFees'],
             ]
         );
     }
@@ -48,11 +48,11 @@ class CartController extends AbstractController
                 'totalAmount' => 0,
                 'totalTva' => 0,
                 'totalFees' => 0,
-                'transactionId' => null
+                'transactionId' => null,
             ]
         );
 
-        return $this->render('front/cart/cart.html.twig', compact('carts'));
+        return $this->render('front/cart/cart.html.twig', ['carts' => $carts]);
     }
 
     #[Route('/panier/supprimer/{token}', name: 'cart_delete', methods: ['POST'])]
@@ -66,7 +66,7 @@ class CartController extends AbstractController
                 'totalAmount' => 0,
                 'totalTva' => 0,
                 'totalFees' => 0,
-                'transactionId' => null
+                'transactionId' => null,
             ]
         );
 
@@ -81,14 +81,14 @@ class CartController extends AbstractController
             unset($carts['products'][$token]);
         }
 
-        if (count($carts['products']) === 0) {
+        if (0 === count($carts['products'])) {
             $session->set('cart', [
                 'products' => [],
                 'totalQuantity' => 0,
                 'totalAmount' => 0,
                 'totalTva' => 0,
                 'totalFees' => 0,
-                'transactionId' => null
+                'transactionId' => null,
             ]);
         } else {
             $session->set('cart', $carts);
@@ -113,7 +113,7 @@ class CartController extends AbstractController
                 'totalAmount' => 0,
                 'totalTva' => 0,
                 'totalFees' => 0,
-                'transactionId' => null
+                'transactionId' => null,
             ]
         );
         $products = [];
@@ -123,33 +123,35 @@ class CartController extends AbstractController
 
         foreach ($products as $token => $product) {
             if ($carts['products'][$token] && $product['quantity']) {
-                $carts['products'][$token]['quantity'] = (int)$product['quantity'];
+                $carts['products'][$token]['quantity'] = (int) $product['quantity'];
                 $flatpickrDate = $product['startDate'];
-                if (str_contains($flatpickrDate, 'au')) {
-                    $startDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[0]));
-                    $endDate = new \DateTimeImmutable(trim(explode('au', $flatpickrDate)[1]));
+                if (str_contains((string) $flatpickrDate, 'au')) {
+                    $startDate = new \DateTimeImmutable(trim(explode('au', (string) $flatpickrDate)[0]));
+                    $endDate = new \DateTimeImmutable(trim(explode('au', (string) $flatpickrDate)[1]));
                 } else {
                     $startDate = new \DateTimeImmutable($flatpickrDate);
                     $endDate = $startDate;
                 }
+
                 $carts['products'][$token]['flatpickrDate'] = $flatpickrDate;
                 $carts['products'][$token]['startDate'] = $startDate->format('d/m/Y');
                 $carts['products'][$token]['endDate'] = $endDate->format('d/m/Y');
-                $carts['products'][$token]['numberDays'] = $startDate->diff(
+                $carts['products'][$token]['numberDays'] = 0 === $startDate->diff(
                     $endDate
-                )->days === 0 ? 1 : $startDate->diff($endDate)->days;
-                $newPrice = (int)$carts['products'][$token]['price']
-                    * (int)$carts['products'][$token]['quantity']
-                    * (int)$carts['products'][$token]['numberDays'];
+                )->days ? 1 : $startDate->diff($endDate)->days;
+                $newPrice = (int) $carts['products'][$token]['price']
+                    * (int) $carts['products'][$token]['quantity']
+                    * (int) $carts['products'][$token]['numberDays'];
             } else {
                 unset($carts['products'][$token]);
             }
         }
 
         foreach ($carts['products'] as $item) {
-            $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
-            $totalQuantity = (int)$item['quantity'];
+            $totalAmount += (int) $item['price'] * (int) $item['quantity'] * (int) $item['numberDays'];
+            $totalQuantity = (int) $item['quantity'];
         }
+
         $carts['totalQuantity'] = $totalQuantity;
         $carts['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
         $carts['totalTva'] = $totalAmount * 0.2;
@@ -162,7 +164,7 @@ class CartController extends AbstractController
                 'newAmount' => $newPrice,
                 'totalAmount' => $carts['totalAmount'],
                 'totalTva' => $carts['totalTva'],
-                'totalQuantity' => $carts['totalQuantity']
+                'totalQuantity' => $carts['totalQuantity'],
             ]
         );
     }

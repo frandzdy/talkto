@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Type de checkin
+ * Type de checkin.
  */
 enum CheckinType: int
 {
@@ -19,7 +19,7 @@ enum CheckinType: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

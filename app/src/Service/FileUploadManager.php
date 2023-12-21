@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * Gestionnaire des fichiers de l'application
+ * Gestionnaire des fichiers de l'application.
  */
 class FileUploadManager
 {
@@ -24,7 +24,7 @@ class FileUploadManager
     }
 
     /**
-     * Retourne vrai si le dossier est bien authorisé
+     * Retourne vrai si le dossier est bien authorisé.
      */
     public function isDirectoryValid(string $directory): bool
     {
@@ -32,7 +32,7 @@ class FileUploadManager
     }
 
     /**
-     * Retourne vrai si le fichier demandé à un nom valide
+     * Retourne vrai si le fichier demandé à un nom valide.
      */
     public function isFilePatternAuthorized(string $fileName): bool
     {
@@ -40,47 +40,49 @@ class FileUploadManager
     }
 
     /**
-     * Déplace un fichier dans le dossier qui lui correspond et retourne son nouveau nom
+     * Déplace un fichier dans le dossier qui lui correspond et retourne son nouveau nom.
      */
     public function uploadFile(string $directory, UploadedFile $file): string
     {
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
+            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
             $file->move($this->getDirectoryPath($directory), $fileName);
 
             return $fileName;
-        } catch (\Exception $e) {
-            $this->logger->error('Erreur upload fichier : ', ['message' => $e->getMessage()]);
+        } catch (\Exception $exception) {
+            $this->logger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
+
             return '';
         }
     }
 
     /**
-     * Déplace un fichier dans le dossier qui lui correspond et retourne son nouveau nom
+     * Déplace un fichier dans le dossier qui lui correspond et retourne son nouveau nom.
      */
     public function uploadPrivateFile(string $directory, UploadedFile $file): string
     {
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
+            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
             $file->move($this->getDirectoryPrivatePath($directory), $fileName);
 
             return $fileName;
-        } catch (\Exception $e) {
-            $this->logger->error('Erreur upload fichier : ', ['message' => $e->getMessage()]);
+        } catch (\Exception $exception) {
+            $this->logger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
+
             return '';
         }
     }
 
     /**
-     * Retourne le contenu d'un fichier
+     * Retourne le contenu d'un fichier.
      */
-    public function getFileContent(string $directory, $filename): string
+    public function getFileContent(string $directory, string $filename): string
     {
-        $path = $this->getDirectoryPath($directory) . $filename;
+        $path = $this->getDirectoryPath($directory).$filename;
 
         if (file_exists($path)) {
             return file_get_contents($path);
@@ -90,31 +92,27 @@ class FileUploadManager
     }
 
     /**
-     * Retourne le nom du répertoire recherché
+     * Retourne le nom du répertoire recherché.
      */
     private function getDirectoryPath(string $directory): string
     {
         $path = $this->fileUploadParameters['base_path'];
 
-        $path .= $this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default'];
-
-        return $path;
+        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }
 
     /**
-     * Retourne le nom du répertoire recherché
+     * Retourne le nom du répertoire recherché.
      */
     private function getDirectoryPrivatePath(string $directory): string
     {
         $path = $this->fileUploadParameters['base_path_private'];
 
-        $path .= $this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default'];
-
-        return $path;
+        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }
 
     /**
-     * Retourne le nom du répertoire recherché
+     * Retourne le nom du répertoire recherché.
      */
     private function getDirectoryPathLiip(): string
     {
@@ -122,11 +120,11 @@ class FileUploadManager
     }
 
     /**
-     * Supprime un fichier du répertoire
+     * Supprime un fichier du répertoire.
      */
     public function removeFile(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPath($directory) . $filename;
+        $path = $this->getDirectoryPath($directory).$filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -135,11 +133,11 @@ class FileUploadManager
     }
 
     /**
-     * Supprime un fichier du répertoire liip
+     * Supprime un fichier du répertoire liip.
      */
     public function removeFileLiip(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPathLiip() . '/' . $directory . '/uploads/profile_picture/' . $filename;
+        $path = $this->getDirectoryPathLiip().'/'.$directory.'/uploads/profile_picture/'.$filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -148,7 +146,7 @@ class FileUploadManager
     }
 
     /**
-     * Supprime tous les fichiers d'un répertoire
+     * Supprime tous les fichiers d'un répertoire.
      */
     public function removeAllFiles(string $directory): int
     {
@@ -156,22 +154,19 @@ class FileUploadManager
         // on recupère le repertoire
         $path = $this->getDirectoryPath($directory);
         // si c'est un dossier
-        if (is_dir($path)) {
-            // on l'ouvre
-            if ($dh = opendir($path)) {
-                // tant que l'on peut lire le répertoire
-                while (($element = readdir($dh)) !== false) {
-                    if (($element != '.') && ($element != '..')) {
-                        // si le fichier n'est un pas un dossier
-                        if (!is_dir($path . '/' . $element)) {
-                            // on le supprime
-                            $this->removeFile($directory, $element);
-                            $nbFileRemove++;
-                        }
-                    }
+        // on l'ouvre
+        if (is_dir($path) && ($dh = opendir($path))) {
+            // tant que l'on peut lire le répertoire
+            while (($element = readdir($dh)) !== false) {
+                // si le fichier n'est un pas un dossier
+                if ('.' != $element && '..' != $element && !is_dir($path.'/'.$element)) {
+                    // on le supprime
+                    $this->removeFile($directory, $element);
+                    ++$nbFileRemove;
                 }
             }
         }
+
         return $nbFileRemove;
     }
 }

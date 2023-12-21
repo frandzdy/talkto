@@ -8,18 +8,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * Authentification du Back
- *
+ * Authentification du Back.
  */
 class AuthController extends AbstractController
 {
     /**
-     * Authentification du Back
+     * Authentification du Back.
      */
-    #[Route("/login", name: "login")]
+    #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return $this->redirectToRoute('back_home_dashboard');
         }
 
@@ -30,13 +29,13 @@ class AuthController extends AbstractController
             'back/auth/login.html.twig',
             [
                 'last_username' => $lastUsername,
-                'error' => $error
+                'error' => $error,
             ]
         );
     }
 
-    #[Route("deconnexion", name: "logout")]
-    public function logout()
+    #[Route('deconnexion', name: 'logout')]
+    public function logout(): void
     {
     }
 }

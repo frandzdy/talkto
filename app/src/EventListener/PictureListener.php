@@ -6,7 +6,6 @@ use App\Entity\Picture;
 use App\Service\FileUploadManager;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
-use Doctrine\ORM\Events;
 
 #[AsEntityListener(event: PreRemoveEventArgs::class, method: 'preRemove', entity: Picture::class)]
 readonly class PictureListener
@@ -16,11 +15,11 @@ readonly class PictureListener
     }
 
     /**
-     * Supprime les images sur le disque avant la suppression
+     * Supprime les images sur le disque avant la suppression.
      */
     public function preRemove(Picture $picture, PreRemoveEventArgs $event): void
     {
-        if ($this->fileUploadManager->getFileContent('product', $picture->getName())) {
+        if ('' !== $this->fileUploadManager->getFileContent('product', $picture->getName()) && '0' !== $this->fileUploadManager->getFileContent('product', $picture->getName())) {
             $this->fileUploadManager->removeFile('product_picture', $picture->getName());
             $this->fileUploadManager->removeFileLiip('product_modal', $picture->getName());
             $this->fileUploadManager->removeFileLiip('product_modal_miniature', $picture->getName());

@@ -15,25 +15,22 @@ class SignalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->setMethod("POST")
+            ->setMethod('POST')
             ->add(
                 'nom',
                 TextType::class,
                 [
                     'label' => 'Nom',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Nom',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'constraints' =>
-                        [
+                    'constraints' => [
                             new NotBlank(['message' => 'Information requises.']),
-                        ]
+                        ],
                 ]
             )
             ->add(
@@ -41,56 +38,48 @@ class SignalType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Prénom',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Prénom',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'constraints' =>
-                        [
+                    'constraints' => [
                             new NotBlank(['message' => 'Information requises.']),
-                        ]
+                        ],
                 ]
             )->add(
                 'email',
                 EmailType::class,
                 [
                     'label' => 'E-mail',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'E-mail',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'constraints' =>
-                        [
+                    'constraints' => [
                             new NotBlank(['message' => 'Information requises.']),
                             new Email(['message' => 'Information requises.']),
-                        ]
+                        ],
                 ]
             )->add(
                 'description',
                 TextareaType::class,
                 [
                     'label' => 'Si vous souhaitez détailler le problème rencontrer',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Si vous souhaitez détailler le problème rencontrer',
                             'style' => 'height: 200px',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'required' => false
+                    'required' => false,
                 ]
             );
     }

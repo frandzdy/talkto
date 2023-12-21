@@ -2,22 +2,18 @@
 
 namespace App\Form\Back;
 
-use App\Enum\ClaimStatus;
-use App\Enum\ProductStatus;
-use App\Enum\TransactionStatus;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class TransactionFilterType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,19 +25,15 @@ class TransactionFilterType extends AbstractType
                 [
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Titre, description ou propriétaire',
                             'style' => 'width: 53%;',
-                            'class' => 'float-right'
-                        ]
+                            'class' => 'float-right',
+                        ],
                 ]
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

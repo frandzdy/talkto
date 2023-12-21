@@ -5,18 +5,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Gère les champs date de création et de mise à jour
+ * Gère les champs date de création et de mise à jour.
  */
 trait TraitTimestamp
 {
     /**
-     * Date de mise création
+     * Date de mise création.
      */
     #[ORM\Column()]
     private ?\DateTime $createdAt = null;
 
     /**
-     * Date de mise à jour
+     * Date de mise à jour.
      */
     #[ORM\Column()]
     private ?\DateTime $updatedAt = null;
@@ -52,6 +52,7 @@ trait TraitTimestamp
         if (!$this->getCreatedAt()) {
             $this->setCreatedAt(new \DateTime('now'));
         }
+
         $this->setUpdatedAt(new \DateTime('now'));
     }
 }

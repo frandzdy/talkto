@@ -8,8 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Initialisation d'un admin en back
- *
+ * Initialisation d'un admin en back.
  */
 class ContributorFixtures extends Fixture
 {
@@ -23,7 +22,7 @@ class ContributorFixtures extends Fixture
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function load(ObjectManager $manager): void
     {
@@ -31,7 +30,7 @@ class ContributorFixtures extends Fixture
         $contributor->setEmail($this->emailAdmin);
         $contributor->setPassword($this->passwordEncoder->hashPassword($contributor, 'contributorpass'));
         $contributor->setRole(Contributor::ROLE_SUPER_ADMIN);
-        $contributor->setFullname("Frandzdy Sanon");
+        $contributor->setFullname('Frandzdy Sanon');
 
         $manager->persist($contributor);
 

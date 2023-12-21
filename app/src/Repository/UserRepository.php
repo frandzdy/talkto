@@ -34,7 +34,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
         $user->setPassword($newHashedPassword);
@@ -72,13 +72,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
 
     /**
-     * Retourne la liste des produits d'un bailleur
+     * Retourne la liste des produits d'un bailleur.
      */
     public function getProducts(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Product::class)
             ->createQueryBuilder('p')
+            ->select('p')
             ->join('p.author', 'a')
+            ->addSelect('a')
             ->where('a.id = :userId')
             ->setParameter('userId', $user->getId());
 
@@ -99,20 +101,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Retourne la liste des réservations ou locations d'un utilisateur selon son profil
+     * Retourne la liste des réservations ou locations d'un utilisateur selon son profil.
      */
     public function getReservations(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Reservation::class)
             ->createQueryBuilder('r')
             ->join('r.transaction', 't')
+            ->addSelect('t')
             ->leftjoin('t.transactionLines', 'tl')
+            ->addSelect('tl')
             ->join('tl.product', 'p');
         if (User::ROLE_USER === $user->getRole()) {
             $qb->where('r.author = :userId');
         } else {
             $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
         }
+
         $qb->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
@@ -132,15 +137,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Retourne la liste des favoris d'un utilisateur
+     * Retourne la liste des favoris d'un utilisateur.
      */
     public function getWishlists(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Wishlist::class)
             ->createQueryBuilder('w')
             ->join('w.user', 'u')
+            ->addSelect('u')
             ->join('w.product', 'p')
+            ->addSelect('p')
             ->join('p.author', 'author')
+            ->addSelect('author')
             ->where('u.id = :userId')
             ->setParameter('userId', $user->getId());
 
@@ -161,16 +169,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * On récupère les locations uniquement pour les bailleurs
+     * On récupère les locations uniquement pour les bailleurs.
      */
     public function getRents(User $user, int $offset): array
     {
         $qb = $this->_em->getRepository(Reservation::class)
             ->createQueryBuilder('r')
             ->join('r.transaction', 't')
+            ->addSelect('t')
             ->leftjoin('t.transactionLines', 'tl')
+            ->addSelect('tl')
             ->join('tl.product', 'p')
+            ->addSelect('p')
             ->join('r.author', 'author')
+            ->addSelect('author')
             ->where('author.id = :userId')
             ->setParameter('userId', $user->getId());
 
@@ -191,7 +203,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Construit une requête de recherche
+     * Construit une requête de recherche.
      */
     public function buildSearchQuery(array $filters = [], bool $isLessor = false): Query
     {
@@ -203,13 +215,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 ->andWhere(
                     'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.phone LIKE :term'
                 )
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         } elseif (!empty($filters['term'])) {
             $builder
                 ->andWhere(
                     'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.stripeCustomerId LIKE :term OR u.phone LIKE :term'
                 )
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         }
 
         $builder->andWhere('u.role IN (:role)');
@@ -229,7 +241,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Returns the statistics of users based on their role and creation date.
      */
-    public function statsUsers(string $role, ?DatePoint $datePoint = null): array
+    public function statsUsers(string $role, DatePoint $datePoint = null): array
     {
         $builder = $this
             ->createQueryBuilder('u')
@@ -237,7 +249,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->where('u.role = :role')
             ->setParameter('role', $role);
 
-        if ($datePoint) {
+        if ($datePoint instanceof \Symfony\Component\Clock\DatePoint) {
             $builder->andWhere('u.createdAt = :date')
                 ->setParameter('date', $datePoint);
         }

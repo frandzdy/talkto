@@ -42,9 +42,7 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
-                $form->get('email')->getData(),
-                $mailer,
-                $translator
+                $form->get('email')->getData()
             );
         }
 
@@ -61,7 +59,7 @@ class ResetPasswordController extends AbstractController
     {
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether or not a user was found with the given email address or not
-        if (null === ($resetToken = $this->getTokenObjectFromSession())) {
+        if (!($resetToken = $this->getTokenObjectFromSession()) instanceof \SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken) {
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
 
@@ -96,7 +94,7 @@ class ResetPasswordController extends AbstractController
 
         try {
             $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
-        } catch (ResetPasswordExceptionInterface $e) {
+        } catch (ResetPasswordExceptionInterface $resetPasswordException) {
             $this->addFlash(
                 'reset_password_error',
                 sprintf(
@@ -106,7 +104,7 @@ class ResetPasswordController extends AbstractController
                         [],
                         'ResetPasswordBundle'
                     ),
-                    $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
+                    $translator->trans($resetPasswordException->getReason(), [], 'ResetPasswordBundle')
                 )
             );
 
@@ -148,13 +146,13 @@ class ResetPasswordController extends AbstractController
         ]);
 
         // Do not reveal whether a user account was found or not.
-        if (!$user) {
+        if (null === $user) {
             return $this->redirectToRoute('front_check_email');
         }
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-        } catch (ResetPasswordExceptionInterface $e) {
+        } catch (ResetPasswordExceptionInterface) {
             // If you want to tell the user why a reset email was not sent, uncomment
             // the lines below and change the redirect to 'app_forgot_password_request'.
             // Caution: This may reveal if a user is registered or not.

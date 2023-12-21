@@ -12,12 +12,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class HomePageType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,7 +32,7 @@ class HomePageType extends AbstractType
                     'allow_add' => true,
                     'allow_delete' => true,
                     'required' => true,
-                    'by_reference' => false
+                    'by_reference' => false,
                 ]
             )
             ->add(
@@ -200,9 +200,6 @@ class HomePageType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

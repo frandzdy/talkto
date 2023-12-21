@@ -40,32 +40,32 @@ class ClaimRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Claim[] Returns an array of Transaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Claim[] Returns an array of Transaction objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Claim
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Claim
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
     /**
-     * Construit une requête de recherche
+     * Construit une requête de recherche.
      */
     public function buildSearchQuery(array $filters = []): Query
     {
@@ -86,7 +86,7 @@ class ClaimRepository extends ServiceEntityRepository
                 ->addSelect('product')
                 ->andWhere('author.email LIKE :term OR author.fullname LIKE :term')
                 ->orWhere('transaction.reference LIKE :term OR product.title LIKE :term')
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         }
 
         $builder->orderBy('c.id');
@@ -95,7 +95,7 @@ class ClaimRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne la liste des réclamations en cours
+     * Retourne la liste des réclamations en cours.
      */
     public function getClaims(): array
     {
@@ -105,8 +105,8 @@ class ClaimRepository extends ServiceEntityRepository
             ->addSelect('checkin')
             ->join('checkin.transactionLine', 'transactionLine')
             ->addSelect('transactionLine')
-            //->where('c.status = :claimStatus')
-            //->setParameter('claimStatus', ClaimStatus::PENDING)
+            // ->where('c.status = :claimStatus')
+            // ->setParameter('claimStatus', ClaimStatus::PENDING)
             ->getQuery()
             ->getResult();
     }

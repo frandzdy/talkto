@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Status de la transaction
+ * Status de la transaction.
  */
 enum TransactionStatus: int
 {
@@ -21,7 +21,7 @@ enum TransactionStatus: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

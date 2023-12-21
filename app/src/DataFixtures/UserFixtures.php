@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Contributor;
 use App\Entity\User;
 use App\Enum\Civility;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -11,9 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Intialisation d'un admin en back
- *
- *
+ * Intialisation d'un admin en back.
  */
 class UserFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -27,7 +24,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function load(ObjectManager $manager): void
     {
@@ -36,7 +33,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail($this->emailSupport);
         $user->setPassword($this->passwordEncoder->hashPassword($user, 'supportpass'));
         $user->setRole(User::ROLE_SUPPORT);
-        $user->setLastname("Reented")
+        $user->setLastname('Reented')
             ->setFirstname('Support')
             ->setAddress('')
             ->setCity('')
@@ -55,7 +52,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         // TODO: Implement getDependencies() method.
         return [
-            CountryFixtures::class
+            CountryFixtures::class,
         ];
     }
 }

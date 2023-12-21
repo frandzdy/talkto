@@ -10,13 +10,13 @@ class ContactModel
     use NotificationModelTrait;
 
     /**
-     * Sujet du formulaire de, contactez-nous
+     * Sujet du formulaire de, contactez-nous.
      */
-    #[Assert\NotBlank(message: "Information requise.")]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private int $subject;
 
     /**
-     * Retourne le sujet
+     * Retourne le sujet.
      */
     public function getSubject(): ?string
     {
@@ -24,7 +24,7 @@ class ContactModel
     }
 
     /**
-     * set le sujet
+     * set le sujet.
      */
     public function setSubject(?string $subject): self
     {

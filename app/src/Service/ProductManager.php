@@ -24,7 +24,7 @@ readonly class ProductManager
     }
 
     /**
-     * Retourne un user prêt pour la création soit locataire, soit bailleur
+     * Retourne un user prêt pour la création soit locataire, soit bailleur.
      */
     public function createProduct(User $user): Product
     {
@@ -35,19 +35,17 @@ readonly class ProductManager
     }
 
     /**
-     * Créer ou met à jour un produit
+     * Créer ou met à jour un produit.
      */
     public function saveOrEditProduct(Product $product, array $pictureFileDatas, bool $update = false): bool
     {
-        if ($pictureFileDatas) {
-            foreach ($pictureFileDatas as $pictureFileData) {
-                if ($pictureFileData instanceof UploadedFile) {
-                    $fileName = $this->fileUploadManager->uploadFile('product_picture', $pictureFileData);
-                    $pic = new Picture();
-                    $pic->setName($fileName);
-                    $this->em->persist($pic);
-                    $product->addPicture($pic);
-                }
+        foreach ($pictureFileDatas as $pictureFileData) {
+            if ($pictureFileData instanceof UploadedFile) {
+                $fileName = $this->fileUploadManager->uploadFile('product_picture', $pictureFileData);
+                $pic = new Picture();
+                $pic->setName($fileName);
+                $this->em->persist($pic);
+                $product->addPicture($pic);
             }
         }
 
@@ -63,7 +61,7 @@ readonly class ProductManager
     }
 
     /**
-     * Supprime une photo du compte utilisateur serveur et bdd
+     * Supprime une photo du compte utilisateur serveur et bdd.
      */
     public function deleteProductPicture(Product $product, Picture $pictureToRemove): bool
     {
@@ -73,15 +71,15 @@ readonly class ProductManager
             $this->em->flush();
 
             return true;
-        } catch (\Exception $e) {
-            $this->logger->alert("Erreur lors de la suppression de la photo du produit : " . $e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->alert('Erreur lors de la suppression de la photo du produit : '.$exception->getMessage());
 
             return false;
         }
     }
 
     /**
-     * flush en base de données la création ou la mise à jour
+     * flush en base de données la création ou la mise à jour.
      */
     public function saveProduct(): void
     {
@@ -89,11 +87,11 @@ readonly class ProductManager
     }
 
     /**
-     * Supprime un produit
+     * Supprime un produit.
      */
     public function deleteProduct(Product $product): void
     {
-        /**
+        /*
          *  Contrôle que le produit n'est plus en location et pas réserver.
          */
         if (!$this->em->getRepository(TransactionLine::class)->productHaveTransactionInProgress($product)) {
@@ -103,25 +101,27 @@ readonly class ProductManager
     }
 
     /**
-     * Ajoute un produit au panier
+     * Ajoute un produit au panier.
      */
     public function addProductToCart(array $cart, mixed $flatpickrDate, ?Product $product, mixed $quantity): array
     {
         $totalQuantity = 0;
         $totalAmount = 0;
 
-        if (str_contains($flatpickrDate, 'au')) {
-            $startDate = new \DateTime(trim(explode('au', $flatpickrDate)[0]));
-            $endDate = new \DateTime(trim(explode('au', $flatpickrDate)[1]));
+        if (str_contains((string) $flatpickrDate, 'au')) {
+            $startDate = new \DateTime(trim(explode('au', (string) $flatpickrDate)[0]));
+            $endDate = new \DateTime(trim(explode('au', (string) $flatpickrDate)[1]));
         } else {
             $startDate = new \DateTime($flatpickrDate);
             $endDate = $startDate;
         }
-        $numberDays = $startDate->diff($endDate)->days === 0 ? 1 : $startDate->diff($endDate)->days;
+
+        $numberDays = 0 === $startDate->diff($endDate)->days ? 1 : $startDate->diff($endDate)->days;
         $pictureName = '';
         if ($product->getPictures()->count() > 0) {
             $pictureName = $product->getPictures()->first()->getName();
         }
+
         $cart['products'][$product->getToken()] = [
             'caution' => $product->getCaution(),
             'price' => $product->getAmount(),
@@ -132,12 +132,13 @@ readonly class ProductManager
             'numberDays' => $numberDays,
             'pictureName' => $pictureName,
             'title' => $product->getTitle(),
-            'disabledDates' => json_encode($this->getDisabledDatesFormProduct($product->getToken()))
+            'disabledDates' => json_encode($this->getDisabledDatesFormProduct($product->getToken())),
         ];
         foreach ($cart['products'] as $item) {
-            $totalQuantity += (int)$item['quantity'];
-            $totalAmount += (int)$item['price'] * (int)$item['quantity'] * (int)$item['numberDays'];
+            $totalQuantity += (int) $item['quantity'];
+            $totalAmount += (int) $item['price'] * (int) $item['quantity'] * (int) $item['numberDays'];
         }
+
         $cart['totalQuantity'] = $totalQuantity;
         $cart['totalAmount'] = $totalAmount + ($totalAmount * 0.1);
         $cart['totalTva'] = $totalAmount * 0.2;
@@ -146,10 +147,6 @@ readonly class ProductManager
         return $cart;
     }
 
-    /**
-     * @param string $token
-     * @return array
-     */
     public function getDisabledDatesFormProduct(string $token): array
     {
         $disabledDates = [];
@@ -160,12 +157,12 @@ readonly class ProductManager
                  */
                 $transaction = $reservation->getTransaction();
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
-                    /**
+                    /*
                      * @var TransactionLine $transactionLine
                      */
                     $disabledDates[] = [
-                        'from' => ($transactionLine->getStartDate())->format('Y-m-d'),
-                        'to' => ($transactionLine->getEndDate())->format('Y-m-d'),
+                        'from' => $transactionLine->getStartDate()->format('Y-m-d'),
+                        'to' => $transactionLine->getEndDate()->format('Y-m-d'),
                     ];
                 }
             }

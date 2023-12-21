@@ -18,13 +18,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CheckController extends AbstractController
 {
     /**
-     * Gère la création du check in ou out
+     * Gère la création du check in ou out.
      */
     #[Route('/check/{type}/{token}', name: 'check_create', requirements: ['type' => 'in|out'], methods: [
         'GET',
-        'POST'
+        'POST',
     ])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function check(
         string $type,
         string $token,
@@ -39,11 +39,11 @@ class CheckController extends AbstractController
         $hasAllReadyDoneCheckin = $em->getRepository(Checkin::class)->findOneBy(
             [
                 'transactionLine' => $transactionLine->getId(),
-                'status' => $type === 'in' ? CheckinTypeEnum::IN->value : CheckinTypeEnum::OUT->value
+                'status' => 'in' === $type ? CheckinTypeEnum::IN->value : CheckinTypeEnum::OUT->value,
             ]
         );
 
-        if (!$hasAllReadyDoneCheckin) {
+        if (null === $hasAllReadyDoneCheckin) {
             $checkin = $checkManager->createCheckin($this->getUser(), $type, $transactionLine);
         } else {
             $checkin = $hasAllReadyDoneCheckin;
@@ -53,20 +53,20 @@ class CheckController extends AbstractController
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $hasclaim = $checkManager->saveCheckin($checkin, $reservation, $checkin->uploadedPictures);
             if ($hasclaim) {
-                $this->addFlash('success', 'Check' . $type . ' enregistré !');
+                $this->addFlash('success', 'Check'.$type.' enregistré !');
                 $this->addFlash('info', 'Un ticket a été ouvert pour analyse !');
             } else {
-                $this->addFlash('success', 'Check' . $type . ' enregistré !');
+                $this->addFlash('success', 'Check'.$type.' enregistré !');
             }
 
             return $this->json(
                 [
                     'success' => true,
-                    'redirectUrl' => $this->generateUrl('front_user_account')
+                    'redirectUrl' => $this->generateUrl('front_user_account'),
                 ]
             );
         }
 
-        return $this->render('front/check/create.html.twig', compact('form'));
+        return $this->render('front/check/create.html.twig', ['form' => $form]);
     }
 }

@@ -15,7 +15,7 @@ readonly class SiteMapManager
     }
 
     /**
-     * Retourne la liste des liens du site pour le sitemap
+     * Retourne la liste des liens du site pour le sitemap.
      */
     public function generateUrls(): array
     {
@@ -37,7 +37,7 @@ readonly class SiteMapManager
     private function hasRouteParameters($route): bool
     {
         foreach ($route->compile()->getVariables() as $variable) {
-            if ($variable !== '_locale') {
+            if ('_locale' !== $variable) {
                 return true;
             }
         }

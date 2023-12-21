@@ -52,9 +52,9 @@ class HomeController extends AbstractController
             'dayGuesses' => current($dayGuesses)['nbUsers'],
             'allGuesses' => current($allGuesses)['nbUsers'],
             'dayRentes' => current($dayRentes)['nbUsers'],
-            'allRentes' => current($allRentes)['nbUsers']
+            'allRentes' => current($allRentes)['nbUsers'],
         ];
 
-        return $this->render('back/home/dashboard.html.twig', compact('stats'));
+        return $this->render('back/home/dashboard.html.twig', ['stats' => $stats]);
     }
 }

@@ -4,10 +4,8 @@ namespace App\Controller\Back;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionLine;
-use App\Enum\TransactionStatus;
 use App\Exporter\TransactionExporter;
 use App\Form\Back\CancelTransactionLineType;
-use App\Form\Back\ProductFilterType;
 use App\Form\Back\TransactionFilterType;
 use App\Repository\TransactionRepository;
 use App\Service\MailerManager;
@@ -21,16 +19,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Gestion des bailleurs
+ * Gestion des bailleurs.
  */
 #[Route(path: '/transactions', name: 'transaction_')]
 class TransactionController extends AbstractController
 {
-    public const TRANSACTIONS_PER_PAGE = 50;
-    public const TRANSACTIONS_TERM_FILTER = 'transaction.filter';
+    final public const TRANSACTIONS_PER_PAGE = 50;
+
+    final public const TRANSACTIONS_TERM_FILTER = 'transaction.filter';
 
     /**
-     * Liste des bailleurs
+     * Liste des bailleurs.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
@@ -39,11 +38,8 @@ class TransactionController extends AbstractController
         PaginatorInterface $paginator
     ): Response {
         $filtersFormSession = $request->getSession()->get(self::TRANSACTIONS_TERM_FILTER, null);
-        if (!$filtersFormSession) {
-            $filters = ['term' => $request->query->get('term', '')];
-        } else {
-            $filters = $filtersFormSession;
-        }
+        $filters = $filtersFormSession ?: ['term' => $request->query->get('term', '')];
+
         $page = $request->query->getInt('page', 0) > 0 ? $request->query->getInt('page') : 1;
 
         $filterForm = $this->createForm(TransactionFilterType::class, $filters);
@@ -61,7 +57,7 @@ class TransactionController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 't.status',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                PaginatorInterface::DISTINCT => false
+                PaginatorInterface::DISTINCT => false,
             ]
         );
 
@@ -69,24 +65,24 @@ class TransactionController extends AbstractController
             'back/transaction/index.html.twig',
             [
                 'transactions' => $paginator,
-                'filterForm' => $filterForm->createView()
+                'filterForm' => $filterForm->createView(),
             ]
         );
     }
 
     /**
-     * Affichage d'une transaction
+     * Affichage d'une transaction.
      */
     #[Route(path: '/{transaction<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(Transaction $transaction): Response
     {
         return $this->render('back/transaction/show.html.twig', [
-            'transaction' => $transaction
+            'transaction' => $transaction,
         ]);
     }
 
     /**
-     * Génère un export de tous les bailleurs
+     * Génère un export de tous les bailleurs.
      */
     #[Route(path: '/extract-transaction/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
     public function export(
@@ -95,7 +91,7 @@ class TransactionController extends AbstractController
         TransactionExporter $transactionExporter
     ): NotFoundHttpException|Response {
         $transactions = $transactionRepository->findAll();
-        $callable = 'exportAs' . strtoupper($typeFile);
+        $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
             $result = $transactionExporter->$callableNameFunction($transactions);
@@ -107,14 +103,14 @@ class TransactionController extends AbstractController
             $result['file'],
             200,
             [
-                'Content-Type' => $result['contentType'] . '; charset=windows-1251',
-                'Content-Disposition' => 'attachment; filename="export_transactions.' . $typeFile . '"'
+                'Content-Type' => $result['contentType'].'; charset=windows-1251',
+                'Content-Disposition' => 'attachment; filename="export_transactions.'.$typeFile.'"',
             ]
         );
     }
 
     /**
-     * Remboursement d'une transaction partiel ou complète
+     * Remboursement d'une transaction partiel ou complète.
      */
     #[Route('/annulation/{transactionLine}', name: 'cancel')]
     public function cancel(
@@ -125,11 +121,11 @@ class TransactionController extends AbstractController
         MailerManager $mailerManager
     ): Response {
         $refund = [
-            'amount' => null
+            'amount' => null,
         ];
         $options = [
             'action' => $request->getUri(),
-            'maxAmount' => $transactionLine->getAmountTtc() / 100
+            'maxAmount' => $transactionLine->getAmountTtc() / 100,
         ];
         $form = $this->createForm(CancelTransactionLineType::class, $refund, $options);
 
@@ -145,7 +141,7 @@ class TransactionController extends AbstractController
                 'emails/refunds.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getTransaction()->getAuthor()
+                    'user' => $transactionLine->getTransaction()->getAuthor(),
                 ]
             );
             $mailerManager->sendMailNotification(
@@ -153,10 +149,10 @@ class TransactionController extends AbstractController
                 'emails/lessor_refunds.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getProduct()->getAuthor()
+                    'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', "Remboursement effectué.");
+            $this->addFlash('success', 'Remboursement effectué.');
 
             return $this->json(
                 [
@@ -164,12 +160,12 @@ class TransactionController extends AbstractController
                     'redirectUrl' => $this->generateUrl(
                         'back_transaction_show',
                         ['transaction' => $transactionLine->getTransaction()->getId()]
-                    )
+                    ),
                 ]
             );
         }
 
-        return $this->render('back/transaction/cancel.html.twig', compact('form'));
+        return $this->render('back/transaction/cancel.html.twig', ['form' => $form]);
     }
 
     #[Route('/caution/{transactionLine}', name: 'caution')]
@@ -181,11 +177,11 @@ class TransactionController extends AbstractController
         MailerManager $mailerManager
     ): Response {
         $caution = [
-            'amount' => null
+            'amount' => null,
         ];
         $options = [
             'action' => $request->getUri(),
-            'maxAmount' => $transactionLine->getProduct()->getCaution() / 100
+            'maxAmount' => $transactionLine->getProduct()->getCaution() / 100,
         ];
         $form = $this->createForm(CancelTransactionLineType::class, $caution, $options);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
@@ -200,7 +196,7 @@ class TransactionController extends AbstractController
                 'emails/caution.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getTransaction()->getAuthor()
+                    'user' => $transactionLine->getTransaction()->getAuthor(),
                 ]
             );
             $mailerManager->sendMailNotification(
@@ -208,10 +204,10 @@ class TransactionController extends AbstractController
                 'emails/lessor_caution.html.twig',
                 [
                     'transactionLine' => $transactionLine,
-                    'user' => $transactionLine->getProduct()->getAuthor()
+                    'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', "Remboursement effectué.");
+            $this->addFlash('success', 'Remboursement effectué.');
 
             return $this->json(
                 [
@@ -219,11 +215,11 @@ class TransactionController extends AbstractController
                     'redirectUrl' => $this->generateUrl(
                         'back_transaction_show',
                         ['transaction' => $transactionLine->getTransaction()->getId()]
-                    )
+                    ),
                 ]
             );
         }
 
-        return $this->render('back/transaction/cancel.html.twig', compact('form'));
+        return $this->render('back/transaction/cancel.html.twig', ['form' => $form]);
     }
 }

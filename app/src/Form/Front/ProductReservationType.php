@@ -31,16 +31,15 @@ class ProductReservationType extends AbstractType
                 TextType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Date de réservation',
                             'maxlength' => 11,
                             'data-controller' => 'datetimepicker',
                             'data-disabled-dates' => json_encode($options['disabledDates']),
                             'data-token' => $options['token'],
-                            'class' => 'text-center'
+                            'class' => 'text-center',
                         ],
-                    'required' => true
+                    'required' => true,
                 ]
             )->add(
                 'quantity',
@@ -48,24 +47,24 @@ class ProductReservationType extends AbstractType
                 [
                     'label' => false,
                     'placeholder' => '-- Sélectionnez une quantité --',
-                    'attr' =>
-                        [
-                            'class' => 'text-center'
+                    'attr' => [
+                            'class' => 'text-center',
                         ],
                     'choices' => array_flip($options['choicesValue']),
-                    'required' => true
+                    'required' => true,
                 ]
             );
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($user): void {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event) use ($user): void {
             $form = $event->getForm();
             $options = $form->getConfig()->getOptions();
-
             if (!$form->get('quantity')->getData()) {
                 $form->get('quantity')->addError(new FormError('Information requise.'));
             }
+
             if (!$form->get('date')->getData()) {
                 $form->get('date')->addError(new FormError('Information requise.'));
             }
+
             if ($user === $options['product']->getAuthor()) {
                 $form->get('quantity')->addError(new FormError('Réservation impossible.'));
             }
@@ -74,7 +73,7 @@ class ProductReservationType extends AbstractType
             $array = $event->getData();
             $form = $event->getForm();
             $options = $event->getForm()->getConfig()->getOptions();
-            $date = explode('au', $array['date']);
+            $date = explode('au', (string) $array['date']);
 
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $options['token']]);
             $transactions = $this->em->getRepository(TransactionLine::class)->productCheckQuantityAvailable(
@@ -87,6 +86,7 @@ class ProductReservationType extends AbstractType
                     foreach ($transaction->getTransactionLines() as $transactionLine) {
                         $totalReserved = $transactionLine->getQuantity();
                     }
+
                     $hasReservation = true;
                 }
             } else {
@@ -94,14 +94,11 @@ class ProductReservationType extends AbstractType
                 $totalReserved = $product->getQuantity();
             }
 
-            if ($hasReservation) {
-                $quantity = $product->getQuantity() - $totalReserved;
-            } else {
-                $quantity = $product->getQuantity();
-            }
+            $quantity = $hasReservation ? $product->getQuantity() - $totalReserved : $product->getQuantity();
+
             $choicesValue = [];
             if ($quantityLeft = $quantity) {
-                for ($i = 1; $i <= $quantityLeft; $i++) {
+                for ($i = 1; $i <= $quantityLeft; ++$i) {
                     $choicesValue[$i] = $i;
                 }
             }
@@ -113,12 +110,11 @@ class ProductReservationType extends AbstractType
                     [
                         'label' => false,
                         'placeholder' => '-- Sélectionnez une quantité --',
-                        'attr' =>
-                            [
-                                'class' => 'text-center'
+                        'attr' => [
+                                'class' => 'text-center',
                             ],
                         'choices' => array_flip($choicesValue),
-                        'required' => true
+                        'required' => true,
                     ]
                 );
         });

@@ -45,30 +45,30 @@ class TransactionLineRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Transaction[] Returns an array of Transaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Transaction[] Returns an array of Transaction objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Transaction
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Transaction
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 
     public function getTopSales(?int $lat, ?int $lon)
     {
@@ -100,7 +100,7 @@ class TransactionLineRepository extends ServiceEntityRepository
     }
 
     /**
-     * Vérifie si une transaction est en cours
+     * Vérifie si une transaction est en cours.
      */
     public function productHaveTransactionInProgress(Product $product): bool
     {
@@ -122,7 +122,7 @@ class TransactionLineRepository extends ServiceEntityRepository
     }
 
     /**
-     * Vérifie si une transaction est en cours
+     * Vérifie si une transaction est en cours.
      */
     public function productCheckQuantityAvailable(Product $product, DatePoint $startDate): array
     {
@@ -146,18 +146,17 @@ class TransactionLineRepository extends ServiceEntityRepository
     }
 
     /**
-     * Vérifie les statistiques financiers des transactions
+     * Vérifie les statistiques financiers des transactions.
      */
     public function getStatTransactionLine(DatePoint $date = null): array
     {
-
         $qb = $this->createQueryBuilder('tl')
             ->select('SUM(tl.fees) as profit,
             SUM(tl.amountTtc + tl.fees) as ca')
         ->where('tl.status IN (:tlStatus)')
         ->setParameter('tlStatus', [TransactionLineStatus::IN_PROGRESS->value, TransactionLineStatus::FINISHED->value]);
 
-        if ($date) {
+        if ($date instanceof \Symfony\Component\Clock\DatePoint) {
             $qb->join('tl.transaction', 't')
                 ->andWhere('t.createdAt = :date')
                 ->setParameter('date', $date)

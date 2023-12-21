@@ -3,7 +3,6 @@
 namespace App\Form\Back;
 
 use App\Enum\ClaimStatus;
-use App\Enum\ProductStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,12 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class ClaimFilterType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,12 +27,11 @@ class ClaimFilterType extends AbstractType
                 [
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Titre, description ou propriétaire',
                             'style' => 'width: 53%;',
-                            'class' => 'float-right'
-                        ]
+                            'class' => 'float-right',
+                        ],
                 ]
             )
             ->add(
@@ -43,18 +41,14 @@ class ClaimFilterType extends AbstractType
                     'class' => ClaimStatus::class,
                     'label' => false,
                     'choice_label' => 'label',
-                    'attr' =>
-                        [
+                    'attr' => [
                         'style' => 'width: 38%;',
-                        'class' => 'float-right'
-                        ]
+                        'class' => 'float-right',
+                        ],
                 ]
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

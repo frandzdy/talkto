@@ -21,16 +21,15 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
-
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -42,8 +41,7 @@ class UserType extends AbstractType
                     'choice_label' => 'label',
                     'label' => 'Information personnelle',
                     'label_attr' => ['class' => 'form-text text-muted'],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Civilité *',
                         ],
                 ]
@@ -53,11 +51,10 @@ class UserType extends AbstractType
                 TelType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Téléphone *',
                             'maxlength' => 20,
-                        ]
+                        ],
                 ]
             )
             ->add(
@@ -66,18 +63,17 @@ class UserType extends AbstractType
                 [
                     'label' => 'Adresse',
                     'label_attr' => ['class' => 'form-text text-muted'],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Adresse *',
                             'maxlength' => 255,
                             'data-bs-toggle' => 'dropdown',
                             'aria-haspopup' => 'true',
                             'aria-expanded' => 'false',
-                            'class' => 'dropdown-toggle'
+                            'class' => 'dropdown-toggle',
                         ],
                     'row_attr' => [
-                        'class' => 'dropdown'
-                    ]
+                        'class' => 'dropdown',
+                    ],
                 ]
             )->add(
                 'additionalAddress',
@@ -85,34 +81,31 @@ class UserType extends AbstractType
                 [
                     'label' => 'Adresse complémentaire',
                     'label_attr' => ['class' => 'form-text text-muted'],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Appartement, étage, etc.',
                             'maxlength' => 255,
                         ],
-                    'required' => false
+                    'required' => false,
                 ]
             )->add(
                 'zipCode',
                 TextType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Code postal *',
                             'maxlength' => 5,
-                        ]
+                        ],
                 ]
             )->add(
                 'city',
                 TextType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Ville *',
                             'maxlength' => 255,
-                        ]
+                        ],
                 ]
             )
             ->add(
@@ -130,11 +123,10 @@ class UserType extends AbstractType
                 TextType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Nom *',
                             'maxlength' => 255,
-                        ]
+                        ],
                 ]
             )
             ->add(
@@ -142,11 +134,10 @@ class UserType extends AbstractType
                 TextType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Prénom *',
                             'maxlength' => 255,
-                        ]
+                        ],
                 ]
             )
             ->add(
@@ -154,11 +145,10 @@ class UserType extends AbstractType
                 EmailType::class,
                 [
                     'label' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'E-mail *',
                             'maxlength' => 255,
-                        ]
+                        ],
                 ]
             )->add(
                 'uploadPicture',
@@ -166,12 +156,11 @@ class UserType extends AbstractType
                 [
                     'label' => 'Photo de profile',
                     'required' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'accept' => 'image/png, image/jpeg, image/jpg',
                             'lang' => 'fr',
-                            'data-browse' => 'Votre photo'
-                        ]
+                            'data-browse' => 'Votre photo',
+                        ],
                 ]
             );
         if ($options['edit']) {
@@ -180,23 +169,19 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'options' =>
-                        [
+                    'options' => [
                             'toggle' => true,
                             'hidden_label' => 'Masquer',
                             'visible_label' => 'Afficher',
-                            'translation_domain' => 'messages'
+                            'translation_domain' => 'messages',
                         ],
-                    'first_options' =>
-                        [
+                    'first_options' => [
                             'label' => 'Mot de passe',
-                            'label_attr' =>
-                                [
-                                    'class' => 'form-text text-muted'
+                            'label_attr' => [
+                                    'class' => 'form-text text-muted',
                                 ],
                             'hash_property_path' => 'password',
-                            'attr' =>
-                                [
+                            'attr' => [
                                     'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
                                     'maxlength' => 255,
                                     'autocomplete' => 'new-password',
@@ -204,19 +189,17 @@ class UserType extends AbstractType
                         ],
                     'second_options' => [
                         'label' => 'Confirmez votre mot de passe',
-                        'attr' =>
-                            [
+                        'attr' => [
                                 'maxlength' => 255,
-                                'autocomplete' => 'new-password'
+                                'autocomplete' => 'new-password',
                             ],
-
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                     'constraints' => [
-                        new PasswordRequirements()
+                        new PasswordRequirements(),
                     ],
-                    'required' => false
+                    'required' => false,
                 ]
             );
         } else {
@@ -225,12 +208,11 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'options' =>
-                        [
+                    'options' => [
                             'toggle' => true,
                             'hidden_label' => 'Masquer',
                             'visible_label' => 'Afficher',
-                            'translation_domain' => 'messages'
+                            'translation_domain' => 'messages',
                         ],
                     'first_options' => [
                         'label' => 'Mot de passe',
@@ -238,21 +220,19 @@ class UserType extends AbstractType
                         'hash_property_path' => 'password',
                         'attr' => [
                             'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-
                     ],
                     'second_options' => [
                         'label' => 'Confirmez votre mot de passe',
                         'attr' => ['maxlength' => 255],
-
                     ],
                     'mapped' => false,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                     'constraints' => [
                         new NotBlank(['message' => 'Information requise.']),
-                        new PasswordRequirements()
-                    ]
+                        new PasswordRequirements(),
+                    ],
                 ]
             )
                 ->add(
@@ -265,10 +245,9 @@ class UserType extends AbstractType
                 );
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $form = $event->getForm();
             $user = $event->getData();
-
             if (!$user->getPicture() && !$form->get('uploadPicture')->getData()) {
                 $form->get('uploadPicture')->addError(new FormError('Information requise.'));
             }
@@ -280,7 +259,7 @@ class UserType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => User::class,
-                'edit' => null
+                'edit' => null,
             ]
         );
     }

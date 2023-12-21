@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table()]
 #[ORM\Entity()]
-#[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_transaction")]
+#[ORM\Index(columns: ['author_id', 'created_at', 'token', 'status'], name: 'ecommerce_transaction')]
 #[ORM\HasLifecycleCallbacks()]
 class Transaction
 {
@@ -22,44 +22,38 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection
-     */
-    #[ORM\OneToMany(mappedBy: "transaction", targetEntity: TransactionLine::class, cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionLine::class, cascade: ['persist', 'remove'])]
     private Collection $transactionLines;
 
-    /**
-     * @var TransactionStatus
-     */
-    #[ORM\Column(type: "smallint", enumType: TransactionStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: TransactionStatus::class)]
     private TransactionStatus $status;
 
     /**
-     * Référence de la transaction
+     * Référence de la transaction.
      */
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $reference = null;
 
     /**
-     * Identifiant de paiement
+     * Identifiant de paiement.
      */
     #[ORM\Column(length: 40, nullable: true)]
     private ?string $paymentIntentId = null;
 
     /**
-     * Montant total TTC
+     * Montant total TTC.
      */
     #[ORM\Column(length: 11)]
     private int $totalAmountTtc;
 
     /**
-     * Montant total TVA
+     * Montant total TVA.
      */
     #[ORM\Column(length: 11)]
     private int $totalAmountTva;
 
     /**
-     * Montant total des frais
+     * Montant total des frais.
      */
     #[ORM\Column(length: 11)]
     private int $totalFees;
@@ -91,10 +85,8 @@ class Transaction
 
     public function removeTransactionLine(TransactionLine $transactionLine): self
     {
-        if ($this->transactionLines->removeElement($transactionLine)) {
-            if ($transactionLine->getTransaction() === $this) {
-                $transactionLine->setTransaction(null);
-            }
+        if ($this->transactionLines->removeElement($transactionLine) && $transactionLine->getTransaction() === $this) {
+            $transactionLine->setTransaction(null);
         }
 
         return $this;

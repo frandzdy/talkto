@@ -6,17 +6,16 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Formulaire d'annulation d'une transaction
+ * Formulaire d'annulation d'une transaction.
  */
 class CancelTransactionLineType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,15 +28,12 @@ class CancelTransactionLineType extends AbstractType
                     'required' => true,
                     'constraints' => [
                         new NotBlank(message: 'Information requis'),
-                        new LessThan(value: $options['maxAmount'], message: 'Le montant ne peut être supérieur au montant de la transaction initial.')
-                    ]
+                        new LessThan(value: $options['maxAmount'], message: 'Le montant ne peut être supérieur au montant de la transaction initial.'),
+                    ],
                 ]
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

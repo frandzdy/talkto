@@ -19,20 +19,17 @@ class LoginType extends AbstractType
                 EmailType::class,
                 [
                     'label' => 'Adresse e-mail',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Adresse e-mail',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'constraints' =>
-                        [
+                    'constraints' => [
                             new NotBlank(['message' => 'Information requises.']),
-                            new Email(['message' => 'Information requises.'])
-                        ]
+                            new Email(['message' => 'Information requises.']),
+                        ],
                 ]
             )
             ->add(
@@ -40,19 +37,16 @@ class LoginType extends AbstractType
                 PasswordType::class,
                 [
                     'label' => 'Mot de passe',
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Adresse e-mail',
-                            'maxlength' => 255
+                            'maxlength' => 255,
                         ],
-                    'constraints' =>
-                        [
+                    'constraints' => [
                             new NotBlank(['message' => 'Information requises.']),
-                            new Email(['message' => 'Information requises.'])
+                            new Email(['message' => 'Information requises.']),
                         ],
                     'toggle' => true,
                     'translation_domain' => 'messages',

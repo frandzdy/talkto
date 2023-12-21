@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service;
 
 use App\Entity\Product;
@@ -37,16 +36,14 @@ readonly class StripeManager
         $this->stripe = new StripeClient(
             [
                 'api_key' => $this->stripeParameters['secret_key'],
-                'stripe_version' => '2023-10-16'
+                'stripe_version' => '2023-10-16',
             ]
         );
     }
 
     /**
-     * Création d'un utilisateur
+     * Création d'un utilisateur.
      *
-     * @param User $user
-     * @return Customer|null
      * @throws \Stripe\Exception\ApiErrorException
      */
     public function createCustomer(User $user): ?Customer
@@ -56,17 +53,15 @@ readonly class StripeManager
                 'email' => $user->getEmail(),
                 'name' => $user->getLastname(),
                 'metadata' => [
-                    'id_client' => $user->getId()
-                ]
+                    'id_client' => $user->getId(),
+                ],
             ]
         );
     }
 
     /**
-     *  Création d'un compte commercial
+     *  Création d'un compte commercial.
      *
-     * @param User $user
-     * @return Account|null
      * @throws \Stripe\Exception\ApiErrorException
      */
     public function createAccount(User $user): ?Account
@@ -76,20 +71,17 @@ readonly class StripeManager
                 'type' => 'express',
                 'country' => 'FR',
                 'email' => $user->getEmail(),
-                'capabilities' =>
-                    [
+                'capabilities' => [
                         'card_payments' => ['requested' => true],
-                        'transfers' => ['requested' => true]
+                        'transfers' => ['requested' => true],
                     ],
                 'business_type' => 'individual',
-                'default_currency' => 'EUR'
+                'default_currency' => 'EUR',
             ]
         );
     }
 
     /**
-     * @param User $user
-     * @return AccountLink
      * @throws \Stripe\Exception\ApiErrorException
      */
     public function createAccountLink(User $user): AccountLink
@@ -113,7 +105,7 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne un compte connecté Stripe
+     * Retourne un compte connecté Stripe.
      */
     public function retrieveAccount(User $user): Account
     {
@@ -121,15 +113,15 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne un utilisateur client Stripe
+     * Retourne un utilisateur client Stripe.
      */
-    public function retrieveCustomer($customerId): ?Customer
+    public function retrieveCustomer(string $customerId): ?Customer
     {
         return $this->stripe->customers->retrieve($customerId);
     }
 
     /**
-     * retourne un checkout
+     * retourne un checkout.
      */
     public function retrieveCheckout(string $checkoutId): ?Session
     {
@@ -137,15 +129,11 @@ readonly class StripeManager
     }
 
     /**
-     * Création du paiement
+     * Création du paiement.
      */
     public function createPaymentIntent(array $cart, User $user, Transaction $transaction): PaymentIntent
     {
-        if (!$user->getId()) {
-            $customerId = $this->createCustomer($user)->id;
-        } else {
-            $customerId = $user->getStripeCustomerId();
-        }
+        $customerId = $user->getId() ? $user->getStripeCustomerId() : $this->createCustomer($user)->id;
 
         return $this->stripe->paymentIntents->create(
             [
@@ -154,15 +142,14 @@ readonly class StripeManager
                 'currency' => 'eur',
                 'setup_future_usage' => 'off_session',
                 'transfer_group' => $transaction->getReference(),
-                'receipt_email' => $user->getEmail(),-
-                //'latest_charge' => 'expand',
-                'description' => vsprintf('Réf reented : %s', [$transaction->getReference()])
+                'receipt_email' => $user->getEmail(), // 'latest_charge' => 'expand',
+                'description' => vsprintf('Réf reented : %s', [$transaction->getReference()]),
             ]
         );
     }
 
     /**
-     * Transfert l'argent vers les différents bailleurs après la validation du paiement
+     * Transfert l'argent vers les différents bailleurs après la validation du paiement.
      */
     public function transferPaymentIntentToLessor(PaymentIntent $paymentIntent, Transaction $transaction): void
     {
@@ -172,14 +159,14 @@ readonly class StripeManager
              */
             $product = $transactionLine->getProduct();
             $renter = $transactionLine->getProduct()->getAuthor();
-            $numberDays = $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days === 0
+            $numberDays = 0 === $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days
                 ? 1
                 : $transactionLine->getStartDate()->diff($transactionLine->getEndDate())->days;
             $transfer = $this->stripe->transfers->create(
                 [
-                    'amount' => ((int)$product->getAmount()
-                            * (int)$transactionLine->getQuantity()
-                            * (int)$numberDays) * 100,
+                    'amount' => ((int) $product->getAmount()
+                            * (int) $transactionLine->getQuantity()
+                            * (int) $numberDays) * 100,
                     'currency' => 'eur',
                     'destination' => $renter->getStripeAccountId(),
                     'source_transaction' => $paymentIntent->latest_charge,
@@ -189,38 +176,38 @@ readonly class StripeManager
                         'productName' => $product->getTitle(),
                         'startDate' => $transactionLine->getStartDate()->format('Y-m-d'),
                         'endDate' => $transactionLine->getEndDate()->format('Y-m-d'),
-                        'quantity' => $transactionLine->getQuantity()
-                    ]
+                        'quantity' => $transactionLine->getQuantity(),
+                    ],
                 ]
             );
             $transactionLine->setTransfertId($transfer->id);
             //  on prend la caution sur chaque paiement
-//            $cautionIntent = $this->stripe->paymentIntents->create(
-//                [
-//                    'amount' => (int)$product->getCaution() * 100,
-//                    'customer' => $transaction->getAuthor()->getStripeCustomerId(), // $customerId
-//                    'currency' => 'eur',
-//                    'automatic_payment_methods' => ['enabled' => true],
-//                    'expand' => ['latest_charge'],
-//                    'payment_method_options' =>
-//                        [
-//                            'card' =>
-//                                [
-//                                    'capture_method' => 'manuel',
-//                                    'request_extended_authorization' => 'if_available'
-//                                ]
-//                        ],
-//                    'confirm' => true,
-//                    'receipt_email' => $transaction->getAuthor()->getEmail(),
-//                    'description' => sprintf('Caution Reented : Ref %s', $transaction->getReference())
-//                ]
-//            );
-//            $transactionLine->setCautionId($cautionIntent->id);
+            //            $cautionIntent = $this->stripe->paymentIntents->create(
+            //                [
+            //                    'amount' => (int)$product->getCaution() * 100,
+            //                    'customer' => $transaction->getAuthor()->getStripeCustomerId(), // $customerId
+            //                    'currency' => 'eur',
+            //                    'automatic_payment_methods' => ['enabled' => true],
+            //                    'expand' => ['latest_charge'],
+            //                    'payment_method_options' =>
+            //                        [
+            //                            'card' =>
+            //                                [
+            //                                    'capture_method' => 'manuel',
+            //                                    'request_extended_authorization' => 'if_available'
+            //                                ]
+            //                        ],
+            //                    'confirm' => true,
+            //                    'receipt_email' => $transaction->getAuthor()->getEmail(),
+            //                    'description' => sprintf('Caution Reented : Ref %s', $transaction->getReference())
+            //                ]
+            //            );
+            //            $transactionLine->setCautionId($cautionIntent->id);
         }
     }
 
     /**
-     * Ajout ou mets à jour une ligne de transaction
+     * Ajout ou mets à jour une ligne de transaction.
      */
     public function addOrUpdateTransactionLine($products, Transaction $transaction): array
     {
@@ -232,12 +219,12 @@ readonly class StripeManager
 
         foreach ($products as $token => $cart) {
             $product = $this->em->getRepository(Product::class)->findOneBy(['token' => $token]);
-            if (str_contains($cart['flatpickrDate'], 'au')) {
-                $reservationDate = explode(' au ', $cart['flatpickrDate']);
+            if (str_contains((string) $cart['flatpickrDate'], 'au')) {
+                $reservationDate = explode(' au ', (string) $cart['flatpickrDate']);
             } else {
                 $reservationDate = [
                     0 => $cart['flatpickrDate'],
-                    1 => $cart['flatpickrDate']
+                    1 => $cart['flatpickrDate'],
                 ];
             }
 
@@ -270,7 +257,7 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne un paiement
+     * Retourne un paiement.
      */
     public function retrievePaymentIntent(string $paymenIntentId): PaymentIntent
     {
@@ -278,9 +265,9 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne un paiement
+     * Retourne un paiement.
      */
-    public function retrieveCharge(?string $chargeId = null): ?Charge
+    public function retrieveCharge(string $chargeId = null): ?Charge
     {
         if ($chargeId) {
             return $this->stripe->charges->retrieve($chargeId);
@@ -290,7 +277,7 @@ readonly class StripeManager
     }
 
     /**
-     * Effectue un remboursement complèt pour une ligne de transaction
+     * Effectue un remboursement complèt pour une ligne de transaction.
      */
     public function refundTransactionLine(TransactionLine $transactionLine): Refund
     {
@@ -301,6 +288,7 @@ readonly class StripeManager
         );
         $transactionLine->setCancelTransfertId($transfertReversal->id)
             ->setCancelAmount($transactionLine->getAmountTtc());
+
         // On annule le paiement effectué par le locataire
         return $this->stripe->refunds->create(
             [
@@ -311,7 +299,7 @@ readonly class StripeManager
     }
 
     /**
-     * Créer une transaction avec les informations du panier
+     * Créer une transaction avec les informations du panier.
      */
     public function createTransaction(array &$carts, User $user): array
     {
@@ -323,7 +311,7 @@ readonly class StripeManager
             $this->em->persist($transaction);
             $this->em->flush();
             $transaction->setReference(
-                sprintf('#REF_%s', str_pad((string)$transaction->getId(), 6, '0', STR_PAD_LEFT))
+                sprintf('#REF_%s', str_pad((string) $transaction->getId(), 6, '0', STR_PAD_LEFT))
             );
             $paymentIntent = $this->createPaymentIntent($carts, $user, $transaction);
             $transaction->setPaymentIntentId($paymentIntent->id);
@@ -336,6 +324,7 @@ readonly class StripeManager
                 $transaction->removeTransactionLine($transactionLine);
                 $this->em->remove($transactionLine);
             }
+
             $this->em->flush();
 
             // mettre à jour aussi la transaction
@@ -350,7 +339,7 @@ readonly class StripeManager
     }
 
     /**
-     * Annule un transfert vers un compte connecté partiellement ou complèt
+     * Annule un transfert vers un compte connecté partiellement ou complèt.
      */
     public function cancelTranfert(string $transfertId, $amount): TransferReversal
     {
@@ -361,19 +350,19 @@ readonly class StripeManager
     }
 
     /**
-     * Annule un transfert vers un compte connecté partiellement ou complèt
+     * Annule un transfert vers un compte connecté partiellement ou complèt.
      */
     public function caution(TransactionLine $transactionLine, $amount): PaymentIntent
     {
         $intent = $this->retrievePaymentIntent($transactionLine->getCautionId());
 
-        if ($intent->status === 'requires_capture') {
+        if ('requires_capture' === $intent->status) {
             $intent->capture(
                 [
-                    'amount_to_capture' => $amount * 100
+                    'amount_to_capture' => $amount * 100,
                 ]
             );
-            if ($intent->status === 'succeeded') {
+            if ('succeeded' === $intent->status) {
                 $transfer = $this->stripe->transfers->create(
                     [
                         'amount' => $amount * 100,
@@ -391,7 +380,7 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne le lien de la facture
+     * Retourne le lien de la facture.
      */
     public function getInvoice(Transaction $transaction): ?string
     {
@@ -401,7 +390,7 @@ readonly class StripeManager
     }
 
     /**
-     * Retourne le lien vers le compte client STRIPE
+     * Retourne le lien vers le compte client STRIPE.
      */
     public function getAccountLink(User $lessor): LoginLink
     {

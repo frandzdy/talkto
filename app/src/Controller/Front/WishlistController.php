@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted("IS_AUTHENTICATED_FULLY")]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class WishlistController extends AbstractController
 {
     #[Route('/favoris', name: 'wishlist_index', methods: ['GET'])]
@@ -20,7 +20,7 @@ class WishlistController extends AbstractController
     {
         $wishlists = $em->getRepository(Wishlist::class)->findBy(['user' => $this->getUser()->getId()]);
 
-        return $this->render('front/wishlist/index.html.twig', compact('wishlists'));
+        return $this->render('front/wishlist/index.html.twig', ['wishlists' => $wishlists]);
     }
 
     #[Route('/favoris/ajout/{token}', name: 'wishlist_add', options: ['expose' => true], methods: ['POST'])]
@@ -40,12 +40,12 @@ class WishlistController extends AbstractController
 
             $em->persist($wishlist);
             $em->flush();
-            $this->addFlash('success', $wishlist->getProduct()->getTitle() . ' a été ajouté.');
+            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été ajouté.');
 
             return $this->redirect($referer);
         }
 
-        $this->addFlash('error', 'Erreur lors de l\'ajout.');
+        $this->addFlash('error', "Erreur lors de l'ajout.");
 
         return $this->redirect($referer);
     }
@@ -61,13 +61,14 @@ class WishlistController extends AbstractController
         $referer = $request->headers->get('referer');
 
         if ($wishlist->getUser() === $this->getUser()) {
-            $this->addFlash('success', $wishlist->getProduct()->getTitle() . ' a été supprimé.');
+            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été supprimé.');
             $em->remove($wishlist);
             $em->flush();
 
             return $this->redirect($referer);
         }
-        $this->addFlash('error', $wishlist->getProduct()->getTitle() . 'Erreur lors de la suppression.');
+
+        $this->addFlash('error', $wishlist->getProduct()->getTitle().'Erreur lors de la suppression.');
 
         return $this->redirect($referer);
     }

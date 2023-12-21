@@ -4,13 +4,10 @@ namespace App\Service;
 
 use App\Entity\Picture;
 use App\Entity\WebsiteContent;
-use App\Model\ContactModel;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
-use Psr\Log\LoggerInterface;
 
 /**
- * Gestion de la home page
+ * Gestion de la home page.
  */
 readonly class HomePageManager
 {
@@ -21,15 +18,15 @@ readonly class HomePageManager
     }
 
     /**
-     * Enregistre une home page
+     * Enregistre une home page.
      */
     public function saveHomePage($homePage): void
     {
         $em = $this->em;
         $fileUploadManager = $this->fileUploadManager;
         $homePage->getWebsiteContents()->map(
-            function (WebsiteContent $websiteContent) use ($em, $homePage, $fileUploadManager) {
-                if ($websiteContent->getUploadedPicture()) {
+            static function (WebsiteContent $websiteContent) use ($em, $fileUploadManager): void {
+                if ($websiteContent->getUploadedPicture() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
                     $filename = $fileUploadManager->uploadFile('home_page', $websiteContent->getUploadedPicture());
                     $picture = (new Picture())->setName($filename);
                     $websiteContent->setPicture($picture);

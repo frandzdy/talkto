@@ -6,10 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait TraitPositionable
 {
-    /**
-     * @var int
-     */
-    #[ORM\Column(type: "smallint")]
+    #[ORM\Column(type: 'smallint')]
     private int $position;
 
     public function getPosition(): int

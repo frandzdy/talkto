@@ -24,15 +24,13 @@ class ContactType extends AbstractType
                 TextType::class,
                 [
                     'label' => false,
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'maxlength' => 100,
-                            'placeholder' => 'Prénom *'
-                        ]
+                            'placeholder' => 'Prénom *',
+                        ],
                 ]
             )
             ->add(
@@ -40,15 +38,13 @@ class ContactType extends AbstractType
                 TextType::class,
                 [
                     'label' => false,
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'maxlength' => 100,
-                            'placeholder' => 'Nom *'
-                        ]
+                            'placeholder' => 'Nom *',
+                        ],
                 ]
             )
             ->add(
@@ -56,15 +52,13 @@ class ContactType extends AbstractType
                 EmailType::class,
                 [
                     'label' => false,
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'maxlength' => 255,
-                            'placeholder' => 'E-mail *'
-                        ]
+                            'placeholder' => 'E-mail *',
+                        ],
                 ]
             )
             ->add(
@@ -74,7 +68,7 @@ class ContactType extends AbstractType
                     'label' => false,
                     'attr' => ['class' => 'custom-select'],
                     'choices' => array_flip(ContactSubject::getAvailableContactSubjects()),
-                    'placeholder' => '-- Sélectionnez un sujet --'
+                    'placeholder' => '-- Sélectionnez un sujet --',
                 ]
             )
             ->add(
@@ -82,16 +76,14 @@ class ContactType extends AbstractType
                 TextareaType::class,
                 [
                     'label' => false,
-                    'label_attr' =>
-                        [
-                            'class' => 'form-label'
+                    'label_attr' => [
+                            'class' => 'form-label',
                         ],
-                    'attr' =>
-                        [
+                    'attr' => [
                             'style' => 'height: 200px;resize:none;',
                             'maxlength' => 400,
                             'placeholder' => 'Laissez nous un message *',
-                        ]
+                        ],
                 ]
             );
     }

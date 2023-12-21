@@ -23,16 +23,16 @@ readonly class MailerManager
     }
 
     /**
-     * Envoi un email
+     * Envoi un email.
      */
     public function sendMailNotification(
         array|string $to,
         string $templateAlias,
-        ?array $vars = array(),
-        ?array $pathAttachmentFiles = array(),
-        ?string $replyTo = null,
-        ?array $bccs = array(),
-        ?array $ccs = array()
+        ?array $vars = [],
+        ?array $pathAttachmentFiles = [],
+        string $replyTo = null,
+        ?array $bccs = [],
+        ?array $ccs = []
     ): void {
         $template = $this->environment->load($templateAlias);
 
@@ -56,13 +56,14 @@ readonly class MailerManager
             $email->replyTo(new Address($replyTo));
         }
 
-        $email->subject($prepend . $subject)
+        $email->subject($prepend.$subject)
             ->text($textBody)
             ->html($htmlBody);
 
         foreach ($bccs as $bcc) {
             $email->addBcc(new Address($bcc));
         }
+
         foreach ($ccs as $cc) {
             $email->addCc(new Address($cc));
         }
@@ -73,11 +74,11 @@ readonly class MailerManager
 
         try {
             $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $this->emailLogger->error('[EMAIL] Erreur lors de l\'envoie : ', [
+        } catch (TransportExceptionInterface $transportException) {
+            $this->emailLogger->error("[EMAIL] Erreur lors de l'envoie : ", [
                     'to' => $to,
                     'subject' => $subject,
-                    'message' => $e->getMessage()
+                    'message' => $transportException->getMessage(),
                 ]
             );
         }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller\Front;
 
 use App\Form\Front\ContactType;
@@ -23,7 +22,7 @@ class ContactController extends AbstractController
         MailerManager $mailerManager,
         string $emailSupport
     ): Response {
-        if ($this->getUser()) {
+        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $contact = $contactManager->initializeContact(
                 $this->getUser()->getEmail(),
                 $this->getUser()->getLastname(),
@@ -32,10 +31,11 @@ class ContactController extends AbstractController
         } else {
             $contact = new ContactModel();
         }
+
         $form = $this->createForm(ContactType::class, $contact);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $vars = [
-                'contact' => $contact
+                'contact' => $contact,
             ];
             $mailerManager->sendMailNotification(
                 $emailSupport,

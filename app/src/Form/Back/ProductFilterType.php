@@ -10,12 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Filtre du menu produit
+ * Filtre du menu produit.
  */
 class ProductFilterType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -27,12 +27,11 @@ class ProductFilterType extends AbstractType
                 [
                     'label' => false,
                     'required' => false,
-                    'attr' =>
-                        [
+                    'attr' => [
                             'placeholder' => 'Titre, description ou propriétaire',
                             'style' => 'width: 53%;',
-                            'class' => 'float-right'
-                        ]
+                            'class' => 'float-right',
+                        ],
                 ]
             )
             ->add(
@@ -42,18 +41,14 @@ class ProductFilterType extends AbstractType
                     'class' => ProductStatus::class,
                     'label' => false,
                     'choice_label' => 'label',
-                    'attr' =>
-                        [
+                    'attr' => [
                         'style' => 'width: 38%;',
-                        'class' => 'float-right'
-                        ]
+                        'class' => 'float-right',
+                        ],
                 ]
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

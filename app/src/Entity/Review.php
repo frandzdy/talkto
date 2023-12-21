@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Enum\ReservationStatus;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-#[ORM\Index(columns: ["product_id", "author_id", "created_at", "note"], name: "ecommerce_review")]
+#[ORM\Index(columns: ['product_id', 'author_id', 'created_at', 'note'], name: 'ecommerce_review')]
 #[ORM\HasLifecycleCallbacks]
 class Review
 {
@@ -21,20 +20,17 @@ class Review
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Product
-     */
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'reviews')]
     private Product $product;
 
     /**
-     * Note sur 5
+     * Note sur 5.
      */
     #[ORM\Column(type: Types::INTEGER)]
     private int $note;
 
     /**
-     * Message
+     * Message.
      */
     #[ORM\Column(type: Types::STRING)]
     private string $message;
@@ -44,17 +40,11 @@ class Review
         return $this->id;
     }
 
-    /**
-     * @return Product
-     */
     public function getProduct(): Product
     {
         return $this->product;
     }
 
-    /**
-     * @param Product $product
-     */
     public function setProduct(Product $product): self
     {
         $this->product = $product;

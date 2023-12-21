@@ -2,9 +2,7 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Checkin;
 use App\Entity\Reservation;
-use App\Enum\CheckinType;
 use App\Repository\ReservationRepository;
 use App\Repository\TransactionLineRepository;
 use App\Service\StripeManager;
@@ -14,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted("IS_AUTHENTICATED_FULLY")]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class ReservationController extends AbstractController
 {
     #[Route('/reservation/{token}', name: 'reservation_show', methods: ['GET'])]
@@ -22,7 +20,7 @@ class ReservationController extends AbstractController
     {
         $reservation = $reservationRepository->findOneBy(['token' => $token]);
 
-        return $this->render('front/reservation/show.html.twig', compact('reservation'));
+        return $this->render('front/reservation/show.html.twig', ['reservation' => $reservation]);
     }
 
     #[Route('/reservation-bailleur/{token}', name: 'reservation_line_show', methods: ['GET'])]
@@ -34,13 +32,13 @@ class ReservationController extends AbstractController
         $transactionLine = $transactionLineRepository->findOneBy(['token' => $token]);
         $reservation = $reservationRepository->findOneBy(['transaction' => $transactionLine->getTransaction()]);
 
-        return $this->render('front/reservation/line-show.html.twig', compact('reservation', 'transactionLine'));
+        return $this->render('front/reservation/line-show.html.twig', ['reservation' => $reservation, 'transactionLine' => $transactionLine]);
     }
 
     /**
-     * Affiche le lien de la facture
+     * Affiche le lien de la facture.
      */
-    #[Route(path: '/reservation-facture/{token}', name: "user_invoice", methods: ["GET"])]
+    #[Route(path: '/reservation-facture/{token}', name: 'user_invoice', methods: ['GET'])]
     public function generateInvoice(string $token, StripeManager $stripeManager, EntityManagerInterface $em): void
     {
         $reservation = $em->getRepository(Reservation::class)->findOneBy(['token' => $token]);

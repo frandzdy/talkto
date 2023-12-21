@@ -8,7 +8,7 @@ use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Repo des contributeurs
+ * Repo des contributeurs.
  *
  * @method Contributor|null find($id, $lockMode = null, $lockVersion = null)
  * @method Contributor|null findOneBy(array $criteria, array $orderBy = null)
@@ -26,7 +26,7 @@ class ContributorRepository extends ServiceEntityRepository
     }
 
     /**
-     * Construit une requête de recherche
+     * Construit une requête de recherche.
      */
     public function buildSearchQuery(array $filters = []): Query
     {
@@ -36,7 +36,7 @@ class ContributorRepository extends ServiceEntityRepository
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere('c.email LIKE :term OR c.fullname LIKE :term')
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         }
 
         $builder->orderBy('c.fullname', 'ASC');

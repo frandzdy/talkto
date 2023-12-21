@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ChatController extends AbstractController
 {
     #[Route('/chat/{token}/{transactionLineToken}', name: 'chat_index', methods: ['GET', 'POST'])]
-    #[IsGranted("IS_AUTHENTICATED_FULLY")]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function chat(
         string $token,
         string $transactionLineToken,
@@ -53,7 +53,7 @@ class ChatController extends AbstractController
                 [
                     'message' => $message->getMessage(),
                     'sender' => $rented,
-                    'receiver' => $lessor
+                    'receiver' => $lessor,
                 ]
             );
             // envoyer une notification pour le message
@@ -63,17 +63,18 @@ class ChatController extends AbstractController
                 [
                     'message' => $message->getMessage(),
                     'sender' => $lessor,
-                    'receiver' => $rented
+                    'receiver' => $rented,
                 ]
             );
 
             $messages[] = [$message];
         }
+
         $submittedToken = $request->request->get('_token');
         $message = $request->request->get('message');
         $error = false;
         $submit = false;
-        if ($message && $this->isCsrfTokenValid('addMessage' . $user->getId(), $submittedToken)) {
+        if ($message && $this->isCsrfTokenValid('addMessage'.$user->getId(), $submittedToken)) {
             $message = (new Message())
                 ->setMessage($message)
                 ->setAuthor($user)
@@ -92,24 +93,14 @@ class ChatController extends AbstractController
             );
             $submit = true;
             $messages = $em->getRepository(Message::class)->findBy(['reservation' => $reservation]);
-        } elseif ($this->isCsrfTokenValid('addMessage' . $user->getId(), $submittedToken) && !$message) {
+        } elseif ($this->isCsrfTokenValid('addMessage'.$user->getId(), $submittedToken) && !$message) {
             $error = true;
             $this->addFlash('error', 'Message nécessaire.');
         }
 
         return $this->render(
             'front/chat/index.html.twig',
-            compact(
-                'messages',
-                'user',
-                'token',
-                'transactionLineToken',
-                'error',
-                'product',
-                'rented',
-                'lessor',
-                'submit'
-            )
+            ['messages' => $messages, 'user' => $user, 'token' => $token, 'transactionLineToken' => $transactionLineToken, 'error' => $error, 'product' => $product, 'rented' => $rented, 'lessor' => $lessor, 'submit' => $submit]
         );
     }
 }

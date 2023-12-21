@@ -5,13 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Génère un token pour plus de sécurité
+ * Génère un token pour plus de sécurité.
  */
 trait TraitToken
 {
-    /**
-     * @var string|null
-     */
     #[ORM\Column(length: 255)]
     private ?string $token = null;
 

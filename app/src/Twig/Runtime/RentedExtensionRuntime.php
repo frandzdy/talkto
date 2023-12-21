@@ -22,7 +22,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * Retourne la liste des catégories des produits afin de l'afficher par tout dans les vues Twig
+     * Retourne la liste des catégories des produits afin de l'afficher par tout dans les vues Twig.
      */
     public function getProductCategories(): array
     {
@@ -30,7 +30,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * Retourne le nombre de réclamations dans twig
+     * Retourne le nombre de réclamations dans twig.
      */
     public function numberClaims(): int
     {
@@ -38,7 +38,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * Retourne le nombre de réclamations dans twig
+     * Retourne le nombre de réclamations dans twig.
      */
     public function numberProductToValidate(): int
     {
@@ -46,7 +46,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * Retourne entre deux personnes
+     * Retourne entre deux personnes.
      */
     public function getDistance(User $renter, User $lessor): ?float
     {

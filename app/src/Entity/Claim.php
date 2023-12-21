@@ -3,18 +3,12 @@
 namespace App\Entity;
 
 use App\Enum\ClaimStatus;
-use App\Enum\ReservationStatus;
-use App\Enum\TransactionLineStatus;
-use App\Repository\CheckinRepository;
 use App\Repository\ClaimRepository;
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ClaimRepository::class)]
-#[ORM\Index(columns: ["status", "checkin_id"], name: "ecommerce_claim")]
+#[ORM\Index(columns: ['status', 'checkin_id'], name: 'ecommerce_claim')]
 #[ORM\HasLifecycleCallbacks()]
 class Claim
 {
@@ -28,7 +22,7 @@ class Claim
     #[ORM\ManyToOne(targetEntity: Checkin::class, inversedBy: 'claims')]
     private ?Checkin $checkin = null;
 
-    #[ORM\Column(type: "smallint", enumType: ClaimStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: ClaimStatus::class)]
     private ClaimStatus $status;
 
     public function getId(): ?int

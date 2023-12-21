@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Civilités
+ * Civilités.
  */
 enum Civility: int
 {
@@ -19,7 +19,7 @@ enum Civility: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

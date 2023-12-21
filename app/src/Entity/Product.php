@@ -12,11 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use function Symfony\Component\Translation\t;
-
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ORM\Index(columns: ["status", "short_description", "title", "category"], name: "ecommerce_products")]
+#[ORM\Index(columns: ['status', 'short_description', 'title', 'category'], name: 'ecommerce_products')]
 #[ORM\HasLifecycleCallbacks()]
 class Product
 {
@@ -29,33 +27,20 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var float|null
-     */
     #[ORM\Column(scale: 2)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private ?float $amount = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private ?string $shortDescription = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private ?string $description = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $pictures;
-
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $reviews;
@@ -68,55 +53,38 @@ class Product
             maxSize: '10M',
             mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
             detectCorrupted: true,
-            maxSizeMessage: "Document trop lourd. (10Mo)",
-            mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
+            maxSizeMessage: 'Document trop lourd. (10Mo)',
+            mimeTypesMessage: 'Format image uniquement autorisé. (PNG/JPG)',
             corruptedMessage: 'Fichier corrompue',
             groups: ['creation', 'edit']
         )
     )]
     public array $uploadedPictures = [];
+
     public ?string $handleError = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private ?string $title = null;
 
-    /**
-     * @var ProductStatus
-     */
-    #[ORM\Column(type: "smallint", enumType: ProductStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: ProductStatus::class)]
     private ProductStatus $status;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private float $caution;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(length: 11)]
-    #[Assert\NotBlank(message: "Information requise.", groups: ['creation', 'edit'])]
+    #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private int $quantity;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(length: 11)]
     private ?int $quantityAllReadyReserved = null;
 
-    /**
-     * @var ProductCategory
-     */
-    #[ORM\Column(type: "smallint", enumType: ProductCategory::class)]
+    #[ORM\Column(type: 'smallint', enumType: ProductCategory::class)]
     private ProductCategory $category;
 
-    # Uniquement pour envoyer ce message par email
+    // Uniquement pour envoyer ce message par email
     public ?string $responseRejected = null;
 
     #[ORM\Column(type: Types::INTEGER, length: 11)]

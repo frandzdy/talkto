@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Enum\CheckinType;
 use App\Enum\CheckinStatus;
+use App\Enum\CheckinType;
 use App\Repository\CheckinRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: CheckinRepository::class)]
-#[ORM\Index(columns: ["status", "type", "start_date"], name: "ecommerce_checkin")]
+#[ORM\Index(columns: ['status', 'type', 'start_date'], name: 'ecommerce_checkin')]
 class Checkin
 {
     use TraitToken;
@@ -28,15 +28,12 @@ class Checkin
     #[ORM\ManyToOne(targetEntity: TransactionLine::class, inversedBy: 'checkins')]
     private TransactionLine $transactionLine;
 
-    #[ORM\Column(type: "smallint", enumType: CheckinType::class)]
+    #[ORM\Column(type: 'smallint', enumType: CheckinType::class)]
     private CheckinType $type;
 
-    #[ORM\Column(type: "smallint", enumType: CheckinStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: CheckinStatus::class)]
     private CheckinStatus $status = CheckinStatus::VALIDATE;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $pictures;
 
@@ -48,17 +45,15 @@ class Checkin
             maxSize: '10M',
             mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
             detectCorrupted: true,
-            maxSizeMessage: "Document trop lourd. (10Mo)",
-            mimeTypesMessage: "Format image uniquement autorisé. (PNG/JPG)",
+            maxSizeMessage: 'Document trop lourd. (10Mo)',
+            mimeTypesMessage: 'Format image uniquement autorisé. (PNG/JPG)',
             corruptedMessage: 'Fichier corrompue.'
         )
     )]
     public array $uploadedPictures = [];
+
     public ?string $handleError = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comments = null;
 
@@ -67,7 +62,7 @@ class Checkin
 
     #[ORM\OneToMany(mappedBy: 'checkin', targetEntity: Claim::class, cascade: [
         'persist',
-        'remove'
+        'remove',
     ], orphanRemoval: true)]
     private Collection $claims;
 
@@ -182,10 +177,8 @@ class Checkin
 
     public function removeClaim(Claim $claim): self
     {
-        if ($this->claims->removeElement($claim)) {
-            if ($this === $claim->getCheckin()) {
-                $claim->setCheckin(null);
-            }
+        if ($this->claims->removeElement($claim) && $this === $claim->getCheckin()) {
+            $claim->setCheckin(null);
         }
 
         return $this;

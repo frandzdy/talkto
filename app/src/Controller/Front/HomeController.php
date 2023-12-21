@@ -16,28 +16,28 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Cache(maxage: 3600)]
 class HomeController extends AbstractController
 {
-    public const HOME_PAGE_ID = 1;
+    final public const HOME_PAGE_ID = 1;
 
     #[Route('/', name: 'home')]
     public function index(EntityManagerInterface $em, SessionInterface $session): Response
     {
         $user = $this->getUser();
-        $lat = $user ? $user->getLat() : $session->get('lat');
-        $lon = $user ? $user->getLon() : $session->get('lon');
+        $lat = $user instanceof \Symfony\Component\Security\Core\User\UserInterface ? $user->getLat() : $session->get('lat');
+        $lon = $user instanceof \Symfony\Component\Security\Core\User\UserInterface ? $user->getLon() : $session->get('lon');
         // dans la homepage on récupère Slider, sous slide et bande bas
         $homePage = $em->getRepository(HomePage::class)->findOneBy(['id' => self::HOME_PAGE_ID]);
         $trends = $em->getRepository(Product::class)->getTrends($lat, $lon, maxResult: 6);
         $latestProducts = $em->getRepository(Product::class)->getLatestProducts($lat, $lon);
         $topSales = $em->getRepository(TransactionLine::class)->getTopSales($lat, $lon);
 
-        return $this->render('front/home/index.html.twig', compact('homePage', 'trends', 'latestProducts', 'topSales'));
+        return $this->render('front/home/index.html.twig', ['homePage' => $homePage, 'trends' => $trends, 'latestProducts' => $latestProducts, 'topSales' => $topSales]);
     }
 
     /**
      * Génère le sitemap du site.
      */
     #[Route('/sitemap.{_format}', name: 'sitemap', requirements: ['_format' => 'xml'])]
-    public function siteMap(SiteMapManager $siteMapManager)
+    public function siteMap(SiteMapManager $siteMapManager): Response
     {
         return $this->render(
             'front/home/sitemap.xml.twig',

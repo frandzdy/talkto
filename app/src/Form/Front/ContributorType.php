@@ -11,12 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Edition d'utilisateurs BO
+ * Edition d'utilisateurs BO.
  */
 class ContributorType extends AbstractType
 {
     /**
-     * <@inheritDoc>
+     * <@inheritDoc>.
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,7 +28,7 @@ class ContributorType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Nom / Prénom',
-                    'attr' => ['maxlength' => 255]
+                    'attr' => ['maxlength' => 255],
                 ]
             )
             ->add(
@@ -36,7 +36,7 @@ class ContributorType extends AbstractType
                 EmailType::class,
                 [
                     'label' => 'Email',
-                    'attr' => ['maxlength' => 255]
+                    'attr' => ['maxlength' => 255],
                 ]
             )
             ->add(
@@ -46,28 +46,23 @@ class ContributorType extends AbstractType
                     'type' => PasswordType::class,
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                     'required' => count($options['validation_groups']) > 1,
-                    'options' =>
-                        [
+                    'options' => [
                             'toggle' => true,
                             'hidden_label' => 'Masquer',
                             'visible_label' => 'Afficher',
-                            'translation_domain' => 'messages'
+                            'translation_domain' => 'messages',
                         ],
-                    'first_options' =>
-                        [
+                    'first_options' => [
                             'label' => 'Mot de passe',
-                            'attr' =>
-                                [
+                            'attr' => [
                                     'placeholder' => 'Au moins 8 caractères, lettres, 1 chiffre, 1 symbole',
-                                    'maxlength' => 255
+                                    'maxlength' => 255,
                                 ],
                         ],
-                    'second_options' =>
-                        [
+                    'second_options' => [
                             'label' => 'Confirmation du mot de passe',
-                            'attr' =>
-                                [
-                                    'maxlength' => 255
+                            'attr' => [
+                                    'maxlength' => 255,
                                 ],
                         ],
                     'constraints' => [new PasswordRequirements()],

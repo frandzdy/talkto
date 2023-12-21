@@ -3,7 +3,7 @@
 namespace App\Enum;
 
 /**
- * Lien vers différentes vues
+ * Lien vers différentes vues.
  */
 enum Link: int
 {
@@ -21,7 +21,7 @@ enum Link: int
     }
 
     /**
-     * Affiche le label de l'item
+     * Affiche le label de l'item.
      */
     public function label(): ?string
     {

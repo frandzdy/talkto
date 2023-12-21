@@ -42,7 +42,7 @@ class WebhookStripeController extends AbstractController
             $event = Event::constructFrom(
                 json_decode($payload, true)
             );
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Invalid payload
             return new Response('⚠️  Webhook error while parsing basic request.', 400);
         }
@@ -59,7 +59,7 @@ class WebhookStripeController extends AbstractController
                     $sig_header,
                     $endpoint_secret
                 );
-            } catch (SignatureVerificationException $e) {
+            } catch (SignatureVerificationException) {
                 // Invalid signature
                 return new Response('⚠️  Webhook error while validating signature.', 400);
             }
@@ -67,7 +67,7 @@ class WebhookStripeController extends AbstractController
 
         // Handle the event
         switch ($event->type) {
-            /**
+            /*
              * @var User $user
              */
             case 'payment_intent.succeeded':
@@ -87,6 +87,7 @@ class WebhookStripeController extends AbstractController
                         $product->getQuantityAllReadyReserved() + $transactionLine->getQuantity()
                     );
                 }
+
                 $reservation = (new Reservation())
                     ->setTransaction($transaction)
                     ->setStatus(ReservationStatus::PENDING)
@@ -99,7 +100,7 @@ class WebhookStripeController extends AbstractController
                     'emails/reservation_validation.html.twig',
                     [
                         'user' => $transaction->getAuthor(),
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
                     ]
                 );
                 // notification du bailleur
@@ -108,7 +109,7 @@ class WebhookStripeController extends AbstractController
                         $transactionLine->getProduct()->getAuthor()->getEmail(),
                         'emails/lessor_reservation_validation.html.twig',
                         [
-                            'seller' => strtoupper($transactionLine->getProduct()->getAuthor()->getFirstname()),
+                            'seller' => strtoupper((string) $transactionLine->getProduct()->getAuthor()->getFirstname()),
                             'buyer' => strtoupper($transaction->getAuthor()->getFullname()),
                             'title' => $transactionLine->getProduct()->getTitle(),
                             'startDate' => $transactionLine->getStartDate()->format('d/m/Y'),
@@ -118,10 +119,11 @@ class WebhookStripeController extends AbstractController
                             'link' => $this->generateUrl(
                                 'front_reservation_line_show',
                                 ['token' => $transactionLine->getToken(), UrlGeneratorInterface::ABSOLUTE_URL]
-                            )
+                            ),
                         ]
                     );
                 }
+
                 break;
             case 'payment_intent.canceled':
             case 'payment_intent.payment_failed':
@@ -131,7 +133,7 @@ class WebhookStripeController extends AbstractController
                 $transaction->setStatus(TransactionStatus::CANCELED);
                 $em->flush();
                 break;
-            // Unhandled event type
+                // Unhandled event type
             default:
                 // Unexpected event type
                 return new Response('non', Response::HTTP_BAD_REQUEST);

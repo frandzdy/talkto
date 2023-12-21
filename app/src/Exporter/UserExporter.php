@@ -8,19 +8,19 @@ use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
- * Exporteur des données liées à une personne
+ * Exporteur des données liées à une personne.
  */
 class UserExporter
 {
-    public const FORMAT = [
+    final public const FORMAT = [
         'xlsx' => [
             'format' => 'xlsx',
-            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         ],
         'csv' => ['format' => 'csv', 'mimeType' => 'text/csv'],
     ];
 
-    public const EXTRACT_HEADER = [
+    final public const EXTRACT_HEADER = [
         'A' => 'Nom',
         'B' => 'Prénom',
         'C' => 'Email',
@@ -28,62 +28,62 @@ class UserExporter
     ];
 
     /**
-     * Génération d'un export des utilisateurs au format xlsx
+     * Génération d'un export des utilisateurs au format xlsx.
      */
     public function exportAsXLSX(array $users, string $filename = 'user_mailing_list'): void
     {
-        $this->export($users, 'xlsx', $filename);
+        $this->export($users, 'xlsx');
     }
 
     /**
-     * Génération d'un export des utilisateurs au format xlsx
+     * Génération d'un export des utilisateurs au format xlsx.
      */
     public function exportAsCSV(array $users, string $filename = 'user_mailing_list'): void
     {
-        $this->export($users, 'csv', $filename);
+        $this->export($users, 'csv');
     }
 
     /**
-     * Export
+     * Export.
      */
-    private function export(array $users, string $fileType, string $filename = 'user_mailing_list'): void
+    private function export(array $users, string $fileType): void
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         $this->initializeHeader($sheet);
         $this->initializeBody($sheet, $users);
-        $this->saveFile($spreadsheet, $fileType, $filename);
+        $this->saveFile($spreadsheet, $fileType);
     }
 
     /**
-     * Initialisation des entêtes
+     * Initialisation des entêtes.
      */
     private function initializeHeader(Worksheet $sheet): void
     {
         $x = 1;
         foreach (self::EXTRACT_HEADER as $key => $header) {
-            $sheet->setCellValue($key . $x, $header);
+            $sheet->setCellValue($key.$x, $header);
         }
     }
 
     /**
-     * Initialisation du corps
+     * Initialisation du corps.
      */
     private function initializeBody(Worksheet $sheet, array $users): void
     {
         $i = 2;
         foreach ($users as $user) {
-            $sheet->setCellValue('A' . $i, $user['billing_last_name'] ?? $user['wpcf-nom-dirigeant']);
-            $sheet->setCellValue('B' . $i, $user['billing_first_name'] ?? $user['wpcf-prenom-dirigeant']);
-            $sheet->setCellValue('C' . $i, $user['email']);
-            $sheet->setCellValue('D' . $i, $user['plainPassword']);
-            $i++;
+            $sheet->setCellValue('A'.$i, $user['billing_last_name'] ?? $user['wpcf-nom-dirigeant']);
+            $sheet->setCellValue('B'.$i, $user['billing_first_name'] ?? $user['wpcf-prenom-dirigeant']);
+            $sheet->setCellValue('C'.$i, $user['email']);
+            $sheet->setCellValue('D'.$i, $user['plainPassword']);
+            ++$i;
         }
     }
 
     /**
-     * Enregistre le fichier dans un répertoire temporaire
+     * Enregistre le fichier dans un répertoire temporaire.
      */
     private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): false|string
     {
@@ -104,6 +104,7 @@ class UserExporter
         // Création d'un fichier temporaire
         ob_start();
         $writer->save('php://output');
+
         return ob_get_clean();
     }
 }

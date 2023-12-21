@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-#[ORM\Index(columns: ["author_id", "created_at", "token", "status"], name: "ecommerce_reservation")]
+#[ORM\Index(columns: ['author_id', 'created_at', 'token', 'status'], name: 'ecommerce_reservation')]
 #[ORM\HasLifecycleCallbacks]
 class Reservation
 {
@@ -21,16 +21,10 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Transaction
-     */
     #[ORM\ManyToOne(targetEntity: Transaction::class)]
     private Transaction $transaction;
 
-    /**
-     * @var ReservationStatus
-     */
-    #[ORM\Column(type: "smallint", enumType: ReservationStatus::class)]
+    #[ORM\Column(type: 'smallint', enumType: ReservationStatus::class)]
     private ReservationStatus $status;
 
     public function getId(): ?int
