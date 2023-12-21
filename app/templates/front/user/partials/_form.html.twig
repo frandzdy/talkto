@@ -13,8 +13,8 @@
                      width="200px"
                      alt="{{ pictureName ? user.fullname : 'avatar' }}" {{ stimulus_target('user', 'imgFile') }}>
             </label>
+            {{ form_errors(form.uploadPicture) }}
         </div>
-        {{ form_errors(form.uploadPicture) }}
         <span style="display: none">
             {{ form_widget(form.uploadPicture, {'attr': {'data-user-target':'profileFile', 'data-action': 'change->user#imagesPreview'}}) }}
         </span>

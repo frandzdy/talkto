@@ -17,6 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -163,12 +166,11 @@ class UserType extends AbstractType
                 [
                     'label' => 'Photo de profile',
                     'required' => false,
-                    'mapped' => false,
                     'attr' =>
                         [
                             'accept' => 'image/png, image/jpeg, image/jpg',
                             'lang' => 'fr',
-                            'data-browse' => 'votre photo'
+                            'data-browse' => 'Votre photo'
                         ]
                 ]
             );
@@ -262,6 +264,15 @@ class UserType extends AbstractType
                     ]
                 );
         }
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            $form = $event->getForm();
+            $user = $event->getData();
+
+            if (!$user->getPicture() && !$form->get('uploadPicture')->getData()) {
+                $form->get('uploadPicture')->addError(new FormError('Information requise.'));
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -145,7 +145,7 @@ export default class extends Controller {
                     this.imgFileTarget = image
                 }
                 if (!filterType.test(this.profileFileTarget.files[i].type)) {
-                    toastr("Format fichier (PNG/JPEG/JPG).")
+                    toastr.error("Format fichier (PNG/JPEG/JPG).")
                     return;
                 }
                 reader.readAsDataURL(this.profileFileTarget.files[i])
