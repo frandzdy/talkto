@@ -86,17 +86,17 @@ button[id$="Denied"] {
   background-color: #9c1a1a !important;
 }
 
-//.custom-file-input ~ .custom-file-label:lang(fr)::after {
-//  content: "Votre photo...";
-//}
-//
-//.custom-file-input ~ .custom-file-label:lang(en)::after {
-//  content: "Votre photo...";
-//}
-//
-//.custom-file-label::after {
-//  content: "Votre photo";
-//}
+.custom-file-input ~ .custom-file-label:lang(fr)::after {
+  content: "Parcourir...";
+}
+
+.custom-file-input ~ .custom-file-label:lang(en)::after {
+  content: "Parcourir...";
+}
+
+.custom-file-label::after {
+  content: "Parcourir";
+}
 
 :root {
   --ck-z-default: 100;

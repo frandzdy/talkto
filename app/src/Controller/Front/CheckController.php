@@ -60,7 +60,7 @@ class CheckController extends AbstractController
             return $this->json(
                 [
                     'success' => true,
-                    'message' => 'Check'.$type.' enregistré !',
+                    'reload' => true,
                     'redirectUrl' => $this->generateUrl('front_user_account'),
                 ]
             );
