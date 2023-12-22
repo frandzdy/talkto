@@ -1,0 +1,65 @@
+{% block subject %}Reented – Réservation n° {{ transaction.reference }} {{ type == 'in' ? "de prévu demain" : "qui se termine aujourd'hui"}}{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Réservation n° {{ transaction.reference }} {{ type == 'in' ? "de prévu demain" : "qui se termine aujourd'hui"}}{% endblock %}
+        {% block accroche %}Réservation n° {{ transaction.reference }} {{ type == 'in' ? "de prévu demain" : "qui se termine aujourd'hui"}}{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h3>Bonjour {{ transaction.author.fullname }},</h3>
+                    <p>
+                        Vous avez une réservation {{ type == 'in' ? "de prévu demain" : "qui se termine aujourd'hui"}} :<br/>
+                    </p>
+                    <ul>
+                        <li><strong>Réservation n° :</strong> {{ transaction.reference }}</li>
+                        <li><strong>Produit :</strong> {{ transactionLine.product.title }}</li>
+                        <li><strong>Nom / Prénom du bailleur :</strong> {{ transactionLine.product.author.fullname }}</li>
+                        <li><strong>Date de la réservation :</strong>
+                            {% if transactionLine.startDate|date('d/m/Y') != transactionLine.endDate|date('d/m/Y') %}
+                                {{ transactionLine.startDate|date('d/m/Y') }} au {{ transactionLine.endDate|date('d/m/Y') }}
+                            {% else %}
+                                {{ transactionLine.startDate|date('d/m/Y') }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <p>
+                        Nous vous invitons à bien vérifier le produit, lors du check{{ type }} en présence du bailleur
+                        afin de vérifier que tous soit conforme en cas de litige.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe Reented<br/>
+                        <a title="Site Reented"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ transaction.author.fullname }},\n
+    \n
+    Vous avez une réservation {{ type == 'in' ? "de prévu demain" : "qui se termine aujourd'hui"}} :\n
+    \n
+    •    Réservation n° : {{ transaction.reference }}\n
+    •    Produit : {{ transactionLine.product.title }}\n
+    •    Nom / Prénom du bailleur : {{ transactionLine.product.author.fullname }}\n
+    •    Date de la réservation :
+    {% if transactionLine.startDate|date('d/m/Y') != transactionLine.endDate|date('d/m/Y') %}
+        {{ transactionLine.startDate|date('d/m/Y') }} au {{ transactionLine.endDate|date('d/m/Y') }}\n
+    {% else %}
+        {{ transactionLine.startDate|date('d/m/Y') }}\n
+    {% endif %}
+    \n
+    Nous vous invitons à bien vérifier le produit, lors du check{{ type }} en présence du bailleur
+    afin de vérifier que tous soit conforme en cas de litige.\n
+    \n
+    Cordialement,\n
+    L'équipe Reented\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}
