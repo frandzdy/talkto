@@ -20,9 +20,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AppointmentReminderCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private MailerManager $mailerManager,
-        private LoggerInterface $emailLogger
+        private readonly EntityManagerInterface $em,
+        private readonly MailerManager $mailerManager,
+        private readonly LoggerInterface $emailLogger
     ) {
         parent::__construct();
     }
@@ -108,7 +108,8 @@ class AppointmentReminderCommand extends Command
             return Command::SUCCESS;
         } catch (\Exception $exception) {
             $io->success("Erreur lors de l'envoi !");
-            $this->emailLogger->error('', ['message' => $exception->getMessage()]);
+            $this->emailLogger->error('[Mail] Erreur lors de l\'envoie', ['message' => $exception->getMessage()]);
+
             return Command::FAILURE;
         }
     }
