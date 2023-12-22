@@ -110,7 +110,7 @@ class WebhookStripeController extends AbstractController
                         'emails/lessor_reservation_validation.html.twig',
                         [
                             'seller' => strtoupper((string) $transactionLine->getProduct()->getAuthor()->getFirstname()),
-                            'buyer' => strtoupper($transaction->getAuthor()->getFullName()),
+                            'buyer' => strtoupper($transaction->getAuthor()->getFullname()),
                             'title' => $transactionLine->getProduct()->getTitle(),
                             'startDate' => $transactionLine->getStartDate()->format('d/m/Y'),
                             'endDate' => $transactionLine->getEndDate()->format('d/m/Y'),
