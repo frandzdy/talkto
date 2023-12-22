@@ -84,7 +84,7 @@ class ClaimRepository extends ServiceEntityRepository
                 ->addSelect('transaction')
                 ->join('transactionLine.product', 'product')
                 ->addSelect('product')
-                ->andWhere('author.email LIKE :term OR author.fullname LIKE :term')
+                ->andWhere('author.email LIKE :term OR author.firstname LIKE :term OR author.lastname LIKE :term')
                 ->orWhere('transaction.reference LIKE :term OR product.title LIKE :term')
                 ->setParameter('term', $filters['term'].'%');
         }

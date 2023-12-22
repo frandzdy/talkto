@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -128,16 +127,6 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Supprime d'un bailleur.
-     */
-    #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(Product $product): RedirectResponse
-    {
-        return $this->redirectToRoute('back_product_index');
-    }
-
-    /**
      * Génère un export de tous les bailleurs.
      */
     #[Route(path: '/extract-product/{typeFile}', name: 'extract', requirements: ['typeFile' => '(csv|xlsx)'], defaults: ['typeFile' => 'xlsx'], methods: ['GET'])]
@@ -170,12 +159,24 @@ class ProductController extends AbstractController
     public function productPictureDelete(
         Picture $picture,
         Product $product,
-        ProductManager $productManager
+        ProductManager $productManager,
+        MailerManager $mailerManager
     ): JsonResponse {
         if ($productManager->deleteProductPicture($product, $picture)) {
+            $this->addFlash('success', 'Suppression effectué !');
+            $mailerManager->sendMailNotification(
+                $product->getAuthor()->getEmail(),
+                'emails/product_picture_deleted.html.twig',
+                [
+                    'user' => $product->getAuthor(),
+                    'product' => $product,
+                ]
+            );
+
             return $this->json(
                 [
                     'success' => true,
+                    'redirectUrl' => $this->generateUrl('back_product_show', ['id' => $product->getId()]),
                 ]
             );
         }

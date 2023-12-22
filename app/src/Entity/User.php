@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TraitTimestamp;
     use TraitToken;
+    use TraitDeletable;
 
     final public const ROLE_USER = 'ROLE_USER';
 

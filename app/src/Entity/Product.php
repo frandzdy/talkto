@@ -21,6 +21,7 @@ class Product
     use TraitToken;
     use TraitAuthor;
     use TraitTimestamp;
+    use TraitDeletable;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

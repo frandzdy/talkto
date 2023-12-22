@@ -89,14 +89,18 @@ readonly class ProductManager
     /**
      * Supprime un produit.
      */
-    public function deleteProduct(Product $product): void
+    public function deleteProduct(Product $product): bool
     {
         /*
-         *  Contrôle que le produit n'est plus en location et pas réserver.
+         * Contrôle que le produit n'est plus en location et pas réserver.
          */
         if (!$this->em->getRepository(TransactionLine::class)->productHaveTransactionInProgress($product)) {
-            $this->em->remove($product);
+            $product->setDeletedAt(new \DateTime());
             $this->saveProduct();
+
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -1,26 +1,21 @@
-{% block subject %}Reented – Confirmation de réservation{% endblock %}
+{% block subject %}Reented – Photo de produit invalide{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
-        {% block title %}Confirmation de réservation{% endblock %}
-        {% block accroche %}Confirmation de réservation{% endblock %}
+        {% block title %}Photo de produit invalide{% endblock %}
+        {% block accroche %}Photo de produit invalide{% endblock %}
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
                     <h3>Bonjour {{ user.firstname }},</h3>
                     <p>
-                        Merci pour votre réservation réf: {{ transaction.reference }}.
+                        Votre produit <strong>{{ product.title }}</strong> comporte une photo non conforme à nos <a href="{{ path('front_cgu') }}" title="c.g.u">c.g.u</a>.
                     </p>
                     <p>
-                        Nous vous confirmons que votre réservation a bien été validé par nos services. Vous allez recevoir
-                        votre facture par e-mail et vous pouvez aussi la retrouver dans votre espace client.
+                        De ce fait, notre équipe de validation a été contrainte de la supprimer, afin de respecter nos <a href="{{ path('front_cgu') }}" title="c.g.u">c.g.u</a>.
                     </p>
                     <p>
-                        Retrouvez les informations concernant votre commande dans votre espace -> <a href="{{ path('front_user_account') }}" title="Mes réservations">mes réservations</a>.
-                    </p>
-                    <p>
-                        Sachez que votre bailleur reviendra vers vous pour vous donner les informations nécessaires afin que vous puissiez
-                        récupérer vos locations.
+                        Retrouvez les informations concernant votre produit dans votre espace -> <a href="{{ path('front_user_account') }}" title="Mes biens">mes biens</a>.
                     </p>
                     <p>
                         Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.
@@ -40,13 +35,11 @@
 {% block body_text %}
     Bonjour {{ user.firstname }},\n
     \n
-    Merci pour votre réservation.\n
+    Votre produit <strong>{{ product.title }}</strong> comporte une photo non conforme à nos c.g.u : {{ path('front_cgu') }}.\n
     \n
-    Nous vous confirmons que votre réservation a bien été validé par nos services.\n
+    De ce fait, notre équipe de validation a été contrainte de la supprimer, afin de respecter nos c.g.u : {{ path('front_cgu') }}.\n
     \n
-    Retrouvez les informations concernant votre commande dans votre espace "mes réservations" : {{ path('front_user_account') }}.\n
-    \n
-    Sachez que votre bailleur reviendra vers vous pour vous donner les informations nécessaires afin que vous puissiez récupérer vos locations.\n
+    Retrouvez les informations concernant votre produit dans votre espace -> "mes biens" : {{ path('front_user_account') }}.\n
     \n
     Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.\n
     \n

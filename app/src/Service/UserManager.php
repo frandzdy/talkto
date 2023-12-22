@@ -155,4 +155,13 @@ readonly class UserManager
             $this->saveUser();
         }
     }
+
+    /**
+     * Supprime un utilisateur logiquement.
+     */
+    public function deleteCustomer(User $user): void
+    {
+        $user->setDeletedAt(new \DateTime());
+        $this->entityManager->flush();
+    }
 }

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Exporter\LessorExporter;
 use App\Form\Back\LessorFilterType;
 use App\Repository\UserRepository;
+use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Gestion des bailleurs.
@@ -96,9 +96,10 @@ class LessorController extends AbstractController
      * Supprime d'un bailleur.
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $lessor): RedirectResponse
+    public function delete(User $lessor, UserManager $userManager): RedirectResponse
     {
+        $userManager->deleteCustomer($lessor);
+
         return $this->redirectToRoute('back_lessor_index');
     }
 

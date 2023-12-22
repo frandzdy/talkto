@@ -34,12 +34,12 @@ class AppointmentReminderCommand extends Command
         try {
             $transactionLineToStarts = $this->em->getRepository(TransactionLine::class)->findBy(
                 [
-                    'startDate' => (new \DateTime())->modify('+1 days')
+                    'startDate' => (new \DateTime())->modify('+1 days'),
                 ]
             );
-            $io->comment('nbTransactionToStarts : '. \count($transactionLineToStarts));
+            $io->comment('nbTransactionToStarts : '.\count($transactionLineToStarts));
             $progess = new ProgressBar($output, \count($transactionLineToStarts));
-            $progess->setMessage("Liste des transactions commençant demain");
+            $progess->setMessage('Liste des transactions commençant demain');
             $progess->start();
             foreach ($transactionLineToStarts as $transactionLineToStart) {
                 /**
@@ -52,7 +52,7 @@ class AppointmentReminderCommand extends Command
                     [
                         'transactionLine' => $transactionLineToStart,
                         'transaction' => $transactionLineToStart->getTransaction(),
-                        'type' => 'in'
+                        'type' => 'in',
                     ]
                 );
                 $renter = $transactionLineToStart->getTransaction()->getAuthor();
@@ -62,7 +62,7 @@ class AppointmentReminderCommand extends Command
                     [
                         'transactionLine' => $transactionLineToStart,
                         'transaction' => $transactionLineToStart->getTransaction(),
-                        'type' => 'in'
+                        'type' => 'in',
                     ]
                 );
                 $progess->advance();
@@ -70,7 +70,7 @@ class AppointmentReminderCommand extends Command
 
             $transactionLineToEnds = $this->em->getRepository(TransactionLine::class)->findBy(
                 [
-                    'endDate' => new \DateTime()
+                    'endDate' => new \DateTime(),
                 ]
             );
             $io->comment('nbTransactionToEnds : '.\count($transactionLineToEnds));
@@ -88,7 +88,7 @@ class AppointmentReminderCommand extends Command
                     [
                         'transactionLine' => $transactionLineToEnd,
                         'transaction' => $transactionLineToEnd->getTransaction(),
-                        'type' => 'out'
+                        'type' => 'out',
                     ]
                 );
                 $renter = $transactionLineToEnd->getTransaction()->getAuthor();
@@ -98,17 +98,18 @@ class AppointmentReminderCommand extends Command
                     [
                         'transactionLine' => $transactionLineToEnd,
                         'transaction' => $transactionLineToEnd->getTransaction(),
-                        'type' => 'out'
+                        'type' => 'out',
                     ]
                 );
                 $progess->advance();
             }
+
             $io->success('Mails send !');
 
             return Command::SUCCESS;
         } catch (\Exception $exception) {
             $io->success("Erreur lors de l'envoi !");
-            $this->emailLogger->error('[Mail] Erreur lors de l\'envoie', ['message' => $exception->getMessage()]);
+            $this->emailLogger->error("[Mail] Erreur lors de l'envoie", ['message' => $exception->getMessage()]);
 
             return Command::FAILURE;
         }

@@ -7,6 +7,7 @@ use App\Exporter\CustomerExporter;
 use App\Form\Back\UserFilterType;
 use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
+use App\Service\UserManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class CompanyController.
@@ -87,9 +87,10 @@ class CustomerController extends AbstractController
      * Supprime le client.
      */
     #[Route(path: '/{id<\d+>}/remove', name: 'delete', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $customer): RedirectResponse
+    public function delete(User $customer, UserManager $userManager): RedirectResponse
     {
+        $userManager->deleteCustomer($customer);
+
         return $this->redirectToRoute('back_customer_index');
     }
 

@@ -110,7 +110,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->join('p.author', 'a')
             ->addSelect('a')
             ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
-            ->setParameter('dateNow', (new DatePoint())->format('Y-m-d'))
+            ->setParameter('dateNow', (new \DateTime())->format('Y-m-d'))
             ->andWhere('p.id = :productId')
             ->setParameter('productId', $product->getId());
 

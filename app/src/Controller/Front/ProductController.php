@@ -223,10 +223,11 @@ class ProductController extends AbstractController
         try {
             if ($productManager->deleteProduct($product)) {
                 $this->addFlash('success', 'Produit supprimé !');
+            } else {
+                $this->addFlash('error', 'Des réservations existent pour ce produit !');
             }
         } catch (\Exception) {
             $logger->error('[Product delete] :', ['product' => $product->getId()]);
-            $this->addFlash('error', 'Impossible de supprimer le produit');
         }
 
         return $this->redirectToRoute('front_user_account');

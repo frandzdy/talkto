@@ -53,6 +53,7 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 2592000
                 domain: ~
+            user_checker: App\Security\UserChecker
         main:
             pattern: ^/
             lazy: true
