@@ -1,0 +1,67 @@
+{% block subject %}Reented – Compte fermé{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Mise en ligne de votre produit{% endblock %}
+        {% block accroche %}Mise en ligne de votre produit{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h3>Bonjour {{ user.firstname }},</h3>
+                    <p>
+                        Merci d'avoir ajouté un nouveau produit :
+                    </p>
+                    <ul>
+                        <li><strong>Titre :</strong> {{ product.title }}</li>
+                        <li><strong>Montant TTC / jours :</strong> {{ product.amount|number_format(2, ',')|default(0) }} €</li>
+                        <li><strong>Caution :</strong> {{ product.caution|number_format(2, ',')|default(0) }} €</li>
+                        <li><strong>Quantité :</strong> {{ product.quantity }}</li>
+                        <li><strong>Courte description :</strong> {{ product.shortDescription }}</li>
+                    </ul>
+                    <p>
+                        Nous vous confirmons que sa mise en ligne est effective dès la reception de cet e-mail.
+                    </p>
+                    <p>
+                        Retrouvez les informations concernant vos produits dans le menu <b>mon compte</b> | <b>mes biens.</b>
+                    </p>
+                    <p>
+                        Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe Reented<br/>
+                        <a title="Site Reented" href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ user.firstname }},\n
+    \n
+    Merci d'avoir ajouté un nouveau produit :\n
+    \n
+    •    Titre : {{ product.title }}\n
+    •    Montant TTC / jour : {{ product.amount|number_format(2, ',')|default(0) }} €\n
+    •    Caution : {{ product.caution|number_format(2, ',')|default(0) }} €\n
+    •    Quantité : {{ product.quantity }}\n
+    •    Courte description : {{ product.shortDescription }}\n
+    \n
+    Nous vous confirmons que votre réservation a bien été validé par nos services.\n
+    \n
+    Retrouvez les informations concernant votre commande dans votre espace | mes réservations.\n
+    \n
+    Sachez que votre bailleur reviendra vers vous pour vous donner les informations nécessaires afin que vous puissiez récupérer vos locations.\n
+    \n
+    Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe Reented\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}

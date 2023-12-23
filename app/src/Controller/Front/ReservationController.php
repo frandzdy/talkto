@@ -2,11 +2,7 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
-use App\Repository\TransactionLineRepository;
-use App\Service\StripeManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

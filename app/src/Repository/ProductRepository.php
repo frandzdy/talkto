@@ -98,7 +98,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int)$filter['sortedBy']) {
+        match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -111,7 +111,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function searchProducts(array $filter): QueryBuilder
     {
-        $searchIds = explode(',', (string)$filter['searchIds']);
+        $searchIds = explode(',', (string) $filter['searchIds']);
 
         $qb = $this->createQueryBuilder('p')
             ->select(
@@ -137,7 +137,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int)$filter['sortedBy']) {
+        match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -161,7 +161,7 @@ class ProductRepository extends ServiceEntityRepository
                 ->andWhere(
                     'p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term'
                 )
-                ->setParameter('term', $filters['term'] . '%');
+                ->setParameter('term', $filters['term'].'%');
         }
 
         $builder

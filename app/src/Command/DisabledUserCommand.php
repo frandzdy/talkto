@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\Product;
-use App\Entity\TransactionLine;
 use App\Entity\User;
 use App\Enum\ProductStatus;
 use App\Service\MailerManager;
@@ -17,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:appointment-reminder',
+    name: 'app:disable-user',
     description: 'Lance les notifications aux locataire et bailleur pour signaler la fermeture de celui-ci.',
 )]
 class DisabledUserCommand extends Command
@@ -45,14 +44,14 @@ class DisabledUserCommand extends Command
             $progess->setMessage('Liste des comptes à 11 mois d\'inactivité');
             $progess->start();
             foreach ($users as $user) {
-                /**
+                /*
                  * @var User $user
                  */
                 $this->mailerManager->sendMailNotification(
                     $user->getEmail(),
                     'emails/warning_user_account_close.html.twig',
                     [
-                        'user' => $user
+                        'user' => $user,
                     ]
                 );
                 $progess->advance();
@@ -65,18 +64,19 @@ class DisabledUserCommand extends Command
             );
             $io->comment('nbUserToEnds : '.\count($userToCloses));
             $progess = new ProgressBar($output, \count($userToCloses));
-            $progess->setMessage("Liste des comptes à clôturer");
+            $progess->setMessage('Liste des comptes à clôturer');
             $progess->start();
             foreach ($userToCloses as $userToClose) {
-                if ($userToClose->getRole() === User::ROLE_SELLER) {
+                if (User::ROLE_SELLER === $userToClose->getRole()) {
                     // on doit désactiver tous les produits
                     $product = $this->em->getRepository(Product::class)->findBy(['author' => $userToClose->getId()]);
                     if ($product) {
                         $product->setStatus(ProductStatus::REJECTED);
                     }
                 }
+
                 $userToClose->setDeletedAt(new \DateTime());
-                /**
+                /*
                  * @var User $userToClose
                  */
                 $this->mailerManager->sendMailNotification(
