@@ -6,6 +6,7 @@ use App\Form\Front\LoginType;
 use App\Form\Front\UserPaymentType;
 use App\Service\StripeManager;
 use App\Service\UserManager;
+use App\Security\FrontAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +61,7 @@ class StripeController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $userManager->saveOrEditUser(user: $user, isGuess: true);
-            $security->login($user, \App\Security\FrontAuthenticator::class, 'front');
+            $security->login($user, FrontAuthenticator::class, 'front');
 
             return $this->redirectToRoute('front_stripe_payment_intent');
         }

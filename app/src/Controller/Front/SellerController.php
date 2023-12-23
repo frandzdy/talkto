@@ -7,6 +7,7 @@ use App\Form\Front\UserType;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
+use App\Security\FrontAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -46,7 +47,7 @@ class SellerController extends AbstractController
                 ]
             );
             $userManager->saveUser();
-            $security->login($user, \App\Security\FrontAuthenticator::class, 'front');
+            $security->login($user, FrontAuthenticator::class, 'front');
 
             return $this->redirect($stripeManager->createAccountLink($user)->url);
         }

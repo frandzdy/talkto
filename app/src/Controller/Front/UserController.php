@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
+use App\Security\FrontAuthenticator;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -69,7 +71,7 @@ class UserController extends AbstractController
         MailerManager $mailer,
         Security $security
     ): Response {
-        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if ($this->getUser() instanceof UserInterface) {
             return $this->redirectToRoute('front_user_account');
         }
 
@@ -94,7 +96,7 @@ class UserController extends AbstractController
             $userManager->saveUser();
 
             // substitute the previous line (redirect response) with this one.
-            return $security->login($user, \App\Security\FrontAuthenticator::class, 'front');
+            return $security->login($user, FrontAuthenticator::class, 'front');
         }
 
         return $this->render('front/user/byer/edit.html.twig', [
@@ -135,16 +137,49 @@ class UserController extends AbstractController
     }
 
     /**
-     * Supprime le compte d'utilisateur connecté.
+     * Désactiver le compte d'utilisateur connecté.
      */
-    #[Route('/mon-compte/supprimer', name: 'user_delete', methods: ['POST'])]
+    #[Route('/mon-compte/desactivation', name: 'user_deactivate', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function delete(EntityManagerInterface $entityManager, Security $security): Response
+    public function deactivate(EntityManagerInterface $em, Security $security, MailerManager $mailerManager): Response
     {
-        $this->getUser()->setDeletedAt(new \DateTime());
-        $entityManager->flush();
+        $user = $this->getUser();
+        $user->setDeletedAt(new \DateTime());
+        $em->flush();
+
+        $mailerManager->sendMailNotification(
+            $user->getEmail(),
+            'emails/account_deactivate.html.twig',
+            [
+                'user' => $user
+            ]
+        );
 
         $security->logout();
+
+        $this->addFlash('success', 'Compte désactiver');
+
+
+        return $this->redirectToRoute('front_home');
+    }
+
+    /**
+     * Activer le compte d'utilisateur connecté.
+     */
+    #[Route('/mon-compte/activer/{token}', name: 'user_delete', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function activate(string $token, EntityManagerInterface $em, Security $security): Response
+    {
+        $user = $em->getRepository(User::class)->findBy(
+            [
+                'token' => $token
+            ]
+        );
+        $user->setDeletedAt(null);
+
+        $security->login($user, FrontAuthenticator::class, 'front');
+
+        $this->addFlash('success', 'Compte désactiver');
 
         return $this->redirectToRoute('front_home');
     }

@@ -1,0 +1,60 @@
+{% block subject %}Reented – Compte désactiver{% endblock %}
+
+{% block body_html %}
+    {% embed 'emails/_layout.html.twig' %}
+        {% block title %}Compte désactiver{% endblock %}
+        {% block accroche %}Compte désactiver{% endblock %}
+        {% block body %}
+            <tr>
+                <td style="padding-top:20px;">
+                    <h3>Bonjour {{ user.fullname|capitalize }},</h3>
+                    <p>
+                        Nous avons procédé à la désactivation de votre compte.
+                    </p>
+                    <p>
+                        Vous avez la possibilité de le réactiver si vous le souhaitez en cliquant sur ce lien : <a
+                                href="{{ path('front_user_active', {'token': user.token }) }}" title="Réactiver mon compte">Réactiver
+                            mon compte</a>
+                    </p>
+                    <p>
+                        Attention, ce lien vous est fourni une seule fois.
+                        Garder bien cet email si vous souhaitez utiliser votre compte par la suite.
+                        Sachez qu'après 1 an d'inactivité les comptes sont complètement supprimés.
+                    </p>
+                    <p>
+                        Nous vous remercions d'avoir utilisé nos services et nous avons hâtes de vous revoir parmi nous.
+                    </p>
+                    <p>
+                        Cordialement,<br/>
+                        L'équipe Reented<br/>
+                        <a title="Site Reented"
+                           href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a>
+                    </p>
+                    <p style="color: #8698A5; font-size: 15px;">Ce message est généré automatiquement, merci de ne pas y
+                        répondre directement.</p>
+                </td>
+            </tr>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body_text %}
+    Bonjour {{ user.fullname|capitalize }},\n
+    \n
+    Nous avons procédé à la désactivation de votre compte.\n
+    \n
+    Vous avez la possibilité de le réactiver si vous le souhaitez en cliquant sur ce lien : {{ path('front_user_active', {'token': user.token }) }} .\n
+    \n
+    Attention, ce lien vous est fourni une seule fois.
+    Garder bien cet email si vous souhaitez utiliser votre compte par la suite.
+    Sachez qu'après 1 an d'inactivité les comptes sont complètement supprimés.\n
+    \n
+    Nous vous remercions d'avoir utilisé nos services et nous avons hâtes de vous revoir parmis nous.\n
+    \n
+    Cordialement,\n
+    \n
+    L'équipe Reented\n
+    {{ app.request.schemeAndHttpHost }}\n
+    \n
+    Ce message est généré automatiquement, merci de ne pas y répondre directement.\n
+{% endblock %}
