@@ -116,10 +116,6 @@ class WebhookStripeController extends AbstractController
                             'endDate' => $transactionLine->getEndDate()->format('d/m/Y'),
                             'quantity' => $transactionLine->getQuantity(),
                             'totalAmount' => $transactionLine->getAmountTtc() / 100,
-                            'link' => $this->generateUrl(
-                                'front_reservation_line_show',
-                                ['token' => $transactionLine->getToken(), UrlGeneratorInterface::ABSOLUTE_URL]
-                            ),
                         ]
                     );
                 }

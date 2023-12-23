@@ -60,6 +60,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->andWhere('p.status = :productStatus')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->andWhere('a.isStripeAccountActive = :active')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('active', true)
             ->setParameter(':userLat', $lat ?: 48.866667)
             ->setParameter(':userLon', $lon ?: 2.333333)

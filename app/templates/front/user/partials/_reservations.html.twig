@@ -18,7 +18,10 @@
                 <tr>
                     <td class="text-center order__id">
                         <a href="{{ path('front_reservation_show', {'token': reservation.token}) }}"
-                           class="order__title">
+                           data-lg-size="true"
+                           data-modal-title="Réservation {{ reservation.transaction.reference }}"
+                           title="Réservation {{ reservation.transaction.reference }}"
+                           class="order__title open-product-modal">
                             {{ reservation.transaction.reference }}
                         </a>
                     </td>

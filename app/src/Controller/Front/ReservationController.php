@@ -22,29 +22,4 @@ class ReservationController extends AbstractController
 
         return $this->render('front/reservation/show.html.twig', ['reservation' => $reservation]);
     }
-
-    #[Route('/reservation-bailleur/{token}', name: 'reservation_line_show', methods: ['GET'])]
-    public function lineShow(
-        string $token,
-        TransactionLineRepository $transactionLineRepository,
-        ReservationRepository $reservationRepository
-    ): Response {
-        $transactionLine = $transactionLineRepository->findOneBy(['token' => $token]);
-        $reservation = $reservationRepository->findOneBy(['transaction' => $transactionLine->getTransaction()]);
-
-        return $this->render('front/reservation/line-show.html.twig', ['reservation' => $reservation, 'transactionLine' => $transactionLine]);
-    }
-
-    /**
-     * Affiche le lien de la facture.
-     */
-    #[Route(path: '/reservation-facture/{token}', name: 'user_invoice', methods: ['GET'])]
-    public function generateInvoice(string $token, StripeManager $stripeManager, EntityManagerInterface $em): void
-    {
-        $reservation = $em->getRepository(Reservation::class)->findOneBy(['token' => $token]);
-        $invoice = $stripeManager->getInvoice($reservation->getTransaction());
-
-        dump($invoice);
-        // $html =  $this->renderView('front/reservation/invoice.html.twig', compact('reservation'));
-    }
 }

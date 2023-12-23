@@ -225,7 +225,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $builder->andWhere('u.role IN (:role)')
-            ->andWhere('u.deletedAt <> true');
+            ->andWhere('u.deletedAt IS NULL');
         if ($isLessor) {
             $builder->andWhere('u.isStripeAccountActive = :status')
                 ->setParameter('status', $filters['status'])
@@ -248,7 +248,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->createQueryBuilder('u')
             ->select('count(Distinct(u.id)) AS nbUsers')
             ->where('u.role = :role')
-            ->andWhere('u.deletedAt <> true')
+            ->andWhere('u.deletedAt IS NULL')
             ->setParameter('role', $role);
 
         if ($datePoint instanceof \Symfony\Component\Clock\DatePoint) {

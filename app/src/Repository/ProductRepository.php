@@ -86,6 +86,7 @@ class ProductRepository extends ServiceEntityRepository
             ->andWhere('a.isStripeAccountActive = true')
             ->andWhere('p.category = :productCategory')
             ->andWhere('p.amount BETWEEN :startAmount AND :endAmount')
+            ->andWhere('p.deletedAt IS NULL')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->orHaving('distance IS NULL')
             ->setParameter(':startDistance', $filter['startDistance'])
@@ -97,7 +98,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int) $filter['sortedBy']) {
+        match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -110,7 +111,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function searchProducts(array $filter): QueryBuilder
     {
-        $searchIds = explode(',', (string) $filter['searchIds']);
+        $searchIds = explode(',', (string)$filter['searchIds']);
 
         $qb = $this->createQueryBuilder('p')
             ->select(
@@ -127,6 +128,7 @@ class ProductRepository extends ServiceEntityRepository
             ->where('p.status = :productStatus')
             ->andWhere('p.token IN (:searchIds)')
             ->andWhere('a.isStripeAccountActive = true')
+            ->andWhere('p.deletedAt IS NULL')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':searchIds', $searchIds)
             ->setParameter(':startDistance', $filter['startDistance'])
@@ -135,7 +137,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
             ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
 
-        match ((int) $filter['sortedBy']) {
+        match ((int)$filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
             2 => $qb->orderBy('p.amount', 'ASC'),
             3 => $qb->orderBy('p.amount', 'DESC'),
@@ -151,14 +153,15 @@ class ProductRepository extends ServiceEntityRepository
      */
     public function buildSearchQuery(array $filters = []): Query
     {
-        $builder = $this
-            ->createQueryBuilder('p')
-        ->join('p.author', 'a');
+        $builder = $this->createQueryBuilder('p')
+            ->join('p.author', 'a');
 
         if (!empty($filters['term'])) {
             $builder
-                ->andWhere('p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term')
-                ->setParameter('term', $filters['term'].'%');
+                ->andWhere(
+                    'p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term'
+                )
+                ->setParameter('term', $filters['term'] . '%');
         }
 
         $builder
@@ -170,8 +173,12 @@ class ProductRepository extends ServiceEntityRepository
         return $builder->getQuery();
     }
 
-    public function getTrends(?int $lat, ?int $lon, ProductCategory $productCategory = null, ?int $maxResult = 8): ?array
-    {
+    public function getTrends(
+        ?int $lat,
+        ?int $lon,
+        ProductCategory $productCategory = null,
+        ?int $maxResult = 8
+    ): ?array {
         $qb = $this->createQueryBuilder('p')
             ->select(
                 '
@@ -186,6 +193,7 @@ class ProductRepository extends ServiceEntityRepository
             ->addSelect('a')
             ->where('p.status = :productStatus')
             ->andWhere('a.isStripeAccountActive = true')
+            ->andWhere('p.deletedAt IS NULL')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
@@ -193,13 +201,11 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $lat ?: 48.866667)
             ->setParameter(':userLon', $lon ?: 2.333333)
             ->orderBy('p.numberView', 'ASC')
-            ->setMaxResults($maxResult)
-        ;
+            ->setMaxResults($maxResult);
 
         if ($productCategory instanceof \App\Enum\ProductCategory) {
             $qb->andWhere('p.category = :productCategory')
-                ->setParameter('productCategory', $productCategory)
-            ;
+                ->setParameter('productCategory', $productCategory);
         }
 
         return $qb->getQuery()->getResult();
@@ -221,6 +227,7 @@ class ProductRepository extends ServiceEntityRepository
             ->addSelect('a')
             ->where('p.status = :productStatus')
             ->andWhere('a.isStripeAccountActive = true')
+            ->andWhere('p.deletedAt IS NULL')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
@@ -228,8 +235,7 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $lat ?: 48.866667)
             ->setParameter(':userLon', $lon ?: 2.333333)
             ->orderBy('p.createdAt', 'ASC')
-            ->setMaxResults(10)
-        ;
+            ->setMaxResults(10);
 
         return $qb->getQuery()->getResult();
     }
@@ -241,6 +247,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.status = :productStatus')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('productStatus', ProductStatus::WAITING);
 
         return (clone $qb)->select('count(Distinct(p.id))')

@@ -34,6 +34,7 @@ class ProductCollectionType extends AbstractType
                         ->andWhere('a.isStripeAccountActive = true')
                         ->setParameter('productStatus', ProductStatus::VALIDATE->value)
                         // #
+                        ->andWhere('p.deletedAt IS NULL')
                         ->andWhere('p.createdAt between :startDate and :endDate')
                         ->setParameter('startDate', (new DatePoint('-1 months'))->format('Y-m-d'))
                         ->setParameter('endDate', (new DatePoint())->format('Y-m-d'))

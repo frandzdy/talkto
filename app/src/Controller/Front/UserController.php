@@ -139,37 +139,14 @@ class UserController extends AbstractController
      */
     #[Route('/mon-compte/supprimer', name: 'user_delete', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function delete(Request $request, EntityManagerInterface $entityManager): Response
+    public function delete(EntityManagerInterface $entityManager, Security $security): Response
     {
-        $entityManager->remove($this->getUser());
+        $this->getUser()->setDeletedAt(new \DateTime());
         $entityManager->flush();
 
-        return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
-    }
+        $security->logout();
 
-    /**
-     * Supprime le compte d'utilisateur connecté.
-     */
-    #[Route('/suppression/{token}', name: 'user_remove_connexion', options: ['expose' => true], methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function deleteConnexion(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        string $token
-    ): Response {
-        try {
-            $user = $this->getUser();
-            $user->getMyMatchs()->filter(static function (User $userMatch) use ($user, $token): void {
-                if ($userMatch->getToken() === $token) {
-                    $user->removeMyMatch($userMatch);
-                }
-            });
-            $entityManager->flush();
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-        }
-
-        return $this->redirectToRoute('chat_show', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('front_home');
     }
 
     /**
@@ -183,25 +160,6 @@ class UserController extends AbstractController
     ): Response {
         try {
             $userManager->deleteUserPicture($token, $this->getUser());
-            $this->addFlash('success', 'Enregistrement avec succès.');
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-        }
-
-        return $this->redirectToRoute('user_edit', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * Supprime la photo du compte connecté.
-     */
-    #[Route('/ajout-photo/{token}', name: 'user_add_picture_to_principal', methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function addPictureToPrincipal(
-        string $token,
-        UserManager $userManager
-    ): Response {
-        try {
-            $userManager->addUserPictureToPrincipal($token, $this->getUser());
             $this->addFlash('success', 'Enregistrement avec succès.');
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
