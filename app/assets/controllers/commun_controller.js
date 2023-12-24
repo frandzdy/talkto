@@ -1,10 +1,16 @@
 import {Controller} from '@hotwired/stimulus';
+import Cookies from "js-cookie";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess']
     cart = []
+    rejectLocalisation = false
+    localisationDone = false
     connect() {
+        if(Cookies.get('geolocalisation')) {
+            $("#geolocalisation").remove()
+        }
         this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
         this.initPlugins()
@@ -104,6 +110,36 @@ export default class extends Controller {
             })
     }
 
+    onStartLocalisation() {
+        navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
+    }
+    /**
+     * GPS COORD SAVE
+     */
+    optionsAccuracy = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    successAccuracy = (pos) => {
+        const cards = pos.coords
+        $.post(Routing.generate('front_user_save_coord', {
+            'lat': cards.latitude,
+            'lon': cards.longitude
+        })).done(_ => {
+            Cookies.set('geolocalisation', true)
+        })
+        this.localisationDone = true
+        clearTimeout(this.timeOut)
+        toastr.success('Géolocalisation activé', 'Activation')
+    }
+
+    error = (err) => {
+        clearTimeout(this.timeOut)
+        this.rejectLocalisation = true
+        Cookies.set('geolocalisation', false)
+    }
     updateCart() {
         this.cart = [];
         let listProducts = $('#cart-products').find('tr');

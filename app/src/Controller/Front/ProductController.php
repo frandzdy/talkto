@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProductController extends AbstractController
@@ -81,8 +82,8 @@ class ProductController extends AbstractController
         bool $review = false
     ): Response {
         $user = $this->getUser();
-        $lat = $user instanceof \Symfony\Component\Security\Core\User\UserInterface ? $user->getLat() : $session->get('lat');
-        $lon = $user instanceof \Symfony\Component\Security\Core\User\UserInterface ? $user->getLon() : $session->get('lon');
+        $lat = $user instanceof UserInterface ? $user->getLat() : $session->get('lat');
+        $lon = $user instanceof UserInterface ? $user->getLon() : $session->get('lon');
         $product = $productRepository->findOneBy(['token' => $token]);
 
         if (null === $product) {
@@ -286,7 +287,7 @@ class ProductController extends AbstractController
         $sortedBy = $request->query->getInt('sortedBy', 1);
 
         $user = $this->getUser();
-        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if (!$user instanceof UserInterface) {
             $lat = $session->get('lat', 0);
             $lon = $session->get('lon', 0);
         } else {
@@ -336,7 +337,7 @@ class ProductController extends AbstractController
         SessionInterface $session
     ): Response {
         $user = $this->getUser();
-        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if ($user instanceof UserInterface) {
             $lat = $user->getLat();
             $lon = $user->getLon();
         } else {

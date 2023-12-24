@@ -9,6 +9,7 @@ use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
 use App\Security\FrontAuthenticator;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -226,5 +227,37 @@ class UserController extends AbstractController
                 'results' => $em->getRepository(User::class)->$func($this->getUser(), $page - 1),
             ]
         );
+    }
+
+    /**
+     * Enregistre les coordonnées GPS d'un utilisateur
+     */
+    #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ["expose" => true], methods: ['POST'])]
+    public function saveUserCoord(
+        string $lat,
+        string $lon,
+        UserManager $userManager,
+        LoggerInterface $logger,
+        SessionInterface $session
+    ): Response {
+        try {
+            $user = $this->getUser();
+            /*
+             * @var User $user
+             */
+            if ($user) {
+                $user->setLat($lat);
+                $user->setLon($lon);
+                $userManager->saveUser();
+            } else {
+                $session->set('lat', $lat);
+                $session->set('lon', $lon);
+            }
+        } catch (\Exception $e) {
+            // logger l'erreur
+            $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());
+        }
+
+        return $this->json(['success' => true], Response::HTTP_OK);
     }
 }

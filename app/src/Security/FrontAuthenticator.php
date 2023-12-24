@@ -29,6 +29,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     final public const LOGIN_ROUTE = 'front_login';
+    final public const USER_ACCOUNT_ROUTE = 'front_user_account';
 
     final public const LOGIN_CART_ROUTE = 'front_stripe_payment_user_login';
 
@@ -68,9 +69,8 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
 
         $this->em->flush();
         if (User::ROLE_SELLER === $user->getRole() && !$user->getIsStripeAccountActive()) {
-            $accountLink = $this->stripeManager->createAccountLink($user);
 
-            return new RedirectResponse($accountLink->url);
+            return new RedirectResponse($this->urlGenerator->generate(self::USER_ACCOUNT_ROUTE));
         }
 
         // si on se connecte depuis la page de paiement

@@ -29,9 +29,12 @@
                                     <p>2 location(s) en cours</p>
                                 {% else %}
                                     {% if urlActivation is same as (true) %}
-                                        <p>Votre compte n'est pas actif. Merci d'<a href="{{ urlActivationAccount }}"
-                                                                                    title="lien d'activation du compte bailleur">Activer</a>
-                                            votre compte</p>
+                                        <p>
+                                            Votre compte bailleur n'est pas encore actif.
+                                            <a href="{{ urlActivationAccount }}" title="lien d'activation du compte bailleur">
+                                                Activer votre compte
+                                            </a>
+                                        </p>
                                     {% endif %}
                                 {% endif %}
                             </div>

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Cache(maxage: '3600')]
 class ContactController extends AbstractController
@@ -22,7 +23,7 @@ class ContactController extends AbstractController
         MailerManager $mailerManager,
         string $emailSupport
     ): Response {
-        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if ($this->getUser() instanceof UserInterface) {
             $contact = $contactManager->initializeContact(
                 $this->getUser()->getEmail(),
                 $this->getUser()->getLastname(),
