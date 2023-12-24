@@ -13,7 +13,7 @@
                     </p>
                     <p>
                         Vous avez la possibilité de le réactiver si vous le souhaitez en cliquant sur ce lien : <a
-                                href="{{ path('front_user_active', {'token': user.token }) }}" title="Réactiver mon compte">Réactiver
+                                href="{{ path('front_user_activate', {'token': user.token }) }}" title="Réactiver mon compte">Réactiver
                             mon compte</a>
                     </p>
                     <p>
@@ -43,7 +43,7 @@
     \n
     Nous avons procédé à la désactivation de votre compte.\n
     \n
-    Vous avez la possibilité de le réactiver si vous le souhaitez en cliquant sur ce lien : {{ path('front_user_active', {'token': user.token }) }} .\n
+    Vous avez la possibilité de le réactiver si vous le souhaitez en cliquant sur ce lien : {{ path('front_user_activate', {'token': user.token }) }} .\n
     \n
     Attention, ce lien vous est fourni une seule fois.
     Garder bien cet email si vous souhaitez utiliser votre compte par la suite.

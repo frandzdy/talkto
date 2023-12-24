@@ -155,7 +155,7 @@ class UserController extends AbstractController
             ]
         );
 
-        $security->logout();
+        $security->logout(false);
 
         $this->addFlash('success', 'Compte désactiver');
 
@@ -166,7 +166,7 @@ class UserController extends AbstractController
     /**
      * Activer le compte d'utilisateur connecté.
      */
-    #[Route('/mon-compte/activer/{token}', name: 'user_delete', methods: ['POST'])]
+    #[Route('/mon-compte/activer/{token}', name: 'user_activate', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function activate(string $token, EntityManagerInterface $em, Security $security): Response
     {

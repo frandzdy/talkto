@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table()]
@@ -140,7 +141,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         mimeTypesMessage: 'Format image uniquement autorisé. (PNG/JPG)',
         corruptedMessage: 'Fichier corrompue'
     )]
-    public ?UploadedFile $uploadPicture = null;
+    #[Ignore()]
+    public ?string $uploadPicture = null;
 
     /**
      * A propos de l'utilisateur [SELLER].
@@ -550,5 +552,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->terms = $terms;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        // TODO: Implement serialize() method.
+    }
+
+    public function unserialize(string $data)
+    {
+        // TODO: Implement unserialize() method.
     }
 }
