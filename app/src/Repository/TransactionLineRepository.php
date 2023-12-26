@@ -156,7 +156,7 @@ class TransactionLineRepository extends ServiceEntityRepository
         ->where('tl.status IN (:tlStatus)')
         ->setParameter('tlStatus', [TransactionLineStatus::IN_PROGRESS->value, TransactionLineStatus::FINISHED->value]);
 
-        if ($date instanceof \Symfony\Component\Clock\DatePoint) {
+        if ($date instanceof DatePoint) {
             $qb->join('tl.transaction', 't')
                 ->andWhere('t.createdAt = :date')
                 ->setParameter('date', $date)

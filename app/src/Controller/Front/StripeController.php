@@ -4,9 +4,9 @@ namespace App\Controller\Front;
 
 use App\Form\Front\LoginType;
 use App\Form\Front\UserPaymentType;
+use App\Security\FrontAuthenticator;
 use App\Service\StripeManager;
 use App\Service\UserManager;
-use App\Security\FrontAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;

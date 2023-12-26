@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 #[Route('/reinitialisation/mot-de-passe')]
@@ -59,7 +60,7 @@ class ResetPasswordController extends AbstractController
     {
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether or not a user was found with the given email address or not
-        if (!($resetToken = $this->getTokenObjectFromSession()) instanceof \SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken) {
+        if (!($resetToken = $this->getTokenObjectFromSession()) instanceof ResetPasswordToken) {
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
 

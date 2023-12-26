@@ -8,7 +8,8 @@ export default class extends Controller {
     rejectLocalisation = false
     localisationDone = false
     connect() {
-        if(Cookies.get('geolocalisation')) {
+        console.log('cc', Cookies.get('geolocalisation'))
+        if(Cookies.get('geolocalisation') == 'true') {
             $("#geolocalisation").remove()
         }
         this.handleToolTips()
@@ -112,6 +113,7 @@ export default class extends Controller {
 
     onStartLocalisation() {
         navigator.geolocation.getCurrentPosition(this.successAccuracy, this.error, this.optionsAccuracy);
+        $("#geolocalisation").remove()
     }
     /**
      * GPS COORD SAVE

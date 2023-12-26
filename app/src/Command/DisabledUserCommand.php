@@ -8,6 +8,7 @@ use App\Enum\ProductStatus;
 use App\Service\MailerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -32,71 +33,67 @@ class DisabledUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->comment('Récupération des clients !');
-        try {
-            $users = $this->em->getRepository(User::class)->findBy(
+        $io->comment('Récupération des clients !'.(new DatePoint('-11 months'))->format('d-m-Y'));
+        // try {
+        $users = $this->em->getRepository(User::class)->getUserInactive(
+            new DatePoint('-11 months')
+        );
+        $io->comment('nbUser 30 before end : '.\count($users));
+        $progess = new ProgressBar($output, \count($users));
+        $progess->setMessage('Liste des comptes à 11 mois d\'inactivité');
+        $progess->start();
+        foreach ($users as $user) {
+            /*
+             * @var User $user
+             */
+            $this->mailerManager->sendMailNotification(
+                $user->getEmail(),
+                'emails/warning_user_account_close.html.twig',
                 [
-                    'lastDateConnexion' => (new \DateTime())->modify('-11 months')->format('Y-m-d'),
+                    'user' => $user,
                 ]
             );
-            $io->comment('nbUser 30 before end : '.\count($users));
-            $progess = new ProgressBar($output, \count($users));
-            $progess->setMessage('Liste des comptes à 11 mois d\'inactivité');
-            $progess->start();
-            foreach ($users as $user) {
-                /*
-                 * @var User $user
-                 */
-                $this->mailerManager->sendMailNotification(
-                    $user->getEmail(),
-                    'emails/warning_user_account_close.html.twig',
-                    [
-                        'user' => $user,
-                    ]
-                );
-                $progess->advance();
-            }
-
-            $userToCloses = $this->em->getRepository(User::class)->findBy(
-                [
-                    'lastDateConnexion' => (new \DateTime())->modify('-12 months')->format('Y-m-d'),
-                ]
-            );
-            $io->comment('nbUserToEnds : '.\count($userToCloses));
-            $progess = new ProgressBar($output, \count($userToCloses));
-            $progess->setMessage('Liste des comptes à clôturer');
-            $progess->start();
-            foreach ($userToCloses as $userToClose) {
-                if (User::ROLE_SELLER === $userToClose->getRole()) {
-                    // on doit désactiver tous les produits
-                    $product = $this->em->getRepository(Product::class)->findBy(['author' => $userToClose->getId()]);
-                    if ($product) {
-                        $product->setStatus(ProductStatus::REJECTED);
-                    }
-                }
-
-                $userToClose->setDeletedAt(new \DateTime());
-                /*
-                 * @var User $userToClose
-                 */
-                $this->mailerManager->sendMailNotification(
-                    $userToClose->getEmail(),
-                    'emails/user_account_close.html.twig',
-                    [
-                        'user' => $userToClose,
-                    ]
-                );
-                $progess->advance();
-            }
-
-            $io->success('Mails send !');
-
-            return Command::SUCCESS;
-        } catch (\Exception $exception) {
-            $io->success("Erreur lors de l'envoi !");
-            $this->emailLogger->error("[Mail] Erreur lors de l'envoie", ['message' => $exception->getMessage()]);
-
-            return Command::FAILURE;
+            $progess->advance();
         }
+
+        $userToCloses = $this->em->getRepository(User::class)->getUserInactive(
+            new DatePoint('-12 months')
+        );
+        $io->comment('nbUserToEnds : '.\count($userToCloses));
+        $progess = new ProgressBar($output, \count($userToCloses));
+        $progess->setMessage('Liste des comptes à clôturer !');
+        $progess->start();
+        foreach ($userToCloses as $userToClose) {
+            if (User::ROLE_SELLER === $userToClose->getRole()) {
+                // on doit désactiver tous les produits
+                $product = $this->em->getRepository(Product::class)->findBy(['author' => $userToClose->getId()]);
+                if ($product) {
+                    $product->setStatus(ProductStatus::REJECTED);
+                }
+            }
+
+            $userToClose->setDeletedAt(new \DateTime());
+            /*
+             * @var User $userToClose
+             */
+            $this->mailerManager->sendMailNotification(
+                $userToClose->getEmail(),
+                'emails/user_account_close.html.twig',
+                [
+                    'user' => $userToClose,
+                ]
+            );
+            $progess->advance();
+        }
+
+        $io->success('Mails send !');
+
+        return Command::SUCCESS;
+        //        } catch (\Exception $exception) {
+        //            $io->success("Erreur lors de l'envoi !");
+        //            $this->emailLogger->error("[Mail] Erreur lors de l'envoi", ['message' => $exception->getMessage()]);
+        //
+        //            return Command::FAILURE;
+        //        }
     }
 }

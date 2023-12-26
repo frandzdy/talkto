@@ -8,7 +8,6 @@ use App\Validator\Constraints as AssertRented;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -554,12 +553,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function serialize()
+    public function serialize(): void
     {
         // TODO: Implement serialize() method.
     }
 
-    public function unserialize(string $data)
+    public function unserialize(string $data): void
     {
         // TODO: Implement unserialize() method.
     }

@@ -5,19 +5,19 @@ namespace App\Controller\Front;
 use App\Entity\User;
 use App\Form\Front\UserType;
 use App\Repository\UserRepository;
+use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
-use App\Security\FrontAuthenticator;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
@@ -146,20 +146,20 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $user->setDeletedAt(new \DateTime());
+
         $em->flush();
 
         $mailerManager->sendMailNotification(
             $user->getEmail(),
             'emails/account_deactivate.html.twig',
             [
-                'user' => $user
+                'user' => $user,
             ]
         );
 
         $security->logout(false);
 
         $this->addFlash('success', 'Compte désactiver');
-
 
         return $this->redirectToRoute('front_home');
     }
@@ -173,7 +173,7 @@ class UserController extends AbstractController
     {
         $user = $em->getRepository(User::class)->findBy(
             [
-                'token' => $token
+                'token' => $token,
             ]
         );
         $user->setDeletedAt(null);
@@ -230,9 +230,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * Enregistre les coordonnées GPS d'un utilisateur
+     * Enregistre les coordonnées GPS d'un utilisateur.
      */
-    #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ["expose" => true], methods: ['POST'])]
+    #[Route('/save-coord/{lat}/{lon}', name: 'user_save_coord', options: ['expose' => true], methods: ['POST'])]
     public function saveUserCoord(
         string $lat,
         string $lon,
@@ -245,7 +245,7 @@ class UserController extends AbstractController
             /*
              * @var User $user
              */
-            if ($user) {
+            if ($user instanceof UserInterface) {
                 $user->setLat($lat);
                 $user->setLon($lon);
                 $userManager->saveUser();
@@ -253,9 +253,9 @@ class UserController extends AbstractController
                 $session->set('lat', $lat);
                 $session->set('lon', $lon);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // logger l'erreur
-            $logger->alert('Erreur sauvegarde GPS user : ' . $e->getMessage());
+            $logger->alert('Erreur sauvegarde GPS user : '.$exception->getMessage());
         }
 
         return $this->json(['success' => true], Response::HTTP_OK);

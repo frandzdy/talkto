@@ -251,11 +251,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.deletedAt IS NULL')
             ->setParameter('role', $role);
 
-        if ($datePoint instanceof \Symfony\Component\Clock\DatePoint) {
+        if ($datePoint instanceof DatePoint) {
             $builder->andWhere('u.createdAt = :date')
                 ->setParameter('date', $datePoint);
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    public function getUserInactive(DatePoint $datePoint): array
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.lastDateConnexion like :date')
+            ->setParameter('date', $datePoint->format('Y-m-d').'%')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

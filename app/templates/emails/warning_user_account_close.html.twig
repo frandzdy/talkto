@@ -1,19 +1,19 @@
-{% block subject %}Reented – Clôture de compte{% endblock %}
+{% block subject %}Reented – Notification de clôture de compte{% endblock %}
 
 {% block body_html %}
     {% embed 'emails/_layout.html.twig' %}
-        {% block title %}Clôture de compte{% endblock %}
-        {% block accroche %}Clôture de compte{% endblock %}
+        {% block title %}Notification de clôture de compte{% endblock %}
+        {% block accroche %}Notification de clôture de compte{% endblock %}
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
                     <h3>Bonjour {{ user.firstname }},</h3>
                     <p>
-                        Votre compte présente une inactivité depuis 1 an.
+                        Votre compte présente une inactivité depuis 11 mois.
                     </p>
                     <p>
-                        Vous avez reçu un e-mail, il y a un mois vous avertissant que nous allions procéder à la suppression de votre compte.<br>
-                        À la réception de cet e-mail, votre compte a été supprimé.
+                        De ce fait, nous souhaitons vous informer que vous avez 1 mois à compter de la date de reception de cet e-mail.
+                        Afin vous reconnecter et vous permettre de conserver vos données actuelles.
                     </p>
                     <p>
                         Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.
@@ -33,10 +33,10 @@
 {% block body_text %}
     Bonjour {{ user.firstname }},\n
     \n
-    Votre compte présente une inactivité depuis 1 an.\n
-    \
-    Vous avez reçu un e-mail, il y a un mois vous avertissant que nous allions procéder à la suppression de votre compte.\n
-    À la réception de cet e-mail, votre compte a été supprimé.\n
+    Votre compte présente une inactivité depuis 11 mois.\n
+    \n
+    De ce fait, nous souhaitons vous informer que vous avez 1 mois à compter de la date de reception de cet e-mail.
+    Afin vous reconnecter et vous permettre de conserver vos données actuelles.\n
     \n
     Si vous avez des questions, n'hésitez pas à nous contacter via notre site pour vous garantir un service de qualité et sécurisé.\n
     \n

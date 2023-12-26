@@ -4,18 +4,18 @@ namespace App\Controller\Front;
 
 use App\Form\Front\SellerType;
 use App\Form\Front\UserType;
+use App\Security\FrontAuthenticator;
 use App\Service\MailerManager;
 use App\Service\StripeManager;
 use App\Service\UserManager;
-use App\Security\FrontAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SellerController extends AbstractController
 {
