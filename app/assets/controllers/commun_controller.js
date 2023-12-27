@@ -8,7 +8,6 @@ export default class extends Controller {
     rejectLocalisation = false
     localisationDone = false
     connect() {
-        console.log('cc', Cookies.get('geolocalisation'))
         if(Cookies.get('geolocalisation') == 'true') {
             $("#geolocalisation").remove()
         }
