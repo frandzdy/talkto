@@ -3,17 +3,19 @@
 namespace App\Form\Back;
 
 use App\Entity\Product;
+use App\Entity\Slider;
 use App\Enum\ProductStatus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Filtre du menu produit.
  */
-class ProductCollectionType extends AbstractType
+class SliderType extends AbstractType
 {
     /**
      * <@inheritDoc>.
@@ -40,7 +42,8 @@ class ProductCollectionType extends AbstractType
                         ->setParameter('endDate', (new DatePoint())->format('Y-m-d'))
                         // #
                         ->orderBy('p.id, p.numberView', 'ASC')
-                        ->addOrderBy('p.title', 'DESC'),
+                        ->addOrderBy('p.title', 'DESC')
+                        ->setMaxResults(20),
                     'choice_label' => static fn (Product $product): string => $product->getTitle().' - Note : '.$product->getAverageNote().' - Nb avis : '.$product->getReviews()->count().' - Nb vue : '.$product->getNumberView(),
                     'placeholder' => '-- Sélectionner --',
                     'required' => true,
@@ -50,5 +53,14 @@ class ProductCollectionType extends AbstractType
                 ]
             )
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => Slider::class
+            ]
+        );
     }
 }

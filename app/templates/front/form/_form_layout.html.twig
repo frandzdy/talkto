@@ -64,9 +64,12 @@
 {% endblock %}
 
 {% block product_collection_widget %}
-    <div class="col-4">
+    <div class="col-4 file-elt mx-1">
         <div class="w-100">
             {{ form_widget(form.children.product) }}
         </div>
+        <button type="button" class="btn" data-action="click->back-product#onCollectionDelete">
+            <i class="fa far fa-trash-alt text-danger"></i>
+        </button>
     </div>
 {% endblock %}

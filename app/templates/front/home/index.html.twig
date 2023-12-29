@@ -45,14 +45,14 @@
                                 <div class="banner__item mb-30 p-relative">
                                     <div class="banner__thumb fix">
                                         {% set pictureName = '' %}
-                                        {% if slider.pictures.count > 0 %}
-                                            {% set pictureName = slider.pictures.first.name %}
+                                        {% if slider.product.pictures.count > 0 %}
+                                            {% set pictureName = slider.product.pictures.first.name %}
                                         {% endif %}
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': slider.token}) }}"
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': slider.product.token}) }}"
                                            class="w-img">
                                             <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                 width="376px"
-                                                 alt="{{ slider.title }}">
+                                                 width="376px" height="233px"
+                                                 alt="{{ slider.product.title }}">
                                         </a>
                                     </div>
                                     {#                                    <div class="banner__content p-absolute transition-3"> #}
@@ -185,14 +185,14 @@
                             <div class="banner__item-2 banner-right p-relative mb-30 pr-15">
                                 <div class="banner__thumb fix">
                                     {% set pictureName = '' %}
-                                    {% if mid.pictures.count > 0 %}
-                                        {% set pictureName = mid.pictures.first.name %}
+                                    {% if mid.product.pictures.count > 0 %}
+                                        {% set pictureName = mid.product.pictures.first.name %}
                                     {% endif %}
-                                    <a href="{{ path('front_product_reservation_show_detail', {'token': mid.token}) }}"
+                                    <a href="{{ path('front_product_reservation_show_detail', {'token': mid.product.token}) }}"
                                        class="w-img">
                                         <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
                                              width="950px"
-                                             alt="{{ mid.title }}">
+                                             alt="{{ mid.product.title }}">
                                     </a>
                                 </div>
                                 {#                                <div class="banner__content-2 p-absolute transition-3"> #}

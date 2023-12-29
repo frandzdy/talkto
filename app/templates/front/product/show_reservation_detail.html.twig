@@ -338,20 +338,20 @@
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div class="product__wrapper mb-60">
                             <div class="product__thumb">
-                                {% if product.pictures.count > 0 %}
-                                    {% set picture = product.pictures.first %}
+                                {% if trend[0].pictures.count > 0 %}
+                                    {% set picture = trend[0].pictures.first %}
                                     <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
                                          alt="{{ product.title }}" width="270px">
-                                    {% if product.pictures.count > 1 %}
-                                        {% set picture2 = product.pictures.next %}
+                                    {% if trend[0].pictures.count > 1 %}
+                                        {% set picture2 = trend[0].pictures.next %}
                                         <img class="product__thumb-2"
                                              src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale') }}"
-                                             alt="{{ product.title }}" width="270px">
+                                             alt="{{ trend[0].title }}" width="270px">
                                     {% endif %}
                                 {% endif %}
 
                                 <div class="product__action transition-3">
-                                    <a href="{{ path('front_wishlist_add', {'token': product.token}) }}"
+                                    <a href="{{ path('front_wishlist_add', {'token': trend[0].token}) }}"
                                        class="post-confirm add-product-wishlist"
                                        data-button-text="Ajouter"
                                        data-title="Favoris"
@@ -362,7 +362,7 @@
                                         <i class="fal fa-heart"></i>
                                     </a>
                                     <!-- Button trigger modal -->
-                                    <a href="{{ path('front_product_reservation', {'token': product.token}) }}"
+                                    <a href="{{ path('front_product_reservation', {'token': trend[0].token}) }}"
                                        title="Réservez"
                                        data-toggle="tooltip" data-placement="top"
                                        data-modal-title="Réservation en cours"
@@ -375,17 +375,17 @@
                             <div class="product__content p-relative">
                                 <div class="product__content-inner">
                                     <h4>
-                                        <a href="{{ path('front_product_reservation_show_detail', {'token': product.token}) }}">
-                                            {{ product.title }}
+                                        <a href="{{ path('front_product_reservation_show_detail', {'token': trend[0].token}) }}">
+                                            {{ trend[0].title }}
                                         </a>
                                     </h4>
                                     <div class="product__price transition-3">
-                                        <span>{{ product.amount|number_format(2, ',')|default(0) }} €</span>
+                                        <span>{{ trend[0].amount|number_format(2, ',')|default(0) }} €</span>
                                         {#                                                <span class="old-price">$96.00</span> #}
                                     </div>
                                 </div>
                                 <div class="add-cart p-absolute transition-3">
-                                    <a href="{{ path('front_product_reservation', {'token': product.token}) }}"
+                                    <a href="{{ path('front_product_reservation', {'token': trend[0].token}) }}"
                                        title="Réservez"
                                        data-modal-title="Réservation en cours"
                                        class="open-product-modal"

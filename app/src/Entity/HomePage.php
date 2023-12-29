@@ -20,44 +20,20 @@ class HomePage
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: WebsiteContent::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: WebsiteContent::class, cascade: ['persist', 'remove'])]
     #[Assert\Valid()]
     private Collection $websiteContents;
 
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    #[ORM\JoinTable(
-        name: 'home_page_slider',
-        joinColumns: [
-            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id'),
-        ],
-        inverseJoinColumns: [
-            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id'),
-        ]
-    )]
+    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: Slider::class, cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private Collection $sliders;
 
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    #[ORM\JoinTable(
-        name: 'home_page_under_slider',
-        joinColumns: [
-            new ORM\JoinColumn(name: 'home_page_id', referencedColumnName: 'id'),
-        ],
-        inverseJoinColumns: [
-            new ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id'),
-        ]
-    )]
+    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: UnderSlider::class, cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private Collection $underSliders;
 
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    #[ORM\JoinTable(
-        name: 'home_page_mid',
-        joinColumns: [
-            new ORM\JoinColumn('home_page_id', referencedColumnName: 'id'),
-        ],
-        inverseJoinColumns: [
-            new ORM\JoinColumn('product_id', referencedColumnName: 'id'),
-        ]
-    )]
+    #[ORM\OneToMany(mappedBy: 'homePage', targetEntity: Mid::class, cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private Collection $mids;
 
     // constructor
@@ -119,18 +95,24 @@ class HomePage
         return $this->sliders;
     }
 
-    public function addSlider(Product $slider): self
+    public function addSlider(Slider $slider): self
     {
         if (!$this->sliders->contains($slider)) {
             $this->sliders[] = $slider;
+            $slider->setHomePage($this);
         }
 
         return $this;
     }
 
-    public function removeSlider(Product $slider): self
+    public function removeSlider(Slider $slider): self
     {
-        $this->sliders->removeElement($slider);
+        if ($this->sliders->contains($slider)) {
+            $this->sliders->removeElement($slider);
+                if ($slider->getHomePage() === $this) {
+                    $slider->setHomePage($this);
+                }
+        }
 
         return $this;
     }
@@ -140,18 +122,24 @@ class HomePage
         return $this->underSliders;
     }
 
-    public function addUnderSlider(Product $underSlider): self
+    public function addUnderSlider(UnderSlider $underSlider): self
     {
         if (!$this->underSliders->contains($underSlider)) {
             $this->underSliders[] = $underSlider;
+            $underSlider->setHomePage($this);
         }
 
         return $this;
     }
 
-    public function removeUnderSlider(Product $underSlider): self
+    public function removeUnderSlider(UnderSlider $underSlider): self
     {
-        $this->underSliders->removeElement($underSlider);
+        if ($this->underSliders->contains($underSlider)) {
+            $this->underSliders->removeElement($underSlider);
+            if ($underSlider->getHomePage() === $this) {
+                $underSlider->setHomePage(null);
+            }
+        }
 
         return $this;
     }
@@ -161,18 +149,24 @@ class HomePage
         return $this->mids;
     }
 
-    public function addMid(Product $mids): self
+    public function addMid(Mid $mids): self
     {
         if (!$this->mids->contains($mids)) {
             $this->mids[] = $mids;
+            $mids->setHomePage($this);
         }
 
         return $this;
     }
 
-    public function removeMid(Product $mids): self
+    public function removeMid(Mid $mids): self
     {
-        $this->mids->removeElement($mids);
+        if ($this->mids->contains($mids)) {
+            $this->mids->removeElement($mids);
+            if ($mids->getHomePage() === $this) {
+                $mids->setHomePage(null);
+            }
+        }
 
         return $this;
     }

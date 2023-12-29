@@ -28,7 +28,7 @@ liip_imagine:
 
         ## home page filters
         home_slider:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
                 #downscale:
@@ -37,20 +37,21 @@ liip_imagine:
                     width: 1254
                     height: 750
         home_under_slider:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
-                downscale:
-                    max: [ 376, 233 ]
+                fixed:
+                    width: 376
+                    height: 233
         home_mid:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
 
         home_latest:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
                 downscale:
@@ -72,7 +73,7 @@ liip_imagine:
                 downscale:
                     max: [ 102, 130 ]
         product_trends_or_sale:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
                 #strip: ~

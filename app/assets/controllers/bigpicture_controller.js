@@ -60,4 +60,20 @@ export default class extends Controller {
             },
         })
     }
+
+    loadGalleryModal(e) {
+        e.preventDefault()
+        BigPicture({
+            el: e.currentTarget,
+            gallery: '#nav-tabContent',
+            animationStart: function () {
+                document.documentElement.style.overflowY = 'hidden'
+                document.body.style.overflowY = 'scroll'
+            },
+            onClose: function () {
+                document.documentElement.style.overflowY = 'auto'
+                document.body.style.overflowY = 'auto'
+            },
+        })
+    }
 }

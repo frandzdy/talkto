@@ -10,6 +10,7 @@ export default class extends Controller {
      */
     confirmPictureDelete(event) {
         event.preventDefault()
+        const elt = e.currentTarget;
         const token = $(event.currentTarget).data('token')
         const productToken = $(event.currentTarget).data('productToken')
         if (token && productToken) {
@@ -37,5 +38,28 @@ export default class extends Controller {
                 }
             })
         }
+    }
+
+    onCollectionDelete(event) {
+        const elt = e.currentTarget;
+        $.confirm({
+            title: 'Suppression d\'une élément',
+            content: 'Souhaitez-vous supprimer cette élément ?',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                confirm: {
+                    text: 'Supprimer',
+                    btnClass: 'btn-red',
+                    action: () => {
+                        elt.parentElement.remove();
+                        toastr.success('Element supprimé !')
+                    }
+                },
+                close: {
+                    text: "Annuler"
+                }
+            }
+        })
     }
 }
