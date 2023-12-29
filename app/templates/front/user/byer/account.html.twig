@@ -31,7 +31,8 @@
                                     {% if urlActivation is same as (true) %}
                                         <p>
                                             Votre compte bailleur n'est pas encore actif.
-                                            <a href="{{ urlActivationAccount }}" title="lien d'activation du compte bailleur">
+                                            <a href="{{ urlActivationAccount }}"
+                                               title="lien d'activation du compte bailleur">
                                                 Activer votre compte
                                             </a>
                                         </p>
@@ -114,21 +115,23 @@
                                         Mes locations
                                     </button>
                                 {% endif %}
-                                <button class="nav-link" id="nav-wishlist-tab" data-toggle="tab"
-                                        data-target="#nav-wishlist"
-                                        type="button" role="tab" aria-controls="nav-wishlist"
-                                        aria-selected="false">
-                                    <i class="fas fa-heart"></i>
-                                    Mes favoris
-                                </button>
-                                <a class="btn nav-link post-confirm"
-                                   data-button-text="Désactiver"
-                                   data-title="Désactiver mon compte"
-                                   data-confirm-message="Souhaitez-vous désactiver votre compte ?"
-                                   href="{{ path('front_user_deactivate') }}" title="Désactiver mon compte">
-                                    <i class="fas fa-trash text-danger"></i>
-                                    Désactiver mon compte
-                                </a>
+                                {% if user.role is not same as (constant('App\\Entity\\User::ROLE_GUESS')) %}
+                                    <button class="nav-link" id="nav-wishlist-tab" data-toggle="tab"
+                                            data-target="#nav-wishlist"
+                                            type="button" role="tab" aria-controls="nav-wishlist"
+                                            aria-selected="false">
+                                        <i class="fas fa-heart"></i>
+                                        Mes favoris
+                                    </button>
+                                    <a class="btn nav-link post-confirm"
+                                       data-button-text="Désactiver"
+                                       data-title="Désactiver mon compte"
+                                       data-confirm-message="Souhaitez-vous désactiver votre compte ?"
+                                       href="{{ path('front_user_deactivate') }}" title="Désactiver mon compte">
+                                        <i class="fas fa-trash text-danger"></i>
+                                        Désactiver mon compte
+                                    </a>
+                                {% endif %}
                                 <a href="{{ path('front_logout') }}" class="btn nav-link" title="Déconnexion">
                                     <i class="fa fa-sign-out text-danger"></i>
                                     Déconnexion

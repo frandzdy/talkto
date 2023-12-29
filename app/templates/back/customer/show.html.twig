@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-lg-5 text-right">
                             <a class="btn btn-outline-primary"
-                               href="{{ impersonation_path(customer.email) }}"
+                               href="{{ path('back_customer_authenticate', {'id': customer.id}) }}"
                                title="Se connecter avec ce client">
                                 <i class="fa fa-user"></i> Se connecter avec ce client
                             </a>
