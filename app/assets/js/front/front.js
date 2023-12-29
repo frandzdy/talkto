@@ -28,7 +28,7 @@ import toastr from 'toastr';
 toastr.options.preventDuplicates = true;
 toastr.options.positionClass = 'toast-bottom-left';
 
-global.toastr = toastr;
+window.toastr = toastr;
 
 const {debounce} = require('lodash')
 window.debounce = debounce

@@ -82,6 +82,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('p.author', 'a')
             ->addSelect('a')
             ->where('a.id = :userId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(p.id))')
@@ -113,9 +114,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('tl')
             ->join('tl.product', 'p');
         if (User::ROLE_USER === $user->getRole()) {
-            $qb->where('r.author = :userId');
+            $qb->where('r.author = :userId')
+                ->andWhere('p.deletedAt IS NULL');
         } else {
-            $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId');
+            $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId')
+                ->andWhere('p.deletedAt IS NULL');
         }
 
         $qb->setParameter('userId', $user->getId());
@@ -150,6 +153,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('p.author', 'author')
             ->addSelect('author')
             ->where('u.id = :userId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(w.id))')
@@ -184,6 +188,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('r.author', 'author')
             ->addSelect('author')
             ->where('author.id = :userId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('userId', $user->getId());
 
         $count = (clone $qb)->select('count(Distinct(r.id))')

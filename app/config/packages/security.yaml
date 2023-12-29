@@ -34,7 +34,7 @@ security:
                 clear_site_data:
                     - cache
                     - storage
-                    - executionContexts
+                    #- executionContexts
             # custom_authenticator: App\Security\BackAuthenticator
         front:
             pattern: ^/
@@ -47,7 +47,7 @@ security:
                 clear_site_data:
                     - cache
                     - storage
-                    - executionContexts
+                    #- executionContexts
             custom_authenticator: App\Security\FrontAuthenticator
             remember_me:
                 secret: '%kernel.secret%'

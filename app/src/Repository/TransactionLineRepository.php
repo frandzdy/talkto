@@ -90,6 +90,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->where('p.status = :productStatus')
             ->andWhere('a.isStripeAccountActive = true')
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
             ->setParameter(':endDistance', 100)
@@ -112,6 +113,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->where('tl.startDate <= :dateNow AND tl.endDate >= :dateNow')
             ->setParameter('dateNow', (new \DateTime())->format('Y-m-d'))
             ->andWhere('p.id = :productId')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('productId', $product->getId());
 
         $count = (clone $qb)->select('count(Distinct(tl.id))')
@@ -138,6 +140,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->andWhere('t.status IN (:transactionStatus)')
             ->andWhere('tl.status IN (:transactionLineStatus)')
             ->andWhere('p.id = :product')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('product', $product->getId())
             ->setParameter('transactionStatus', [TransactionStatus::WAITING->value, TransactionStatus::VALIDATE->value])
             ->setParameter('transactionLineStatus', TransactionLineStatus::IN_PROGRESS->value)

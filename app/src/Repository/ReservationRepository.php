@@ -83,6 +83,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->join('tl.product', 'p')
             ->where('p.token = :token')
             ->andWhere('tl.endDate <= :endDate')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('token', $token)
             ->setParameter('endDate', $maxDate)
             ->getQuery()
