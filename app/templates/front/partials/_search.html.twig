@@ -13,8 +13,8 @@
                         </div>
                         <div class="header__search-categories">
                             <ul class="search-category">
-                                {% for index, category in getProductCategories() %}
-                                    <li><a href="{{ path('front_product_category', {'productCategory': index}) }}">{{ category }}</a></li>
+                                {% for category in getProductCategories() %}
+                                    <li><a href="{{ path('front_product_category', {'productCategory': category.slug}) }}">{{ category.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -49,8 +49,8 @@
                     <ul class="submenu transition-3">
                         {% for index, category in getProductCategories() %}
                             <li>
-                                <a href="{{ path('front_product_category', {'productCategory': index}) }}" title="{{ category }}">
-                                    {{ category }}
+                                <a href="{{ path('front_product_category', {'productCategory': category.slug}) }}" title="{{ category.title }}">
+                                    {{ category.title }}
                                 </a>
                             </li>
                         {% endfor %}

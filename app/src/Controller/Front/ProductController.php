@@ -42,7 +42,10 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException("Ce produit n'existant pas.");
         }
 
-        return $this->render('front/product/show_preview.html.twig', ['product' => $product, 'noteReview' => $noteReview]);
+        return $this->render(
+            'front/product/show_preview.html.twig',
+            ['product' => $product, 'noteReview' => $noteReview]
+        );
     }
 
     /**
@@ -164,7 +167,14 @@ class ProductController extends AbstractController
 
         return $this->render(
             'front/product/show_reservation_detail.html.twig',
-            ['product' => $product, 'quantityLeft' => $quantityLeft, 'form' => $form, 'trends' => $trends, 'review' => $review, 'formReview' => $formReview]
+            [
+                'product' => $product,
+                'quantityLeft' => $quantityLeft,
+                'form' => $form,
+                'trends' => $trends,
+                'review' => $review,
+                'formReview' => $formReview,
+            ]
         );
     }
 
@@ -276,7 +286,7 @@ class ProductController extends AbstractController
         'POST',
     ])]
     public function productCategory(
-        ProductCategory $productCategory,
+        string $productCategory,
         EntityManagerInterface $em,
         Request $request,
         PaginatorInterface $paginator,
@@ -295,13 +305,19 @@ class ProductController extends AbstractController
             $lon = $user->getLon();
         }
 
+        $category = match ($productCategory) {
+            ProductCategory::FURNITURE->labelUri()['slug'] => ProductCategory::FURNITURE,
+            ProductCategory::GOODS->labelUri()['slug'] => ProductCategory::GOODS,
+            ProductCategory::TOOLS->labelUri()['slug'] => ProductCategory::TOOLS,
+            ProductCategory::OTHERS->labelUri()['slug'] => ProductCategory::OTHERS
+        };
         $filter = [
             'startAmount' => explode('-', $amount)[0],
             'endAmount' => explode('-', $amount)[1],
             'startDistance' => explode('-', $distance)[0],
             'endDistance' => explode('-', $distance)[1],
             'sortedBy' => $sortedBy,
-            'category' => $productCategory->value,
+            'category' => $category->value,
             'lon' => $lon,
             'lat' => $lat,
         ];
@@ -323,13 +339,13 @@ class ProductController extends AbstractController
             'front/product/category.html.twig',
             [
                 'pagination' => $products,
-                'productCategory' => $productCategory,
+                'productCategory' => $category,
                 'data' => $data,
             ]
         );
     }
 
-    #[Route('/produit-recherche', name: 'product_search', methods: ['GET'])]
+    #[Route('/recherche-produit', name: 'product_search', methods: ['GET'])]
     public function productSearch(
         ProductRepository $productRepository,
         Request $request,

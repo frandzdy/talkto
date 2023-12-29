@@ -20,10 +20,10 @@
                                         <ul class="submenu transition-3">
                                             <li class="has-dropdown">
                                                 <ul>
-                                                    {% for index, category in getProductCategories() %}
+                                                    {% for category in getProductCategories() %}
                                                         <li>
-                                                            <a href="{{ path('front_product_category', {'productCategory': index}) }}"
-                                                               title="{{ category }}">{{ category }}</a>
+                                                            <a href="{{ path('front_product_category', {'productCategory': category.slug}) }}"
+                                                               title="{{ category.title }}">{{ category.title }}</a>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -53,11 +53,11 @@
                                 </li>
                                 <li>
                                     {% if app.user %}
-                                        <a href="#" rel="nofollow" title="Menu bar">
+                                        <a href="#" rel="nofollow" title="Menu">
                                             <i class="far fa-user"></i>
                                         </a>
                                     {% else %}
-                                        <a href="#" rel="nofollow" title="Menu bar">
+                                        <a href="#" rel="nofollow" title="Menu">
                                             <i class="far fa-bars"></i>
                                         </a>
                                     {% endif %}
@@ -173,7 +173,7 @@
             {% if not app.user %}
                 <div class="row align-items-center text-center">
                     <div style="cursor: pointer" id="geolocalisation"
-                         class="col-12" {{ stimulus_action('commun', 'onStartLocalisation', 'click') }}>
+                         class="col-12 d-none" {{ stimulus_action('commun', 'onStartLocalisation', 'click') }}>
                         Souhaitez-vous activer la géolocalisation afin d'améliorer votre expérience ?
                     </div>
                 </div>

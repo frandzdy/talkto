@@ -104,9 +104,15 @@
                 {% endfor %}
             </div>
             {% if not form.vars.value.id %}
-                <button class="os-btn w-100" formnovalidate>Créer</button>
+                <button class="os-btn w-100" formnovalidate id="submit-btn"
+                        data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
+                        data-title="Créer"
+                >Créer</button>
             {% else %}
-                <button class="os-btn w-100" formnovalidate>Modifier</button>
+                <button class="os-btn w-100" formnovalidate id="submit-btn"
+                        data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
+                        data-title="Modifier"
+                >Modifier</button>
             {% endif %}
             <div class="d-none">
                 {{ form_rest(form) }}

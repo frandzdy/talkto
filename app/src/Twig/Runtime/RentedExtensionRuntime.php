@@ -26,7 +26,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
      */
     public function getProductCategories(): array
     {
-        return ProductCategory::getLabels();
+        return ProductCategory::getUriLabels();
     }
 
     /**

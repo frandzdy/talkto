@@ -239,7 +239,7 @@ class UserType extends AbstractType
                     'terms',
                     CheckboxType::class,
                     [
-                        'label' => '<a target="_blank" title="Condition Générale d\'Utilisation" data-turbo="false" href="'.$this->urlGenerator->generate('front_cgu').'">CGU</a>',
+                        'label' => 'Accepter notre <a class="alert-link" target="_blank" title="Condition Générale d\'Utilisation" data-turbo="false" href="'.$this->urlGenerator->generate('front_cgu').'">CGU</a>',
                         'label_html' => true,
                     ]
                 );

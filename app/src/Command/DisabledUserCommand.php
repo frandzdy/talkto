@@ -33,12 +33,12 @@ class DisabledUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->comment('Récupération des clients !' . (new DatePoint('-11 months'))->format('d-m-Y'));
+        $io->comment('Récupération des clients !'.(new DatePoint('-11 months'))->format('d-m-Y'));
         try {
             $users = $this->em->getRepository(User::class)->getUserInactive(
                 new DatePoint('-11 months')
             );
-            $io->comment('nbUser 30 before end : ' . \count($users));
+            $io->comment('nbUser 30 before end : '.\count($users));
             $progess = new ProgressBar($output, \count($users));
             $progess->setMessage('Liste des comptes à 11 mois d\'inactivité');
             $progess->start();
@@ -59,7 +59,7 @@ class DisabledUserCommand extends Command
             $userToCloses = $this->em->getRepository(User::class)->getUserInactive(
                 new DatePoint('-12 months')
             );
-            $io->comment('nbUserToEnds : ' . \count($userToCloses));
+            $io->comment('nbUserToEnds : '.\count($userToCloses));
             $progess = new ProgressBar($output, \count($userToCloses));
             $progess->setMessage('Liste des comptes à clôturer !');
             $progess->start();

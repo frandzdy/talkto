@@ -174,8 +174,8 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     public function getTrends(
-        ?int $lat,
-        ?int $lon,
+        ?float $lat,
+        ?float $lon,
         ProductCategory $productCategory = null,
         ?int $maxResult = 8
     ): ?array {
@@ -211,7 +211,7 @@ class ProductRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getLatestProducts(?int $lat, ?int $lon): ?array
+    public function getLatestProducts(?float $lat, ?float $lon): ?array
     {
         $qb = $this->createQueryBuilder('p')
             ->select(

@@ -21,11 +21,11 @@
                                                 <div class="card">
                                                     <div class="card-header white-bg" id="accessories">
                                                         <h5 class="mb-0">
-                                                            <a href="{{ path('front_product_category', {'productCategory': index}) }}">
+                                                            <a href="{{ path('front_product_category', {'productCategory': category.slug}) }}">
                                                                 {% if index == productCategory.value %}
-                                                                    <b>{{ category }}</b>
+                                                                    <b>{{ category.title }}</b>
                                                                 {% else %}
-                                                                    {{ category }}
+                                                                    {{ category.title }}
                                                                 {% endif %}
                                                             </a>
                                                         </h5>

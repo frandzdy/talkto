@@ -70,7 +70,7 @@ class TransactionLineRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function getTopSales(?int $lat, ?int $lon)
+    public function getTopSales(?float $lat, ?float $lon)
     {
         $qb = $this->createQueryBuilder('tl')
             ->select(

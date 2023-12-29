@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Cache(maxage: '3600')]
 class AboutUsController extends AbstractController
 {
-    #[Route('/à-propos', name: 'aboutus', methods: ['GET'])]
+    #[Route('/a-propos', name: 'aboutus', methods: ['GET'])]
     public function aboutUs(): Response|string
     {
         return $this->render('front/aboutus/index.html.twig');

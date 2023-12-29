@@ -5,11 +5,9 @@ import Cookies from "js-cookie";
 export default class extends Controller {
     static targets = ['container', 'modal', 'modalProduct', 'alertSuccess']
     cart = []
-    rejectLocalisation = false
-    localisationDone = false
     connect() {
-        if(Cookies.get('geolocalisation') == 'true') {
-            $("#geolocalisation").remove()
+        if(Cookies.get('geolocalisation') == undefined) {
+            $("#geolocalisation").removeClass('d-none')
         }
         this.handleToolTips()
         this.handleBsCustomInputFile($('[type=file]'))
@@ -129,17 +127,15 @@ export default class extends Controller {
             'lat': cards.latitude,
             'lon': cards.longitude
         })).done(_ => {
-            Cookies.set('geolocalisation', true)
+            Cookies.set('geolocalisation', true, {expires: 7})
         })
-        this.localisationDone = true
         clearTimeout(this.timeOut)
         toastr.success('Géolocalisation activé', 'Activation')
     }
 
     error = (err) => {
         clearTimeout(this.timeOut)
-        this.rejectLocalisation = true
-        Cookies.set('geolocalisation', false)
+        Cookies.set('geolocalisation', false, {expires: 7})
     }
     updateCart() {
         this.cart = [];
@@ -199,6 +195,12 @@ export default class extends Controller {
      */
     handleAjaxForm(target, data, action) {
         try {
+            let $btn = $('#submit-btn');
+            $btn
+                .html(
+                    '<img style="width: 50px;" src="' + $btn.data('loading-img') + '" alt="Envoi en cours"> Envoi en cours'
+                )
+                .attr('disabled', 'disabled');
             $.ajax({
                 type: "POST",
                 url: action,
@@ -214,7 +216,7 @@ export default class extends Controller {
 
                     if (response.error) {
                         toastr.error(response.error);
-
+                        $btn.html($btn.data('title')).removeAttr('disabled');
                         return false;
                     }
 
@@ -227,7 +229,7 @@ export default class extends Controller {
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
-
+                        $btn.html($btn.data('title')).removeAttr('disabled');
                         return false;
                     }
 
@@ -252,10 +254,10 @@ export default class extends Controller {
 
                     if (response.message) {
                         toastr.success(response.message);
+                        $btn.html($btn.data('title')).removeAttr('disabled');
                     }
                 },
                 error: (response) => {
-                    console.error(response.responseText);
                     if (response.status === 422) {
                         if ($(target).hasClass('modal')) {
                             $(target).find('.wrapper').html(response.responseText);
@@ -265,12 +267,15 @@ export default class extends Controller {
                         } else if (!response.template) {
                             $(target).html($(response));
                         }
+                        $btn.html($btn.data('title')).removeAttr('disabled');
                     } else {
+                        $btn.html($btn.data('title')).removeAttr('disabled');
                         toastr.error("Une erreur est survenue.");
                     }
                 }
             });
         } catch (e) {
+            $btn.html($btn.data('title')).removeAttr('disabled');
             toastr.error("Une erreur est survenue.");
         }
     }
