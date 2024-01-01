@@ -262,14 +262,14 @@
                                             </div>
                                         </div>
                                         <!--  RATING FORM -->
-                                        {% if app.user %}
+                                        {% if app.user and review is same as (true) %}
                                             <div class="post-comments-form mb-100">
                                                 <div class="post-comments-title mb-30">
-                                                    <h4>Votre avis :</h4>
+                                                    <h5>Votre avis :</h5>
                                                     {{ form_start(formReview, {attr: {'class' : 'contact-post-form', 'id':'contacts-form'}}) }}
                                                     <div class="row">
                                                         <div class="col-3">
-                                                            <div class="contact-icon p-relative">
+                                                            <div class="contact-icon p-relative contacts-name">
                                                                 {{ form_widget(formReview.note) }}
                                                             </div>
                                                         </div>

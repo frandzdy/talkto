@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table()]
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
@@ -27,12 +28,14 @@ class Review
      * Note sur 5.
      */
     #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private int $note;
 
     /**
      * Message.
      */
     #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank(message: 'Information requise.')]
     private string $message;
 
     public function getId(): ?int
