@@ -56,7 +56,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             // maybe do some custom filtering in all cases
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 1000)
+            ->setParameter(':endDistance', $lat ? 100 : 1000)
             ->andWhere('p.status = :productStatus')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->andWhere('a.isStripeAccountActive = :active')

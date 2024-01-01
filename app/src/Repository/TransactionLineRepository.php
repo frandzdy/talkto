@@ -93,7 +93,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->andWhere('p.deletedAt IS NULL')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 1000)
+            ->setParameter(':endDistance', $lat ? 100 : 1000)
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749);
 

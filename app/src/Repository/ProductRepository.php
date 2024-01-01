@@ -166,6 +166,7 @@ class ProductRepository extends ServiceEntityRepository
 
         $builder
             ->andWhere('p.status = :status')
+            ->andWhere('p.deletedAt IS NULL')
             ->setParameter('status', $filters['status']->value);
 
         $builder->orderBy('p.status, p.title, p.createdAt', 'ASC');
@@ -197,13 +198,13 @@ class ProductRepository extends ServiceEntityRepository
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 1000)
+            ->setParameter(':endDistance', $lat ? 100 : 1000)
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749)
-            ->orderBy('p.numberView', 'ASC')
+            ->orderBy('p.numberView, distance', 'ASC')
             ->setMaxResults($maxResult);
 
-        if ($productCategory instanceof \App\Enum\ProductCategory) {
+        if ($productCategory instanceof ProductCategory) {
             $qb->andWhere('p.category = :productCategory')
                 ->setParameter('productCategory', $productCategory);
         }
@@ -231,10 +232,10 @@ class ProductRepository extends ServiceEntityRepository
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 1000)
+            ->setParameter(':endDistance', $lat ? 100 : 1000)
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749)
-            ->orderBy('p.createdAt', 'ASC')
+            ->orderBy('p.createdAt, distance', 'ASC')
             ->setMaxResults(10);
 
         return $qb->getQuery()->getResult();

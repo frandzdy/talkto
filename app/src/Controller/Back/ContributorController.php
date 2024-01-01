@@ -59,7 +59,7 @@ class ContributorController extends AbstractController
         Contributor $contributor = null
     ): Response {
         $validationGroups = ['Default'];
-        if (!$contributor instanceof \App\Entity\Contributor) {
+        if (!$contributor instanceof Contributor) {
             $contributor = new Contributor();
             $validationGroups[] = 'creation';
             $formAction = $this->generateUrl('back_contributors_new');
