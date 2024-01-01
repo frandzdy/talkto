@@ -401,6 +401,7 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductReviewType::class, $review);
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $review->setProduct($product);
+            $review->setAuthor($this->getUser());
             $em->persist($review);
             $product->addReview($review);
             $em->flush();

@@ -265,37 +265,31 @@
                                         {% if app.user %}
                                             <div class="post-comments-form mb-100">
                                                 <div class="post-comments-title mb-30">
-                                                    <h3>Votre avis :</h3>
-                                                    <div class="post-rating">
-                                                        <span>Votre note :</span>
-                                                        <ul>
-                                                            <li><span><i class="rating__star fal fa-star"></i></span>
-                                                            </li>
-                                                            <li><span><i class="rating__star fal fa-star"></i></span>
-                                                            </li>
-                                                            <li><span><i class="rating__star fal fa-star"></i></span>
-                                                            </li>
-                                                            <li><span><i class="rating__star fal fa-star"></i></span>
-                                                            </li>
-                                                            <li><span><i class="rating__star fal fa-star"></i></span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                {{ form_start(formReview, {attr: {'class' : 'contact-post-form', 'id':'contacts-form'}}) }}
-                                                <div class="row">
-                                                    <div class="col-xl-12">
-                                                        <div class="contact-icon p-relative contacts-message">
-                                                            {{ form_widget(formReview.message) }}
+                                                    <h4>Votre avis :</h4>
+                                                    {{ form_start(formReview, {attr: {'class' : 'contact-post-form', 'id':'contacts-form'}}) }}
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <div class="contact-icon p-relative">
+                                                                {{ form_widget(formReview.note) }}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-12">
-                                                        <button class="os-btn os-btn-black" type="submit">Laissez votre
-                                                            avis
-                                                        </button>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="contact-icon p-relative contacts-message">
+                                                                {{ form_widget(formReview.message) }}
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <button class="os-btn os-btn-black" type="submit" formnovalidate>Laissez votre
+                                                                avis
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {{ form_end(formReview) }}
                                                 </div>
-                                                {{ form_end(formReview) }}
                                             </div>
                                         {% else %}
                                             <div class="post-comments-form mb-100">

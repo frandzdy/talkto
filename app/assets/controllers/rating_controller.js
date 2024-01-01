@@ -20,11 +20,11 @@ export default class extends Controller {
         stars.map((star) => {
             star.onclick = () => {
                 i = stars.indexOf(star);
-
+                $('#product_review_note').val(i)
                 if (star.className === starClassInactive) {
                     for (i; i >= 0; --i) {
                         stars[i].className = starClassActive;
-                        $('#review_note').val(i)
+                        $('#product_review_note').val(i)
                     }
                 } else {
                     for (i; i < starsLength; ++i) {
