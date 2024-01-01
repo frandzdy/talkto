@@ -197,9 +197,9 @@ class ProductRepository extends ServiceEntityRepository
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 100)
-            ->setParameter(':userLat', $lat ?: 48.866667)
-            ->setParameter(':userLon', $lon ?: 2.333333)
+            ->setParameter(':endDistance', 1000)
+            ->setParameter(':userLat', $lat ?: 46.227638)
+            ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.numberView', 'ASC')
             ->setMaxResults($maxResult);
 
@@ -231,9 +231,9 @@ class ProductRepository extends ServiceEntityRepository
             ->andHaving('distance BETWEEN :startDistance AND :endDistance')
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':startDistance', 0)
-            ->setParameter(':endDistance', 100)
-            ->setParameter(':userLat', $lat ?: 48.866667)
-            ->setParameter(':userLon', $lon ?: 2.333333)
+            ->setParameter(':endDistance', 1000)
+            ->setParameter(':userLat', $lat ?: 46.227638)
+            ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.createdAt', 'ASC')
             ->setMaxResults(10);
 

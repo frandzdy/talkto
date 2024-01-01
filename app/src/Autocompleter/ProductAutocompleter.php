@@ -33,8 +33,8 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             $lat = $user->getLat();
             $lon = $user->getLon();
         } else {
-            $lat = $this->requestStack->getSession()->get('lat', 0);
-            $lon = $this->requestStack->getSession()->get('lon', 0);
+            $lat = $this->requestStack->getSession()->get('lat', 46.227638);
+            $lon = $this->requestStack->getSession()->get('lon', 2.213749);
         }
 
         return $repository
@@ -62,8 +62,8 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->andWhere('a.isStripeAccountActive = :active')
             ->andWhere('p.deletedAt IS NULL')
             ->setParameter('active', true)
-            ->setParameter(':userLat', $lat ?: 48.866667)
-            ->setParameter(':userLon', $lon ?: 2.333333)
+            ->setParameter(':userLat', $lat ?: 46.227638)
+            ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.title, p.amount', 'ASC')
             ->groupBy('p.id');
     }
