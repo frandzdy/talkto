@@ -1,0 +1,266 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block title %}F.A.Q{% endblock %}
+
+{% block content %}
+    <!-- contact area start -->
+    <section class="contact__area pb-50 pt-95">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="contact__info text-center">
+                        <h3>Bailleur</h3>
+                        <div class="accordion" id="accordionExamples">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" style="color: #bc8246"
+                                                type="button"
+                                                data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                            1. Comment puis-je mettre en location mes articles sur Reented ?
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-parent="#accordionExamples">
+                                    <div class="card-body">
+                                        Sur Reented, mettre en location vos articles est simple. Connectez-vous à votre
+                                        compte, allez sur la page <strong>"Mes biens"</strong> et cliquez sur <strong>"Ajouter"</strong>.<br>
+                                        Remplissez les détails de votre produit, fixez un prix raisonnable (sans oublier
+                                        la commission de 10%) et ajoutez des photos claires. <br>Une fois votre annonce
+                                        approuvée, elle sera visible pour les utilisateurs de votre région.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                            2. Comment puis-je assurer la sécurité de mes biens pendant la location ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                     data-parent="#accordionExamples">
+                                    <div class="card-body">
+                                        Reented encourage la confiance et la sécurité. Vous pouvez choisir de demander
+                                        une caution lors d'un litige pendant la location de vos articles. <br>De plus,
+                                        vérifiez le profil de l'emprunteur, posez des questions et assurez-vous que la
+                                        personne est fiable.<br>
+                                        En cas de problème, notre équipe d'assistance est là pour vous aider. <a
+                                                href="mailto:contact@reented.com">Support client</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#collapseThree"
+                                                aria-expanded="false" aria-controls="collapseThree">
+                                            3. Comment fonctionne le processus de paiement pour les locations, y compris
+                                            la commission de 10% ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                     data-parent="#accordionExamples">
+                                    <div class="card-body">
+                                        Lorsqu'un utilisateur souhaite louer votre article, Reented facilite le
+                                        processus de paiement. Le montant total, incluant la commission de 10%, sera
+                                        affiché lors de la réservation. <br> Les fonds, déduction faite de la
+                                        commission,
+                                        seront transférés de manière sécurisée sur votre compte stripe au moment de la
+                                        validation de la réservation. <br>Vous recevrez une notification dès qu'une
+                                        demande
+                                        de location est confirmée.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingFour">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseFour"
+                                                aria-expanded="false" aria-controls="rentercollapseFour">
+                                            4. Comment est déclaré un litige et que se passe-t-il en cas de litige ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseFour" class="collapse" aria-labelledby="renterheadingFour"
+                                     data-parent="#accordionExamples">
+                                    <div class="card-body">
+                                        Reented demande, lors du check-in et du check-out, que des photos soient prise
+                                        afin de constater de l'état avant et après la location.<br>
+                                        Ce check-in se faisant en votre présence, vous devez veiller à ce que le
+                                        locataire
+                                        soit bien présent lors du controle de l'état du produit.
+                                        Lors du check-out nos systèmes vos analyser vos photos et si un statut de
+                                        signalement a été émise.<br>
+                                        Si c'est le cas alors nos engagerons une discussion entre les différentes
+                                        parties afin de trouver un montant qui vous sera imputé de votre compte bancaire
+                                        pour couvrir les réparations éventuelles.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="contact__form text-center">
+                        <h3>Locataire</h3>
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="renterheadingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" style="color: #bc8246"
+                                                type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseOne"
+                                                aria-expanded="true"
+                                                aria-controls="rentercollapseOne">
+                                            1. Y a-t-il une commission pour la location des articles sur Reented ?
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="rentercollapseOne" class="collapse show" aria-labelledby="renterheadingOne"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        Oui, Reented applique une commission de 10% sur le montant total de la location.
+                                        Cette commission est automatiquement incluse dans le prix affiché lors de la
+                                        réservation.<br>
+                                        Cette commission permet de faire fonctionner nos services et de constamment,
+                                        vous proposez des améliorations.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseTwo"
+                                                aria-expanded="false"
+                                                aria-controls="rentercollapseTwo">
+                                            2. Que se passe-t-il après la réservation ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseTwo" class="collapse" aria-labelledby="renterheadingTwo"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        Une fois la réservation effectuée, rendez-vous dans la section <strong>"Mes
+                                            locations"</strong> pour gérer les détails de votre location. <br>Vous pourrez y
+                                        discuter avec le loueur pour
+                                        convenir d'un rendez-vous, effectuer le check-in et le check-out. <br>Cette
+                                        fonctionnalité facilite la communication et la coordination entre vous et le
+                                        loueur, assurant une expérience de location fluide.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingThree">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseThree"
+                                                aria-expanded="false" aria-controls="rentercollapseThree">
+                                            3. Comment puis-je trouver des articles à louer sur Reented?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseThree" class="collapse" aria-labelledby="renterheadingThree"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        Reented rend la recherche d'articles à louer simple. <br>Utilisez la fonction de
+                                        recherche en indiquant votre emplacement, parcourez les annonces disponibles, et
+                                        contactez le loueur pour discuter
+                                        des détails une fois la réservation effectuée. <br>Vous pouvez également filtrer les
+                                        résultats en fonction de vos
+                                        besoins spécifiques.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingFour">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseFour"
+                                                aria-expanded="false" aria-controls="rentercollapseFour">
+                                            4. Comment puis-je garantir la sécurité des articles que je loue ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseFour" class="collapse" aria-labelledby="renterheadingFour"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        La sécurité est notre priorité. Avant de louer, vérifiez le profil du loueur,
+                                        lisez les évaluations des autres utilisateurs et posez des questions sur l'état
+                                        de l'article. <br>Respectez les conditions de location définies par le loueur, et le
+                                        montant total à payer, sera clairement indiqué lors du processus de réservation.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingFive">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseFive"
+                                                aria-expanded="false" aria-controls="rentercollapseFive">
+                                            5. Quels sont les modes de paiement acceptés sur Reented ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseFive" class="collapse" aria-labelledby="renterheadingFive"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        Reented accepte plusieurs modes de paiement sécurisés. Le montant total,
+                                        incluant la commission de 10%, sera affiché lors de la réservation de l'article.
+                                        <br>Assurez-vous d'avoir une méthode de paiement valide pour faciliter le processus
+                                        de location.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="renterheadingSix">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                style="color: #bc8246" type="button"
+                                                data-toggle="collapse" data-target="#rentercollapseSix"
+                                                aria-expanded="false" aria-controls="rentercollapseSix">
+                                            6. Comment est déclaré un litige et que se passe-t-il en cas de litige ?
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="rentercollapseSix" class="collapse" aria-labelledby="renterheadingSix"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        Reented demande, lors du check-in et du check-out, que des photos soient prise
+                                        afin de constater de l'état avant et après la location.
+                                        Ce check-in se faisant en votre présence, vous devez veiller à ce que le loueur
+                                        fasse bien la vérification de l'état du produit.<br>
+                                        Lors du check-out nos systèmes vos analyser vos photos et si un statut de
+                                        signalement a été émise.<br>
+                                        Si c'est le cas alors nos engagerons une discussion entre les différentes
+                                        parties afin de trouver un montant qui vous sera imputé de votre compte bancaire
+                                        pour couvrir les réparations éventuelles.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact area end -->
+{% endblock %}
