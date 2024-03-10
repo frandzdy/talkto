@@ -54,7 +54,7 @@ class FileUploadManager
             $file->move($this->getDirectoryPath($directory), $fileName);
 
             // Utilisation du service WarmupCache pour redimensionner les images
-            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPath($directory) . $fileName));
+            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPathLiipWarmup($directory) . $fileName));
 
             return $fileName;
         } catch (\Exception $exception) {
@@ -107,6 +107,15 @@ class FileUploadManager
         return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }
 
+    /**
+     * Retourne le nom du répertoire Liip pour la précache.
+     */
+    private function getDirectoryPathLiipWarmup(string $directory): string
+    {
+        $path = $this->fileUploadParameters['base_path_twig'];
+
+        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+    }
     /**
      * Retourne le nom du répertoire recherché.
      */

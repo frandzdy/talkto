@@ -27,6 +27,7 @@ parameters:
         base_path_liip: "%kernel.project_dir%/public/uploads/media/cache/"
         base_path_liip_prod: "%kernel.project_dir%/public_html/uploads/media/cache/"
         base_path_twig: '/uploads/profile_picture/'
+        base_path_twig_warmup: '/uploads/'
         directories:
             profile_picture: "profile_picture/"
             product_picture: "product_picture/"

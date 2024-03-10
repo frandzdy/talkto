@@ -42,7 +42,7 @@ security:
             switch_user: true
             logout:
                 path: front_logout
-                target: front_login
+                target: front_home
                 invalidate_session: false
                 clear_site_data:
                     - cache
