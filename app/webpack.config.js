@@ -1,5 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
-const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
+//const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
+const { CKEditorTranslationsPlugin } = require( '@ckeditor/ckeditor5-dev-translations' );
 const { styles: ckeditorstyles } = require( '@ckeditor/ckeditor5-dev-utils' );
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -78,7 +79,7 @@ Encore
 		to: 'fonts/[path][name].[ext]',
 	})
 
-	.addPlugin( new CKEditorWebpackPlugin({
+	.addPlugin( new CKEditorTranslationsPlugin({
 		language: 'fr',
 		additionalLanguages: ['en'],
 		buildAllTranslationsToSeparateFiles: true

@@ -1,0 +1,3 @@
+php bin/console app:appointment-reminder --env=prod
+php bin/console app:disable-user --env=prod
+php bin/console messenger:consume liip_imagine --time-limit=3600 --memory-limit=256M --env=prod

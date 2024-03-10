@@ -5,7 +5,6 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-
 import 'toastr/build/toastr.css';
 import 'jquery-confirm/css/jquery-confirm.css';
 import 'flatpickr/dist/flatpickr.css';

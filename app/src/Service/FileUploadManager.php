@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Exception\FileNotFoundException;
+use Liip\ImagineBundle\Message\WarmupCache;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
@@ -16,10 +18,11 @@ class FileUploadManager
      * Constructor.
      */
     public function __construct(
-        protected LoggerInterface $logger,
+        protected LoggerInterface $fileLogger,
         protected $fileUploadParameters,
         protected SluggerInterface $slugger,
-        protected string $env
+        protected string $env,
+        protected MessageBusInterface $messageBus
     ) {
     }
 
@@ -47,12 +50,15 @@ class FileUploadManager
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
+            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
             $file->move($this->getDirectoryPath($directory), $fileName);
+
+            // Utilisation du service WarmupCache pour redimensionner les images
+            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPath($directory) . $fileName));
 
             return $fileName;
         } catch (\Exception $exception) {
-            $this->logger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
+            $this->fileLogger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
 
             return '';
         }
@@ -66,12 +72,12 @@ class FileUploadManager
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
+            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
             $file->move($this->getDirectoryPrivatePath($directory), $fileName);
 
             return $fileName;
         } catch (\Exception $exception) {
-            $this->logger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
+            $this->fileLogger->error('Erreur upload fichier : ', ['message' => $exception->getMessage()]);
 
             return '';
         }
@@ -82,7 +88,7 @@ class FileUploadManager
      */
     public function getFileContent(string $directory, string $filename): string
     {
-        $path = $this->getDirectoryPath($directory).$filename;
+        $path = $this->getDirectoryPath($directory) . $filename;
 
         if (file_exists($path)) {
             return file_get_contents($path);
@@ -98,7 +104,7 @@ class FileUploadManager
     {
         $path = $this->fileUploadParameters['base_path'];
 
-        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }
 
     /**
@@ -108,7 +114,7 @@ class FileUploadManager
     {
         $path = $this->fileUploadParameters['base_path_private'];
 
-        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }
 
     /**
@@ -124,7 +130,7 @@ class FileUploadManager
      */
     public function removeFile(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPath($directory).$filename;
+        $path = $this->getDirectoryPath($directory) . $filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -137,7 +143,7 @@ class FileUploadManager
      */
     public function removeFileLiip(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPathLiip().'/'.$directory.'/uploads/profile_picture/'.$filename;
+        $path = $this->getDirectoryPathLiip() . '/' . $directory . '/uploads/profile_picture/' . $filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -159,7 +165,7 @@ class FileUploadManager
             // tant que l'on peut lire le répertoire
             while (($element = readdir($dh)) !== false) {
                 // si le fichier n'est un pas un dossier
-                if ('.' != $element && '..' != $element && !is_dir($path.'/'.$element)) {
+                if ('.' != $element && '..' != $element && !is_dir($path . '/' . $element)) {
                     // on le supprime
                     $this->removeFile($directory, $element);
                     ++$nbFileRemove;

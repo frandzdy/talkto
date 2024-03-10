@@ -6,7 +6,7 @@ use App\Exception\FileNotFoundException;
 use App\Service\FileUploadManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Controlleur de récupération des fichiers stockés sur le serveur.

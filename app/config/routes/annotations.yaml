@@ -1,14 +1,14 @@
 back:
     resource: ../../src/Controller/Back/
-    type: annotation
+    type: attribute
     prefix: /admin
     name_prefix: "back_"
 
 front:
     resource: ../../src/Controller/Front/
-    type: annotation
+    type: attribute
     name_prefix: "front_"
 
 kernel:
     resource: ../../src/Kernel.php
-    type: annotation
+    type: attribute
