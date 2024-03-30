@@ -135,7 +135,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->addSelect('tl')
             ->join('tl.product', 'p')
             ->addSelect('p')
-            ->where('tl.startDate <= :date OR tl.endDate >= :date')
+            ->where('tl.startDate <= :date AND tl.endDate >= :date')
             ->setParameter('date', $startDate->format('Y-m-d'))
             ->andWhere('t.status IN (:transactionStatus)')
             ->andWhere('tl.status IN (:transactionLineStatus)')
