@@ -91,7 +91,7 @@ class Contributor implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return $this->getRole() ? [$this->getRole()] : [];
+        return $this->getRole() ? [$this->getRole(), 'ROLE_ALLOWED_TO_SWITCH'] : [];
     }
 
     /**

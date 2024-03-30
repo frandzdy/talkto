@@ -139,6 +139,7 @@ class LessorController extends AbstractController
     {
         $roles = $user->getRoles();
         $roles[] = 'ROLE_PREVIOUS_ADMIN';
+        $roles[] = 'ROLE_ALLOWED_TO_SWITCH';
 
         $url = $this->generateUrl('back_lessor_show', ['id' => $user->getId()]);
 

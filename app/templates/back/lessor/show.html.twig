@@ -27,6 +27,11 @@
                                href="{{ path('back_lessor_authenticate', {'id': lessor.id}) }}" title="Se connecter avec ce client">
                                 <i class="fa fa-user"></i> Se connecter avec ce client
                             </a>
+                            <a class="btn btn-outline-primary"
+                               href="{{ impersonation_path(lessor.email) }}"
+                               title="Se connecter avec ce client">
+                                <i class="fa fa-user"></i> Se connecter avec ce client
+                            </a>
                             <div>
                                 <small><i class="fa fa-exclamation-triangle"></i> <em>N'ouvrir qu'une seule fenêtre à la fois.</em></small>
                             </div>
