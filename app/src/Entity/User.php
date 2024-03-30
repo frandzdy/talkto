@@ -345,9 +345,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return '';
     }
 
-    public function eraseCredentials(): string
+    public function eraseCredentials(): void
     {
-        return '';
     }
 
     public function getLat(): ?float
