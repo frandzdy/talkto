@@ -1,5 +1,6 @@
 {
     "name": "Reented",
+    "start_url": "https://reented.com",
     "short_name": "Reented",
     "icons": [
         {
@@ -17,5 +18,6 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "fullscreen",
+    "orientation": "portrait-primary"
 }
