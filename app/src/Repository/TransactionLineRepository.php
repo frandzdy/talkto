@@ -137,13 +137,9 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->addSelect('p')
             ->where('tl.startDate <= :date AND tl.endDate >= :date')
             ->setParameter('date', $startDate->format('Y-m-d'))
-            ->andWhere('t.status IN (:transactionStatus)')
-            ->andWhere('tl.status IN (:transactionLineStatus)')
             ->andWhere('p.id = :product')
             ->andWhere('p.deletedAt IS NULL')
             ->setParameter('product', $product->getId())
-            ->setParameter('transactionStatus', [TransactionStatus::WAITING->value, TransactionStatus::VALIDATE->value])
-            ->setParameter('transactionLineStatus', TransactionLineStatus::IN_PROGRESS->value)
             ->getQuery()
             ->getResult();
     }
