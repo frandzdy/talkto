@@ -16,7 +16,7 @@ class FileController extends AbstractController
 {
     final public const MIMES = [
         'qualification' => 'image/svg+xml',
-        'homepage' => 'image/png',
+        'homepage' => 'image/jpeg',
         'faqs' => 'image/svg+xml',
         'testimonial' => 'image/jpeg',
     ];

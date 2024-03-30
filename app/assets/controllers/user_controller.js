@@ -120,7 +120,7 @@ export default class extends Controller {
                     image.onload = () => {
                         const canvas = document.createElement("canvas");
                         const context = canvas.getContext("2d");
-                        const max_size = 200;
+                        const max_size = 315;
                         let width = image.width;
                         let height = image.height;
                         if (width > max_size) {

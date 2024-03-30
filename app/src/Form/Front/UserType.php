@@ -157,7 +157,7 @@ class UserType extends AbstractType
                     'label' => 'Photo de profile',
                     'required' => false,
                     'attr' => [
-                            'accept' => 'image/png, image/jpeg, image/jpg',
+                            'accept' => 'image/jpeg, image/jpg',
                             'lang' => 'fr',
                             'data-browse' => 'Votre photo',
                         ],

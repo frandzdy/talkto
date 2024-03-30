@@ -52,10 +52,10 @@ class Product
     #[Assert\All(
         new Assert\Image(
             maxSize: '10M',
-            mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+            mimeTypes: ['image/jpg', 'image/jpeg'],
             detectCorrupted: true,
             maxSizeMessage: 'Document trop lourd. (10Mo)',
-            mimeTypesMessage: 'Format image uniquement autorisé. (PNG/JPG)',
+            mimeTypesMessage: 'Format image uniquement autorisé. (JPG)',
             corruptedMessage: 'Fichier corrompue',
             groups: ['creation', 'edit']
         )

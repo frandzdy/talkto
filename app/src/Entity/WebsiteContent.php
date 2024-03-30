@@ -41,7 +41,7 @@ class WebsiteContent
 
     #[Assert\File(
         maxSize: '10M',
-        mimeTypes: ['image/svg+xml', 'image/png', 'image/jpg', 'image/jpeg'],
+        mimeTypes: ['image/svg+xml', 'image/jpg', 'image/jpeg'],
         maxSizeMessage: 'Document trop lourd. (10Mo)',
         mimeTypesMessage: 'Format image uniquement autorisé. (SVG)',
     )]
