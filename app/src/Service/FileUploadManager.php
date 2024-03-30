@@ -112,7 +112,7 @@ class FileUploadManager
      */
     private function getDirectoryPathLiipWarmup(string $directory): string
     {
-        $path = $this->fileUploadParameters['base_path_twig'];
+        $path = $this->fileUploadParameters['base_path_twig_warmup'];
 
         return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
     }

@@ -34,7 +34,7 @@ class ContributorController extends AbstractController
             $page,
             self::USERS_PER_PAGE,
             [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.lastname',
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'c.fullname',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
                 PaginatorInterface::DISTINCT => false,
             ]
