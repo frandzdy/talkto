@@ -57,7 +57,7 @@ class Checkin
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comments = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'date')]
     private \DateTime $startDate;
 
     #[ORM\OneToMany(mappedBy: 'checkin', targetEntity: Claim::class, cascade: [

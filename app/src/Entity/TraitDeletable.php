@@ -12,7 +12,7 @@ trait TraitDeletable
     /**
      * Date de suppression.
      */
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $deletedAt = null;
 
     public function getDeletedAt(): ?\DateTime

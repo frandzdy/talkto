@@ -213,7 +213,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Dernière date de connexion.
      */
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime $lastDateConnexion = null;
 
     public function getFullname(): ?string

@@ -12,13 +12,13 @@ trait TraitTimestamp
     /**
      * Date de mise création.
      */
-    #[ORM\Column()]
+    #[ORM\Column(type: 'date')]
     private ?\DateTime $createdAt = null;
 
     /**
      * Date de mise à jour.
      */
-    #[ORM\Column()]
+    #[ORM\Column(type: 'date')]
     private ?\DateTime $updatedAt = null;
 
     public function getCreatedAt(): ?\DateTime

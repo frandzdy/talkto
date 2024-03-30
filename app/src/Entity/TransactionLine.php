@@ -29,7 +29,7 @@ class TransactionLine
     #[Assert\DateTime()]
     private \DateTime $startDate;
 
-    #[ORM\Column()]
+    #[ORM\Column(type: 'date')]
     #[Assert\DateTime()]
     private \DateTime $endDate;
 
