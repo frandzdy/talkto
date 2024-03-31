@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TransactionController extends AbstractController
 {
     #[Route('/transaction/{token}', name: 'transaction_show', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function transaction(string $token, TransactionRepository $transactionRepository): Response
     {
         $transaction = $transactionRepository->findOneBy(['token' => $token]);
@@ -26,7 +25,6 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/ligne-transaction/annulation/{token}', name: 'transaction_line_delete', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function transactionLineCanceled(
         string $token,
         TransactionLineRepository $transactionLineRepository,
