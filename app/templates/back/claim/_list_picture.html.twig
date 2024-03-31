@@ -16,9 +16,9 @@
                                  class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
                                  aria-labelledby="nav-{{ picture.token }}-tab">
                                 <div class="product__modal-img w-img">
-                                    <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                    <img data-bp="{{ asset('uploads/checkin/' ~ picture.name) }}"
                                          data-caption="{{ picture.name }}"
-                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                         src="{{ asset('uploads/checkin/' ~ picture.name)|imagine_filter('product_modal') }}"
                                          width="316px"
                                          alt="{{ picture.name }}">
                                 </div>
@@ -39,7 +39,7 @@
                                    href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                    aria-selected="true">
                                     <div class="product__nav-img w-img">
-                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
+                                        <img src="{{ asset('uploads/checkin/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
                                              width="102px"
                                              alt="{{ picture.name }}">
 

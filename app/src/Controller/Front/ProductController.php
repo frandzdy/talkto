@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Contributor;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\Review;
@@ -16,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -230,9 +232,9 @@ class ProductController extends AbstractController
         if (null === $product) {
             throw $this->createNotFoundException();
         }
-
+        $user = $this->getUser();
         try {
-            if ($productManager->deleteProduct($product)) {
+            if ($productManager->deleteProduct($product) && ($user === $product->getAuthor() || $this->isGranted(Contributor::ROLE_ADMIN))) {
                 $this->addFlash('success', 'Produit supprimé !');
             } else {
                 $this->addFlash('error', 'Des réservations existent pour ce produit !');

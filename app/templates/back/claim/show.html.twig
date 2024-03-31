@@ -28,7 +28,7 @@
                                    class="btn btn-xs btn-primary open-back-modal"
                                    data-modal-title="Caution de la location"
                                 >
-                                    <i class="fa fa-money-bill"></i>
+                                    <i class="fa fa-money-bill"></i> Remboursement
                                 </a>
                                 <div>
                                     <small><i class="fa fa-exclamation-triangle"></i> <em>Une seul remboursement est possible.</em></small>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >Montant TTC :</label>
-                                <div class="form-control">{{ (claim.checkin.transactionLine.transaction.totalAmountTtc / 100)|number_format(2, ',')|default(0) }} €</div>
+                                <div class="form-control">{{ ((claim.checkin.transactionLine.transaction.totalAmountTtc + claim.checkin.transactionLine.transaction.totalFees) / 100)|number_format(2, ',')|default(0) }} €</div>
                             </div>
                         </div>
                     </div>

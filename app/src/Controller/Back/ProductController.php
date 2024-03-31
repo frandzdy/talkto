@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * Gestion des bailleurs.
+ * Gestion des produits.
  */
 #[Route(path: '/products', name: 'product_')]
 class ProductController extends AbstractController
@@ -32,7 +32,7 @@ class ProductController extends AbstractController
     final public const PRODUCTS_TERM_FILTER = 'product.filter';
 
     /**
-     * Liste des bailleurs.
+     * Liste des produits.
      */
     #[Route(path: '/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
@@ -81,7 +81,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Affichage d'une fiche bailleur.
+     * Affichage d'une fiche produit.
      */
     #[Route(path: '/{id<\d+>}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -112,7 +112,7 @@ class ProductController extends AbstractController
                     [
                         'product' => $product,
                         'user' => $product->getAuthor(),
-                        'responseRejected' => 'ds ',
+                        'responseRejected' => $product->responseRejected,
                     ]
                 );
             }
