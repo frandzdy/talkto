@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 readonly class SiteMapManager
@@ -20,13 +20,21 @@ readonly class SiteMapManager
     public function generateUrls(): array
     {
         $routes = $this->router->getRouteCollection()->all();
-
         $urls = [];
         foreach ($routes as $name => $route) {
-            if (str_starts_with($name, 'front_') && !$this->hasRouteParameters($route)) {
+            $requirements = $route->getRequirements();
+            if (
+                str_starts_with($name, 'front_')
+                && !$this->hasRouteParameters($route)
+                && (
+                    !isset($requirements['_role'])
+                    || $requirements['_role'] === 'IS_AUTHENTICATED_ANONYMOUSLY'
+                    || $requirements['_role'] === 'PUBLIC_ACCESS'
+                )
+            ) {
                 $urls[] = [
                     'loc' => $this->urlGenerator->generate($name, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                    'lastmod' => new DatePoint(),
+                    'lastmod' => new \DateTime(),
                 ];
             }
         }
@@ -34,7 +42,7 @@ readonly class SiteMapManager
         return $urls;
     }
 
-    private function hasRouteParameters($route): bool
+    private function hasRouteParameters(Route $route): bool
     {
         foreach ($route->compile()->getVariables() as $variable) {
             if ('_locale' !== $variable) {
