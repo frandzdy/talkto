@@ -52,11 +52,9 @@
         isLogged = true;
         {% endif %}
     </script>
-    <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}" defer></script>
     {{ encore_entry_script_tags('app') }}
-    {% for file in encore_entry_js_files('front_app') %}
-        <script src="{{ asset(file) }}"></script>
-    {% endfor %}
+    {{ encore_entry_script_tags('front_app') }}
 </head>
 <body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
 <main>{% block body %}{% endblock %}</main>
