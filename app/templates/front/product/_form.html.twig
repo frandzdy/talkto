@@ -10,9 +10,13 @@
                         {% if index == 0 %}
                             {% set active = 'active' %}
                         {% endif %}
-                        <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel" aria-labelledby="nav-{{ picture.token }}-tab">
+                        <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
+                             aria-labelledby="nav-{{ picture.token }}-tab">
                             <div class="product__modal-img w-img">
-                                <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal') }}"
+                                        {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                            src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
+                                        }) }}
                                      alt="{{ picture.name }}"
                                      width="316px"
                                 >
@@ -29,17 +33,26 @@
                             {% if index == 0 %}
                                 {% set active = 'active' %}
                             {% endif %}
-                            <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab" href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}" aria-selected="true">
+                            <a class="nav-item nav-link {{ active }}" id="nav-{{ picture.token }}-tab" data-toggle="tab"
+                               href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
+                               aria-selected="true">
                                 <div class="product__nav-img w-img">
-                                    <img width="130px" src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature') }}" alt="">
-{#                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}"#}
-{#                                       class="post-confirm"#}
-{#                                       data-button-text="Supprimer"#}
-{#                                       data-title="Supprimer"#}
-{#                                       data-confirm-message="Souhaitez-vous supprimer ce photo ?"#}
-{#                                    >#}
-{#                                        <i class="fal fa-times"></i>#}
-{#                                    </a>#}
+                                    <img
+                                            width="130px"
+                                            alt="{{ picture.name }}"
+                                            src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_miniature') }}"
+                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
+                                            }) }}
+                                    >
+                                    {#                                    <a href="{{ path('front_product_picture_delete', {'token': picture.token}) }}" #}
+                                    {#                                       class="post-confirm" #}
+                                    {#                                       data-button-text="Supprimer" #}
+                                    {#                                       data-title="Supprimer" #}
+                                    {#                                       data-confirm-message="Souhaitez-vous supprimer ce photo ?" #}
+                                    {#                                    > #}
+                                    {#                                        <i class="fal fa-times"></i> #}
+                                    {#                                    </a> #}
                                 </div>
                             </a>
                         {% endfor %}
@@ -89,7 +102,8 @@
                 </button>
                 {{ form_errors(form.handleError) }}
             </div>
-            <div class="picture-collection mt-3" data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
+            <div class="picture-collection mt-3"
+                 data-prototype="{{ macros.pictureField(form.uploadedPictures.vars.prototype)|e }}">
                 {% for index, picture in form.vars.value.pictures %}
                     <div class="picture file-elt mt-1 mb-1 d-flex w-100">
                         <div class="w-100">
@@ -97,7 +111,7 @@
                             {{ picture.name }}
                         </div>
                         <button type="button" class="btn" data-action="click->product#onFileDelete"
-                            data-token="{{ picture.token }}" data-product-token="{{ form.vars.value.token }}">
+                                data-token="{{ picture.token }}" data-product-token="{{ form.vars.value.token }}">
                             <i class="fa far fa-trash-alt text-danger"></i>
                         </button>
                     </div>
@@ -107,12 +121,14 @@
                 <button class="os-btn w-100" formnovalidate id="submit-btn"
                         data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
                         data-title="Créer"
-                >Créer</button>
+                >Créer
+                </button>
             {% else %}
                 <button class="os-btn w-100" formnovalidate id="submit-btn"
                         data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
                         data-title="Modifier"
-                >Modifier</button>
+                >Modifier
+                </button>
             {% endif %}
             <div class="d-none">
                 {{ form_rest(form) }}

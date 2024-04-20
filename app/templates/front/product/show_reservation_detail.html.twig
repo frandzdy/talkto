@@ -24,7 +24,10 @@
                                                    href="#pro-{{ picture.token }}" role="tab"
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="false">
                                                     <div class="product__nav-img w-img">
-                                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details') }}"
+                                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_miniature_details') }}"
+                                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                    src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details')
+                                                                }) }}
                                                              alt="{{ product.title }}"
                                                              width="90px">
                                                     </div>
@@ -49,7 +52,10 @@
                                                  data-action="click->bigpicture#loadGallery">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                                      data-caption="{{ product.title }}"
-                                                     src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
+                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details') }}"
+                                                        {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                            src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
+                                                        }) }}
                                                      alt="{{ product.title }}"
                                                      width="470px">
                                                 {#                                                <div class="product__sale "> #}
@@ -196,8 +202,11 @@
                                                         <li>
                                                             <div class="comments-box">
                                                                 <div class="comments-avatar">
-                                                                    <img src="{{ asset('build/images/img/blog/comments/avater-1.png') }}"
-                                                                         alt="">
+                                                                    <img src="{{ asset('uploads/profile_picture/'~ review.author.picture.name)|imagine_filter('profil_miniature') }}"
+                                                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                                src: asset('uploads/profile_picture/' ~ picture.name)|imagine_filter('profil_miniature')
+                                                                            }) }}
+                                                                         alt="{{ review.author.picture.name }}">
                                                                 </div>
                                                                 <div class="comments-text">
                                                                     <div class="avatar-name">
@@ -325,13 +334,19 @@
                             <div class="product__thumb">
                                 {% if trend[0].pictures.count > 0 %}
                                     {% set picture = trend[0].pictures.first %}
-                                    <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale') }}"
-                                         alt="{{ product.title }}" width="270px">
+                                    <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
+                                            }) }}
+                                         alt="{{ product.title }}" width="344" height="210">
                                     {% if trend[0].pictures.count > 1 %}
                                         {% set picture2 = trend[0].pictures.next %}
                                         <img class="product__thumb-2"
-                                             src="{{ asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale') }}"
-                                             alt="{{ trend[0].title }}" width="270px">
+                                             src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture2.name, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                    src: asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale')
+                                                }) }}
+                                             alt="{{ trend[0].title }}" width="344" height="210">
                                     {% endif %}
                                 {% endif %}
 

@@ -14,7 +14,8 @@
             <div class="login-container">
                 <div class="login-header">
                     <div class="brand">
-                        <img src="{{ asset('build/images/back/logo.png') }}" alt="Reented"><br/>
+                        <img src="{{ asset('build/images/back/logo.png')|imagine_filter('logo') }}" alt="Reented"
+                             width="241px"/><br/>
                         <b>Administration</b>&nbsp;Reented
                     </div>
                     <div class="icon">
@@ -37,7 +38,7 @@
 
     {% if error %}
         <script defer>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 toastr.error("Compte inconnu ou mot de passe incorrect");
             });
         </script>

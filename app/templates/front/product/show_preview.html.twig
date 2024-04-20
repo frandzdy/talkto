@@ -36,7 +36,10 @@
                                aria-selected="true" title="{{ product.title }}">
                                 <div class="product__nav-img w-img">
                                     <img width="102px"
-                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
+                                         src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal_miniature') }}"
+                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature')
+                                            }) }}
                                          alt="{{ product.title }}">
                                 </div>
                             </a>

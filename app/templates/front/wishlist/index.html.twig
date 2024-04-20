@@ -30,7 +30,10 @@
                                             {% set pictureName = wishlist.product.pictures.first.name %}
                                         {% endif %}
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': wishlist.product.token }) }}" title="Détails du produit">
-                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_miniature') }}"
+                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                        src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature')
+                                                    }) }}
                                                  width="130px"
                                                  alt="{{ wishlist.product.title }}"/>
                                         </a>

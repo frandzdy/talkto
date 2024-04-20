@@ -50,8 +50,11 @@
                                         {% endif %}
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': slider.product.token}) }}"
                                            class="w-img">
-                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider') }}"
-                                                 width="376px" height="233px"
+                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('home_under_slider') }}"
+                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                        src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_under_slider')
+                                                    }) }}
+                                                 width="376px" height="auto"
                                                  alt="{{ slider.product.title }}">
                                         </a>
                                     </div>
@@ -103,14 +106,20 @@
                                         {% if trend[0].pictures.count > 0 %}
                                             {% set pictureName = trend[0].pictures.first.name %}
                                         {% endif %}
-                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                             width="270px"
+                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                    src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
+                                                }) }}
+                                             width="344" height="210"
                                              alt="{{ trend[0].title }}">
                                         {% if trend[0].pictures.count > 1 %}
                                             {% set pictureName = trend[0].pictures.next.name %}
                                             <img class="product__thumb-2"
-                                                 width="270px"
-                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                                 width="344" height="210"
+                                                 src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                        src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
+                                                    }) }}
                                                  alt="{{ trend[0].title }}">
                                         {% endif %}
                                         <div class="product__action transition-3">
@@ -190,8 +199,11 @@
                                     {% endif %}
                                     <a href="{{ path('front_product_reservation_show_detail', {'token': mid.product.token}) }}"
                                        class="w-img">
-                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid') }}"
-                                             width="950px"
+                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('home_mid') }}"
+                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                    src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid')
+                                                }) }}
+                                             width="950px" height="auto"
                                              alt="{{ mid.product.title }}">
                                     </a>
                                 </div>
@@ -243,14 +255,20 @@
                                         {% if topSale[0].product.pictures.count > 0 %}
                                             {% set pictureName = topSale[0].product.pictures.first.name %}
                                         {% endif %}
-                                        <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                             width="270px"
+                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                    src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
+                                                }) }}
+                                             width="344" height="210"
                                              alt="{{ topSale[0].product.title }}">
                                         {% if topSale[0].product.pictures.count > 1 %}
                                             {% set pictureName = topSale[0].product.pictures.next.name %}
                                             <img class="product__thumb-2"
-                                                 width="270px"
-                                                 src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
+                                                 width="344" height="210"
+                                                 src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                        src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
+                                                    }) }}
                                                  alt="{{ topSale[0].product.title }}">
                                         {% endif %}
                                         <div class="product__action transition-3">
@@ -323,8 +341,11 @@
                             {% endif %}
                             <div class="">
                                 <a href="{{ path('front_product_reservation_show_detail', {'token': latestProduct[0].token}) }}">
-                                    <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale') }}"
-                                         width="240px"
+                                    <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
+                                            }) }}
+                                         width="344" height="210"
                                          alt="{{ latestProduct[0].title }}"></a>
                             </div>
                         {% endfor %}

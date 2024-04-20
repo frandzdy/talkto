@@ -12,8 +12,8 @@ export default class extends Controller {
      * Initialise le datepicker
      */
     connect() {
-        const disabledDates = JSON.parse(this.element.dataset.disabledDates);
-        const token = this.element.dataset.token;
+        const disabledDates = JSON.parse(this.element.dataset.disabledDates)
+        const token = this.element.dataset.token
         const dateNow = new Date();
         const minDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate() + 1);
         const maxDate = new Date(dateNow.getFullYear() + 1, dateNow.getMonth(), dateNow.getDate());

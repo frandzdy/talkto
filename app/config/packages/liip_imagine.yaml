@@ -14,6 +14,12 @@ liip_imagine:
 
     filter_sets:
         # profil filters
+        logo:
+            quality: 100
+            filters:
+                auto_rotate: ~
+                downscale:
+                    max: [ 241, 49 ]
         profil:
             quality: 100
             filters:
@@ -24,11 +30,11 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [ 200, 200 ], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [ 200, 200 ], mode: inset, allow_upscale: true }
 
         ## home page filters
         home_slider:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 #downscale:
@@ -36,7 +42,7 @@ liip_imagine:
 #                fixed:
 #                    width: 1254
 #                    height: 750
-                thumbnail: { size: [ 1254, 750 ], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [ 1254, 750 ], mode: inset, allow_upscale: true }
         home_under_slider:
             quality: 100
             filters:
@@ -45,7 +51,7 @@ liip_imagine:
 #                    width: 376
 #                    height: 233
                 # Remplacez 300 par la largeur souhaitée et 200 par la hauteur souhaitée
-                thumbnail: { size: [ 376, 233 ], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [ 376, 233 ], mode: inset, allow_upscale: true }
         home_top:
             quality: 100
             filters:
@@ -88,7 +94,7 @@ liip_imagine:
                 #strip: ~
                 #downscale:
                     #max: [ 270, 344 ]
-                thumbnail: { size: [ 344, 270 ], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [ 344, 270 ], mode: inset, allow_upscale: true }
 
         product_details:
             quality: 100
@@ -109,4 +115,4 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 #strip: ~
-                thumbnail: { size: [ 130, 130 ], mode: outbound, allow_upscale: true }
+                thumbnail: { size: [ 130, 130 ], mode: inset, allow_upscale: true }

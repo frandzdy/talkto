@@ -18,7 +18,10 @@
                                 <div class="product__modal-img w-img">
                                     <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                          data-caption="{{ product.title }}"
-                                         src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal') }}"
+                                         src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal') }}"
+                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
+                                            }) }}
                                          width="316px"
                                          alt="{{ product.title }}">
                                 </div>
@@ -39,7 +42,10 @@
                                    href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                    aria-selected="true">
                                     <div class="product__nav-img w-img">
-                                        <img src="{{ asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature') }}"
+                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal_miniature') }}"
+                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                    src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature')
+                                                }) }}
                                              width="102px"
                                              alt="{{ product.title }}">
 

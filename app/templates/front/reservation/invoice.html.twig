@@ -26,7 +26,10 @@
                                     <td class="product-thumbnail">
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': transactionLine.product.token }) }}"
                                            title="{{ transactionLine.product.title }}">
-                                            <img src="{{ asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature') }}"
+                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_miniature') }}"
+                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                        src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_miniature')
+                                                    }) }}
                                                  width="130px"
                                                  alt="{{ transactionLine.product.title }}"/>
                                         </a>
