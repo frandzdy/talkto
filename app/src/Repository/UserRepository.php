@@ -87,6 +87,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $count = (clone $qb)->select('count(Distinct(p.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         $qb->select('p')
@@ -95,7 +98,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setMaxResults(5);
 
         return [
-            'results' => $qb->getQuery()->getResult(),
+            'results' => $qb->getQuery()
+                ->enableResultCache(3600)
+                ->setQueryCacheLifetime(3600)
+                ->setResultCacheLifetime(3600)->getResult(),
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
@@ -125,6 +131,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         $qb->select('r')
@@ -133,7 +142,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setMaxResults(5);
 
         return [
-            'results' => $qb->getQuery()->getResult(),
+            'results' => $qb->getQuery()
+                ->enableResultCache(3600)
+                ->setQueryCacheLifetime(3600)
+                ->setResultCacheLifetime(3600)
+                ->getResult(),
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
@@ -158,6 +171,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $count = (clone $qb)->select('count(Distinct(w.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         $qb->select('w')
@@ -166,7 +182,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setMaxResults(5);
 
         return [
-            'results' => $qb->getQuery()->getResult(),
+            'results' => $qb->getQuery()
+                ->enableResultCache(3600)
+                ->setQueryCacheLifetime(3600)
+                ->setResultCacheLifetime(3600)
+                ->getResult(),
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
@@ -193,6 +213,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         $qb->select('r')
@@ -201,7 +224,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setMaxResults(5);
 
         return [
-            'results' => $qb->getQuery()->getResult(),
+            'results' => $qb->getQuery()
+                ->enableResultCache(3600)
+                ->setQueryCacheLifetime(3600)
+                ->setResultCacheLifetime(3600)
+                ->getResult(),
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
@@ -241,7 +268,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $builder->orderBy('u.lastname, u.firstname', 'ASC');
 
-        return $builder->getQuery();
+        return $builder->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600);
     }
 
     /**

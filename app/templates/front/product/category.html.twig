@@ -258,23 +258,24 @@
                                         {% for product in pagination %}
                                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 custom-col-10">
                                                 <div class="product__wrapper mb-60">
-                                                    <div class="product__thumb">
+                                                    <div class="product__thumb" style="width: 270px;height: 344px">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
                                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                     }) }}
-                                                                 alt="{{ product[0].title }}"
-                                                                 width="344" height="210">
+                                                                 alt="{{ product[0].title }}" class="img-fluid"
+                                                                 width="270" height="344">
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
-                                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
                                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                             src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                         }) }}
-                                                                     alt="{{ product[0].title }}"  width="344" height="210">
+                                                                     alt="{{ product[0].title }}" width="270"
+                                                                     height="344" class="img-fluid">
                                                             {% endif %}
                                                         {% endif %}
                                                         <div class="product__action transition-3">
@@ -333,22 +334,24 @@
                                         <div class="product__wrapper mb-40">
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-4">
-                                                    <div class="product__thumb">
+                                                    <div class="product__thumb" style="width: 270px;height: 344px">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 344, 270) }}"
                                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                     }) }}
-                                                                 alt="{{ product[0].title }}" width="344" height="210">
+                                                                 alt="{{ product[0].title }}" width="344" height="270"
+                                                                 class="img-fluid">
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
-                                                                     src="{{ data_uril_thumbnail('uploads/product_picture/' ~ pictureName, 100, 75)|imagine_filter('product_trends_or_sale') }}"
+                                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
                                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                             src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                         }) }}
-                                                                     alt="{{ product[0].title }}" width="344" height="210">
+                                                                     alt="{{ product[0].title }}" width="270" class="img-fluid"
+                                                                     height="344">
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>

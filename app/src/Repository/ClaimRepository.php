@@ -92,7 +92,10 @@ class ClaimRepository extends ServiceEntityRepository
 
         $builder->orderBy('c.id');
 
-        return $builder->getQuery();
+        return $builder->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600);
     }
 
     /**
@@ -109,6 +112,9 @@ class ClaimRepository extends ServiceEntityRepository
             // ->where('c.status = :claimStatus')
             // ->setParameter('claimStatus', ClaimStatus::PENDING)
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getResult();
     }
 }

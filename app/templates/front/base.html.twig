@@ -26,8 +26,8 @@
     <meta name="turbo-visit-control" content="reload">
     <!-- CSS here -->
     {% block stylesheets %}
-        {{ encore_entry_link_tags('front_app') }}
         {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('front_app') }}
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
@@ -52,7 +52,6 @@
         isLogged = true;
         {% endif %}
     </script>
-    <script type="text/javascript" src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}" defer></script>
     {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('front_app') }}
 </head>
@@ -69,6 +68,7 @@
     {% for flash_message in app.session.flashBag.get('success') %}
     <script>toastr.success("{{ flash_message }}")</script>
     {% endfor %}
+    <script src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
 {% endblock %}
 </body>
 </html>

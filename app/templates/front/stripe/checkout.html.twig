@@ -74,11 +74,11 @@
                                         <td class="product-thumbnail text-center">
                                             <div>{{ cart.title }} </div>
                                             <a href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
-                                                <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ cart.pictureName, 100, 75)|imagine_filter('product_miniature') }}"
+                                                <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ cart.pictureName, 130, 130) }}"
                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                             src: asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_miniature')
                                                         }) }}
-                                                     width="130px"
+                                                     width="130" height="130" class="img-fluid"
                                                      alt="{{ cart.title }}"/>
                                             </a>
                                         </td>

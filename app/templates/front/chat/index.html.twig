@@ -297,7 +297,7 @@
                             {% endif %}
                             {% set urlUserImageLessor = pictureNameLessor ? asset('uploads/profile_picture/' ~ pictureNameLessor)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
 
-                            <img src="{{ urlUserImageLessor }}" alt="avatar" width="315px">
+                            <img src="{{ urlUserImageLessor }}" alt="avatar" width="200" height="200">
                             <div class="about">
                                 <div class="name">{{ lessor.fullname|capitalize }}</div>
                                 <!-- <div class="status"><i class="fa fa-circle online"></i> online</div> -->
@@ -309,7 +309,7 @@
                                 {% set pictureNameRented = rented.picture.name %}
                             {% endif %}
                             {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
-                            <img src="{{ urlUserImageRented }}" alt="avatar" width="315px">
+                            <img src="{{ urlUserImageRented }}" alt="avatar" width="200" height="200">
                             <div class="about">
                                 <div class="name">{{ rented.fullname|capitalize }}</div>
                                 <!-- <div class="status"><i class="fa fa-circle online"></i> online</div> -->
@@ -327,7 +327,7 @@
                                 {% endif %}
                                 {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
                                 <a href="#" rel="nofollow" data-toggle="modal" data-target="#view_info">
-                                    <img src="{{ urlUserImage }}" alt="avatar" width="315px">
+                                    <img src="{{ urlUserImage }}" alt="avatar" width="315px" class="img-fluid">
                                 </a>
                                 <div class="chat-about">
                                     <h6 class="m-b-0">{{ user.fullname|capitalize }}</h6>
@@ -368,7 +368,7 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                             <div class="message-data pull-right">
                                                 <span class="message-data-time">{{ message.CreatedAtFormatted }}</span>
                                                 <img src="{{ urlUserImage }}"
-                                                     width="315px"
+                                                     width="315px" class="img-fluid"
                                                      alt="avatar">
                                             </div>
                                             <div class="message other-message float-right"> {{ message.message }} </div>

@@ -27,25 +27,22 @@ class WishlistController extends AbstractController
     public function wishlistAdd(
         string $token,
         EntityManagerInterface $em,
-        Request $request,
-        RouterInterface $router
+        Request $request
     ): Response {
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $referer = $request->headers->get('referer');
-        $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['product' => $product]);
+        $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['product' => $product->getId(), 'user' => $this->getUser()]);
         if ($product && !$wishlist) {
             $wishlist = (new Wishlist())
                 ->setUser($this->getUser())
                 ->setProduct($product);
-
             $em->persist($wishlist);
+
             $em->flush();
             $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été ajouté.');
-
-            return $this->redirect($referer);
+        } elseif (!$wishlist) {
+            $this->addFlash('error', "Erreur lors de l'ajout.");
         }
-
-        $this->addFlash('error', "Erreur lors de l'ajout.");
 
         return $this->redirect($referer);
     }

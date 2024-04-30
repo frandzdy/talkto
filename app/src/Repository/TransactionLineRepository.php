@@ -97,7 +97,10 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
+            ->getResult();
     }
 
     /**
@@ -118,6 +121,9 @@ class TransactionLineRepository extends ServiceEntityRepository
 
         $count = (clone $qb)->select('count(Distinct(tl.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         return $count > 0;
@@ -141,6 +147,9 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->andWhere('p.deletedAt IS NULL')
             ->setParameter('product', $product->getId())
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getResult();
     }
 
@@ -163,6 +172,9 @@ class TransactionLineRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getResult();
     }
 }

@@ -17,7 +17,7 @@
                         <div class="profile__basic d-md-flex align-items-center">
                             <div class="profile__basic-thumb mr-30">
                                 <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                                     width="315px"
+                                     width="315" class="img-fluid"
                                      alt="{{ pictureName ? user.fullname : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}">
                             </div>
                             <div class="profile__basic-content">

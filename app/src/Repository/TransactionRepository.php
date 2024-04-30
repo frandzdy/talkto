@@ -86,6 +86,9 @@ class TransactionRepository extends ServiceEntityRepository
 
         $builder->orderBy('t.reference', 'ASC');
 
-        return $builder->getQuery();
+        return $builder->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600);
     }
 }

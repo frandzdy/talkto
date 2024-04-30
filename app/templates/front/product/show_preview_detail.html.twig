@@ -23,13 +23,14 @@
                                                    id="pro-{{ picture.token }}-tab" data-toggle="tab"
                                                    href="#pro-{{ picture.token }}" role="tab"
                                                    aria-controls="pro-{{ picture.token }}" aria-selected="true">
-                                                    <div class="product__nav-img w-img">
-                                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_miniature_details') }}"
+                                                    <div class="product__nav-img w-img"
+                                                         style="width: 270px;height: 344px">
+                                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 270, 344) }}"
                                                                 {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                     src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
                                                                 }) }}
                                                              alt="{{ product.title }}"
-                                                             width="344" height="210">
+                                                             width="270" height="344" class="img-fluid">
                                                     </div>
                                                 </a>
                                             {% endfor %}
@@ -51,12 +52,12 @@
                                             <div class="product__modal-img product__thumb w-img">
                                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                                      data-caption="{{ product.title }}"
-                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_details') }}"
+                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 470, 600) }}"
                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                             src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
                                                         }) }}
-                                                     alt="{{ product.title }}"
-                                                     width="470px">
+                                                     alt="{{ product.title }}" class="img-fluid"
+                                                     width="470" height="600">
                                                 {#                                                <div class="product__sale "> #}
                                                 {#                                                    <span class="new">new</span> #}
                                                 {#                                                    <span class="percent">-16%</span> #}

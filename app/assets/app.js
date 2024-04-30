@@ -14,3 +14,10 @@ import './bootstrap';
 
 import 'jquery-confirm';
 jconfirm.defaults = {theme:'material'}
+
+import toastr from 'toastr';
+
+toastr.options.preventDuplicates = true;
+toastr.options.positionClass = 'toast-bottom-left';
+
+window.toastr = toastr;

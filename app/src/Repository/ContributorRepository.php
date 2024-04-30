@@ -41,6 +41,9 @@ class ContributorRepository extends ServiceEntityRepository
 
         $builder->orderBy('c.fullname', 'ASC');
 
-        return $builder->getQuery();
+        return $builder->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600);
     }
 }

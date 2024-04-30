@@ -14,12 +14,12 @@
                             <div class="product__modal-img w-img">
                                 <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
                                      data-caption="{{ product.title }}"
-                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal') }}"
+                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 316, 403) }}"
                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                             src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
                                         }) }}
-                                     alt="{{ product.title }}"
-                                     width="316px">
+                                     alt="{{ product.title }}" class="img-fluid"
+                                     width="316" height="403">
                             </div>
                         </div>
                     {% endfor %}
@@ -37,12 +37,12 @@
                                href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                aria-selected="true" title="{{ product.title }}">
                                 <div class="product__nav-img w-img">
-                                    <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 100, 75)|imagine_filter('product_modal_miniature') }}"
+                                    <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 102, 130) }}"
                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                 src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal_miniature')
                                             }) }}
-                                         alt="{{ product.title }}"
-                                         width="102px">
+                                         alt="{{ product.title }}" class="img-fluid"
+                                         width="102" height="130">
                                 </div>
                             </a>
                         {% endfor %}

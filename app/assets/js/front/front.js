@@ -23,13 +23,6 @@ global.$ = global.jQuery = $;
 
 import '@hotwired/turbo';
 
-import toastr from 'toastr';
-
-toastr.options.preventDuplicates = true;
-toastr.options.positionClass = 'toast-bottom-left';
-
-window.toastr = toastr;
-
 const {debounce} = require('lodash')
 window.debounce = debounce
 

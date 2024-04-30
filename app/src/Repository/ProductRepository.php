@@ -171,7 +171,10 @@ class ProductRepository extends ServiceEntityRepository
 
         $builder->orderBy('p.status, p.title, p.createdAt', 'ASC');
 
-        return $builder->getQuery();
+        return $builder->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600);
     }
 
     public function getTrends(
@@ -209,7 +212,11 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('productCategory', $productCategory);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
+            ->getResult();
     }
 
     public function getLatestProducts(?float $lat, ?float $lon): ?array
@@ -238,7 +245,11 @@ class ProductRepository extends ServiceEntityRepository
             ->orderBy('p.createdAt, distance', 'ASC')
             ->setMaxResults(10);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
+            ->getResult();
     }
 
     /**

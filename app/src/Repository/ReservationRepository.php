@@ -59,6 +59,9 @@ class ReservationRepository extends ServiceEntityRepository
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getSingleScalarResult();
 
         $qb->select('r')
@@ -67,7 +70,10 @@ class ReservationRepository extends ServiceEntityRepository
             ->setMaxResults(5);
 
         return [
-            'results' => $qb->getQuery()->getResult(),
+            'results' => $qb->getQuery()->enableResultCache(3600)
+                ->setQueryCacheLifetime(3600)
+                ->setResultCacheLifetime(3600)
+                ->getResult(),
             'totalPage' => ceil($count / 5),
             'page' => $offset + 1,
         ];
@@ -87,6 +93,9 @@ class ReservationRepository extends ServiceEntityRepository
             ->setParameter('token', $token)
             ->setParameter('endDate', $maxDate)
             ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
             ->getResult();
     }
 }
