@@ -7,16 +7,20 @@
         {% block body %}
             <tr>
                 <td style="padding-top:20px;">
-                    <h3>Bonjour</h3>
+                    <h3>Bonjour,</h3>
                     <p>
                         Pour réinitialiser votre mot de passe, merci de suivre le lien.
                     </p>
                     <p>
                         <a href="{{ url('front_reset_password', {token: resetToken.token}) }}">{{ url('front_reset_password', {token: resetToken.token}) }}</a>
                     </p>
-                    <p>Ce lien expire
+                    <p>
+                        Ce lien expire
                         dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}
                         .
+                    </p>
+                    <p>
+                        Si vous n'êtes pas à l'initiative de cette demande, merci de ne pas tenir compte de cet e-mail.
                     </p>
                     <p>
                         Cordialement,<br/>
@@ -40,6 +44,8 @@
     {{ url('front_reset_password', {token: resetToken.token}) }}\n
     \n
     Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.\n
+    \n
+    Si vous n'êtes pas à l'initiative de cette demande, merci de ne pas tenir compte de cet e-mail.\n
     \n
     Cordialement,\n
     L'équipe Reented\n

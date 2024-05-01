@@ -45,4 +45,40 @@ class HomePageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function getHomePage(int $id): ?HomePage
+    {
+        return $this->createQueryBuilder('h')
+            ->select('h')
+            ->leftJoin('h.websiteContents', 'websiteContents')
+            ->addSelect('websiteContents')
+            ->leftJoin('websiteContents.picture', 'websiteContentsPicture')
+            ->addSelect('websiteContentsPicture')
+            ->leftJoin('h.sliders', 'sliders')
+            ->addSelect('sliders')
+            ->leftJoin('sliders.product', 'slidersProduct')
+            ->addSelect('slidersProduct')
+            ->leftJoin('slidersProduct.pictures', 'slidersPictures')
+            ->addSelect('slidersPictures')
+            ->leftJoin('h.underSliders', 'underSliders')
+            ->addSelect('underSliders')
+            ->leftJoin('underSliders.product', 'underSlidersProduct')
+            ->addSelect('underSlidersProduct')
+            ->leftJoin('underSlidersProduct.pictures', 'underSlidersPictures')
+            ->addSelect('underSlidersPictures')
+            ->leftJoin('h.mids', 'mids')
+            ->addSelect('mids')
+            ->leftJoin('mids.product', 'midsProduct')
+            ->addSelect('midsProduct')
+            ->leftJoin('midsProduct.pictures', 'midsPictures')
+            ->addSelect('midsPictures')
+            ->where('h.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->enableResultCache(3600)
+            ->setQueryCacheLifetime(3600)
+            ->setResultCacheLifetime(3600)
+            ->getOneOrNullResult()
+        ;
+    }
 }

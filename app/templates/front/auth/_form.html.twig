@@ -1,9 +1,13 @@
 <form action="{{ path('front_login') }}" method="POST">
-    <label for="name">E-mail</label>
-    <input id="name" name="email" type="email" placeholder="email@exemple.fr"
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" placeholder="email@exemple.fr"
            value="{{ last_username }}" required autofocus/>
     <label for="pass">Mot de passe</label>
-    <input id="pass" name="password" type="password" placeholder="Mot de passe"/>
+    <input id="pass"
+           name="password"
+           type="password"
+           placeholder="Mot de passe"
+    />
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('front_login') }}">
     <div class="login-action mb-20 fix">
         <span class="log-rem f-left">

@@ -317,7 +317,7 @@ class UserPaymentType extends AbstractType
             /**
              * @var User $user
              */
-            if (null === $user->getCountry()) {
+            if (!$user->getCountry()) {
                 $form->get('country')->addError(new FormError('Information requise.'));
             }
 

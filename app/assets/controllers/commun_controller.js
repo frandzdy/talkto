@@ -130,7 +130,7 @@ export default class extends Controller {
             Cookies.set('geolocalisation', true, {expires: 7})
         })
         clearTimeout(this.timeOut)
-        toastr.success('Géolocalisation activé', 'Activation')
+        toastr.success('activé', 'Géolocalisation')
     }
 
     error = (err) => {
@@ -619,7 +619,7 @@ export default class extends Controller {
 
         ////////////////////////////////////////////////////
         // 10. Product Slider Js
-        $('.product__slider ').owlCarousel({
+        $('.product__slider').owlCarousel({
             loop: false,
             margin: 30,
             autoplay: false,

@@ -2,6 +2,7 @@
 
 namespace App\Form\Front;
 
+use App\Validator\Constraints\PasswordRequirements;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -27,32 +28,32 @@ class ChangePasswordFormType extends AbstractType
                         'translation_domain' => 'messages',
                     ],
                     'first_options' => [
+                        'label' => 'Mot de passe',
+                        'label_attr' => [
+                            'class' => 'form-text text-muted',
+                        ],
+                        'hash_property_path' => 'password',
                         'attr' => [
+                            'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
                             'autocomplete' => 'new-password',
+                            'maxlength' => 255,
                         ],
-                        'constraints' => [
-                            new NotBlank([
-                                'message' => 'Please enter a password',
-                            ]),
-                            new Length([
-                                'min' => 6,
-                                'minMessage' => 'Your password should be at least {{ limit }} characters',
-                                // max length allowed by Symfony for security reasons
-                                'max' => 4096,
-                            ]),
-                        ],
-                        'label' => 'New password',
                     ],
+
                     'second_options' => [
-                        'label' => 'Repeat Password',
+                        'label' => 'Confirmez le mot de passe',
                         'attr' => [
+                            'maxlength' => 255,
                             'autocomplete' => 'new-password',
                         ],
                     ],
-                    'invalid_message' => 'The password fields must match.',
-                    // Instead of being set onto the object directly,
-                    // this is read and encoded in the controller
                     'mapped' => false,
+                    'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
+                    'constraints' => [
+                        new PasswordRequirements(),
+                        new Length(max: 4065),
+                        new NotBlank(message: 'Veuillez entrer un mot de passe'),
+                    ],
                 ]
             );
     }
