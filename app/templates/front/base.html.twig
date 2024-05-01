@@ -58,16 +58,13 @@
 <body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
 <main>{% block body %}{% endblock %}</main>
 
+{% for flash_message in app.session.flashBag.get('success') %}
+    <span {{ stimulus_controller('alert') }} data-type="success" data-message="{{ flash_message }}"></span>
+{% endfor %}
+{% for flash_message in app.session.flashBag.get('error') %}
+    <span {{ stimulus_controller('alert') }} data-type="error" data-message="{{ flash_message }}"></span>
+{% endfor %}
 {% block javascripts %}
-    {% for flash_message in app.session.flashBag.get('error') %}
-    <script>toastr.error("{{ flash_message }}")</script>
-    {% endfor %}
-    {% for flash_message in app.session.flashBag.get('info') %}
-    <script>toastr.warning("{{ flash_message }}", "Reented support")</script>
-    {% endfor %}
-    {% for flash_message in app.session.flashBag.get('success') %}
-    <script>toastr.success("{{ flash_message }}")</script>
-    {% endfor %}
     <script src="{{ asset('build/tarteaucitron/tarteaucitron.js') }}"></script>
 {% endblock %}
 </body>

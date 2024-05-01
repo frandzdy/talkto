@@ -1,7 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
 //const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
-const { CKEditorTranslationsPlugin } = require( '@ckeditor/ckeditor5-dev-translations' );
-const { styles: ckeditorstyles } = require( '@ckeditor/ckeditor5-dev-utils' );
+const {CKEditorTranslationsPlugin} = require('@ckeditor/ckeditor5-dev-translations');
+const {styles: ckeditorstyles} = require('@ckeditor/ckeditor5-dev-utils');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -30,10 +30,28 @@ Encore
     .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-	.splitEntryChunks()
-	.configureSplitChunks(function(splitChunks) {
-		splitChunks.minSize = 20000;
-	})
+    .splitEntryChunks()
+    .configureSplitChunks(function (splitChunks) {
+        splitChunks.chunks = 'all'; // Split all chunks including async ones
+        splitChunks.minSize = 20000; // Minimum size for a chunk to be split
+        splitChunks.maxSize = 50000; // Maximum size for a chunk to be split
+        splitChunks.minChunks = 1; // Minimum number of chunks a module must be in to be split
+        splitChunks.maxAsyncRequests = 30; // Maximum number of async requests at a time
+        splitChunks.maxInitialRequests = 30; // Maximum number of initial requests at a time
+        splitChunks.automaticNameDelimiter = '~'; // Delimiter for automatic chunk names
+        splitChunks.enforceSizeThreshold = 50000; // Enforce chunk size threshold
+        splitChunks.cacheGroups = { // Cache groups for splitting
+            defaultVendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10, // Priority for splitting
+            },
+            default: {
+                minChunks: 2,
+                priority: -20,
+                reuseExistingChunk: true,
+            },
+        }
+    })
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
@@ -65,49 +83,49 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
-	.copyFiles({
-		from: './assets/vendor/tarteaucitronjs',
-		to: 'tarteaucitron/[path][name].[ext]',
-	})
+    .copyFiles({
+        from: './assets/vendor/tarteaucitronjs',
+        to: 'tarteaucitron/[path][name].[ext]',
+    })
 
-	.copyFiles({
-		from: './assets/images',
-		to: 'images/[path][name].[ext]',
-	})
-	.copyFiles({
-		from: './assets/policy',
-		to: 'fonts/[path][name].[ext]',
-	})
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './assets/policy',
+        to: 'fonts/[path][name].[ext]',
+    })
 
-	.addPlugin( new CKEditorTranslationsPlugin({
-		language: 'fr',
-		additionalLanguages: ['en'],
-		buildAllTranslationsToSeparateFiles: true
-	}))
+    .addPlugin(new CKEditorTranslationsPlugin({
+        language: 'fr',
+        additionalLanguages: ['en'],
+        buildAllTranslationsToSeparateFiles: true
+    }))
 
-	// Use raw-loader for CKEditor 5 SVG files.
-	.addLoader({
-		test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-		loader: 'raw-loader'
-	})
+    // Use raw-loader for CKEditor 5 SVG files.
+    .addLoader({
+        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+        loader: 'raw-loader'
+    })
 
-	// Configure other image loaders to exclude CKEditor 5 SVG files.
-	.configureLoaderRule('images', loader => {
-		loader.exclude = /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
-	})
+    // Configure other image loaders to exclude CKEditor 5 SVG files.
+    .configureLoaderRule('images', loader => {
+        loader.exclude = /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
+    })
 
-	// Configure PostCSS loader.
-	.addLoader({
-		test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-		loader: 'postcss-loader',
-		options: {
-			postcssOptions: ckeditorstyles.getPostCssConfig({
-				themeImporter: {
-					themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
-				}
-			})
-		}
-	})
+    // Configure PostCSS loader.
+    .addLoader({
+        test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+        loader: 'postcss-loader',
+        options: {
+            postcssOptions: ckeditorstyles.getPostCssConfig({
+                themeImporter: {
+                    themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+                }
+            })
+        }
+    })
 
     // uncomment if you use TypeScript
     .enableTypeScriptLoader()

@@ -31,7 +31,7 @@ class WishlistController extends AbstractController
     ): Response {
         $product = $em->getRepository(Product::class)->findOneBy(['token' => $token]);
         $referer = $request->headers->get('referer');
-        $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['product' => $product->getId(), 'user' => $this->getUser()]);
+        $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['product' => $product->getToken(), 'user' => $this->getUser()->getToken()]);
         if ($product && !$wishlist) {
             $wishlist = (new Wishlist())
                 ->setUser($this->getUser())
@@ -39,9 +39,9 @@ class WishlistController extends AbstractController
             $em->persist($wishlist);
 
             $em->flush();
-            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été ajouté.');
-        } elseif (!$wishlist) {
-            $this->addFlash('error', "Erreur lors de l'ajout.");
+            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été ajouté à vos favoris.');
+        } else {
+            $this->addFlash('error', $product->getTitle().' existe déjà dans vos favoris.');
         }
 
         return $this->redirect($referer);
@@ -51,14 +51,13 @@ class WishlistController extends AbstractController
     public function wishlistDelete(
         string $token,
         EntityManagerInterface $em,
-        Request $request,
-        RouterInterface $router
+        Request $request
     ): Response {
         $wishlist = $em->getRepository(Wishlist::class)->findOneBy(['token' => $token]);
         $referer = $request->headers->get('referer');
 
         if ($wishlist->getUser() === $this->getUser()) {
-            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été supprimé.');
+            $this->addFlash('success', $wishlist->getProduct()->getTitle().' a été supprimé de vos favoris.');
             $em->remove($wishlist);
             $em->flush();
 

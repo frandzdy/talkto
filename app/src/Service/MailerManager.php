@@ -32,7 +32,8 @@ readonly class MailerManager
         ?array $pathAttachmentFiles = [],
         string $replyTo = null,
         ?array $bccs = [],
-        ?array $ccs = []
+        ?array $ccs = [],
+        null|array|string $from = [],
     ): void {
         $template = $this->environment->load($templateAlias);
 
@@ -50,6 +51,14 @@ readonly class MailerManager
             }
         } else {
             $email->to(new Address($to));
+        }
+
+        if (is_array($from)) {
+            foreach ($from as $address) {
+                $email->addFrom(new Address($address));
+            }
+        } else {
+            $email->from(new Address($from));
         }
 
         if ($replyTo) {

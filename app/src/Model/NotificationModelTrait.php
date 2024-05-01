@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait NotificationModelTrait
@@ -11,6 +13,14 @@ trait NotificationModelTrait
      */
     #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 100)]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
+    #[Assert\Type(Types::STRING)]
     private ?string $firstname;
 
     /**
@@ -18,6 +28,14 @@ trait NotificationModelTrait
      */
     #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 100)]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
+    #[Assert\Type(Types::STRING)]
     private ?string $lastname;
 
     /**
@@ -26,6 +44,15 @@ trait NotificationModelTrait
     #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Email(message: 'Format e-mail incorrect.')]
     #[Assert\Length(max: 255)]
+    #[Assert\Email()]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
+    #[Assert\Type(Types::STRING)]
     private ?string $email;
 
     /**
@@ -33,6 +60,14 @@ trait NotificationModelTrait
      */
     #[Assert\NotBlank(message: 'Information requise.')]
     #[Assert\Length(max: 400)]
+    #[Assert\NoSuspiciousCharacters(
+        restrictionLevelMessage: 'Information erronée.',
+        invisibleMessage: 'Information erronée.',
+        mixedNumbersMessage: 'Information erronée.',
+        hiddenOverlayMessage: 'Information erronée.',
+        restrictionLevel: Assert\NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
+    )]
+    #[Assert\Type(Types::STRING)]
     private ?string $message;
 
     /**

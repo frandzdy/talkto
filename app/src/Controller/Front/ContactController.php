@@ -41,7 +41,8 @@ class ContactController extends AbstractController
             $mailerManager->sendMailNotification(
                 $emailSupport,
                 'emails/contact.html.twig',
-                $vars
+                $vars,
+                from: $contact->getEmail()
             );
             $this->addFlash('success', 'Votre message a été envoyé.');
 
