@@ -362,12 +362,8 @@
                                         <i class="fal fa-heart"></i>
                                     </a>
                                     <!-- Button trigger modal -->
-                                    <a href="{{ path('front_product_reservation', {'token': trend[0].token}) }}"
-                                       title="Réservez"
-                                       data-toggle="tooltip" data-placement="top"
-                                       data-modal-title="Réservation en cours"
-                                       class="open-product-modal"
-                                       data-lg-size="true">
+                                    <a href="{{ path('front_product_reservation_detail', {'token': trend[0].token}) }}"
+                                       title="Réservez">
                                         <i class="fal fa-search"></i>
                                     </a>
                                 </div>

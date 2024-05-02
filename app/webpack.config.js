@@ -113,7 +113,7 @@ Encore
         terserOptions: {
             compress: {
                 // Adjust compression options as needed
-                drop_console: true, // Drop console.* statements
+                drop_console: Encore.isProduction(), // Drop console.* statements
                 ecma: 2018, // Use ECMAScript 2018
                 inline: 2, // Inline functions with arguments used < 2 times
                 passes: 3, // Number of passes to optimize

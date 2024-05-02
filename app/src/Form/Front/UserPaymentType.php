@@ -20,9 +20,14 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserPaymentType extends AbstractType
 {
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if ($options['isOnline']) {
@@ -305,8 +310,21 @@ class UserPaymentType extends AbstractType
                                 'class' => 'custom-control-label',
                             ],
                         'attr' => [
-                                'class' => 'custom-control-input',
+                                'class' => 'custom-control-input pull-left',
                             ],
+                    ]
+                )->add(
+                    'terms',
+                    CheckboxType::class,
+                    [
+                        'label' => 'Accepter notre <a class="alert-link" target="_blank" title="Condition Générale d\'Utilisation" data-turbo="false" href="'.$this->urlGenerator->generate('front_cgu').'">CGU</a>',
+                        'label_html' => true,
+                        'label_attr' => [
+                            'class' => 'custom-control-label',
+                        ],
+                        'attr' => [
+                            'class' => 'custom-control-input pull-right',
+                        ],
                     ]
                 );
         }

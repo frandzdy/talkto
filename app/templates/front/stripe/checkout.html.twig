@@ -45,7 +45,7 @@
     <section class="checkout-area pb-70" {{ stimulus_controller('user') }}>
         <div class="container">
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-5 mb-20">
                     <div class="checkbox-form">
                         <h3>Détails de facturation</h3>
                         <div class="row">
@@ -84,10 +84,11 @@
                                         </td>
                                         <td class="product-name">
                                             {% if cart.startDate != cart.endDate %}
-                                                {{ cart.startDate }}-{{ cart.endDate }}<br>
+                                                {{ cart.startDate }} - {{ cart.endDate }}<br>
                                             {% else %}
                                                 {{ cart.startDate }}<br>
-                                            {% endif %} </td>
+                                            {% endif %}
+                                        </td>
                                         <td class="product-name">
                                             <strong class="product-quantity">{{ cart.quantity }}</strong>
                                         </td>

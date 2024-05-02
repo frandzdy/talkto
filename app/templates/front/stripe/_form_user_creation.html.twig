@@ -60,8 +60,13 @@
 </div>
 {% if not app.user %}
     <div class="col-md-12">
-        <div class="checkout-form-list create-acc">
-            {{ form_widget(form.isGuess) }}
+        <div class="row checkout-form-list create-acc">
+            <div class="col-6">
+                {{ form_widget(form.isGuess) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.terms) }}
+            </div>
         </div>
         <div id="cbox_info" class="checkout-form-list create-account">
             <p>Créer un compte en indiquant les informations ci-dessus.
@@ -69,7 +74,7 @@
             {{ form_widget(form.plainPassword) }}
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
         <button type="submit" id="user-submit-btn" class="os-btn os-btn-black"
                 data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
                 formnovalidate="formnovalidate">
