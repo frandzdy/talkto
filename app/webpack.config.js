@@ -2,6 +2,8 @@ const Encore = require('@symfony/webpack-encore');
 //const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
 const {CKEditorTranslationsPlugin} = require('@ckeditor/ckeditor5-dev-translations');
 const {styles: ckeditorstyles} = require('@ckeditor/ckeditor5-dev-utils');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -97,6 +99,34 @@ Encore
         to: 'fonts/[path][name].[ext]',
     })
 
+    .configureImageRule({
+        // tell Webpack it should consider inlining
+        type: 'asset',
+        maxSize: 8 * 1024, // 4 kb - the default is 8kb
+    })
+
+    .configureFontRule({
+        type: 'asset',
+        maxSize: 8 * 1024
+    })
+    .addPlugin(new TerserPlugin({
+        terserOptions: {
+            compress: {
+                // Adjust compression options as needed
+                drop_console: true, // Drop console.* statements
+                ecma: 2018, // Use ECMAScript 2018
+                inline: 2, // Inline functions with arguments used < 2 times
+                passes: 3, // Number of passes to optimize
+            },
+            mangle: true, // Enable variable and function name mangling
+            format: {
+                comments: false,
+            },
+        },
+        extractComments: false,
+        parallel: true, // Enable parallelization for faster minification
+    }))
+    .addPlugin(new CssMinimizerPlugin())
     .addPlugin(new CKEditorTranslationsPlugin({
         language: 'fr',
         additionalLanguages: ['en'],

@@ -26,8 +26,12 @@
     <meta name="turbo-visit-control" content="reload">
     <!-- CSS here -->
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-        {{ encore_entry_link_tags('front_app') }}
+        {{ encore_entry_link_tags('app', attributes={
+            preload: true
+        }) }}
+        {{ encore_entry_link_tags('front_app', attributes={
+            preload: true
+        }) }}
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
     <script type="text/javascript">
@@ -52,8 +56,16 @@
         isLogged = true;
         {% endif %}
     </script>
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('front_app') }}
+    {{ encore_entry_script_tags('app', attributes={
+        preload: true
+    }) }}
+    {{ encore_entry_script_tags('front_app', attributes={
+        preload: true
+    }) }}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 </head>
 <body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
 <main>{% block body %}{% endblock %}</main>
