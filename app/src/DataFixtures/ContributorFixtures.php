@@ -18,8 +18,7 @@ class ContributorFixtures extends Fixture
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordEncoder,
         private readonly string $emailAdmin
-    ) {
-    }
+    ) {}
 
     /**
      * <@inheritDoc>.

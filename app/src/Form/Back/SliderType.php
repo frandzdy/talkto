@@ -59,7 +59,7 @@ class SliderType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Slider::class
+                'data_class' => Slider::class,
             ]
         );
     }

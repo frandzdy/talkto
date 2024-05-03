@@ -8,7 +8,7 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 
 class InterestLoginLinkNotification extends LoginLinkNotification
 {
-    public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
     {
         $emailMessage = parent::asEmailMessage($recipient, $transport);
 

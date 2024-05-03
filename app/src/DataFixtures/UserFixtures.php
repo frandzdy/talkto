@@ -20,8 +20,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordEncoder,
         private readonly string $emailSupport
-    ) {
-    }
+    ) {}
 
     /**
      * <@inheritDoc>.
@@ -41,7 +40,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             ->setZipCode('')
             ->setCountry($country)
             ->setGenre(Civility::MEN)
-            ->setTerms(true);
+            ->setTerms(true)
+        ;
 
         $manager->persist($user);
 

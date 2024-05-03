@@ -11,8 +11,7 @@ readonly class SiteMapManager
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private RouterInterface $router
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne la liste des liens du site pour le sitemap.
@@ -28,8 +27,8 @@ readonly class SiteMapManager
                 && !$this->hasRouteParameters($route)
                 && (
                     !isset($requirements['_role'])
-                    || $requirements['_role'] === 'IS_AUTHENTICATED_ANONYMOUSLY'
-                    || $requirements['_role'] === 'PUBLIC_ACCESS'
+                    || 'IS_AUTHENTICATED_ANONYMOUSLY' === $requirements['_role']
+                    || 'PUBLIC_ACCESS' === $requirements['_role']
                 )
             ) {
                 $urls[] = [

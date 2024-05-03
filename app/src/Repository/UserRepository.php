@@ -16,8 +16,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|User find($id, $lockMode = null, $lockVersion = null)
+ * @method null|User findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -83,19 +83,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('a')
             ->where('a.id = :userId')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('userId', $user->getId());
+            ->setParameter('userId', $user->getId())
+        ;
 
         $count = (clone $qb)->select('count(Distinct(p.id))')
             ->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         $qb->select('p')
             ->orderBy('p.createdAt', 'DESC')
             ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
+            ->setMaxResults(5)
+        ;
 
         return [
             'results' => $qb->getQuery()
@@ -118,13 +121,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('t')
             ->leftjoin('t.transactionLines', 'tl')
             ->addSelect('tl')
-            ->join('tl.product', 'p');
+            ->join('tl.product', 'p')
+        ;
         if (User::ROLE_USER === $user->getRole()) {
             $qb->where('r.author = :userId')
-                ->andWhere('p.deletedAt IS NULL');
+                ->andWhere('p.deletedAt IS NULL')
+            ;
         } else {
             $qb->join('p.author', 'u', Join::WITH, 'u.id = :userId')
-                ->andWhere('p.deletedAt IS NULL');
+                ->andWhere('p.deletedAt IS NULL')
+            ;
         }
 
         $qb->setParameter('userId', $user->getId());
@@ -134,12 +140,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         $qb->select('r')
             ->orderBy('tl.startDate, tl.status', 'DESC')
             ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
+            ->setMaxResults(5)
+        ;
 
         return [
             'results' => $qb->getQuery()
@@ -167,19 +175,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('author')
             ->where('u.id = :userId')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('userId', $user->getId());
+            ->setParameter('userId', $user->getId())
+        ;
 
         $count = (clone $qb)->select('count(Distinct(w.id))')
             ->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         $qb->select('w')
             ->orderBy('w.createdAt', 'DESC')
             ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
+            ->setMaxResults(5)
+        ;
 
         return [
             'results' => $qb->getQuery()
@@ -209,19 +220,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('author')
             ->where('author.id = :userId')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('userId', $user->getId());
+            ->setParameter('userId', $user->getId())
+        ;
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         $qb->select('r')
             ->orderBy('tl.startDate, tl.status', 'DESC')
             ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
+            ->setMaxResults(5)
+        ;
 
         return [
             'results' => $qb->getQuery()
@@ -240,28 +254,33 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function buildSearchQuery(array $filters = [], bool $isLessor = false): Query
     {
         $builder = $this
-            ->createQueryBuilder('u');
+            ->createQueryBuilder('u')
+        ;
 
         if (!empty($filters['term']) && !$isLessor) {
             $builder
                 ->andWhere(
                     'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.phone LIKE :term'
                 )
-                ->setParameter('term', $filters['term'].'%');
+                ->setParameter('term', $filters['term'].'%')
+            ;
         } elseif (!empty($filters['term'])) {
             $builder
                 ->andWhere(
                     'u.email LIKE :term OR u.firstname LIKE :term OR u.lastname LIKE :term OR u.address LIKE :term OR u.city LIKE :term OR u.zipCode LIKE :term OR u.stripeAccountId LIKE :term OR u.stripeCustomerId LIKE :term OR u.phone LIKE :term'
                 )
-                ->setParameter('term', $filters['term'].'%');
+                ->setParameter('term', $filters['term'].'%')
+            ;
         }
 
         $builder->andWhere('u.role IN (:role)')
-            ->andWhere('u.deletedAt IS NULL');
+            ->andWhere('u.deletedAt IS NULL')
+        ;
         if ($isLessor) {
             $builder->andWhere('u.isStripeAccountActive = :status')
                 ->setParameter('status', $filters['status'])
-                ->setParameter('role', User::ROLE_SELLER);
+                ->setParameter('role', User::ROLE_SELLER)
+            ;
         } else {
             $builder->setParameter('role', [User::ROLE_USER, User::ROLE_GUESS]);
         }
@@ -271,24 +290,27 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $builder->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
-            ->setResultCacheLifetime(3600);
+            ->setResultCacheLifetime(3600)
+        ;
     }
 
     /**
      * Returns the statistics of users based on their role and creation date.
      */
-    public function statsUsers(string $role, DatePoint $datePoint = null): array
+    public function statsUsers(string $role, ?DatePoint $datePoint = null): array
     {
         $builder = $this
             ->createQueryBuilder('u')
             ->select('count(Distinct(u.id)) AS nbUsers')
             ->where('u.role = :role')
             ->andWhere('u.deletedAt IS NULL')
-            ->setParameter('role', $role);
+            ->setParameter('role', $role)
+        ;
 
         if ($datePoint instanceof DatePoint) {
             $builder->andWhere('u.createdAt = :date')
-                ->setParameter('date', $datePoint);
+                ->setParameter('date', $datePoint)
+            ;
         }
 
         return $builder->getQuery()->getResult();

@@ -23,6 +23,27 @@ class Product
     use TraitTimestamp;
     use TraitDeletable;
 
+    /**
+     * @var UploadedFile[]
+     */
+    #[Assert\All(
+        new Assert\Image(
+            maxSize: '10M',
+            mimeTypes: ['image/jpg', 'image/jpeg'],
+            detectCorrupted: true,
+            maxSizeMessage: 'Document trop lourd. (10Mo)',
+            mimeTypesMessage: 'Format image uniquement autorisé. (JPG)',
+            corruptedMessage: 'Fichier corrompue',
+            groups: ['creation', 'edit']
+        )
+    )]
+    public array $uploadedPictures = [];
+
+    public ?string $handleError = null;
+
+    // Uniquement pour envoyer ce message par email
+    public ?string $responseRejected = null;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -46,24 +67,6 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $reviews;
 
-    /**
-     * @var UploadedFile[]
-     */
-    #[Assert\All(
-        new Assert\Image(
-            maxSize: '10M',
-            mimeTypes: ['image/jpg', 'image/jpeg'],
-            detectCorrupted: true,
-            maxSizeMessage: 'Document trop lourd. (10Mo)',
-            mimeTypesMessage: 'Format image uniquement autorisé. (JPG)',
-            corruptedMessage: 'Fichier corrompue',
-            groups: ['creation', 'edit']
-        )
-    )]
-    public array $uploadedPictures = [];
-
-    public ?string $handleError = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Information requise.', groups: ['creation', 'edit'])]
     private ?string $title = null;
@@ -84,9 +87,6 @@ class Product
 
     #[ORM\Column(type: 'smallint', enumType: ProductCategory::class)]
     private ProductCategory $category;
-
-    // Uniquement pour envoyer ce message par email
-    public ?string $responseRejected = null;
 
     #[ORM\Column(type: Types::INTEGER, length: 11)]
     private ?int $numberView = 0;

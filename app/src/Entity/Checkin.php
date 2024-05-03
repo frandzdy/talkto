@@ -20,23 +20,6 @@ class Checkin
     use TraitToken;
     use TraitAuthor;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\ManyToOne(targetEntity: TransactionLine::class, inversedBy: 'checkins')]
-    private TransactionLine $transactionLine;
-
-    #[ORM\Column(type: 'smallint', enumType: CheckinType::class)]
-    private CheckinType $type;
-
-    #[ORM\Column(type: 'smallint', enumType: CheckinStatus::class)]
-    private CheckinStatus $status = CheckinStatus::VALIDATE;
-
-    #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
-    private Collection $pictures;
-
     /**
      * @var UploadedFile[]
      */
@@ -53,6 +36,23 @@ class Checkin
     public array $uploadedPictures = [];
 
     public ?string $handleError = null;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: TransactionLine::class, inversedBy: 'checkins')]
+    private TransactionLine $transactionLine;
+
+    #[ORM\Column(type: 'smallint', enumType: CheckinType::class)]
+    private CheckinType $type;
+
+    #[ORM\Column(type: 'smallint', enumType: CheckinStatus::class)]
+    private CheckinStatus $status = CheckinStatus::VALIDATE;
+
+    #[ORM\ManyToMany(targetEntity: Picture::class, cascade: ['remove'], orphanRemoval: true)]
+    private Collection $pictures;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comments = null;

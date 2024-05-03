@@ -26,21 +26,21 @@ enum ProductCategory: int
     {
         return [
             ProductCategory::TOOLS->value => [
-                    'title' => 'Petit / Moyen outillages',
-                    'slug' => 'petit-moyen-outillages',
-                ],
+                'title' => 'Petit / Moyen outillages',
+                'slug' => 'petit-moyen-outillages',
+            ],
             ProductCategory::GOODS->value => [
-                    'title' => 'Biens',
-                    'slug' => 'biens',
-                ],
+                'title' => 'Biens',
+                'slug' => 'biens',
+            ],
             ProductCategory::FURNITURE->value => [
-                    'title' => 'Mobiliers',
-                    'slug' => 'mobiliers',
-                ],
+                'title' => 'Mobiliers',
+                'slug' => 'mobiliers',
+            ],
             ProductCategory::OTHERS->value => [
-                    'title' => 'Autres',
-                    'slug' => 'autres',
-                ],
+                'title' => 'Autres',
+                'slug' => 'autres',
+            ],
         ];
     }
 

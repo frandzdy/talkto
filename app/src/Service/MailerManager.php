@@ -19,8 +19,7 @@ readonly class MailerManager
         private MailerInterface $mailer,
         private Environment $environment,
         private LoggerInterface $emailLogger
-    ) {
-    }
+    ) {}
 
     /**
      * Envoi un email.
@@ -30,7 +29,7 @@ readonly class MailerManager
         string $templateAlias,
         ?array $vars = [],
         ?array $pathAttachmentFiles = [],
-        string $replyTo = null,
+        ?string $replyTo = null,
         ?array $bccs = [],
         ?array $ccs = [],
         null|array|string $from = [],
@@ -67,7 +66,8 @@ readonly class MailerManager
 
         $email->subject($prepend.$subject)
             ->text($textBody)
-            ->html($htmlBody);
+            ->html($htmlBody)
+        ;
 
         foreach ($bccs as $bcc) {
             $email->addBcc(new Address($bcc));
@@ -84,7 +84,9 @@ readonly class MailerManager
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $transportException) {
-            $this->emailLogger->error("[EMAIL] Erreur lors de l'envoie : ", [
+            $this->emailLogger->error(
+                "[EMAIL] Erreur lors de l'envoie : ",
+                [
                     'to' => $to,
                     'subject' => $subject,
                     'message' => $transportException->getMessage(),

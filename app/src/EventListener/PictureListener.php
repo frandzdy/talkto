@@ -10,9 +10,7 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
 #[AsEntityListener(event: PreRemoveEventArgs::class, method: 'preRemove', entity: Picture::class)]
 readonly class PictureListener
 {
-    public function __construct(private FileUploadManager $fileUploadManager)
-    {
-    }
+    public function __construct(private FileUploadManager $fileUploadManager) {}
 
     /**
      * Supprime les images sur le disque avant la suppression.

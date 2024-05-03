@@ -3,9 +3,7 @@
 namespace App\Form\Back;
 
 use App\Entity\HomePage;
-use App\Entity\UnderSlider;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -77,6 +75,7 @@ class HomePageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('data_class', HomePage::class);
+            ->setDefault('data_class', HomePage::class)
+        ;
     }
 }

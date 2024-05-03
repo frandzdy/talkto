@@ -32,11 +32,11 @@ class CheckinType extends AbstractType
                     'choice_label' => 'label',
                     'label' => 'Statut du check',
                     'label_attr' => [
-                            'class' => 'form-text text-muted',
-                        ],
+                        'class' => 'form-text text-muted',
+                    ],
                     'attr' => [
-                            'data-action' => 'checkin#onChangeStatus',
-                        ],
+                        'data-action' => 'checkin#onChangeStatus',
+                    ],
                 ]
             )
             ->add(
@@ -45,35 +45,38 @@ class CheckinType extends AbstractType
                 [
                     'label' => 'Décrivez le problème',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'style' => 'height: 200px;resize:none',
-                            'placeholder' => 'Ajouter un commentaire détails',
-                        ],
+                        'style' => 'height: 200px;resize:none',
+                        'placeholder' => 'Ajouter un commentaire détails',
+                    ],
                     'required' => false,
                 ]
             )
             ->add('handleError', TextType::class)
             ->add(
                 'uploadedPictures',
-                CollectionType::class, [
-                'label' => false,
-                'entry_type' => FileType::class,
-                'entry_options' => [
+                CollectionType::class,
+                [
+                    'label' => false,
+                    'entry_type' => FileType::class,
+                    'entry_options' => [
                         'attr' => [
-                                'accept' => 'image/png, image/jpeg, image/jpg',
-                                'lang' => 'fr',
-                                'data-browse' => 'Votre photo',
-                            ],
+                            'accept' => 'image/png, image/jpeg, image/jpg',
+                            'lang' => 'fr',
+                            'data-browse' => 'Votre photo',
+                        ],
                     ],
-                'label_attr' => [
+                    'label_attr' => [
                         'class' => 'w-max-content form-text text-muted',
                     ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'required' => true,
-            ]);
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'required' => true,
+                ]
+            )
+        ;
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $checkin = $event->getData();

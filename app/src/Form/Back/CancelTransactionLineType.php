@@ -31,12 +31,14 @@ class CancelTransactionLineType extends AbstractType
                         new LessThan(value: $options['maxAmount'], message: 'Le montant ne peut être supérieur au montant de la transaction initial.'),
                     ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults(['maxAmount' => null]);
+            ->setDefaults(['maxAmount' => null])
+        ;
     }
 }

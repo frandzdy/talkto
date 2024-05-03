@@ -18,15 +18,16 @@ class SellerType extends UserType
                 [
                     'label' => 'Description',
                     'label_attr' => [
-                            'class' => 'form-text text-muted',
-                        ],
+                        'class' => 'form-text text-muted',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Expliquez pourquoi vous louer vos biens ou bien parlez de vous même tous simplement ...',
-                            'style' => 'height: 200px',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Expliquez pourquoi vous louer vos biens ou bien parlez de vous même tous simplement ...',
+                        'style' => 'height: 200px',
+                        'maxlength' => 255,
+                    ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

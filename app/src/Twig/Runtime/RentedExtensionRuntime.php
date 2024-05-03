@@ -18,8 +18,7 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
         private UserManager $userManager,
         private EntityManagerInterface $em,
         private StripeManager $stripeManager
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne la liste des catégories des produits afin de l'afficher par tout dans les vues Twig.

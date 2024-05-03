@@ -18,9 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductReservationType extends AbstractType
 {
-    public function __construct(private readonly EntityManagerInterface $em, private readonly Security $security)
-    {
-    }
+    public function __construct(private readonly EntityManagerInterface $em, private readonly Security $security) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,13 +30,13 @@ class ProductReservationType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                            'placeholder' => 'Date de réservation',
-                            'maxlength' => 11,
-                            'data-controller' => 'datetimepicker',
-                            'data-disabled-dates' => json_encode($options['disabledDates']),
-                            'data-token' => $options['token'],
-                            'class' => 'text-center',
-                        ],
+                        'placeholder' => 'Date de réservation',
+                        'maxlength' => 11,
+                        'data-controller' => 'datetimepicker',
+                        'data-disabled-dates' => json_encode($options['disabledDates']),
+                        'data-token' => $options['token'],
+                        'class' => 'text-center',
+                    ],
                     'required' => true,
                 ]
             )->add(
@@ -48,12 +46,13 @@ class ProductReservationType extends AbstractType
                     'label' => false,
                     'placeholder' => '-- Sélectionnez une quantité --',
                     'attr' => [
-                            'class' => 'text-center',
-                        ],
+                        'class' => 'text-center',
+                    ],
                     'choices' => array_flip($options['choicesValue']),
                     'required' => true,
                 ]
-            );
+            )
+        ;
         $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event) use ($user): void {
             $form = $event->getForm();
             $options = $form->getConfig()->getOptions();
@@ -111,12 +110,13 @@ class ProductReservationType extends AbstractType
                         'label' => false,
                         'placeholder' => '-- Sélectionnez une quantité --',
                         'attr' => [
-                                'class' => 'text-center',
-                            ],
+                            'class' => 'text-center',
+                        ],
                         'choices' => array_flip($choicesValue),
                         'required' => true,
                     ]
-                );
+                )
+            ;
         });
     }
 

@@ -101,7 +101,7 @@ class CustomerExporter
     /**
      * Enregistre le fichier dans un répertoire temporaire.
      */
-    private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): string|false
+    private function saveFile(Spreadsheet $spreadsheet, string $fileType = 'csv'): false|string
     {
         if ($fileType === self::FORMAT['xlsx']['format']) {
             $writer = new Xlsx($spreadsheet);

@@ -17,7 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -187,7 +186,7 @@ class ProductController extends AbstractController
         ProductRepository $productRepository,
         Request $request,
         ProductManager $productManager,
-        string $token = null
+        ?string $token = null
     ): Response {
         if (($product = $productRepository->findOneBy(['token' => $token])) === null) {
             $product = $productManager->createProduct($this->getUser());
@@ -211,7 +210,7 @@ class ProductController extends AbstractController
             } else {
                 $this->addFlash('success', 'Produit crée en attente de validation.');
             }
-            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, (bool)$product->getId());
+            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, (bool) $product->getId());
 
             return $this->json(
                 [
@@ -238,10 +237,11 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException();
         }
         $user = $this->getUser();
+
         try {
             if ($productManager->deleteProduct($product) && ($user === $product->getAuthor() || $this->isGranted(
-                        Contributor::ROLE_ADMIN
-                    ))) {
+                Contributor::ROLE_ADMIN
+            ))) {
                 $this->addFlash('success', 'Produit supprimé !');
             } else {
                 $this->addFlash('error', 'Des réservations existent pour ce produit !');
@@ -338,8 +338,8 @@ class ProductController extends AbstractController
         ];
 
         $products = $paginator->paginate(
-            $queryProducts, /* query NOT result */
-            $request->query->getInt('page', 1), /* page number */
+            $queryProducts, // query NOT result
+            $request->query->getInt('page', 1), // page number
             20 /* limit per page */,
             ['wrap-queries' => true]
         );
@@ -387,8 +387,8 @@ class ProductController extends AbstractController
         ];
 
         $searchProducts = $paginator->paginate(
-            $querySearchProducts, /* query NOT result */
-            $request->query->getInt('page', 1), /* page number */
+            $querySearchProducts, // query NOT result
+            $request->query->getInt('page', 1), // page number
             20 /* limit per page */,
             ['wrap-queries' => true]
         );
@@ -419,7 +419,9 @@ class ProductController extends AbstractController
         } else {
             $this->addFlash('error', 'Une erreur est survenue.');
 
-            return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token, 'review' => true]
+            return $this->redirectToRoute(
+                'front_product_reservation_show_detail',
+                ['token' => $token, 'review' => true]
             );
         }
 

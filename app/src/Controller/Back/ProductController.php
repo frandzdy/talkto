@@ -139,7 +139,7 @@ class ProductController extends AbstractController
         $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $productExporter->$callableNameFunction($products);
+            $result = $productExporter->{$callableNameFunction}($products);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

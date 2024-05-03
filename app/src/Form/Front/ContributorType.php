@@ -47,26 +47,27 @@ class ContributorType extends AbstractType
                     'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                     'required' => count($options['validation_groups']) > 1,
                     'options' => [
-                            'toggle' => true,
-                            'hidden_label' => 'Masquer',
-                            'visible_label' => 'Afficher',
-                            'translation_domain' => 'messages',
-                        ],
+                        'toggle' => true,
+                        'hidden_label' => 'Masquer',
+                        'visible_label' => 'Afficher',
+                        'translation_domain' => 'messages',
+                    ],
                     'first_options' => [
-                            'label' => 'Mot de passe',
-                            'attr' => [
-                                    'placeholder' => 'Au moins 8 caractères, lettres, 1 chiffre, 1 symbole',
-                                    'maxlength' => 255,
-                                ],
+                        'label' => 'Mot de passe',
+                        'attr' => [
+                            'placeholder' => 'Au moins 8 caractères, lettres, 1 chiffre, 1 symbole',
+                            'maxlength' => 255,
                         ],
+                    ],
                     'second_options' => [
-                            'label' => 'Confirmation du mot de passe',
-                            'attr' => [
-                                    'maxlength' => 255,
-                                ],
+                        'label' => 'Confirmation du mot de passe',
+                        'attr' => [
+                            'maxlength' => 255,
                         ],
+                    ],
                     'constraints' => [new PasswordRequirements()],
                 ]
-            );
+            )
+        ;
     }
 }

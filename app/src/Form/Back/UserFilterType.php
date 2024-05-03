@@ -26,10 +26,10 @@ class UserFilterType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'attr' => [
-                            'placeholder' => 'Nom / prénom, e-mail, adresse, ville, code postal, téléphone ou stripe id',
-                            'style' => 'width: 86%;',
-                            'class' => 'float-right',
-                        ],
+                        'placeholder' => 'Nom / prénom, e-mail, adresse, ville, code postal, téléphone ou stripe id',
+                        'style' => 'width: 86%;',
+                        'class' => 'float-right',
+                    ],
                 ]
             )
         ;
@@ -38,6 +38,7 @@ class UserFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('csrf_protection', false);
+            ->setDefault('csrf_protection', false)
+        ;
     }
 }

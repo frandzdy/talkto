@@ -23,8 +23,7 @@ readonly class CheckManager
         private FileUploadManager $fileUploadManager,
         private MailerManager $mailerManager,
         private string $emailSupport
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne un check in ou out.
@@ -34,7 +33,8 @@ readonly class CheckManager
         return (new Checkin())
             ->setType('in' === $type ? CheckinType::IN : CheckinType::OUT)
             ->setTransactionLine($transactionLine)
-            ->setAuthor($user);
+            ->setAuthor($user)
+        ;
     }
 
     /**
@@ -47,7 +47,8 @@ readonly class CheckManager
             if ($pictureFileData instanceof UploadedFile) {
                 $fileName = $this->fileUploadManager->uploadFile('checkin', $pictureFileData);
                 $pic = (new Picture())
-                    ->setName($fileName);
+                    ->setName($fileName)
+                ;
                 $this->entityManager->persist($pic);
                 $checkin->addPicture($pic);
             }
@@ -65,7 +66,8 @@ readonly class CheckManager
                 // créer une réclamation pour le back office
                 $claim = (new Claim())
                     ->setCheckin($checkin)
-                    ->setStatus(ClaimStatus::PENDING);
+                    ->setStatus(ClaimStatus::PENDING)
+                ;
                 $checkin->addClaim($claim);
                 $hasClaim = true;
                 $this->mailerManager->sendMailNotification(

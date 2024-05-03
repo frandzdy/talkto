@@ -55,7 +55,8 @@ class ChangePasswordFormType extends AbstractType
                         new NotBlank(message: 'Veuillez entrer un mot de passe'),
                     ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

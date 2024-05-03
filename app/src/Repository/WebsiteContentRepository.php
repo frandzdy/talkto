@@ -9,8 +9,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<WebsiteContent>
  *
- * @method WebsiteContent|null find($id, $lockMode = null, $lockVersion = null)
- * @method WebsiteContent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|WebsiteContent find($id, $lockMode = null, $lockVersion = null)
+ * @method null|WebsiteContent findOneBy(array $criteria, array $orderBy = null)
  * @method WebsiteContent[]    findAll()
  * @method WebsiteContent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

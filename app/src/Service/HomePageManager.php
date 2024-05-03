@@ -15,11 +15,12 @@ readonly class HomePageManager
     public function __construct(
         private FileUploadManager $fileUploadManager,
         private EntityManagerInterface $em,
-    ) {
-    }
+    ) {}
 
     /**
      * Enregistre une home page.
+     *
+     * @param mixed $homePage
      */
     public function saveHomePage($homePage): void
     {

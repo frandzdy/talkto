@@ -37,17 +37,19 @@ class ProductType extends AbstractType
                 [
                     'label' => 'Raison du refus :',
                     'attr' => [
-                            'placeholder' => 'Si le produit est rejeté alors expliquez pourquoi ...',
-                            'style' => 'height: 200px',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Si le produit est rejeté alors expliquez pourquoi ...',
+                        'style' => 'height: 200px',
+                        'maxlength' => 255,
+                    ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('data_class', Product::class);
+            ->setDefault('data_class', Product::class)
+        ;
     }
 }

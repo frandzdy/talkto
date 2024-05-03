@@ -9,8 +9,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Checkin>
  *
- * @method Checkin|null find($id, $lockMode = null, $lockVersion = null)
- * @method Checkin|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Checkin find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Checkin findOneBy(array $criteria, array $orderBy = null)
  * @method Checkin[]    findAll()
  * @method Checkin[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

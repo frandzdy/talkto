@@ -48,5 +48,4 @@ class UnderSlider
     {
         $this->homePage = $homePage;
     }
-
 }

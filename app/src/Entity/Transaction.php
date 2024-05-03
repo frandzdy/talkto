@@ -58,14 +58,14 @@ class Transaction
     #[ORM\Column(length: 11)]
     private int $totalFees;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function __construct()
     {
         $this->transactionLines = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getTransactionLines(): ?Collection

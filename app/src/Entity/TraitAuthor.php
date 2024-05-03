@@ -16,7 +16,7 @@ trait TraitAuthor
     }
 
     /**
-     * @return Reservation|Message|Product|TraitAuthor|Transaction
+     * @return Message|Product|Reservation|TraitAuthor|Transaction
      */
     public function setAuthor(User $author): self
     {

@@ -10,12 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class UnderSliderType extends SliderType
 {
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
-                'data_class' => UnderSlider::class
+                'data_class' => UnderSlider::class,
             ]
         );
     }

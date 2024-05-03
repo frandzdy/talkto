@@ -48,6 +48,4 @@ class Mid
     {
         $this->homePage = $homePage;
     }
-
-
 }

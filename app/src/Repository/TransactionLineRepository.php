@@ -7,7 +7,6 @@ use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Enum\ProductStatus;
 use App\Enum\TransactionLineStatus;
-use App\Enum\TransactionStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Clock\DatePoint;
@@ -15,8 +14,8 @@ use Symfony\Component\Clock\DatePoint;
 /**
  * @extends ServiceEntityRepository<TransactionLine>
  *
- * @method TransactionLine|null find($id, $lockMode = null, $lockVersion = null)
- * @method TransactionLine|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|TransactionLine find($id, $lockMode = null, $lockVersion = null)
+ * @method null|TransactionLine findOneBy(array $criteria, array $orderBy = null)
  * @method TransactionLine[]    findAll()
  * @method TransactionLine[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -95,12 +94,14 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->setParameter(':startDistance', 0)
             ->setParameter(':endDistance', $lat ? 100 : 1000)
             ->setParameter(':userLat', $lat ?: 46.227638)
-            ->setParameter(':userLon', $lon ?: 2.213749);
+            ->setParameter(':userLon', $lon ?: 2.213749)
+        ;
 
         return $qb->getQuery()->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -117,14 +118,16 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->setParameter('dateNow', (new \DateTime())->format('Y-m-d'))
             ->andWhere('p.id = :productId')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('productId', $product->getId());
+            ->setParameter('productId', $product->getId())
+        ;
 
         $count = (clone $qb)->select('count(Distinct(tl.id))')
             ->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         return $count > 0;
     }
@@ -150,19 +153,21 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
      * Vérifie les statistiques financiers des transactions.
      */
-    public function getStatTransactionLine(DatePoint $date = null): array
+    public function getStatTransactionLine(?DatePoint $date = null): array
     {
         $qb = $this->createQueryBuilder('tl')
             ->select('SUM(tl.fees) as profit,
             SUM(tl.amountTtc + tl.fees) as ca')
-        ->where('tl.status IN (:tlStatus)')
-        ->setParameter('tlStatus', [TransactionLineStatus::IN_PROGRESS->value, TransactionLineStatus::FINISHED->value]);
+            ->where('tl.status IN (:tlStatus)')
+            ->setParameter('tlStatus', [TransactionLineStatus::IN_PROGRESS->value, TransactionLineStatus::FINISHED->value])
+        ;
 
         if ($date instanceof DatePoint) {
             $qb->join('tl.transaction', 't')

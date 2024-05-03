@@ -33,6 +33,8 @@ enum ContactSubject: int
 
     /**
      * Retourne la liste des sujets contacts disponibles.
+     *
+     * @param mixed $key
      */
     public static function getLabel($key): string
     {

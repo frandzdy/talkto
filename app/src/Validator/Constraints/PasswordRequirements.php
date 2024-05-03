@@ -15,7 +15,7 @@ class PasswordRequirements extends Constraint
     public string $mode = 'strict';
 
     // all configurable options must be passed to the constructor
-    public function __construct(string $mode = null, string $message = null, array $groups = null, mixed $payload = null)
+    public function __construct(?string $mode = null, ?string $message = null, ?array $groups = null, mixed $payload = null)
     {
         parent::__construct([], $groups, $payload);
 

@@ -10,12 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class MidType extends SliderType
 {
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
-                'data_class' => Mid::class
+                'data_class' => Mid::class,
             ]
         );
     }

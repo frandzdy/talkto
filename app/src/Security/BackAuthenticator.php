@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Service\StripeManager;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,8 +31,7 @@ class BackAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly StripeManager $stripeManager
-    ) {
-    }
+    ) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -47,8 +45,7 @@ class BackAuthenticator extends AbstractLoginFormAuthenticator
             [
                 new CsrfTokenBadge('back_login', $request->request->get('_csrf_token')),
                 new RememberMeBadge(),
-                new PasswordUpgradeBadge($request->request->get('password', ''))
-
+                new PasswordUpgradeBadge($request->request->get('password', '')),
             ]
         );
     }

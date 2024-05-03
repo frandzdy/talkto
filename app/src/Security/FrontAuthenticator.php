@@ -5,7 +5,6 @@ namespace App\Security;
 use App\Entity\User;
 use App\Service\StripeManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,8 +37,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly StripeManager $stripeManager,
         private readonly EntityManagerInterface $em
-    ) {
-    }
+    ) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -53,7 +51,7 @@ class FrontAuthenticator extends AbstractLoginFormAuthenticator
             [
                 new CsrfTokenBadge('front_login', $request->request->get('_csrf_token')),
                 new RememberMeBadge(),
-                new PasswordUpgradeBadge($request->request->get('password', ''))
+                new PasswordUpgradeBadge($request->request->get('password', '')),
             ]
         );
     }

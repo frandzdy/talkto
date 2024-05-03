@@ -14,6 +14,7 @@ use Stripe\AccountLink;
 use Stripe\Charge;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
+use Stripe\Exception\ApiErrorException;
 use Stripe\LoginLink;
 use Stripe\PaymentIntent;
 use Stripe\Refund;
@@ -44,7 +45,7 @@ readonly class StripeManager
     /**
      * Création d'un utilisateur.
      *
-     * @throws \Stripe\Exception\ApiErrorException
+     * @throws ApiErrorException
      */
     public function createCustomer(User $user): ?Customer
     {
@@ -62,7 +63,7 @@ readonly class StripeManager
     /**
      *  Création d'un compte commercial.
      *
-     * @throws \Stripe\Exception\ApiErrorException
+     * @throws ApiErrorException
      */
     public function createAccount(User $user): ?Account
     {
@@ -72,9 +73,9 @@ readonly class StripeManager
                 'country' => 'FR',
                 'email' => $user->getEmail(),
                 'capabilities' => [
-                        'card_payments' => ['requested' => true],
-                        'transfers' => ['requested' => true],
-                    ],
+                    'card_payments' => ['requested' => true],
+                    'transfers' => ['requested' => true],
+                ],
                 'business_type' => 'individual',
                 'default_currency' => 'EUR',
             ]
@@ -82,7 +83,7 @@ readonly class StripeManager
     }
 
     /**
-     * @throws \Stripe\Exception\ApiErrorException
+     * @throws ApiErrorException
      */
     public function createAccountLink(User $user): AccountLink
     {
@@ -208,6 +209,8 @@ readonly class StripeManager
 
     /**
      * Ajout ou mets à jour une ligne de transaction.
+     *
+     * @param mixed $products
      */
     public function addOrUpdateTransactionLine($products, Transaction $transaction): array
     {
@@ -241,7 +244,8 @@ readonly class StripeManager
                     ->setFees($amountFees * 100)
                     ->setStartDate(new \DateTime($reservationDate[0]))
                     ->setEndDate(new \DateTime($reservationDate[1]))
-                    ->setStatus(TransactionLineStatus::WAITING);
+                    ->setStatus(TransactionLineStatus::WAITING)
+                ;
                 $transaction->addTransactionLine($transactionLine);
                 $response['transactionTotalTtc'] += $amountTtc;
                 $response['transactionTotalTva'] += $amountTva;
@@ -251,7 +255,8 @@ readonly class StripeManager
 
         $transaction->setTotalAmountTtc($response['transactionTotalTtc'] * 100)
             ->setTotalAmountTva($response['transactionTotalTva'] * 100)
-            ->setTotalFees($response['transactionTotalFees'] * 100);
+            ->setTotalFees($response['transactionTotalFees'] * 100)
+        ;
 
         return $response;
     }
@@ -267,7 +272,7 @@ readonly class StripeManager
     /**
      * Retourne un paiement.
      */
-    public function retrieveCharge(string $chargeId = null): ?Charge
+    public function retrieveCharge(?string $chargeId = null): ?Charge
     {
         if ($chargeId) {
             return $this->stripe->charges->retrieve($chargeId);
@@ -287,7 +292,8 @@ readonly class StripeManager
             $transactionLine->getAmountTtc() - $transactionLine->getFees()
         );
         $transactionLine->setCancelTransfertId($transfertReversal->id)
-            ->setCancelAmount($transactionLine->getAmountTtc());
+            ->setCancelAmount($transactionLine->getAmountTtc())
+        ;
 
         // On annule le paiement effectué par le locataire
         return $this->stripe->refunds->create(
@@ -306,7 +312,8 @@ readonly class StripeManager
         if (!$carts['transactionId']) {
             $transaction = (new Transaction())
                 ->setStatus(TransactionStatus::WAITING)
-                ->setAuthor($user);
+                ->setAuthor($user)
+            ;
             $this->addOrUpdateTransactionLine($carts['products'], $transaction);
             $this->em->persist($transaction);
             $this->em->flush();
@@ -340,6 +347,8 @@ readonly class StripeManager
 
     /**
      * Annule un transfert vers un compte connecté partiellement ou complèt.
+     *
+     * @param mixed $amount
      */
     public function cancelTranfert(string $transfertId, $amount): TransferReversal
     {
@@ -351,6 +360,8 @@ readonly class StripeManager
 
     /**
      * Annule un transfert vers un compte connecté partiellement ou complèt.
+     *
+     * @param mixed $amount
      */
     public function caution(TransactionLine $transactionLine, $amount): PaymentIntent
     {

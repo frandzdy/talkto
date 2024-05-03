@@ -31,6 +31,7 @@ class AppointmentReminderCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $io->comment('Récupération des réservations de demain !');
+
         try {
             $transactionLineToStarts = $this->em->getRepository(TransactionLine::class)->findBy(
                 [

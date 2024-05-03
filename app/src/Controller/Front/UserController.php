@@ -47,9 +47,7 @@ class UserController extends AbstractController
             $collections['rents'] = $userRepository->getRents($user, 0);
         }
 
-        /*
-         * @var User $user
-         */
+        // @var User $user
         $collections['wishlists'] = $userRepository->getWishlists($user, 0);
 
         $urlActivationAccount = '';
@@ -224,7 +222,7 @@ class UserController extends AbstractController
         return $this->render(
             'front/user/partials/_'.$name.'.html.twig',
             [
-                'results' => $em->getRepository(User::class)->$func($this->getUser(), $page - 1),
+                'results' => $em->getRepository(User::class)->{$func}($this->getUser(), $page - 1),
             ]
         );
     }
@@ -242,9 +240,7 @@ class UserController extends AbstractController
     ): Response {
         try {
             $user = $this->getUser();
-            /*
-             * @var User $user
-             */
+            // @var User $user
             if ($user instanceof UserInterface) {
                 $user->setLat($lat);
                 $user->setLon($lon);

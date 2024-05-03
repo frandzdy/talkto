@@ -34,6 +34,7 @@ class DisabledUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $io->comment('Récupération des clients !'.(new DatePoint('-11 months'))->format('d-m-Y'));
+
         try {
             $users = $this->em->getRepository(User::class)->getUserInactive(
                 new DatePoint('-11 months')
@@ -43,9 +44,7 @@ class DisabledUserCommand extends Command
             $progess->setMessage('Liste des comptes à 11 mois d\'inactivité');
             $progess->start();
             foreach ($users as $user) {
-                /*
-                 * @var User $user
-                 */
+                // @var User $user
                 $this->mailerManager->sendMailNotification(
                     $user->getEmail(),
                     'emails/warning_user_account_close.html.twig',
@@ -73,9 +72,7 @@ class DisabledUserCommand extends Command
                 }
 
                 $userToClose->setDeletedAt(new \DateTime());
-                /*
-                 * @var User $userToClose
-                 */
+                // @var User $userToClose
                 $this->mailerManager->sendMailNotification(
                     $userToClose->getEmail(),
                     'emails/user_account_close.html.twig',

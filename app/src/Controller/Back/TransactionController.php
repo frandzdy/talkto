@@ -94,7 +94,7 @@ class TransactionController extends AbstractController
         $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $transactionExporter->$callableNameFunction($transactions);
+            $result = $transactionExporter->{$callableNameFunction}($transactions);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }
@@ -134,7 +134,8 @@ class TransactionController extends AbstractController
             $transactionLine->setCancelTransfertId(
                 $stripeManager->cancelTranfert($transactionLine->getTransfertId(), $refund['amount'])->id
             )
-                ->setCancelAmount($refund['amount'] * 100);
+                ->setCancelAmount($refund['amount'] * 100)
+            ;
             $em->flush();
             $mailerManager->sendMailNotification(
                 $transactionLine->getTransaction()->getAuthor()->getEmail(),
@@ -188,7 +189,8 @@ class TransactionController extends AbstractController
             $caution = $form->getData();
             $stripeManager->caution($transactionLine, $caution['amount']);
             $transactionLine
-                ->setCautionAmount($caution['amount'] * 100);
+                ->setCautionAmount($caution['amount'] * 100)
+            ;
             $em->flush();
 
             $mailerManager->sendMailNotification(

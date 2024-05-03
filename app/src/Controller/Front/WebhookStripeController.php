@@ -52,6 +52,7 @@ class WebhookStripeController extends AbstractController
             // Je récupère la signature
             $header = 'Stripe-Signature';
             $sig_header = $request->headers->get($header);
+
             try {
                 $event = Webhook::constructEvent(
                     $payload,
@@ -66,9 +67,7 @@ class WebhookStripeController extends AbstractController
 
         // Handle the event
         switch ($event->type) {
-            /*
-             * @var User $user
-             */
+            // @var User $user
             case 'payment_intent.succeeded':
                 $session = $event->data->object;
                 $paymentIntent = $stripeManager->retrievePaymentIntent($session->id);
@@ -90,7 +89,8 @@ class WebhookStripeController extends AbstractController
                 $reservation = (new Reservation())
                     ->setTransaction($transaction)
                     ->setStatus(ReservationStatus::PENDING)
-                    ->setAuthor($transaction->getAuthor());
+                    ->setAuthor($transaction->getAuthor())
+                ;
                 $em->persist($reservation);
                 $em->flush();
 
@@ -120,6 +120,7 @@ class WebhookStripeController extends AbstractController
                 }
 
                 break;
+
             case 'payment_intent.canceled':
             case 'payment_intent.payment_failed':
                 $session = $event->data->object;
@@ -127,7 +128,9 @@ class WebhookStripeController extends AbstractController
                 $transaction = $transactionRepository->findOneBy(['paymentIntentId' => $paymentIntent->id]);
                 $transaction->setStatus(TransactionStatus::CANCELED);
                 $em->flush();
+
                 break;
+
                 // Unhandled event type
             default:
                 // Unexpected event type

@@ -34,7 +34,5 @@ class AuthController extends AbstractController
     }
 
     #[Route('deconnexion', name: 'logout')]
-    public function logout(): void
-    {
-    }
+    public function logout(): void {}
 }

@@ -260,9 +260,7 @@ class TransactionLine
         return $this;
     }
 
-    /*
-     * Retourne le checkin selon le type choisi
-     */
+    // Retourne le checkin selon le type choisi
     public function getCheck(CheckinType $checkinStatus): ?Collection
     {
         return $this->getCheckins()->filter(

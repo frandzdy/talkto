@@ -27,10 +27,10 @@ class LessorFilterType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'attr' => [
-                            'placeholder' => 'Nom / prénom, e-mail, adresse, ville, code postal, téléphone ou stripe id',
-                            'style' => 'width: 53%;',
-                            'class' => 'float-right',
-                        ],
+                        'placeholder' => 'Nom / prénom, e-mail, adresse, ville, code postal, téléphone ou stripe id',
+                        'style' => 'width: 53%;',
+                        'class' => 'float-right',
+                    ],
                 ]
             )
             ->add(
@@ -43,9 +43,9 @@ class LessorFilterType extends AbstractType
                         'Actif' => 1,
                     ],
                     'attr' => [
-                            'style' => 'width: 38%;',
-                            'class' => 'float-right',
-                        ],
+                        'style' => 'width: 38%;',
+                        'class' => 'float-right',
+                    ],
                 ]
             )
         ;
@@ -54,6 +54,7 @@ class LessorFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('csrf_protection', false);
+            ->setDefault('csrf_protection', false)
+        ;
     }
 }

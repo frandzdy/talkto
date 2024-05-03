@@ -22,15 +22,15 @@ class SignalType extends AbstractType
                 [
                     'label' => 'Nom',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Nom',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Nom',
+                        'maxlength' => 255,
+                    ],
                     'constraints' => [
-                            new NotBlank(['message' => 'Information requises.']),
-                        ],
+                        new NotBlank(['message' => 'Information requises.']),
+                    ],
                 ]
             )
             ->add(
@@ -39,15 +39,15 @@ class SignalType extends AbstractType
                 [
                     'label' => 'Prénom',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Prénom',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Prénom',
+                        'maxlength' => 255,
+                    ],
                     'constraints' => [
-                            new NotBlank(['message' => 'Information requises.']),
-                        ],
+                        new NotBlank(['message' => 'Information requises.']),
+                    ],
                 ]
             )->add(
                 'email',
@@ -55,16 +55,16 @@ class SignalType extends AbstractType
                 [
                     'label' => 'E-mail',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'E-mail',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'E-mail',
+                        'maxlength' => 255,
+                    ],
                     'constraints' => [
-                            new NotBlank(['message' => 'Information requises.']),
-                            new Email(['message' => 'Information requises.']),
-                        ],
+                        new NotBlank(['message' => 'Information requises.']),
+                        new Email(['message' => 'Information requises.']),
+                    ],
                 ]
             )->add(
                 'description',
@@ -72,15 +72,16 @@ class SignalType extends AbstractType
                 [
                     'label' => 'Si vous souhaitez détailler le problème rencontrer',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Si vous souhaitez détailler le problème rencontrer',
-                            'style' => 'height: 200px',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Si vous souhaitez détailler le problème rencontrer',
+                        'style' => 'height: 200px',
+                        'maxlength' => 255,
+                    ],
                     'required' => false,
                 ]
-            );
+            )
+        ;
     }
 }

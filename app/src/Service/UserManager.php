@@ -24,25 +24,27 @@ readonly class UserManager
         private AdresseApi $adresseApi,
         private UserPasswordHasherInterface $passwordHasher,
         private MailerManager $mailer
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne un user prêt pour la création soit locataire, soit bailleur.
      */
-    public function createUser(int $typeAccount = 1): user
+    public function createUser(int $typeAccount = 1): User
     {
         $country = $this->entityManager->getRepository(Country::class)->findOneBy(['code' => 'FR']);
 
         return (new User())
             ->setRole(1 === $typeAccount ? User::ROLE_USER : User::ROLE_SELLER)
-            ->setCountry($country);
+            ->setCountry($country)
+        ;
     }
 
     /**
      * Créer ou met à jour un utilisateur.
+     *
+     * @param mixed $isGuess
      */
-    public function saveOrEditUser(User $user, UploadedFile $pictureFileData = null, $isGuess = false): bool
+    public function saveOrEditUser(User $user, ?UploadedFile $pictureFileData = null, $isGuess = false): bool
     {
         if ($pictureFileData instanceof UploadedFile) {
             $fileName = $this->fileUploadManager->uploadFile('profile_picture', $pictureFileData);
@@ -124,6 +126,12 @@ readonly class UserManager
 
     /**
      * Retourne la distance entre 2 points gps.
+     *
+     * @param mixed $lat1
+     * @param mixed $lng1
+     * @param mixed $lat2
+     * @param mixed $lng2
+     * @param mixed $miles
      */
     public function distance($lat1, $lng1, $lat2, $lng2, $miles = false): float
     {

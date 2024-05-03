@@ -18,8 +18,7 @@ class ProductAutocompleter implements EntityAutocompleterInterface
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack
-    ) {
-    }
+    ) {}
 
     public function getEntityClass(): string
     {
@@ -65,7 +64,8 @@ class ProductAutocompleter implements EntityAutocompleterInterface
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.title, p.amount', 'ASC')
-            ->groupBy('p.id');
+            ->groupBy('p.id')
+        ;
     }
 
     public function getLabel(array|object $entity): string

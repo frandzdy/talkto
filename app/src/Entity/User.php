@@ -35,6 +35,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // lessor
     final public const ROLE_SUPPORT = 'ROLE_SUPPORT'; // support
 
+    #[Assert\Image(
+        maxSize: '10M',
+        mimeTypes: ['image/jpg', 'image/jpeg'],
+        detectCorrupted: true,
+        maxSizeMessage: 'Document trop lourd. (10Mo)',
+        mimeTypesMessage: 'Format image uniquement autorisé. (JPG)',
+        corruptedMessage: 'Fichier corrompue'
+    )]
+    #[Ignore()]
+    public ?string $uploadPicture = null;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -131,17 +142,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToOne(targetEntity: Picture::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Picture $picture = null;
-
-    #[Assert\Image(
-        maxSize: '10M',
-        mimeTypes: ['image/jpg', 'image/jpeg'],
-        detectCorrupted: true,
-        maxSizeMessage: 'Document trop lourd. (10Mo)',
-        mimeTypesMessage: 'Format image uniquement autorisé. (JPG)',
-        corruptedMessage: 'Fichier corrompue'
-    )]
-    #[Ignore()]
-    public ?string $uploadPicture = null;
 
     /**
      * A propos de l'utilisateur [SELLER].
@@ -345,9 +345,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return '';
     }
 
-    public function eraseCredentials(): void
-    {
-    }
+    public function eraseCredentials(): void {}
 
     public function getLat(): ?float
     {
@@ -533,7 +531,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastDateConnexion;
     }
 
-    public function setLastDateConnexion(\DateTime $lastDateConnexion = null): self
+    public function setLastDateConnexion(?\DateTime $lastDateConnexion = null): self
     {
         $this->lastDateConnexion = $lastDateConnexion;
 

@@ -25,12 +25,12 @@ class ContactType extends AbstractType
                 [
                     'label' => false,
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'maxlength' => 100,
-                            'placeholder' => 'Prénom *',
-                        ],
+                        'maxlength' => 100,
+                        'placeholder' => 'Prénom *',
+                    ],
                 ]
             )
             ->add(
@@ -39,12 +39,12 @@ class ContactType extends AbstractType
                 [
                     'label' => false,
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'maxlength' => 100,
-                            'placeholder' => 'Nom *',
-                        ],
+                        'maxlength' => 100,
+                        'placeholder' => 'Nom *',
+                    ],
                 ]
             )
             ->add(
@@ -53,12 +53,12 @@ class ContactType extends AbstractType
                 [
                     'label' => false,
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'maxlength' => 255,
-                            'placeholder' => 'E-mail *',
-                        ],
+                        'maxlength' => 255,
+                        'placeholder' => 'E-mail *',
+                    ],
                 ]
             )
             ->add(
@@ -77,15 +77,16 @@ class ContactType extends AbstractType
                 [
                     'label' => false,
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'style' => 'height: 200px;resize:none;',
-                            'maxlength' => 400,
-                            'placeholder' => 'Laissez nous un message *',
-                        ],
+                        'style' => 'height: 200px;resize:none;',
+                        'maxlength' => 400,
+                        'placeholder' => 'Laissez nous un message *',
+                    ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -10,8 +10,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Claim>
  *
- * @method Claim|null find($id, $lockMode = null, $lockVersion = null)
- * @method Claim|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Claim find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Claim findOneBy(array $criteria, array $orderBy = null)
  * @method Claim[]    findAll()
  * @method Claim[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -70,7 +70,8 @@ class ClaimRepository extends ServiceEntityRepository
     public function buildSearchQuery(array $filters = []): Query
     {
         $builder = $this
-            ->createQueryBuilder('c');
+            ->createQueryBuilder('c')
+        ;
 
         if (!empty($filters['term'])) {
             $builder
@@ -87,7 +88,8 @@ class ClaimRepository extends ServiceEntityRepository
                 ->andWhere('author.email LIKE :term OR author.firstname LIKE :term OR author.lastname LIKE :term')
                 ->orWhere('transaction.reference LIKE :term OR product.title LIKE :term')
                 ->andWhere('product.deletedAt IS NULL')
-                ->setParameter('term', $filters['term'].'%');
+                ->setParameter('term', $filters['term'].'%')
+            ;
         }
 
         $builder->orderBy('c.id');
@@ -95,7 +97,8 @@ class ClaimRepository extends ServiceEntityRepository
         return $builder->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
-            ->setResultCacheLifetime(3600);
+            ->setResultCacheLifetime(3600)
+        ;
     }
 
     /**

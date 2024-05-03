@@ -56,7 +56,7 @@ class ContributorController extends AbstractController
     public function edit(
         Request $request,
         ContributorManager $contributorManager,
-        Contributor $contributor = null
+        ?Contributor $contributor = null
     ): Response {
         $validationGroups = ['Default'];
         if (!$contributor instanceof Contributor) {

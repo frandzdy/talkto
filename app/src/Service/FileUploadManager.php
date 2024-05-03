@@ -16,6 +16,8 @@ class FileUploadManager
 {
     /**
      * Constructor.
+     *
+     * @param mixed $fileUploadParameters
      */
     public function __construct(
         protected LoggerInterface $fileLogger,
@@ -23,8 +25,7 @@ class FileUploadManager
         protected SluggerInterface $slugger,
         protected string $env,
         protected MessageBusInterface $messageBus
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne vrai si le dossier est bien authorisé.
@@ -50,11 +51,11 @@ class FileUploadManager
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
+            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
             $file->move($this->getDirectoryPath($directory), $fileName);
 
             // Utilisation du service WarmupCache pour redimensionner les images
-            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPathLiipWarmup($directory) . $fileName));
+            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPathLiipWarmup($directory).$fileName));
 
             return $fileName;
         } catch (\Exception $exception) {
@@ -72,7 +73,7 @@ class FileUploadManager
         try {
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $fileName = $safeFilename . '-' . \uniqid() . '.' . $file->guessExtension();
+            $fileName = $safeFilename.'-'.\uniqid().'.'.$file->guessExtension();
             $file->move($this->getDirectoryPrivatePath($directory), $fileName);
 
             return $fileName;
@@ -88,7 +89,7 @@ class FileUploadManager
      */
     public function getFileContent(string $directory, string $filename): string
     {
-        $path = $this->getDirectoryPath($directory) . $filename;
+        $path = $this->getDirectoryPath($directory).$filename;
 
         if (file_exists($path)) {
             return file_get_contents($path);
@@ -98,48 +99,11 @@ class FileUploadManager
     }
 
     /**
-     * Retourne le nom du répertoire recherché.
-     */
-    private function getDirectoryPath(string $directory): string
-    {
-        $path = $this->fileUploadParameters['base_path'];
-
-        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
-    }
-
-    /**
-     * Retourne le nom du répertoire Liip pour la précache.
-     */
-    private function getDirectoryPathLiipWarmup(string $directory): string
-    {
-        $path = $this->fileUploadParameters['base_path_twig_warmup'];
-
-        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
-    }
-    /**
-     * Retourne le nom du répertoire recherché.
-     */
-    private function getDirectoryPrivatePath(string $directory): string
-    {
-        $path = $this->fileUploadParameters['base_path_private'];
-
-        return $path . ($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
-    }
-
-    /**
-     * Retourne le nom du répertoire recherché.
-     */
-    private function getDirectoryPathLiip(): string
-    {
-        return $this->fileUploadParameters['base_path_liip'];
-    }
-
-    /**
      * Supprime un fichier du répertoire.
      */
     public function removeFile(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPath($directory) . $filename;
+        $path = $this->getDirectoryPath($directory).$filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -152,7 +116,7 @@ class FileUploadManager
      */
     public function removeFileLiip(string $directory, string $filename): bool
     {
-        $path = $this->getDirectoryPathLiip() . '/' . $directory . '/uploads/profile_picture/' . $filename;
+        $path = $this->getDirectoryPathLiip().'/'.$directory.'/uploads/profile_picture/'.$filename;
         if (!is_file($path) || !is_writable($path)) {
             return false;
         }
@@ -174,7 +138,7 @@ class FileUploadManager
             // tant que l'on peut lire le répertoire
             while (($element = readdir($dh)) !== false) {
                 // si le fichier n'est un pas un dossier
-                if ('.' != $element && '..' != $element && !is_dir($path . '/' . $element)) {
+                if ('.' != $element && '..' != $element && !is_dir($path.'/'.$element)) {
                     // on le supprime
                     $this->removeFile($directory, $element);
                     ++$nbFileRemove;
@@ -183,5 +147,43 @@ class FileUploadManager
         }
 
         return $nbFileRemove;
+    }
+
+    /**
+     * Retourne le nom du répertoire recherché.
+     */
+    private function getDirectoryPath(string $directory): string
+    {
+        $path = $this->fileUploadParameters['base_path'];
+
+        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+    }
+
+    /**
+     * Retourne le nom du répertoire Liip pour la précache.
+     */
+    private function getDirectoryPathLiipWarmup(string $directory): string
+    {
+        $path = $this->fileUploadParameters['base_path_twig_warmup'];
+
+        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+    }
+
+    /**
+     * Retourne le nom du répertoire recherché.
+     */
+    private function getDirectoryPrivatePath(string $directory): string
+    {
+        $path = $this->fileUploadParameters['base_path_private'];
+
+        return $path.($this->fileUploadParameters['directories'][$directory] ?? $this->fileUploadParameters['directories']['default']);
+    }
+
+    /**
+     * Retourne le nom du répertoire recherché.
+     */
+    private function getDirectoryPathLiip(): string
+    {
+        return $this->fileUploadParameters['base_path_liip'];
     }
 }

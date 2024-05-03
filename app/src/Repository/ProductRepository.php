@@ -13,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Product>
  *
- * @method Product|null find($id, $lockMode = null, $lockVersion = null)
- * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Product find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Product findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -96,7 +96,8 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':productStatus', ProductStatus::VALIDATE->value)
             ->setParameter(':productCategory', $filter['category'])
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
-            ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
+            ->setParameter(':userLon', $filter['lon'] ?: 2.333333)
+        ;
 
         match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
@@ -135,7 +136,8 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':endDistance', $filter['endDistance'])
             ->setParameter(':productStatus', ProductStatus::VALIDATE)
             ->setParameter(':userLat', $filter['lat'] ?: 48.866667)
-            ->setParameter(':userLon', $filter['lon'] ?: 2.333333);
+            ->setParameter(':userLon', $filter['lon'] ?: 2.333333)
+        ;
 
         match ((int) $filter['sortedBy']) {
             1 => $qb->orderBy('distance', 'ASC'),
@@ -154,33 +156,37 @@ class ProductRepository extends ServiceEntityRepository
     public function buildSearchQuery(array $filters = []): Query
     {
         $builder = $this->createQueryBuilder('p')
-            ->join('p.author', 'a');
+            ->join('p.author', 'a')
+        ;
 
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere(
                     'p.title LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term OR p.shortDescription LIKE :term OR p.description LIKE :term'
                 )
-                ->setParameter('term', $filters['term'].'%');
+                ->setParameter('term', $filters['term'].'%')
+            ;
         }
 
         $builder
             ->andWhere('p.status = :status')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('status', $filters['status']->value);
+            ->setParameter('status', $filters['status']->value)
+        ;
 
         $builder->orderBy('p.status, p.title, p.createdAt', 'ASC');
 
         return $builder->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
-            ->setResultCacheLifetime(3600);
+            ->setResultCacheLifetime(3600)
+        ;
     }
 
     public function getTrends(
         ?float $lat,
         ?float $lon,
-        ProductCategory $productCategory = null,
+        ?ProductCategory $productCategory = null,
         ?int $maxResult = 8,
         ?Product $excludedProduct = null
     ): ?array {
@@ -206,23 +212,27 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.numberView, distance', 'ASC')
-            ->setMaxResults($maxResult);
+            ->setMaxResults($maxResult)
+        ;
 
         if ($productCategory instanceof ProductCategory) {
             $qb->andWhere('p.category = :productCategory')
-                ->setParameter('productCategory', $productCategory);
+                ->setParameter('productCategory', $productCategory)
+            ;
         }
 
         if ($excludedProduct instanceof Product) {
             $qb->andWhere('p.id <> :excludedProduct')
-                ->setParameter('excludedProduct', $excludedProduct);
+                ->setParameter('excludedProduct', $excludedProduct)
+            ;
         }
 
         return $qb->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function getLatestProducts(?float $lat, ?float $lon): ?array
@@ -249,13 +259,15 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter(':userLat', $lat ?: 46.227638)
             ->setParameter(':userLon', $lon ?: 2.213749)
             ->orderBy('p.createdAt, distance', 'ASC')
-            ->setMaxResults(10);
+            ->setMaxResults(10)
+        ;
 
         return $qb->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -266,7 +278,8 @@ class ProductRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->where('p.status = :productStatus')
             ->andWhere('p.deletedAt IS NULL')
-            ->setParameter('productStatus', ProductStatus::WAITING);
+            ->setParameter('productStatus', ProductStatus::WAITING)
+        ;
 
         return (clone $qb)->select('count(Distinct(p.id))')
             ->getQuery()

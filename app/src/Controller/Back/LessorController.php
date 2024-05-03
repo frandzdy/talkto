@@ -116,7 +116,7 @@ class LessorController extends AbstractController
         $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $lessorExporter->$callableNameFunction($lessors);
+            $result = $lessorExporter->{$callableNameFunction}($lessors);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

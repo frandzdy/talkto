@@ -14,19 +14,20 @@ class ProductReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('note', NumberType::class, ['attr' => ['min'=>0,'max' => 5],'html5' => true])
+            ->add('note', NumberType::class, ['attr' => ['min' => 0, 'max' => 5], 'html5' => true])
             ->add(
                 'message',
                 TextareaType::class,
                 [
                     'label' => false,
                     'attr' => [
-                            'cols' => '30',
-                            'rows' => '10',
-                        ],
+                        'cols' => '30',
+                        'rows' => '10',
+                    ],
                     'required' => true,
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

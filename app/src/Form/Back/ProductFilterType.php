@@ -28,10 +28,10 @@ class ProductFilterType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'attr' => [
-                            'placeholder' => 'Titre, description ou propriétaire',
-                            'style' => 'width: 53%;',
-                            'class' => 'float-right',
-                        ],
+                        'placeholder' => 'Titre, description ou propriétaire',
+                        'style' => 'width: 53%;',
+                        'class' => 'float-right',
+                    ],
                 ]
             )
             ->add(
@@ -44,14 +44,16 @@ class ProductFilterType extends AbstractType
                     'attr' => [
                         'style' => 'width: 38%;',
                         'class' => 'float-right',
-                        ],
+                    ],
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('csrf_protection', false);
+            ->setDefault('csrf_protection', false)
+        ;
     }
 }

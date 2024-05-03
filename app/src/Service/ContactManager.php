@@ -12,10 +12,11 @@ class ContactManager
     /**
      * Initialise un contact et pré setter pour le formulaire.
      */
-    public function initializeContact(string $email = null, string $lastname = null, string $firstname = null): ContactModel
+    public function initializeContact(?string $email = null, ?string $lastname = null, ?string $firstname = null): ContactModel
     {
         return (new ContactModel())->setEmail($email)
             ->setLastname($lastname)
-            ->setFirstname($firstname);
+            ->setFirstname($firstname)
+        ;
     }
 }

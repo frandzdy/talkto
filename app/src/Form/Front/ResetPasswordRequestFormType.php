@@ -31,6 +31,7 @@ class ResetPasswordRequestFormType extends AbstractType
                         'restrictionLevel' => NoSuspiciousCharacters::RESTRICTION_LEVEL_HIGH,
                     ]),
                 ],
-            ]);
+            ])
+        ;
     }
 }

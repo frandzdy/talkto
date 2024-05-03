@@ -20,16 +20,16 @@ class LoginType extends AbstractType
                 [
                     'label' => 'Adresse e-mail',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Adresse e-mail',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Adresse e-mail',
+                        'maxlength' => 255,
+                    ],
                     'constraints' => [
-                            new NotBlank(['message' => 'Information requises.']),
-                            new Email(['message' => 'Information requises.']),
-                        ],
+                        new NotBlank(['message' => 'Information requises.']),
+                        new Email(['message' => 'Information requises.']),
+                    ],
                 ]
             )
             ->add(
@@ -38,21 +38,22 @@ class LoginType extends AbstractType
                 [
                     'label' => 'Mot de passe',
                     'label_attr' => [
-                            'class' => 'form-label',
-                        ],
+                        'class' => 'form-label',
+                    ],
                     'attr' => [
-                            'placeholder' => 'Adresse e-mail',
-                            'maxlength' => 255,
-                        ],
+                        'placeholder' => 'Adresse e-mail',
+                        'maxlength' => 255,
+                    ],
                     'constraints' => [
-                            new NotBlank(['message' => 'Information requises.']),
-                            new Email(['message' => 'Information requises.']),
-                        ],
+                        new NotBlank(['message' => 'Information requises.']),
+                        new Email(['message' => 'Information requises.']),
+                    ],
                     'toggle' => true,
                     'translation_domain' => 'messages',
                     'hidden_label' => 'Masquer',
                     'visible_label' => 'Afficher',
                 ]
-            );
+            )
+        ;
     }
 }

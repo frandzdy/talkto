@@ -103,7 +103,7 @@ class ClaimController extends AbstractController
         $callable = 'exportAs'.strtoupper($typeFile);
 
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $transactionExporter->$callableNameFunction($products);
+            $result = $transactionExporter->{$callableNameFunction}($products);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }
@@ -139,7 +139,8 @@ class ClaimController extends AbstractController
             $transactionLine->setCancelTransfertId(
                 $stripeManager->cancelTranfert($transactionLine->getTransfertId(), $data['amount'])->id
             )
-                ->setCancelAmount($data['amount'] * 100);
+                ->setCancelAmount($data['amount'] * 100)
+            ;
             $em->flush();
             $mailerManager->sendMailNotification(
                 $transactionLine->getTransaction()->getAuthor()->getEmail(),

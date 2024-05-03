@@ -102,7 +102,9 @@ class StripeController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'Connexion effectué.');
-            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
+
+            return $this->json(
+                ['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
             );
         }
 
@@ -135,7 +137,7 @@ class StripeController extends AbstractController
             return $this->json(
                 [
                     'success' => 'true',
-                    'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')
+                    'redirectUrl' => $this->generateUrl('front_stripe_payment_intent'),
                 ]
             );
         }
@@ -149,6 +151,7 @@ class StripeController extends AbstractController
         $paymentIntent = $stripeManager->retrievePaymentIntent($request->query->get('payment_intent'));
         $message = 'Erreur lors du paiement.';
         $error = false;
+
         switch ($paymentIntent->status) {
             case 'succeeded':
                 $message = 'Paiement validé !';
@@ -160,7 +163,9 @@ class StripeController extends AbstractController
                     'totalFees' => 0,
                     'transactionId' => null,
                 ]);
+
                 break;
+
             case 'processing':
                 $message = 'Paiement en cour de validation !';
                 $session->set('cart', [
@@ -171,11 +176,15 @@ class StripeController extends AbstractController
                     'totalFees' => 0,
                     'transactionId' => null,
                 ]);
+
                 break;
+
             case 'requires_payment_method':
                 $message = 'Veuillez choisir un autre moyen de paiement !';
                 $error = true;
+
                 break;
+
             default:
                 break;
         }

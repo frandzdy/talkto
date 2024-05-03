@@ -11,9 +11,7 @@ readonly class ContributorManager
     /**
      * Constructeur.
      */
-    public function __construct(private EntityManagerInterface $em, private UserPasswordHasherInterface $passwordHasher)
-    {
-    }
+    public function __construct(private EntityManagerInterface $em, private UserPasswordHasherInterface $passwordHasher) {}
 
     /**
      * Crée ou modifie un utilisateur.

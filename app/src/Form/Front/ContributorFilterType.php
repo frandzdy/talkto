@@ -33,6 +33,7 @@ class ContributorFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('csrf_protection', false);
+            ->setDefault('csrf_protection', false)
+        ;
     }
 }

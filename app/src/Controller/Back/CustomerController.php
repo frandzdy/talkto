@@ -106,7 +106,7 @@ class CustomerController extends AbstractController
         $customers = $userRepository->findBy(['role' => [User::ROLE_USER, User::ROLE_GUESS]]);
         $callable = 'exportAs'.strtoupper($typeFile);
         if (is_callable($callable, true, $callableNameFunction)) {
-            $result = $customerExporter->$callableNameFunction($customers);
+            $result = $customerExporter->{$callableNameFunction}($customers);
         } else {
             throw $this->createNotFoundException('Exporter Method not found');
         }

@@ -24,9 +24,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserPaymentType extends AbstractType
 {
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -41,9 +39,9 @@ class UserPaymentType extends AbstractType
                         'label' => 'Information personnelle',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Civilité *',
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Civilité *',
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )
                 ->add(
@@ -52,10 +50,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Téléphone *',
-                                'maxlength' => 20,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Téléphone *',
+                            'maxlength' => 20,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )
                 ->add(
@@ -65,10 +63,10 @@ class UserPaymentType extends AbstractType
                         'label' => 'Adresse',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Adresse *',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Adresse *',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )->add(
                     'additionalAddress',
@@ -77,10 +75,10 @@ class UserPaymentType extends AbstractType
                         'label' => 'Adresse complémentaire',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Appartement, étage, etc.',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Appartement, étage, etc.',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                         'required' => false,
                     ]
                 )->add(
@@ -89,10 +87,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Code postal *',
-                                'maxlength' => 5,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Code postal *',
+                            'maxlength' => 5,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )->add(
                     'city',
@@ -100,10 +98,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Ville *',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Ville *',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )
                 ->add(
@@ -122,10 +120,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Nom *',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Nom *',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )
                 ->add(
@@ -134,10 +132,10 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Prénom *',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'Prénom *',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                     ]
                 )
                 ->add(
@@ -146,12 +144,13 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'E-mail *',
-                                'maxlength' => 255,
-                                'disabled' => 'disabled',
-                            ],
+                            'placeholder' => 'E-mail *',
+                            'maxlength' => 255,
+                            'disabled' => 'disabled',
+                        ],
                     ]
-                );
+                )
+            ;
         } else {
             $builder
                 ->add(
@@ -163,8 +162,8 @@ class UserPaymentType extends AbstractType
                         'label' => 'Information personnelle',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Civilité *',
-                            ],
+                            'placeholder' => 'Civilité *',
+                        ],
                     ]
                 )
                 ->add(
@@ -173,9 +172,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Téléphone *',
-                                'maxlength' => 20,
-                            ],
+                            'placeholder' => 'Téléphone *',
+                            'maxlength' => 20,
+                        ],
                     ]
                 )
                 ->add(
@@ -185,9 +184,9 @@ class UserPaymentType extends AbstractType
                         'label' => 'Adresse',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Adresse *',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'Adresse *',
+                            'maxlength' => 255,
+                        ],
                     ]
                 )->add(
                     'additionalAddress',
@@ -196,9 +195,9 @@ class UserPaymentType extends AbstractType
                         'label' => 'Adresse complémentaire',
                         'label_attr' => ['class' => 'form-text text-muted'],
                         'attr' => [
-                                'placeholder' => 'Appartement, étage, etc.',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'Appartement, étage, etc.',
+                            'maxlength' => 255,
+                        ],
                         'required' => false,
                     ]
                 )->add(
@@ -207,9 +206,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Code postal *',
-                                'maxlength' => 5,
-                            ],
+                            'placeholder' => 'Code postal *',
+                            'maxlength' => 5,
+                        ],
                     ]
                 )->add(
                     'city',
@@ -217,9 +216,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Ville *',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'Ville *',
+                            'maxlength' => 255,
+                        ],
                     ]
                 )
                 ->add(
@@ -237,9 +236,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Nom *',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'Nom *',
+                            'maxlength' => 255,
+                        ],
                     ]
                 )
                 ->add(
@@ -248,9 +247,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'Prénom *',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'Prénom *',
+                            'maxlength' => 255,
+                        ],
                     ]
                 )
                 ->add(
@@ -259,9 +258,9 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => false,
                         'attr' => [
-                                'placeholder' => 'E-mail *',
-                                'maxlength' => 255,
-                            ],
+                            'placeholder' => 'E-mail *',
+                            'maxlength' => 255,
+                        ],
                     ]
                 )->add(
                     'plainPassword',
@@ -269,36 +268,36 @@ class UserPaymentType extends AbstractType
                     [
                         'type' => PasswordType::class,
                         'options' => [
-                                'toggle' => true,
-                                'hidden_label' => 'Masquer',
-                                'visible_label' => 'Afficher',
-                                'translation_domain' => 'messages',
-                            ],
+                            'toggle' => true,
+                            'hidden_label' => 'Masquer',
+                            'visible_label' => 'Afficher',
+                            'translation_domain' => 'messages',
+                        ],
                         'first_options' => [
-                                'label' => 'Mot de passe',
-                                'label_attr' => [
-                                        'class' => 'form-text text-muted',
-                                    ],
-                                'hash_property_path' => 'password',
-                                'attr' => [
-                                        'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
-                                        'autocomplete' => 'new-password',
-                                        'maxlength' => 255,
-                                    ],
+                            'label' => 'Mot de passe',
+                            'label_attr' => [
+                                'class' => 'form-text text-muted',
                             ],
+                            'hash_property_path' => 'password',
+                            'attr' => [
+                                'placeholder' => 'Au moins 10 caractères dont 1 majuscule, 1 chiffre, 1 symbole',
+                                'autocomplete' => 'new-password',
+                                'maxlength' => 255,
+                            ],
+                        ],
 
                         'second_options' => [
                             'label' => 'Confirmer votre mot de passe',
                             'attr' => [
-                                    'maxlength' => 255,
-                                    'autocomplete' => 'new-password',
-                                ],
+                                'maxlength' => 255,
+                                'autocomplete' => 'new-password',
+                            ],
                         ],
                         'mapped' => false,
                         'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
                         'constraints' => [
-                                new PasswordRequirements(),
-                            ],
+                            new PasswordRequirements(),
+                        ],
                     ]
                 )
                 ->add(
@@ -307,11 +306,11 @@ class UserPaymentType extends AbstractType
                     [
                         'label' => 'Créer un compte ?',
                         'label_attr' => [
-                                'class' => 'custom-control-label',
-                            ],
+                            'class' => 'custom-control-label',
+                        ],
                         'attr' => [
-                                'class' => 'custom-control-input pull-left',
-                            ],
+                            'class' => 'custom-control-input pull-left',
+                        ],
                     ]
                 )->add(
                     'terms',
@@ -326,12 +325,14 @@ class UserPaymentType extends AbstractType
                             'class' => 'custom-control-input pull-right',
                         ],
                     ]
-                );
+                )
+            ;
         }
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $form = $event->getForm();
             $user = $form->getData();
+
             /**
              * @var User $user
              */

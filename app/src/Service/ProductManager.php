@@ -20,8 +20,7 @@ readonly class ProductManager
         private FileUploadManager $fileUploadManager,
         private LoggerInterface $logger,
         private ReservationRepository $reservationRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Retourne un user prêt pour la création soit locataire, soit bailleur.
@@ -31,7 +30,8 @@ readonly class ProductManager
         return (new Product())
             ->setAuthor($user)
             ->setStatus(ProductStatus::WAITING)
-            ->setQuantityAllReadyReserved(0);
+            ->setQuantityAllReadyReserved(0)
+        ;
     }
 
     /**
@@ -91,17 +91,15 @@ readonly class ProductManager
      */
     public function deleteProduct(Product $product): bool
     {
-        /*
-         * Contrôle que le produit n'est plus en location et pas réserver.
-         */
+        // Contrôle que le produit n'est plus en location et pas réserver.
         if (!$this->em->getRepository(TransactionLine::class)->productHaveTransactionInProgress($product)) {
             $product->setDeletedAt(new \DateTime());
             $this->saveProduct();
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -161,9 +159,7 @@ readonly class ProductManager
                  */
                 $transaction = $reservation->getTransaction();
                 foreach ($transaction->getTransactionLines() as $transactionLine) {
-                    /*
-                     * @var TransactionLine $transactionLine
-                     */
+                    // @var TransactionLine $transactionLine
                     $disabledDates[] = [
                         'from' => $transactionLine->getStartDate()->format('Y-m-d'),
                         'to' => $transactionLine->getEndDate()->format('Y-m-d'),

@@ -109,9 +109,9 @@ class HomePage
     {
         if ($this->sliders->contains($slider)) {
             $this->sliders->removeElement($slider);
-                if ($slider->getHomePage() === $this) {
-                    $slider->setHomePage($this);
-                }
+            if ($slider->getHomePage() === $this) {
+                $slider->setHomePage($this);
+            }
         }
 
         return $this;

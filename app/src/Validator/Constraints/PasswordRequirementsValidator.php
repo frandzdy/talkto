@@ -14,6 +14,8 @@ class PasswordRequirementsValidator extends ConstraintValidator
 {
     /**
      * Valide les données reçu lors de la validation du formulaire.
+     *
+     * @param mixed $value
      */
     public function validate($value, Constraint $constraint): void
     {

@@ -64,11 +64,12 @@ class WebsiteContentType extends AbstractType
                 [
                     'label' => 'Image (SVG)',
                     'attr' => [
-                            'accept' => 'image/svg+xml, image/png, image/jpg, image/jpeg',
-                            'lang' => 'fr',
-                        ],
+                        'accept' => 'image/svg+xml, image/png, image/jpg, image/jpeg',
+                        'lang' => 'fr',
+                    ],
                 ]
-            );
+            )
+        ;
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, static function (FormEvent $event): void {
             $form = $event->getForm();

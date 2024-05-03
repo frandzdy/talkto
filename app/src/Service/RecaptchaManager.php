@@ -31,9 +31,9 @@ readonly class RecaptchaManager
                 'https://www.google.com/recaptcha/api/siteverify',
                 [
                     'form_params' => [
-                            'secret' => $googleRecaptchaSkey,
-                            'response' => $token,
-                        ],
+                        'secret' => $googleRecaptchaSkey,
+                        'response' => $token,
+                    ],
                 ]
             );
 
@@ -41,11 +41,10 @@ readonly class RecaptchaManager
                 $this->logger->info('GOOGLE RECAPTCHA', json_decode($res->getBody(), true));
 
                 return json_decode($res->getBody(), true)['success'];
-            } else {
-                $this->logger->error('GOOGLE RECAPTCHA', json_decode($res->getBody(), true));
-
-                return false;
             }
+            $this->logger->error('GOOGLE RECAPTCHA', json_decode($res->getBody(), true));
+
+            return false;
         } catch (\Exception $exception) {
             $this->logger->error('GOOGLE RECAPTCHA ERROR', ['message' => $exception->getMessage()]);
 

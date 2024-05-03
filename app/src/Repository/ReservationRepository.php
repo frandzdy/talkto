@@ -10,8 +10,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Clock\DatePoint;
 
 /**
- * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Reservation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Reservation find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Reservation findOneBy(array $criteria, array $orderBy = null)
  * @method Reservation[]    findAll()
  * @method Reservation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -55,19 +55,22 @@ class ReservationRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r')
             ->where('r.user = :userId')
-            ->setParameter('userId', $user->getId());
+            ->setParameter('userId', $user->getId())
+        ;
 
         $count = (clone $qb)->select('count(Distinct(r.id))')
             ->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
 
         $qb->select('r')
             // ->orderBy('p.', 'DESC')
             ->setFirstResult($offset * 5)
-            ->setMaxResults(5);
+            ->setMaxResults(5)
+        ;
 
         return [
             'results' => $qb->getQuery()->enableResultCache(3600)

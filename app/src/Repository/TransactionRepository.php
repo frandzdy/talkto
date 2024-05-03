@@ -10,8 +10,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Transaction>
  *
- * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
- * @method Transaction|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Transaction find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Transaction findOneBy(array $criteria, array $orderBy = null)
  * @method Transaction[]    findAll()
  * @method Transaction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -73,16 +73,19 @@ class TransactionRepository extends ServiceEntityRepository
         $builder = $this
             ->createQueryBuilder('t')
             ->join('t.author', 'a')
-            ->join('t.transactionLines', 'tl');
+            ->join('t.transactionLines', 'tl')
+        ;
 
         if (!empty($filters['term'])) {
             $builder
                 ->andWhere('t.reference LIKE :term OR a.lastname LIKE :term OR a.firstname LIKE :term')
-                ->setParameter('term', '%'.$filters['term'].'%');
+                ->setParameter('term', '%'.$filters['term'].'%')
+            ;
         }
 
         $builder
-            ->andWhere('t.paymentIntentId IS NOT NULL');
+            ->andWhere('t.paymentIntentId IS NOT NULL')
+        ;
 
         $builder->orderBy('t.reference', 'ASC');
 
