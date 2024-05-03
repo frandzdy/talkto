@@ -4,11 +4,6 @@ liip_imagine:
     driver: "imagick"
     twig:
         mode: lazy
-    default_filter_set_settings:
-        format: webp
-    # configure webp
-    webp:
-        generate: true
 
     filter_sets:
         # profil filters
@@ -19,54 +14,44 @@ liip_imagine:
                 downscale:
                     max: [ 241, 49 ]
         profil:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 315, 315 ]
         profil_miniature:
-            quality: 100
+            quality: 90
             filters:
                 auto_rotate: ~
-            #    thumbnail: { size: [ 45, 45 ], mode: inset, allow_upscale: true }
                 fixed:
                     width: 45
                     height: 45
         ## home page filters
         home_slider:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
-                #downscale:
-                 #   max: [ 1920, 933 ]
-#                fixed:
-#                    width: 1254
-#                    height: 750
                 thumbnail: { size: [ 1254, 750 ], mode: inset, allow_upscale: true }
         home_under_slider:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
-#                fixed:
-#                    width: 376
-#                    height: 233
-                # Remplacez 300 par la largeur souhaitée et 200 par la hauteur souhaitée
                 thumbnail: { size: [ 376, 233 ], mode: outbound, allow_upscale: true }
         home_top:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
         home_mid:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
 
         home_latest:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 downscale:
@@ -74,21 +59,21 @@ liip_imagine:
 
         # product filters
         product_modal:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~
                 downscale:
                     max: [ 316, 403 ]
         product_modal_miniature:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~
                 downscale:
                     max: [ 102, 130 ]
         product_trends_or_sale:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~
@@ -96,7 +81,7 @@ liip_imagine:
                     #max: [ 270, 344 ]
                 thumbnail: { size: [ 270, 344 ], mode: inset, allow_upscale: true }
         product_latest:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                   #strip: ~
@@ -104,24 +89,23 @@ liip_imagine:
                 fixed:
                     width: 222
                     height: 333
-                #thumbnail: { size: [ 344, 270 ], mode: inset, allow_upscale: true }
 
         product_details:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~
                 downscale:
                     max: [ 470, 600 ]
         product_miniature_details:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~
                 downscale:
                     max: [ 90, 115 ]
         product_miniature:
-            quality: 100
+            quality: 85
             filters:
                 auto_rotate: ~
                 #strip: ~

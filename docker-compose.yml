@@ -1,71 +1,78 @@
-version: "3.8"
 services:
-  db:
-    image: mariadb:11.1.2
-    container_name: talkto_db
-    hostname: db
-    restart: unless-stopped
-    volumes:
-      - ./infra/volumes/database:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: toto44
-    networks:
-      - nw.talkto
-    ports:
-      - "3306:3306"
+    db:
+        image: mariadb:11.1.2
+        container_name: talkto_db
+        hostname: db
+        restart: unless-stopped
+        volumes:
+            - ./infra/volumes/database:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: toto44
+        networks:
+            - nw.talkto
+        ports:
+            - "3306:3306"
 
-  php:
-    build:
-      context: ./infra/images/php
-    container_name: talkto_php
-    hostname: php
-    volumes:
-      - ./infra/volumes/composer:/root/.composer
-      - ./infra/config/php/project.ini:/usr/local/etc/php/conf.d/project.ini:ro
-      - ./app:/var/www/app
-    environment:
-      APP_ENV: dev
-      DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=11.1.2-MariaDB&charset=utf8mb4
-      MAILER_DSN: smtp://mailcatcher:25
-    networks:
-      - nw.talkto
-    depends_on:
-      - db
-      - redis
-      - mailcatcher
-    tty: true
+    php:
+        build:
+            context: ./infra/images/php
+        container_name: talkto_php
+        hostname: php
+        volumes:
+            - ./infra/volumes/composer:/root/.composer
+            - ./infra/config/php/project.ini:/usr/local/etc/php/conf.d/project.ini:ro
+            - ./app:/var/www/app
+        environment:
+            APP_ENV: dev
+            DATABASE_URL: mysql://root:toto44@db:3306/talkto?serverVersion=11.1.2-MariaDB&charset=utf8mb4
+            MAILER_DSN: smtp://mailcatcher:25
+        networks:
+            - nw.talkto
+        depends_on:
+            - db
+            - redis
+            - mailcatcher
+        tty: true
 
-  nginx:
-    image: nginx:1.25.3
-    container_name: talkto_nginx
-    hostname: nginx
-    volumes:
-      - ./infra/volumes/logs/nginx:/var/log/nginx
-      - ./infra/config/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./app:/var/www/app
-    networks:
-      - nw.talkto
-    ports:
-      - "80:80"
-    depends_on:
-      - php
-    tty: true
+    nginx:
+        image: nginx:1.25.3
+        container_name: talkto_nginx
+        hostname: nginx
+        volumes:
+            - ./infra/volumes/logs/nginx:/var/log/nginx
+            - ./infra/config/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./app:/var/www/app
+        networks:
+            - nw.talkto
+        ports:
+            - "80:80"
+        depends_on:
+            - php
+        tty: true
 
-  redis:
-    image: redis:7.2.2
-    container_name: talkto_redis
-    hostname: redis
-    networks:
-      - nw.talkto
+    redis:
+        image: redis:7.2.2
+        container_name: talkto_redis
+        hostname: redis
+        networks:
+            - nw.talkto
 
-  mailcatcher:
-    image: tophfr/mailcatcher
-    container_name: talkto_mailcatcher
-    hostname: mailcatcher
-    networks:
-      - nw.talkto
-    ports:
-      - "1080:80"
+    mailcatcher:
+        image: tophfr/mailcatcher
+        container_name: talkto_mailcatcher
+        hostname: mailcatcher
+        networks:
+            - nw.talkto
+        ports:
+            - "1080:80"
 
+    memcached:
+        image: memcached:latest
+        container_name: talkto_memcached
+        hostname: memcached
+        networks:
+            - nw.talkto
+        ports:
+            - "11211:11211"
 networks:
-  nw.talkto:
+    nw.talkto:

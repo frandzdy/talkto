@@ -1,4 +1,4 @@
-FROM php:8.2.12-fpm-bullseye
+FROM php:8.3.6-fpm-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -13,6 +13,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN install-php-extensions gd pdo_mysql intl zip bcmath sockets redis xsl && install-php-extensions @composer
 RUN install-php-extensions exif
 RUN install-php-extensions imagick
+RUN install-php-extensions memcached opcache brotli apcu
 
 ## PHPCS
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && mv phpcs.phar /usr/local/bin/phpcs && chmod u+x /usr/local/bin/phpcs

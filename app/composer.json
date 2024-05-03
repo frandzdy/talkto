@@ -1,12 +1,12 @@
 {
-    "name": "app/productivity",
-    "description": "Application de rencontre par centre d'intéret",
+    "name": "app/reented",
+    "description": "Application location",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2.0",
+        "php": ">=8.3.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "^1.3",

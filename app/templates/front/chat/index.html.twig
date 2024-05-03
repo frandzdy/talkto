@@ -309,7 +309,7 @@
                             {% if rented.picture is not null %}
                                 {% set pictureNameRented = rented.picture.name %}
                             {% endif %}
-                            {% set typePicture = rented.genre.value == constant('App\\Enum\\Civility::MEN').value ?  'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                            {% set typePicture = rented.genre.value == constant('App\\Enum\\Civility::MEN').value ? 'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
                             {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil_miniature') : typePicture %}
                             <img src="{{ urlUserImageRented }}" alt="avatar" width="45" height="45" class="img-fluid">
                             <div class="about">
@@ -363,7 +363,7 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                     {% if message.author.picture is not null %}
                                         {% set pictureName = message.author.picture.name %}
                                     {% endif %}
-                                    {% set typePicture = message.author.genre.value == constant('App\\Enum\\Civility::MEN').value ?  'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                                    {% set typePicture = message.author.genre.value == constant('App\\Enum\\Civility::MEN').value ? 'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
                                     {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : typePicture %}
 
                                     {% if message.author.id is same as (user.id)
