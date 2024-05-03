@@ -36,7 +36,7 @@ readonly class StripeManager
         $this->stripe = new StripeClient(
             [
                 'api_key' => $this->stripeParameters['secret_key'],
-                'stripe_version' => '2023-10-16',
+                'stripe_version' => '2024-04-10',
             ]
         );
     }

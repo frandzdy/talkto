@@ -1117,7 +1117,7 @@ p {
   }
 }
 .header__action ul li .mini-cart .mini-cart-list {
-  height: 350px;
+  height: 250px;
   overflow: hidden;
   overflow-y: scroll;
 }

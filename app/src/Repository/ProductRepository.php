@@ -181,7 +181,8 @@ class ProductRepository extends ServiceEntityRepository
         ?float $lat,
         ?float $lon,
         ProductCategory $productCategory = null,
-        ?int $maxResult = 8
+        ?int $maxResult = 8,
+        ?Product $excludedProduct = null
     ): ?array {
         $qb = $this->createQueryBuilder('p')
             ->select(
@@ -210,6 +211,11 @@ class ProductRepository extends ServiceEntityRepository
         if ($productCategory instanceof ProductCategory) {
             $qb->andWhere('p.category = :productCategory')
                 ->setParameter('productCategory', $productCategory);
+        }
+
+        if ($excludedProduct instanceof Product) {
+            $qb->andWhere('p.id <> :excludedProduct')
+                ->setParameter('excludedProduct', $excludedProduct);
         }
 
         return $qb->getQuery()

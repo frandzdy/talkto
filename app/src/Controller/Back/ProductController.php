@@ -163,7 +163,7 @@ class ProductController extends AbstractController
         MailerManager $mailerManager
     ): JsonResponse {
         if ($productManager->deleteProductPicture($product, $picture)) {
-            $this->addFlash('success', 'Suppression effectué !');
+            $this->addFlash('success', 'Suppression effectué.');
             $mailerManager->sendMailNotification(
                 $product->getAuthor()->getEmail(),
                 'emails/product_picture_deleted.html.twig',

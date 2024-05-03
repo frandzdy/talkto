@@ -111,7 +111,7 @@ class ProductController extends AbstractController
         $product->setNumberView($product->getNumberView() + 1);
         $em->flush();
         // on récupère les tendances selon la catégorie du produit affiché
-        $trends = $productRepository->getTrends($lat, $lon, $product->getCategory(), self::MAX_RESULT);
+        $trends = $productRepository->getTrends($lat, $lon, $product->getCategory(), self::MAX_RESULT, $product);
 
         $options = [
             'product' => $product,
@@ -145,7 +145,7 @@ class ProductController extends AbstractController
             $cart = $productManager->addProductToCart($cart, $flatpickrDate, $product, $quantity);
 
             $session->set('cart', $cart);
-            $this->addFlash('success', 'Produit ajouté au panier');
+            $this->addFlash('success', 'Produit ajouté au panier.');
 
             if ('front_product_reservation_show_detail' === $request->attributes->get('_route')) {
                 return $this->redirectToRoute('front_product_reservation_show_detail', ['token' => $token]);
@@ -206,7 +206,12 @@ class ProductController extends AbstractController
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $pictureFileDatas = $form->get('uploadedPictures')->getData();
-            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, (bool) $product->getId());
+            if ($product->getId()) {
+                $this->addFlash('success', 'Produit mise à jour.');
+            } else {
+                $this->addFlash('success', 'Produit crée en attente de validation.');
+            }
+            $productManager->saveOrEditProduct($form->getData(), $pictureFileDatas, (bool)$product->getId());
 
             return $this->json(
                 [
@@ -234,7 +239,9 @@ class ProductController extends AbstractController
         }
         $user = $this->getUser();
         try {
-            if ($productManager->deleteProduct($product) && ($user === $product->getAuthor() || $this->isGranted(Contributor::ROLE_ADMIN))) {
+            if ($productManager->deleteProduct($product) && ($user === $product->getAuthor() || $this->isGranted(
+                        Contributor::ROLE_ADMIN
+                    ))) {
                 $this->addFlash('success', 'Produit supprimé !');
             } else {
                 $this->addFlash('error', 'Des réservations existent pour ce produit !');

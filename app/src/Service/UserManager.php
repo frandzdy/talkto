@@ -53,8 +53,10 @@ readonly class UserManager
         }
 
         // si on est un compte invité
-        if (!$user->getIsGuess() && !$user->getId() && $isGuess) {
+        if (!$user->getId() && ($isGuess || $user->getIsGuess())) {
             $user->setRole(User::ROLE_GUESS);
+            $customer = $this->stripeManager->createCustomer($user);
+            $user->setStripeCustomerId($customer->id);
             $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname().$user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
             // email de création de compte invitée
@@ -150,8 +152,10 @@ readonly class UserManager
     {
         if (!$user->getLat() && $user->getCity()) {
             $res = $this->adresseApi->searchUserAddress($user);
-            $user->setLat($res['lat']);
-            $user->setLon($res['lon']);
+            if ($res) {
+                $user->setLat($res['lat']);
+                $user->setLon($res['lon']);
+            }
             $this->saveUser();
         }
     }

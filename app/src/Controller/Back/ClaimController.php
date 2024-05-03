@@ -157,7 +157,7 @@ class ClaimController extends AbstractController
                     'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', 'Remboursement effectué.');
+            $this->addFlash('success', 'Annulation effectué.');
 
             return $this->json(
                 [

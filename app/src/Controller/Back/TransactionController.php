@@ -152,7 +152,7 @@ class TransactionController extends AbstractController
                     'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', 'Remboursement effectué.');
+            $this->addFlash('success', 'Annulation effectué.');
 
             return $this->json(
                 [
@@ -207,7 +207,7 @@ class TransactionController extends AbstractController
                     'user' => $transactionLine->getProduct()->getAuthor(),
                 ]
             );
-            $this->addFlash('success', 'Remboursement effectué.');
+            $this->addFlash('success', 'Caution effectué.');
 
             return $this->json(
                 [

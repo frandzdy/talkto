@@ -76,7 +76,7 @@ export default class extends Controller {
                 //`Elements` instance that was used to create the Payment Element
                 elements,
                 confirmParams: {
-                    return_url: Routing.generate('front_stripe_success'),
+                    return_url: Routing.generate('front_stripe_success', [], true),
                 },
             });
 

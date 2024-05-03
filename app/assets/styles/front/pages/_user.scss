@@ -1,19 +1,20 @@
 .zone-address {
   position: absolute;
-  width: 100%;
+  width: 80% !important;
+  z-index: 1;
   .address {
     cursor: pointer;
-    margin: 0 10px;
     list-style: none;
     border: 2px solid $theme-color;
     border-radius: 5px;
     text-align: center;
     background-color: $white;
-
+    li {
+      border: 1px solid $theme-color;
+      line-height: 25px;
+    }
     li:hover {
       background: #e3e2e2 !important;
-      border-bottom: 1px solid $theme-color;
-      color: $white;
     }
   }
 }

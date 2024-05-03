@@ -74,7 +74,7 @@ class ContributorController extends AbstractController
         );
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
             $contributorManager->createOrUpdate($contributor);
-            $this->addFlash('success', 'Modifications enregistrées avec succès');
+            $this->addFlash('success', 'Modifications enregistrées avec succès.');
 
             return $this->json(['success' => true, 'redirectUrl' => $this->generateUrl('back_contributors')]);
         }

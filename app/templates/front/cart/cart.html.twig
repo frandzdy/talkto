@@ -26,7 +26,6 @@
                                 {% for index, product in carts['products'] %}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <div>{{ product.title }}</div>
                                             <a title="{{ product.title }}" href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
                                                 <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ product.pictureName, 130, 130) }}"
                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {

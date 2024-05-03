@@ -101,6 +101,7 @@ class StripeController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Connexion effectué.');
             return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
             );
         }
@@ -124,7 +125,18 @@ class StripeController extends AbstractController
         $form = $this->createForm(UserPaymentType::class, $user);
 
         if ($form->handleRequest()->isSubmitted() && $form->isValid()) {
-            return $this->json(['success' => 'true', 'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')]
+            if ($user->getIsGuess()) {
+                $this->addFlash('success', 'Compte invité(e) enregistré.');
+            } else {
+                $this->addFlash('success', 'Compte enregistré.');
+            }
+            $userManager->saveOrEditUser($user, isGuess: $user->getIsGuess());
+
+            return $this->json(
+                [
+                    'success' => 'true',
+                    'redirectUrl' => $this->generateUrl('front_stripe_payment_intent')
+                ]
             );
         }
 

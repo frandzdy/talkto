@@ -120,7 +120,7 @@ class UserController extends AbstractController
             $pictureFileData = $form->get('uploadPicture')->getData();
 
             $userManager->saveOrEditUser($form->getData(), $pictureFileData);
-            $this->addFlash('success', 'Enregistrement effectué.');
+            $this->addFlash('success', 'Modification effectué.');
 
             return $this->json(
                 [
@@ -196,7 +196,7 @@ class UserController extends AbstractController
     ): Response {
         try {
             $userManager->deleteUserPicture($token, $this->getUser());
-            $this->addFlash('success', 'Enregistrement avec succès.');
+            $this->addFlash('success', 'Suppression effectué.');
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
         }

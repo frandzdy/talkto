@@ -1,5 +1,6 @@
-import {Controller} from '@hotwired/stimulus';
+import {Controller } from '@hotwired/stimulus';
 import {getAllAddresses} from "../js/front/pages/user";
+import {useDebounce} from 'stimulus-use';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -14,7 +15,7 @@ export default class extends Controller {
      *
      */
     addressAutocomplete(event) {
-        $(this.userFormTarget).on('keyup', 'input#user_address', (event) => {
+        $(this.userFormTarget).on('keyup', 'input#user_address', async (event) => {
             const inputValue = $(event.currentTarget).val();
             const trimmedInput = inputValue && inputValue.trim();
 
@@ -27,14 +28,38 @@ export default class extends Controller {
             if (!this.searching) {
                 this.searching = true;
 
-                debounce(getAllAddresses(trimmedInput).then(
+                debounce(await getAllAddresses(trimmedInput).then(
                     (response) => {
                         $('.zone-address').find('.address').remove();
                         this.createAddressList(response);
                     }
                 ).then(() => this.searching = false), 2000);
             }
-        }).on('click', 'li.address-item', this.handleClickOnAddress);
+        })
+        .on('keyup', 'input#user_payment_address', async (event) => {
+            const inputValue = $(event.currentTarget).val();
+            const trimmedInput = inputValue && inputValue.trim();
+
+            if (!trimmedInput.length) {
+                $('.zone-address').find('.address').remove();
+            }
+
+            if (trimmedInput.length < 3) return;
+
+            if (!this.searching) {
+                this.searching = true;
+
+                debounce(await getAllAddresses(trimmedInput).then(
+                    (response) => {
+                        $('.zone-address').find('.address').remove();
+                        this.createPaymentAddressList(response);
+                    }
+                ), 2000);
+                this.searching = false
+            }
+        })
+            .on('click', 'li.address-item', this.handleClickOnAddress)// user_payment_address
+            .on('click', 'li.payment-address-item', this.handleClickOnPaymentAddress);// user_payment_address
     }
 
     removeAddress() {
@@ -63,6 +88,28 @@ export default class extends Controller {
         listContainer.removeClass('d-none');
     }
 
+    createPaymentAddressList(response) {
+        const ul = document.createElement('ul');
+        ul.classList.add('d-none', 'address');
+        $('.zone-address').append(ul);
+        const listContainer = $('.zone-address').find('.address');
+
+        const defaultLi = document.createElement('li');
+        defaultLi.innerHTML = "-- Sélectionner votre adresse --";
+        listContainer.append(defaultLi);
+
+        response.forEach(address => {
+            const li = document.createElement('li');
+            li.setAttribute('data-street', address.street);
+            li.setAttribute('data-zipCode', address.postcode);
+            li.setAttribute('data-city', address.city);
+            li.setAttribute('class', 'payment-address-item');
+            li.innerHTML = `<b>${address.label}</b>`;
+            listContainer.append(li);
+        });
+        listContainer.removeClass('d-none');
+    }
+
     handleClickOnAddress(event) {
         event.preventDefault();
         const clickedData = $(event.currentTarget).data()
@@ -72,6 +119,14 @@ export default class extends Controller {
         $('.zone-address').find('.address').remove();
     }
 
+    handleClickOnPaymentAddress(event) {
+        event.preventDefault();
+        const clickedData = $(event.currentTarget).data()
+        $('#user_payment_address').val(clickedData['street']);
+        $('#user_payment_zipCode').val(clickedData['zipcode']);
+        $('#user_payment_city').val(clickedData['city']);
+        $('.zone-address').find('.address').remove();
+    }
     /**
      *
      * @param event
