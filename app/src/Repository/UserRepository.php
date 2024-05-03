@@ -123,7 +123,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addSelect('tl')
             ->join('tl.product', 'p')
         ;
-        if (User::ROLE_USER === $user->getRole()) {
+        if (User::ROLE_USER === $user->getRole() || User::ROLE_GUESS === $user->getRole()) {
             $qb->where('r.author = :userId')
                 ->andWhere('p.deletedAt IS NULL')
             ;

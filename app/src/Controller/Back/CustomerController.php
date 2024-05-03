@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -122,7 +123,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route(path: '/{id<\d+>}/authenticate', name: 'authenticate', methods: ['GET'])]
-    public function authenticate(Request $request, User $user, TokenStorageInterface $tokenStorage): RedirectResponse
+    public function authenticate(SessionInterface $session, User $user, TokenStorageInterface $tokenStorage): RedirectResponse
     {
         $roles = $user->getRoles();
         $roles[] = 'ROLE_PREVIOUS_ADMIN';
@@ -133,7 +134,6 @@ class CustomerController extends AbstractController
         $switchToken = new SwitchUserToken($user, 'front', $roles, $tokenStorage->getToken(), $url);
 
         $sessionKey = '_security_front';
-        $session = $request->getSession();
         $session->set($sessionKey, serialize($switchToken));
 
         return $this->redirectToRoute('front_user_account');

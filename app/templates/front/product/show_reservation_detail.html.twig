@@ -202,10 +202,11 @@
                                                         <li>
                                                             <div class="comments-box">
                                                                 <div class="comments-avatar">
-                                                                    <img src="{{ data_uri_thumbnail('uploads/profile_picture/'~ review.author.picture.name, 200, 200)|imagine_filter('profil_miniature') }}"
+                                                                    <img src="{{ data_uri_thumbnail('uploads/profile_picture/'~ review.author.picture.name, 45, 45)|imagine_filter('profil_miniature') }}"
                                                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                                 src: asset('uploads/profile_picture/' ~ review.author.picture.name)|imagine_filter('profil_miniature')
                                                                             }) }}
+                                                                            width="45" height="45"
                                                                          alt="{{ review.author.picture.name }}" class="img-fluid">
                                                                 </div>
                                                                 <div class="comments-text">

@@ -43,7 +43,7 @@ class ChatController extends AbstractController
                 ->setMessage(
                     "Bienvenue dans votre chat. 
                     Vous pouvez contacter votre locataire ou bailleur, afin de convenir d'un rendez-vous.
-                    L'équipe support Re\\u0258nted."
+                    L'équipe support Reented."
                 )
             ;
             $em->persist($message);

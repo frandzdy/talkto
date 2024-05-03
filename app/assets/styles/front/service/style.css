@@ -2012,7 +2012,7 @@ p {
 }
 
 .single-slider {
-  background-position: center;
+  background-position: center !important;
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -10,7 +10,7 @@ profile:
 
 #Enable inspections
 include:
-  - name: Re\u0258nted
+  - name: Reented
     paths:
       - app/src
 

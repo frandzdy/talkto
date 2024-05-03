@@ -57,8 +57,7 @@ readonly class UserManager
         // si on est un compte invité
         if (!$user->getId() && ($isGuess || $user->getIsGuess())) {
             $user->setRole(User::ROLE_GUESS);
-            $customer = $this->stripeManager->createCustomer($user);
-            $user->setStripeCustomerId($customer->id);
+            $user->setIsGuess(true);
             $hashPassword = $this->passwordHasher->hashPassword($user, $user->getFirstname().$user->getLastname());
             $this->userRepository->upgradePassword($user, $hashPassword);
             // email de création de compte invitée
@@ -76,7 +75,7 @@ readonly class UserManager
         }
 
         // si on n'a pas de compte stripe
-        if (!$user->getStripeCustomerId() && (User::ROLE_USER === $user->getRole())) {
+        if (!$user->getStripeCustomerId() && (User::ROLE_USER === $user->getRole() || User::ROLE_GUESS === $user->getRole())) {
             $customer = $this->stripeManager->createCustomer($user);
             $user->setStripeCustomerId($customer->id);
         } elseif (!$user->getStripeAccountId() && User::ROLE_SELLER === $user->getRole()) {

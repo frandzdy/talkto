@@ -16,9 +16,10 @@
                     <div class="col-xxl-6 col-md-6">
                         <div class="profile__basic d-md-flex align-items-center">
                             <div class="profile__basic-thumb mr-30">
-                                <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                                     width="315" class="img-fluid"
-                                     alt="{{ pictureName ? user.fullname : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}">
+                                {% set typePicture = rented.genre.value == constant('App\\Enum\\Civility::MEN').value ?  'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                                <img src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : typePicture }}"
+                                     width="45" height="45" class="img-fluid"
+                                     alt="{{ pictureName ? user.fullname : typePicture }}">
                             </div>
                             <div class="profile__basic-content">
                                 <h3 class="profile__basic-title">
@@ -26,7 +27,7 @@
                                     <span>{{ user.fullname }}</span> {% if user.role is same as (constant('App\\Entity\\User::ROLE_GUESS')) %}{{ user.roleAsLabel }}{% endif %}
                                 </h3>
                                 {% if user.role is not same as (constant('App\\Entity\\User::ROLE_SELLER')) %}
-                                    <p>2 location(s) en cours</p>
+                                    <p>{{ getNumberReservationOnProgress(user) }} location(s) en cours</p>
                                 {% else %}
                                     {% if urlActivation is same as (true) %}
                                         <p>

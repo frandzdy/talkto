@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Picture;
 use App\Entity\Reservation;
 use App\Entity\User;
+use App\Enum\ReservationStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Clock\DatePoint;
@@ -99,6 +100,21 @@ class ReservationRepository extends ServiceEntityRepository
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
+    }
+
+    public function getUserReservations(User $user): null|bool|float|int|string
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(Distinct(r.id))')
+            ->innerJoin('r.author', 'author')
+            ->where('author.id = :id')
+            ->setParameter('id', $user->getId())
+            ->andWhere('r.status IN (:status)')
+            ->setParameter('status', [ReservationStatus::IN_PROGRESS, ReservationStatus::PENDING])
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
     }
 }

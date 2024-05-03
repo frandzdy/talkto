@@ -26,6 +26,7 @@ class RentedExtension extends AbstractExtension
             new TwigFunction('numberClaims', [RentedExtensionRuntime::class, 'numberClaims']),
             new TwigFunction('numberProductToValidate', [RentedExtensionRuntime::class, 'numberProductToValidate']),
             new TwigFunction('getInvoiceLink', [RentedExtensionRuntime::class, 'getInvoiceLink']),
+            new TwigFunction('getNumberReservationOnProgress', [RentedExtensionRuntime::class, 'getNumberReservationOnProgress']),
             new TwigFunction('getAccountLink', [RentedExtensionRuntime::class, 'getAccountLink']),
             new TwigFunction('getDistance', [RentedExtensionRuntime::class, 'getDistance']),
         ];

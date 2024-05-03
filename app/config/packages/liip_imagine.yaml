@@ -28,8 +28,10 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [ 200, 200 ], mode: inset, allow_upscale: true }
-
+            #    thumbnail: { size: [ 45, 45 ], mode: inset, allow_upscale: true }
+                fixed:
+                    width: 45
+                    height: 45
         ## home page filters
         home_slider:
             quality: 100

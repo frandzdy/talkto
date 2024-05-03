@@ -284,7 +284,8 @@
                     </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
                         <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                            <img width="45" height="45" src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                 alt="avatar" class="img-fluid">
                             <div class="about">
                                 <div class="name">Reented Support</div>
                                 <!-- <div class="status"><i class="fa fa-circle offline"></i> left 7 mins ago</div> -->
@@ -297,7 +298,7 @@
                             {% endif %}
                             {% set urlUserImageLessor = pictureNameLessor ? asset('uploads/profile_picture/' ~ pictureNameLessor)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
 
-                            <img src="{{ urlUserImageLessor }}" alt="avatar" width="200" height="200">
+                            <img src="{{ urlUserImageLessor }}" alt="avatar" width="45" height="45" class="img-fluid">
                             <div class="about">
                                 <div class="name">{{ lessor.fullname|capitalize }}</div>
                                 <!-- <div class="status"><i class="fa fa-circle online"></i> online</div> -->
@@ -308,8 +309,9 @@
                             {% if rented.picture is not null %}
                                 {% set pictureNameRented = rented.picture.name %}
                             {% endif %}
-                            {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
-                            <img src="{{ urlUserImageRented }}" alt="avatar" width="200" height="200">
+                            {% set typePicture = rented.genre.value == constant('App\\Enum\\Civility::MEN').value ?  'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                            {% set urlUserImageRented = pictureNameRented ? asset('uploads/profile_picture/' ~ pictureNameRented)|imagine_filter('profil_miniature') : typePicture %}
+                            <img src="{{ urlUserImageRented }}" alt="avatar" width="45" height="45" class="img-fluid">
                             <div class="about">
                                 <div class="name">{{ rented.fullname|capitalize }}</div>
                                 <!-- <div class="status"><i class="fa fa-circle online"></i> online</div> -->
@@ -325,9 +327,10 @@
                                 {% if user.picture is not null %}
                                     {% set userImage = user.picture.name %}
                                 {% endif %}
-                                {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
+                                {% set typePicture = user.genre.value == constant('App\\Enum\\Civility::MEN').value ? 'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                                {% set urlUserImage = userImage ? asset('uploads/profile_picture/' ~ userImage)|imagine_filter('profil_miniature') : typePicture %}
                                 <a href="#" rel="nofollow" data-toggle="modal" data-target="#view_info">
-                                    <img src="{{ urlUserImage }}" alt="avatar" width="315px" class="img-fluid">
+                                    <img src="{{ urlUserImage }}" alt="avatar" width="45" height="45" class="img-fluid">
                                 </a>
                                 <div class="chat-about">
                                     <h6 class="m-b-0">{{ user.fullname|capitalize }}</h6>
@@ -335,14 +338,14 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 hidden-sm text-right">
-{#                                <a href="#" rel="nofollow" class="btn btn-outline-secondary"><i#}
-{#                                            class="fa fa-camera"></i></a>#}
-{#                                <a href="#" rel="nofollow" class="btn btn-outline-primary"><i#}
-{#                                            class="fa fa-image"></i></a>#}
-{#                                <a href="#" rel="nofollow" class="btn btn-outline-info"><i#}
-{#                                            class="fa fa-cogs"></i></a>#}
-{#                                <a href="#" rel="nofollow" class="btn btn-outline-warning"><i#}
-{#                                            class="fa fa-question"></i></a>#}
+                                {#                                <a href="#" rel="nofollow" class="btn btn-outline-secondary"><i #}
+                                {#                                            class="fa fa-camera"></i></a> #}
+                                {#                                <a href="#" rel="nofollow" class="btn btn-outline-primary"><i #}
+                                {#                                            class="fa fa-image"></i></a> #}
+                                {#                                <a href="#" rel="nofollow" class="btn btn-outline-info"><i #}
+                                {#                                            class="fa fa-cogs"></i></a> #}
+                                {#                                <a href="#" rel="nofollow" class="btn btn-outline-warning"><i #}
+                                {#                                            class="fa fa-question"></i></a> #}
                             </div>
                         </div>
                     </div>
@@ -360,7 +363,8 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                     {% if message.author.picture is not null %}
                                         {% set pictureName = message.author.picture.name %}
                                     {% endif %}
-                                    {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' %}
+                                    {% set typePicture = message.author.genre.value == constant('App\\Enum\\Civility::MEN').value ?  'https://bootdey.com/img/Content/avatar/avatar2.png' : 'https://bootdey.com/img/Content/avatar/avatar3.png' %}
+                                    {% set urlUserImage = pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : typePicture %}
 
                                     {% if message.author.id is same as (user.id)
                                         or message.author.role is same as (constant('App\\Entity\\User::ROLE_SUPPORT')) %}
@@ -368,7 +372,7 @@ overflow-y: scroll;  /* or hidden or auto */max-height: 300px">
                                             <div class="message-data pull-right">
                                                 <span class="message-data-time">{{ message.CreatedAtFormatted }}</span>
                                                 <img src="{{ urlUserImage }}"
-                                                     width="315px" class="img-fluid"
+                                                     width="45" height="45" class="img-fluid"
                                                      alt="avatar">
                                             </div>
                                             <div class="message other-message float-right"> {{ message.message }} </div>

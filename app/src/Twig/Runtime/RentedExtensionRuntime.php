@@ -66,4 +66,9 @@ readonly class RentedExtensionRuntime implements RuntimeExtensionInterface
     {
         return $this->stripeManager->getAccountLink($lessor)->url;
     }
+
+    public function getNumberReservationOnProgress(User $user)
+    {
+        return $this->em->getRepository(Reservation::class)->getUserReservations($user);
+    }
 }
