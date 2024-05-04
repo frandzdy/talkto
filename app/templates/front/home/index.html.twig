@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-    {% cache 'websiteContents' ttl (7200) if homePage.websiteContents|length > 0 %}
+    {% cache 'websiteContents' ttl (7200) %}
         <!-- slider area start -->
         <section class="slider__area p-relative pb-60">
             <div class="slider-active">
@@ -36,7 +36,7 @@
         </section>
         <!-- slider area end -->
     {% endcache %}
-    {% cache "sliders" ttl (7200) if homePage.sliders|length > 0 %}
+    {% cache "sliders" ttl (7200) %}
         <!-- banner area start -->
         <div class="banner__area {% if not homePage.sliders|length %} d-none {% endif %}">
             <div class="container">
@@ -83,7 +83,7 @@
         </div>
         <!-- banner area end -->
     {% endcache %}
-    {% cache "trends" ttl (7200) if trends|length > 0 %}
+    {% cache "trends" ttl (7200) %}
         <!-- product area start -->
         <section class="product__area pt-60 pb-100">
             <div class="container">
@@ -188,7 +188,7 @@
         </section>
         <!-- product area end -->
     {% endcache %}
-    {% cache "mids" ttl (7200) if homePage.mids|length > 0 %}
+    {% cache "mids" ttl (7200) %}
         <!-- banner area start -->
         <div class="banner__area-2 pb-60">
             <div class="container-fluid p-0">
@@ -234,7 +234,7 @@
         </div>
         <!-- banner area end -->
     {% endcache %}
-    {% cache "topSales" ttl (7200) if topSales|length > 0 %}
+    {% cache "topSales" ttl (7200) %}
         <!-- sale off area start -->
         <section class="sale__area pb-100">
             <div class="container">
@@ -334,7 +334,7 @@
         </section>
         <!-- sale off area end -->
     {% endcache %}
-    {% cache "latestProducts" ttl (7200) if latestProducts|length > 0 %}
+    {% cache "latestProducts" ttl (7200) %}
         <!-- client slider area start -->
         <section class="client__area pt-15 pb-140">
             <div class="container">
