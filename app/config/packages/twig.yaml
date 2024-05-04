@@ -16,6 +16,10 @@ twig:
         '%kernel.project_dir%/assets/images': images
         '%kernel.project_dir%/assets/styles': styles
 
+when@prod:
+    twig:
+        cache: '%kernel.cache_dir%/twig'
+
 when@test:
     twig:
         strict_variables: true
