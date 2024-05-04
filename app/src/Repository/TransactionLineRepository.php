@@ -180,6 +180,7 @@ class TransactionLineRepository extends ServiceEntityRepository
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
             ->setResultCacheLifetime(3600)
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

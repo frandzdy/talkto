@@ -8,67 +8,69 @@
         <div class="shop__top grey-bg-6 pt-50 pb-90">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="product__modal-box d-flex">
-                            <div class="product__modal-nav mr-20">
-                                <nav>
-                                    <div class="nav nav-tabs" id="product-details" role="tablist">
-                                        {% if product.pictures.count > 0 %}
-                                            {% for index, picture in product.pictures %}
-                                                {% set active = '' %}
-                                                {% if index == 0 %}
-                                                    {% set active = 'active' %}
-                                                {% endif %}
-                                                <a class="nav-item nav-link {{ active }}"
-                                                   id="pro-{{ picture.token }}-tab" data-toggle="tab"
-                                                   href="#pro-{{ picture.token }}" role="tab"
-                                                   aria-controls="pro-{{ picture.token }}" aria-selected="false">
-                                                    <div class="product__nav-img w-img">
-                                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 90, 115) }}"
-                                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
-                                                                    src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details')
-                                                                }) }}
-                                                             alt="{{ product.title }}" class="img-fluid"
-                                                             width="90" height="115">
-                                                    </div>
-                                                </a>
-                                            {% endfor %}
-                                        {% endif %}
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="tab-content mb-20 bp-gallery" id="product-detailsContent"
-                                 data-action="click->bigpicture#loadGallery">
-                                {% if product.pictures.count > 0 %}
-                                    {% for index, picture in product.pictures %}
-                                        {% set active = '' %}
-                                        {% if index == 0 %}
-                                            {% set active = 'show active' %}
-                                        {% endif %}
-                                        <div data-action="click->bigpicture#loadGallery"
-                                             class="tab-pane fade {{ active }}" id="pro-{{ picture.token }}"
-                                             role="tabpanel" aria-labelledby="pro-{{ picture.token }}-tab">
-                                            <div class="product__modal-img product__thumb w-img"
-                                                 data-action="click->bigpicture#loadGallery">
-                                                <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
-                                                     data-caption="{{ product.title }}"
-                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 470, 600) }}"
-                                                        {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
-                                                            src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
-                                                        }) }}
-                                                     alt="{{ product.title }}" class="img-fluid"
-                                                     width="470" height="600">
-                                                {#                                                <div class="product__sale "> #}
-                                                {#                                                    <span class="new">new</span> #}
-                                                {#                                                    <span class="percent">-16%</span> #}
-                                                {#                                                </div> #}
-                                            </div>
+                    {% cache "product;v2;" ~ product.id ~ ";" ~ product.updatedAt|date('dmyhis') %}
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="product__modal-box d-flex">
+                                <div class="product__modal-nav mr-20">
+                                    <nav>
+                                        <div class="nav nav-tabs" id="product-details" role="tablist">
+                                            {% if product.pictures.count > 0 %}
+                                                {% for index, picture in product.pictures %}
+                                                    {% set active = '' %}
+                                                    {% if index == 0 %}
+                                                        {% set active = 'active' %}
+                                                    {% endif %}
+                                                    <a class="nav-item nav-link {{ active }}"
+                                                       id="pro-{{ picture.token }}-tab" data-toggle="tab"
+                                                       href="#pro-{{ picture.token }}" role="tab"
+                                                       aria-controls="pro-{{ picture.token }}" aria-selected="false">
+                                                        <div class="product__nav-img w-img">
+                                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 90, 115) }}"
+                                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                        src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_miniature_details')
+                                                                    }) }}
+                                                                 alt="{{ product.title }}" class="img-fluid"
+                                                                 width="90" height="115">
+                                                        </div>
+                                                    </a>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
+                                    </nav>
+                                </div>
+                                <div class="tab-content mb-20 bp-gallery" id="product-detailsContent"
+                                     data-action="click->bigpicture#loadGallery">
+                                    {% if product.pictures.count > 0 %}
+                                        {% for index, picture in product.pictures %}
+                                            {% set active = '' %}
+                                            {% if index == 0 %}
+                                                {% set active = 'show active' %}
+                                            {% endif %}
+                                            <div data-action="click->bigpicture#loadGallery"
+                                                 class="tab-pane fade {{ active }}" id="pro-{{ picture.token }}"
+                                                 role="tabpanel" aria-labelledby="pro-{{ picture.token }}-tab">
+                                                <div class="product__modal-img product__thumb w-img"
+                                                     data-action="click->bigpicture#loadGallery">
+                                                    <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                                         data-caption="{{ product.title }}"
+                                                         src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 470, 600) }}"
+                                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
+                                                            }) }}
+                                                         alt="{{ product.title }}" class="img-fluid"
+                                                         width="470" height="600">
+                                                    {#                                                <div class="product__sale "> #}
+                                                    {#                                                    <span class="new">new</span> #}
+                                                    {#                                                    <span class="percent">-16%</span> #}
+                                                    {#                                                </div> #}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endcache %}
                     <div class="col-xl-6 col-lg-6">
                         <div class="product__modal-content product__modal-content-2">
                             <h4><a href="#"> {{ product.title }}</a></h4>
@@ -126,7 +128,8 @@
                                 <div class="pro-quan-area align-items-center d-none indispo"
                                      style="flex-direction: row-reverse;">
                                     <div class="pro-cart-btn">
-                                        <a href="#" class="os-btn os-btn-red os-btn-3 mr-10"><i class="bi bi-exclamation-triangle"></i>Indisponible</a>
+                                        <a href="#" class="os-btn os-btn-red os-btn-3 mr-10"><i
+                                                    class="bi bi-exclamation-triangle"></i>Indisponible</a>
                                     </div>
 
                                 </div>
@@ -202,12 +205,13 @@
                                                         <li>
                                                             <div class="comments-box">
                                                                 <div class="comments-avatar">
-                                                                    <img src="{{ data_uri_thumbnail('uploads/profile_picture/'~ review.author.picture.name, 45, 45)|imagine_filter('profil_miniature') }}"
+                                                                    <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 45, 45) }}"
                                                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                                 src: asset('uploads/profile_picture/' ~ review.author.picture.name)|imagine_filter('profil_miniature')
                                                                             }) }}
-                                                                            width="45" height="45"
-                                                                         alt="{{ review.author.picture.name }}" class="img-fluid">
+                                                                         width="45" height="45"
+                                                                         alt="{{ review.author.picture.name }}"
+                                                                         class="img-fluid">
                                                                 </div>
                                                                 <div class="comments-text">
                                                                     <div class="avatar-name">
@@ -293,7 +297,8 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <button class="os-btn os-btn-black" type="submit" formnovalidate>Laissez votre
+                                                            <button class="os-btn os-btn-black" type="submit"
+                                                                    formnovalidate>Laissez votre
                                                                 avis
                                                             </button>
                                                         </div>
@@ -335,7 +340,7 @@
                             <div class="product__thumb" style="width: 270px;height: 344px">
                                 {% if trend[0].pictures.count > 0 %}
                                     {% set picture = trend[0].pictures.first %}
-                                    <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 270, 344) }}"
+                                    <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                 src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
                                             }) }}
@@ -343,7 +348,7 @@
                                     {% if trend[0].pictures.count > 1 %}
                                         {% set picture2 = trend[0].pictures.next %}
                                         <img class="product__thumb-2"
-                                             src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture2.name, 270, 344) }}"
+                                             src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                 {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                     src: asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale')
                                                 }) }}

@@ -261,7 +261,7 @@
                                                     <div class="product__thumb" style="width: 270px;height: 344px">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
+                                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                     }) }}
@@ -270,7 +270,7 @@
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
-                                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
+                                                                     src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                             src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                         }) }}
@@ -337,7 +337,7 @@
                                                     <div class="product__thumb" style="width: 270px;height: 344px">
                                                         {% if product[0].pictures.count > 0 %}
                                                             {% set pictureName = product[0].pictures.first.name %}
-                                                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 344, 270) }}"
+                                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 344, 270) }}"
                                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                     }) }}
@@ -346,7 +346,7 @@
                                                             {% if product[0].pictures.count > 1 %}
                                                                 {% set pictureName = product[0].pictures.next.name %}
                                                                 <img class="product__thumb-2"
-                                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ pictureName, 270, 344) }}"
+                                                                     src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                             src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                                         }) }}

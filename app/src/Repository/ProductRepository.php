@@ -283,6 +283,7 @@ class ProductRepository extends ServiceEntityRepository
 
         return (clone $qb)->select('count(Distinct(p.id))')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
 }

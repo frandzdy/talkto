@@ -13,7 +13,7 @@
                         <div class="tab-pane fade show {{ active }}" id="nav-{{ picture.token }}" role="tabpanel"
                              aria-labelledby="nav-{{ picture.token }}-tab">
                             <div class="product__modal-img w-img">
-                                <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 316, 403) }}"
+                                <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 316, 403) }}"
                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                             src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
                                         }) }}
@@ -40,7 +40,7 @@
                                     <img
                                             width="130px" height="403" class="img-fluid"
                                             alt="{{ picture.name }}"
-                                            src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 316, 403) }}"
+                                            src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 316, 403) }}"
                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                 src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_modal')
                                             }) }}

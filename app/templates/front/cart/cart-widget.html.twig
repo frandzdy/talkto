@@ -6,7 +6,7 @@
                     <div class="cart-img f-left">
                         <a title="{{ cart.title }}"
                            href="{{ path('front_product_reservation_show_detail', {'token': index}) }}">
-                            <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ cart.pictureName, 102, 130) }}"
+                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 102, 130) }}"
                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                         src: asset('uploads/product_picture/' ~ cart.pictureName)|imagine_filter('product_modal_miniature')
                                     }) }}

@@ -18,7 +18,7 @@
                                 <div class="product__modal-img w-img">
                                     <img data-bp="{{ asset('uploads/checkin/' ~ picture.name) }}"
                                          data-caption="{{ picture.name }}"
-                                         src="{{ data_uri_thumbnail('uploads/checkin/' ~ picture.name, 316, 403) }}"
+                                         src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 316, 403) }}"
                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                 src: asset('uploads/checkin/' ~ picture.name)|imagine_filter('product_modal')
                                             }) }}
@@ -42,7 +42,7 @@
                                    href="#nav-{{ picture.token }}" role="tab" aria-controls="nav-{{ picture.token }}"
                                    aria-selected="true">
                                     <div class="product__nav-img w-img">
-                                        <img src="{{ data_uri_thumbnail('uploads/checkin/' ~ picture.name, 102, 130) }}"
+                                        <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 102, 130) }}"
                                                 {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                     src: asset('uploads/checkin/' ~ picture.name)|imagine_filter('product_modal_miniature')
                                                 }) }}

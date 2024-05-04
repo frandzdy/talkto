@@ -5,126 +5,129 @@
 {% block content %}
     <!-- shop details area start -->
     <section class="shop__area pb-65" {{ stimulus_controller('bigpicture') }}>
-        <div class="shop__top grey-bg-6 pt-50 pb-90">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="product__modal-box d-flex">
-                            <div class="product__modal-nav mr-20">
-                                <nav>
-                                    <div class="nav nav-tabs" id="product-details" role="tablist">
-                                        {% if product.pictures.count > 0 %}
-                                            {% for index, picture in product.pictures %}
-                                                {% set active = '' %}
-                                                {% if index == 0 %}
-                                                    {% set active = 'active' %}
-                                                {% endif %}
-                                                <a class="nav-item nav-link {{ active }}"
-                                                   id="pro-{{ picture.token }}-tab" data-toggle="tab"
-                                                   href="#pro-{{ picture.token }}" role="tab"
-                                                   aria-controls="pro-{{ picture.token }}" aria-selected="true">
-                                                    <div class="product__nav-img w-img"
-                                                         style="width: 270px;height: 344px">
-                                                        <img src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 270, 344) }}"
-                                                                {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
-                                                                    src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
-                                                                }) }}
-                                                             alt="{{ product.title }}"
-                                                             width="270" height="344" class="img-fluid">
-                                                    </div>
-                                                </a>
-                                            {% endfor %}
-                                        {% endif %}
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="tab-content mb-20 bp-gallery" id="product-detailsContent">
-                                {% if product.pictures.count > 0 %}
-                                    {% for index, picture in product.pictures %}
-                                        {% set active = '' %}
-                                        {% if index == 0 %}
-                                            {% set active = 'active show' %}
-                                        {% endif %}
-                                        <div data-action="click->bigpicture#loadGallery"
-                                             class="tab-pane fade {{ active }}" id="pro-{{ picture.token }}"
-                                             role="tabpanel"
-                                             aria-labelledby="pro-{{ picture.token }}-tab">
-                                            <div class="product__modal-img product__thumb w-img">
-                                                <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
-                                                     data-caption="{{ product.title }}"
-                                                     src="{{ data_uri_thumbnail('uploads/product_picture/' ~ picture.name, 470, 600) }}"
-                                                        {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
-                                                            src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
-                                                        }) }}
-                                                     alt="{{ product.title }}" class="img-fluid"
-                                                     width="470" height="600">
-                                                {#                                                <div class="product__sale "> #}
-                                                {#                                                    <span class="new">new</span> #}
-                                                {#                                                    <span class="percent">-16%</span> #}
-                                                {#                                                </div> #}
-                                            </div>
+        {% cache "product_preview;v2;" ~ product.id ~ ";" ~ product.updatedAt|date('dmyhis') %}
+            <div class="shop__top grey-bg-6 pt-50 pb-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="product__modal-box d-flex">
+                                <div class="product__modal-nav mr-20">
+                                    <nav>
+                                        <div class="nav nav-tabs" id="product-details" role="tablist">
+                                            {% if product.pictures.count > 0 %}
+                                                {% for index, picture in product.pictures %}
+                                                    {% set active = '' %}
+                                                    {% if index == 0 %}
+                                                        {% set active = 'active' %}
+                                                    {% endif %}
+                                                    <a class="nav-item nav-link {{ active }}"
+                                                       id="pro-{{ picture.token }}-tab" data-toggle="tab"
+                                                       href="#pro-{{ picture.token }}" role="tab"
+                                                       aria-controls="pro-{{ picture.token }}" aria-selected="true">
+                                                        <div class="product__nav-img w-img"
+                                                             style="width: 270px;height: 344px">
+                                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
+                                                                    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                        src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
+                                                                    }) }}
+                                                                 alt="{{ product.title }}"
+                                                                 width="270" height="344" class="img-fluid">
+                                                        </div>
+                                                    </a>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
+                                    </nav>
+                                </div>
+                                <div class="tab-content mb-20 bp-gallery" id="product-detailsContent">
+                                    {% if product.pictures.count > 0 %}
+                                        {% for index, picture in product.pictures %}
+                                            {% set active = '' %}
+                                            {% if index == 0 %}
+                                                {% set active = 'active show' %}
+                                            {% endif %}
+                                            <div data-action="click->bigpicture#loadGallery"
+                                                 class="tab-pane fade {{ active }}" id="pro-{{ picture.token }}"
+                                                 role="tabpanel"
+                                                 aria-labelledby="pro-{{ picture.token }}-tab">
+                                                <div class="product__modal-img product__thumb w-img">
+                                                    <img data-bp="{{ asset('uploads/product_picture/' ~ picture.name) }}"
+                                                         data-caption="{{ product.title }}"
+                                                         src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 470, 600) }}"
+                                                            {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+                                                                src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_details')
+                                                            }) }}
+                                                         alt="{{ product.title }}" class="img-fluid"
+                                                         width="470" height="600">
+                                                    {#                                                <div class="product__sale "> #}
+                                                    {#                                                    <span class="new">new</span> #}
+                                                    {#                                                    <span class="percent">-16%</span> #}
+                                                    {#                                                </div> #}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="product__modal-content product__modal-content-2">
-                            <h4><a href="#"> {{ product.title }}</a></h4>
-                            <div class="rating rating-shop mb-15">
-                                <ul>
-                                    {% for i in range(0, 4) %}
-                                        {% if i <= product.averageNote %}
-                                            <li><span><i class="fas fa-star"></i></span></li>
-                                        {% else %}
-                                            <li><span><i class="fal fa-star"></i></span></li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                                <span class="rating-no ml-10 rating-left">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="product__modal-content product__modal-content-2">
+                                <h4><a href="#"> {{ product.title }}</a></h4>
+                                <div class="rating rating-shop mb-15">
+                                    <ul>
+                                        {% for i in range(0, 4) %}
+                                            {% if i <= product.averageNote %}
+                                                <li><span><i class="fas fa-star"></i></span></li>
+                                            {% else %}
+                                                <li><span><i class="fal fa-star"></i></span></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <span class="rating-no ml-10 rating-left">
                                             {{ product.reviews.count|default(0) }} avis(s)
                                         </span>
-                                {#                                <span class="review rating-left"><a href="#">Add your Review</a></span> #}
-                            </div>
-                            <div class="product__price-2 mb-25">
-                                <span>Prix : {{ product.amount|number_format(2, ',')|default(0) }} € / jours</span>
-                                {#                <span class="old-price">$96.00</span> #}
-                            </div>
-                            <div class="product__price-2 mb-25">
-                                <span>Montant de la caution : {{ product.caution|number_format(2, ',')|default(0) }} €</span>
-                                {#                <span class="old-price">$96.00</span> #}
-                            </div>
-                            <div class="product__modal-des mb-30">
-                                {{ product.shortDescription }}
-                            </div>
-                            <div class="product__tag mb-25">
-                                <span>Catégorie :</span>
-                                <span><a href="#">{{ product.category.label }}</a></span>
+                                    {#                                <span class="review rating-left"><a href="#">Add your Review</a></span> #}
+                                </div>
+                                <div class="product__price-2 mb-25">
+                                    <span>Prix : {{ product.amount|number_format(2, ',')|default(0) }} € / jours</span>
+                                    {#                <span class="old-price">$96.00</span> #}
+                                </div>
+                                <div class="product__price-2 mb-25">
+                                    <span>Montant de la caution : {{ product.caution|number_format(2, ',')|default(0) }} €</span>
+                                    {#                <span class="old-price">$96.00</span> #}
+                                </div>
+                                <div class="product__modal-des mb-30">
+                                    {{ product.shortDescription }}
+                                </div>
+                                <div class="product__tag mb-25">
+                                    <span>Catégorie :</span>
+                                    <span><a href="#">{{ product.category.label }}</a></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="shop__bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="product__details-tab">
-                            <div class="product__details-tab-nav text-center mb-45">
-                                <nav>
-                                    <div class="nav nav-tabs justify-content-start justify-content-sm-center"
-                                         id="pro-details" role="tablist">
-                                        <a class="nav-item nav-link active" id="des-tab" data-toggle="tab" href="#des"
-                                           role="tab" aria-controls="des" aria-selected="true">Description</a>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="tab-content" id="pro-detailsContent">
-                                <div class="tab-pane fade show active" id="des" role="tabpanel">
-                                    <div class="ck-content">
-                                        {{ product.description|raw|purify }}
+            <div class="shop__bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="product__details-tab">
+                                <div class="product__details-tab-nav text-center mb-45">
+                                    <nav>
+                                        <div class="nav nav-tabs justify-content-start justify-content-sm-center"
+                                             id="pro-details" role="tablist">
+                                            <a class="nav-item nav-link active" id="des-tab" data-toggle="tab"
+                                               href="#des"
+                                               role="tab" aria-controls="des" aria-selected="true">Description</a>
+                                        </div>
+                                    </nav>
+                                </div>
+                                <div class="tab-content" id="pro-detailsContent">
+                                    <div class="tab-pane fade show active" id="des" role="tabpanel">
+                                        <div class="ck-content">
+                                            {{ product.description|raw|purify }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +135,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        {% endcache %}
     </section>
     <!-- shop details area end -->
 {% endblock %}

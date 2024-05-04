@@ -92,6 +92,7 @@ class TransactionRepository extends ServiceEntityRepository
         return $builder->getQuery()
             ->enableResultCache(3600)
             ->setQueryCacheLifetime(3600)
-            ->setResultCacheLifetime(3600);
+            ->setResultCacheLifetime(3600)
+        ;
     }
 }
