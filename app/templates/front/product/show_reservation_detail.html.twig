@@ -205,7 +205,7 @@
                                                         <li>
                                                             <div class="comments-box">
                                                                 <div class="comments-avatar">
-                                                                    <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 45, 45) }}"
+                                                                    <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 45, 45) }}"
                                                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                                                 src: asset('uploads/profile_picture/' ~ review.author.picture.name)|imagine_filter('profil_miniature')
                                                                             }) }}
@@ -340,14 +340,14 @@
                             <div class="product__thumb" style="width: 270px;height: 344px">
                                 {% if trend[0].pictures.count > 0 %}
                                     {% set picture = trend[0].pictures.first %}
-                                    <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
+                                    <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                             {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                 src: asset('uploads/product_picture/' ~ picture.name)|imagine_filter('product_trends_or_sale')
                                             }) }}
                                          alt="{{ product.title }}" width="270" height="344" class="img-fluid">
                                     {% if trend[0].pictures.count > 1 %}
                                         {% set picture2 = trend[0].pictures.next %}
-                                        <img class="product__thumb-2"
+                                        <img loading="lazy" class="product__thumb-2"
                                              src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                 {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                     src: asset('uploads/product_picture/' ~ picture2.name)|imagine_filter('product_trends_or_sale')

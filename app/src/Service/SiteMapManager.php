@@ -11,7 +11,8 @@ readonly class SiteMapManager
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private RouterInterface $router
-    ) {}
+    ) {
+    }
 
     /**
      * Retourne la liste des liens du site pour le sitemap.
@@ -30,6 +31,7 @@ readonly class SiteMapManager
                     || 'IS_AUTHENTICATED_ANONYMOUSLY' === $requirements['_role']
                     || 'PUBLIC_ACCESS' === $requirements['_role']
                 )
+                && !$this->getForbiddenRoute($this->urlGenerator->generate($name))
             ) {
                 $urls[] = [
                     'loc' => $this->urlGenerator->generate($name, [], UrlGeneratorInterface::ABSOLUTE_URL),
@@ -50,5 +52,34 @@ readonly class SiteMapManager
         }
 
         return false;
+    }
+
+    private function getForbiddenRoute($url): bool
+    {
+        return in_array(
+            $url,
+            [
+                '/creation-compte-valide',
+                '/mon-compte/desactivation',
+                '/webhook',
+                '/favoris',
+                '/edition-compte',
+                '/commercial/reauthentification',
+                '/commercial/creation-valide',
+                '/commercial/edition-compte',
+                '/commercial/supprimer-compte',
+                '/contactez-nous',
+                '/admin',
+                '/valide',
+                '/annuler',
+                '/paiement-user-creation',
+                '/paiement-connexion',
+                '/produit-mise-a-jour-liste',
+                '/produit-ajout',
+                '/panier/mise-a-jour',
+                '/panier-widget',
+                '/deconnexion',
+            ]
+        );
     }
 }

@@ -55,7 +55,7 @@ class FileUploadManager
             $file->move($this->getDirectoryPath($directory), $fileName);
 
             // Utilisation du service WarmupCache pour redimensionner les images
-            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPathLiipWarmup($directory).$fileName));
+            $this->messageBus->dispatch(new WarmupCache($this->getDirectoryPath($directory).$fileName));
 
             return $fileName;
         } catch (\Exception $exception) {

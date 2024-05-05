@@ -110,7 +110,7 @@
                                             {% if trend[0].pictures.count > 0 %}
                                                 {% set pictureName = trend[0].pictures.first.name %}
                                             {% endif %}
-                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
+                                            <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                     }) }}
@@ -118,7 +118,7 @@
                                                  alt="{{ trend[0].title }}">
                                             {% if trend[0].pictures.count > 1 %}
                                                 {% set pictureName = trend[0].pictures.next.name %}
-                                                <img class="product__thumb-2"
+                                                <img loading="lazy" class="product__thumb-2"
                                                      width="270" height="344" class="img-fluid"
                                                      src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
@@ -204,7 +204,7 @@
                                         {% endif %}
                                         <a href="{{ path('front_product_reservation_show_detail', {'token': mid.product.token}) }}"
                                            class="w-img">
-                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 950, 457) }}"
+                                            <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 950, 457) }}"
                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('home_mid')
                                                     }) }}
@@ -261,7 +261,7 @@
                                             {% if topSale[0].product.pictures.count > 0 %}
                                                 {% set pictureName = topSale[0].product.pictures.first.name %}
                                             {% endif %}
-                                            <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 198, 344) }}"
+                                            <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 198, 344) }}"
                                                     {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                         src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_trends_or_sale')
                                                     }) }}
@@ -269,7 +269,7 @@
                                                  alt="{{ topSale[0].product.title }}">
                                             {% if topSale[0].product.pictures.count > 1 %}
                                                 {% set pictureName = topSale[0].product.pictures.next.name %}
-                                                <img class="product__thumb-2"
+                                                <img loading="lazy" class="product__thumb-2"
                                                      width="198" height="344" class="img-fluid"
                                                      src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 270, 344) }}"
                                                         {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
@@ -349,7 +349,7 @@
                                 <div class="">
                                     <a title="{{ pictureName }}"
                                        href="{{ path('front_product_reservation_show_detail', {'token': latestProduct[0].token}) }}">
-                                        <img src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 222, 333) }}"
+                                        <img loading="lazy" src="{{ data_uri_thumbnail('build/images/front/loading.jpg', 222, 333) }}"
                                                 {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
                                                     src: asset('uploads/product_picture/' ~ pictureName)|imagine_filter('product_latest')
                                                 }) }}

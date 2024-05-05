@@ -1,10 +1,25 @@
 User-Agent: *
 Allow: /
-Disallow: /creation-compte
+Disallow: /creation-compte-valide
+Disallow: /mon-compte/desactivation
+Disallow: /webhook
+Disallow: /favoris
+Disallow: /favoris
 Disallow: /edition-compte
-Disallow: /commercial/creation-compte
+Disallow: /commercial/reauthentification
+Disallow: /commercial/creation-valide
 Disallow: /commercial/edition-compte
+Disallow: /commercial/supprimer-compte
 Disallow: /contactez-nous
 Disallow: /admin
+Disallow: /annuler
+Disallow: /valider
+Disallow: /paiement-user-creation
+Disallow: /paiement-connexion
+Disallow: /produit-mise-a-jour-liste
+Disallow: /produit-ajout
+Disallow: /panier/mise-a-jour
+Disallow: /panier-widget
+Disallow: /deconnexion
 
 Sitemap: https://reented.com/sitemap.xml
