@@ -27,10 +27,12 @@
     <!-- CSS here -->
     {% block stylesheets %}
         {{ encore_entry_link_tags('app', attributes={
-            preload: true
+            preload: true,
+            preconnect: true
         }) }}
         {{ encore_entry_link_tags('front_app', attributes={
-            preload: true
+            preload: true,
+            preconnect: true
         }) }}
     {% endblock %}
     {#            <script src="{{ app.request.schemeAndHttpHost }}:1337/socket.io/socket.io.js"></script> #}
@@ -57,10 +59,12 @@
         {% endif %}
     </script>
     {{ encore_entry_script_tags('app', attributes={
-        preload: true
+        preload: true,
+        nomodule: true
     }) }}
     {{ encore_entry_script_tags('front_app', attributes={
-        preload: true
+        preload: true,
+        nomodule: true
     }) }}
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
