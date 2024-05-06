@@ -10,7 +10,7 @@
             <label for="user_uploadPicture">
                 <img id="profilePictureImg" style="cursor: pointer"
                      src="{{ pictureName ? asset('uploads/profile_picture/' ~ pictureName)|imagine_filter('profil_miniature') : 'https://bootdey.com/img/Content/avatar/avatar2.png' }}"
-                     width="150" height="150" class="img-fluid"
+                     width="120" height="120" class="img-fluid"
                      alt="{{ pictureName ? user.fullname : 'avatar' }}" {{ stimulus_target('user', 'imgFile') }}>
             </label>
             {{ form_errors(form.uploadPicture) }}

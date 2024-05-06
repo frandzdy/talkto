@@ -17,15 +17,17 @@ liip_imagine:
                 relative_resize:
                     heighten: 49
         profil:
+            format: webp
             quality: 100
             filters:
                 downscale:
                     max: [ 315, 315 ]
         profil_miniature:
+            format: webp
             quality: 100
             filters:
                 fixed:
-                    [ 200, 200 ]
+                    [ 120, 120 ]
         ## home page filters
         home_slider:
             format: webp
