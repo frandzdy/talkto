@@ -2,58 +2,55 @@
 liip_imagine:
     # valid drivers options include "gd" or "gmagick" or "imagick"
     driver: "imagick"
+    controller:
+        redirect_response_code: 302
     twig:
         mode: lazy
 
     filter_sets:
         # profil filters
         logo:
+            format: webp
             quality: 100
             filters:
-                auto_rotate: ~
-                downscale:
-                    max: [ 241, 49 ]
+                strip: ~
+                relative_resize:
+                    heighten: 49
         profil:
-            quality: 90
+            quality: 100
             filters:
-                auto_rotate: ~
                 downscale:
                     max: [ 315, 315 ]
         profil_miniature:
-            quality: 90
+            quality: 100
             filters:
-                auto_rotate: ~
                 fixed:
-                    width: 45
-                    height: 45
+                    [ 200, 200 ]
         ## home page filters
         home_slider:
-            quality: 85
+            format: webp
+            quality: 100
             filters:
-                auto_rotate: ~
                 thumbnail: { size: [ 1254, 750 ], mode: inset, allow_upscale: true }
         home_under_slider:
-            quality: 85
+            format: webp
+            quality: 100
             filters:
-                auto_rotate: ~
                 thumbnail: { size: [ 376, 233 ], mode: outbound, allow_upscale: true }
         home_top:
             quality: 85
             filters:
-                auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
         home_mid:
             quality: 85
             filters:
-                auto_rotate: ~
                 downscale:
                     max: [ 950, 457 ]
 
         home_latest:
             quality: 85
             filters:
-                auto_rotate: ~
                 downscale:
                     max: [ 240, 125 ]
 
@@ -61,52 +58,37 @@ liip_imagine:
         product_modal:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                downscale:
-                    max: [ 316, 403 ]
+                relative_resize:
+                    heighten: 403
         product_modal_miniature:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                downscale:
-                    max: [ 102, 130 ]
+                relative_resize:
+                    heighten: 130
         product_trends_or_sale:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                #downscale:
-                    #max: [ 270, 344 ]
-                thumbnail: { size: [ 270, 344 ], mode: inset, allow_upscale: true }
+                relative_resize:
+                    heighten: 344
         product_latest:
             quality: 85
             filters:
                 auto_rotate: ~
-                  #strip: ~
-                  #downscale:
-                fixed:
-                    width: 222
-                    height: 333
+                relative_resize:
+                    heighten: 333
 
         product_details:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                downscale:
-                    max: [ 470, 600 ]
+                relative_resize:
+                    heighten: 600
         product_miniature_details:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                downscale:
-                    max: [ 90, 115 ]
+                relative_resize:
+                    heighten: 115
         product_miniature:
             quality: 85
             filters:
-                auto_rotate: ~
-                #strip: ~
-                thumbnail: { size: [ 128, 128 ], mode: outbound, allow_upscale: true }
+                relative_resize:
+                    heighten: 128
