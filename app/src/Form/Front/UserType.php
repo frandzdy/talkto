@@ -170,8 +170,8 @@ class UserType extends AbstractType
                     'type' => PasswordType::class,
                     'options' => [
                         'toggle' => true,
-                        'hidden_label' => 'Masquer',
-                        'visible_label' => 'Afficher',
+                        'hidden_label' => null,
+                        'visible_label' => null,
                         'translation_domain' => 'messages',
                     ],
                     'first_options' => [
@@ -187,7 +187,7 @@ class UserType extends AbstractType
                         ],
                     ],
                     'second_options' => [
-                        'label' => 'Confirmez votre mot de passe',
+                        'label' => 'Confirmez',
                         'attr' => [
                             'maxlength' => 255,
                             'autocomplete' => 'new-password',
@@ -209,8 +209,8 @@ class UserType extends AbstractType
                     'type' => PasswordType::class,
                     'options' => [
                         'toggle' => true,
-                        'hidden_label' => 'Masquer',
-                        'visible_label' => 'Afficher',
+                        'hidden_label' => null,
+                        'visible_label' => null,
                         'translation_domain' => 'messages',
                     ],
                     'first_options' => [
@@ -223,7 +223,7 @@ class UserType extends AbstractType
                         ],
                     ],
                     'second_options' => [
-                        'label' => 'Confirmez votre mot de passe',
+                        'label' => 'Confirmez',
                         'attr' => ['maxlength' => 255],
                     ],
                     'mapped' => false,
