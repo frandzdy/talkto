@@ -60,11 +60,11 @@
     </script>
     {{ encore_entry_script_tags('app', attributes={
         preload: true,
-        nomodule: true
+        preconnect: true
     }) }}
     {{ encore_entry_script_tags('front_app', attributes={
         preload: true,
-        nomodule: true
+        preconnect: true
     }) }}
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
