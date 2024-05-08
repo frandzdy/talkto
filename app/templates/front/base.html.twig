@@ -71,8 +71,8 @@
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 </head>
-<body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun') }}>
-<main>{% block body %}{% endblock %}</main>
+<body id="page-top" data-turbo-cache="false" {{ stimulus_controller('commun')|stimulus_controller('symfony/ux-swup/swup', {theme: 'overlay'}) }}>
+<main id="swup">{% block body %}{% endblock %}</main>
 
 {% for flash_message in app.session.flashBag.get('success') %}
     <span {{ stimulus_controller('alert') }} data-type="success" data-message="{{ flash_message }}"></span>
