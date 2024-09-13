@@ -13,7 +13,7 @@
 
 ### Import
 
-Clone the project https://github.com/frandzdy/loue
+Clone the project https://github.com/frandzdy/talkto
 
 ### Project Configuration and Dependency Installation
 
