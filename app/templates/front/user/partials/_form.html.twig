@@ -4,7 +4,7 @@
 {% endif %}
 {% set currentRoute = app.request.attributes.get('_route') %}
 <div class="profile__edit-wrapper" {{ stimulus_controller('user') }} {{ user.role is same as (constant('App\\Entity\\User::ROLE_SELLER')) ? 'data-turbo="false"' : '' }}>
-    {{ form_start(form, {attr: {'data-user-target': 'userForm', 'data-action': 'user#checkRecaptcha', 'autocomplete':'off'} }) }}
+    {{ form_start(form, {attr: {'id': 'userForm', 'autocomplete':'off', 'data-user-target': 'userForm'} }) }}
     <div class="profile__edit-input text-center">
         <div class="profile__basic-thumb valign-items-center">
             <label for="user_uploadPicture">
@@ -67,9 +67,10 @@
                 </span>
             {% endif %}
         </div>
-        <button class="os-btn w-100" formnovalidate id="submit-btn"
+        <button class="g-recaptcha os-btn w-100" formnovalidate id="submit-btn"
                 data-loading-img="{{ asset('build/images/front/pulse.gif') }}"
                 data-title="S'inscrire"
+                data-sitekey="{{ googleRecaptchPkey }}" data-callback="onSubmit"
         >S'inscrire</button>
         <div class="or-divide"><span>ou</span></div>
         <a href="{{ path('front_login') }}" class="os-btn os-btn-black w-100" title="Se connecter">Se connecter</a>

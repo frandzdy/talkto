@@ -3,7 +3,29 @@
 {% block title %}Nouveau compte bailleur{% endblock %}
 
 {% block content %}
-
+    <script type="text/javascript">
+        function onSubmit(token) {
+            let $btn = $('#user-submit-btn');
+            let userForm = document.getElementById('userForm');
+            $btn
+                .html(
+                    '<img style="width: 50px;" src="' + $btn.data('loading-img') + '" alt="Envoi en cours"> Envoi en cours'
+                )
+                .attr('disabled', 'disabled');
+            // Add your logic to submit to your backend server here.
+            $.post(
+                Routing.generate('front_recaptcha_check', {'token': token})
+            ).done(async (data) => {
+                if (data.response) {
+                    const $form = $(userForm);
+                    $form.submit();
+                } else {
+                    $btn.html('Enregistrer').removeAttr('disabled');
+                    toastr.error("Vous avez été identifié comme robot; si ce n'est pas le cas, veuillez réessayer.");
+                }
+            });
+        }
+    </script>
     <!-- login Area Strat-->
     <section class="login-area pt-50 pb-100" {{ stimulus_controller('user') }}>
         <div class="container">
@@ -18,12 +40,4 @@
         </div>
     </section>
     <!-- login Area End-->
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        var googleRecaptchPkey = '{{ googleRecaptchPkey }}';
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ googleRecaptchPkey }}"></script>
 {% endblock %}
